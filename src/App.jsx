@@ -3,7 +3,7 @@ import './App.css'
 function App() {
   return (
     <>
-      <h1>Adaa Jaipur</h1>
+      <h1>Adaa Jaipur - The Necromancers</h1>
     </>
   )
 }
