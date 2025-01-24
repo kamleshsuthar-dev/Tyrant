@@ -273,7 +273,7 @@ function NewRegister() {
       <div className="h-screen max-w-[1200px] w-screen sm:flex hidden  p-10 m-auto ">
         <div className="lg:h-full h-[90vh] w-[50%] mr-5 ">
           <img
-            src="./public/images/bgImgJaipur.png"
+            src="./images/bgImgJaipur.png"
             alt=""
             className="lg:h-full h-[90vh] w-full object-cover rounded-xl "
           />
@@ -422,7 +422,7 @@ function NewRegister() {
       {/* for mobile */}
 
       <div className=" h-screen sm:hidden flex flex-col justify-between">
-              <div className="h-[30%] w-full bg-[url(./public/images/bgImgJaipur.png)] bg-cover bg-center  flex items-center justify-center">
+              <div className="h-[30%] w-full bg-[url(./images/bgImgJaipur.png)] bg-cover bg-center  flex items-center justify-center">
               <div className="text-4xl  font-bold text-white ">
                 Sign Up To Adaa Jaipur
               </div>

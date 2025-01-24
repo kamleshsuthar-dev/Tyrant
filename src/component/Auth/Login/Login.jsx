@@ -98,7 +98,7 @@ const Login = () => {
     <>
     {/* pc design */}
       <did className='bg-white h-screen sm:block hidden w-full border-2 border-solid border-black lg:p-7 p-5 ' >
-        <div className=' h-full w-full grid  place-items-center bg-[url(./public/images/bgImgJaipur.png)]   rounded-2xl  '>
+        <div className=' h-full w-full grid  place-items-center bg-[url(./images/bgImgJaipur.png)]   rounded-2xl  '>
 
           <div className='card min-w-[350px] min-h-[60%]  bg-white rounded-xl text-black grid gap-2 items-center p-[52px] font-comfortaa text-lg '>
             <div className='text-red-500 text-sm mt-[2px] text-center mb-6  '>Invaild email and password ?</div>
@@ -206,7 +206,7 @@ const Login = () => {
             </div>
           </div>
         </div>
-        <img src="./public/images/bgImgJaipur.png" alt="" className='h-[30%] w-full object-cover' />
+        <img src="./images/bgImgJaipur.png" alt="" className='h-[30%] w-full object-cover' />
       </div>
 
 
