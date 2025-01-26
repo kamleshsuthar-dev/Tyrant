@@ -113,12 +113,12 @@ export default function NewHeader() {
           <NavLink to='/productList' className="text-sm/6 font-semibold text-gray-900">
             ProductList 
           </NavLink>
-          <a href="#" className="text-sm/6 font-semibold text-gray-900">
-            Marketplace
-          </a>
-          <a href="#" className="text-sm/6 font-semibold text-gray-900">
+          <NavLink to='shoppingcart' className="text-sm/6 font-semibold text-gray-900">
+            shopping
+          </NavLink>
+          <NavLink to='Profile' className="text-sm/6 font-semibold text-gray-900">
             Company
-          </a>
+          </NavLink>
         </PopoverGroup>
         <div className="hidden lg:flex lg:flex-1 lg:justify-end">
           <NavLink to='/login' className="text-sm/6 font-semibold text-gray-900">
@@ -205,6 +205,69 @@ export default function NewHeader() {
         </DialogPanel>
       </Dialog>
     </header>
+
+//  <nav className="bg-black text-white border-b">
+// <div className="max-w-7xl mx-auto px-4 py-3 flex items-center justify-between">
+//   <div className="flex items-center space-x-6">
+//     <span className="font-serif italic text-lg">Arha</span>
+//     <NavLink to='' className="hidden md:inline-block hover:text-gray-300">
+//       Home
+//     </NavLink>
+//     <NavLink to='' className="hidden md:inline-block hover:text-gray-300">
+//       GOWNS
+//     </NavLink>
+//     <NavLink to='' className="hidden md:inline-block hover:text-gray-300">
+//       BOTTOMS
+//     </NavLink>
+//     <NavLink to='' className="hidden md:inline-block hover:text-gray-300">
+//       TOPS
+//     </NavLink>
+//     <NavLink to='' className="hidden md:inline-block hover:text-gray-300">
+//       ABOUT US
+//     </NavLink>
+//   </div>
+//   <div className="flex items-center space-x-4">
+//     <div className="relative">
+//       <input
+//         type="search"
+//         placeholder="SEARCH"
+//         className="pl-8 pr-2 py-1 bg-transparent border border-gray-600 rounded text-sm focus:outline-none focus:border-gray-400"
+//       />
+//       <svg
+//         xmlns="http://www.w3.org/2000/svg"
+//         className="h-4 w-4 absolute left-2 top-1/2 transform -translate-y-1/2 text-gray-400"
+//         fill="none"
+//         viewBox="0 0 24 24"
+//         stroke="currentColor"
+//       >
+//         <path
+//           strokeLinecap="round"
+//           strokeLinejoin="round"
+//           strokeWidth={2}
+//           d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"
+//         />
+//       </svg>
+//     </div>
+//     <button className="hover:text-gray-300">LOGIN</button>
+//     <button className="hover:text-gray-300">
+//       <svg
+//         xmlns="http://www.w3.org/2000/svg"
+//         className="h-6 w-6"
+//         fill="none"
+//         viewBox="0 0 24 24"
+//         stroke="currentColor"
+//       >
+//         <path
+//           strokeLinecap="round"
+//           strokeLinejoin="round"
+//           strokeWidth={2}
+//           d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z"
+//         />
+//       </svg>
+//     </button>
+//   </div>
+// </div>
+// </nav> 
   )
 }
 

@@ -6,8 +6,12 @@ export default defineConfig({
  
     server :{
       proxy:{
-        "/api" : "http://localhost:6969"
+        "/api/auth/google" : "http://localhost:5173"
       }
     },
   plugins: [react()],
+  optimizeDeps: {
+    include: ["@mui/material", "@mui/system", "react-icons"],
+  },
+  
 })

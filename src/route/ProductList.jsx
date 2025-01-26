@@ -1,41 +1,7 @@
-import React, { useContext } from 'react'
-
-import ProductDetails from './ProductDetails'     
-import { NavLink } from 'react-router-dom';
+import React from 'react'
 import { useNavigate } from 'react-router-dom';
-// import ProductContext from '../context/ProductContext';
-
-    // const products = {
-    //   "tittle" : "Russian" ,
-    //   "productList" : [
-    //     {
-    //       "id" : "123",
-    //       "image" : "https://m.media-amazon.com/images/I/61CkG3E9EjL._SX569_.jpg",
-    //       "name" : "condom",
-    //       "detail" :"use in during sex",
-    //       "price" : "200 rs"    ,
-    //       "discription" : "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged."
-    //     },
-    //     {
-    //        "id" : "1234",
-    //       "image" : "https://m.media-amazon.com/images/I/61CkG3E9EjL._SX569_.jpg",
-    //       "name" : "girl",
-    //       "detail" :"use for  sex",
-    //       "price" : "150 rs"    ,
-    //       "discription" : "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged."
-    //     },
-    //     {
-    //       "id" : "1235",
-    //       "image" : "https://m.media-amazon.com/images/I/61CkG3E9EjL._SX569_.jpg",
-    //       "name" : "dick",
-    //       "detail" :"use to fuck a girl",
-    //       "price" : "20000 rs"    ,
-    //       "discription" : "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged."
-    //     }
-    //     ]
-    // }
+// import { useProductContext } from '../context/ProductContext';
   
-
     const products = [
       {
         id: 1,
@@ -85,16 +51,25 @@ import { useNavigate } from 'react-router-dom';
 export default function ProductList() {
             // const {name,products} = useContext(ProductContext)
             
+            // const { isLoading, isError, products,} = useProductContext();
+          // console.log(featuredProducts);
+          
 
             let navigate = useNavigate()
 
   const productDetailFunction = (e)=>{
     e.preventDefault();
         navigate('/productDetails')
-   
+
 }
 
+// if (isLoading) {
+//   return <div>Loading...</div>;
+// }
 
+// if (isError) {
+//   return <div>Error loading products.</div>;
+// }
 
   return (
     <div className="bg-white">
@@ -117,5 +92,70 @@ export default function ProductList() {
       </div>
     </div>
   )
-}
+
+
+};
+
+
+// import React from 'react';
+// import { useNavigate } from 'react-router-dom';
+// import { useProductContext } from '../context/ProductContext';
+
+// export default function ProductList() {
+//   const { isLoading, isError, products, featureProducts } = useProductContext();
+//   const navigate = useNavigate();
+
+//   const productDetailFunction = (e) => {
+//     e.preventDefault();
+//     navigate('/productDetails');
+//   };
+
+//   // Loading and error handling
+//   if (isLoading) {
+//     return <div>Loading...</div>;
+//   }
+
+//   if (isError) {
+//     return <div>Error loading products.</div>;
+//   }
+
+//   // Fallback for featureProducts if undefined
+//   const safeFeatureProducts = featureProducts || [];
+
+//   return (
+//     <div>
+//       <h2>Products</h2>
+//       <ul>
+//         {products && products.length > 0 ? (
+//           products.map((product) => (
+//             <li key={product.id}>
+//               <a href={product.href} onClick={productDetailFunction} className="group">
+//                 <img
+//                   alt={product.imageAlt}
+//                   src={product.imageSrc}
+//                   className="aspect-square w-full rounded-lg bg-gray-200 object-cover group-hover:opacity-75 xl:aspect-[7/8]"
+//                 />
+//                 <h3 className="mt-4 text-sm text-gray-700">{product.name}</h3>
+//                 <p className="mt-1 text-lg font-medium text-gray-900">{product.price}</p>
+//               </a>
+//             </li>
+//           ))
+//         ) : (
+//           <li>No products available.</li>
+//         )}
+//       </ul>
+
+//       <h3>Featured Products</h3>
+//       <ul>
+//         {safeFeatureProducts.length > 0 ? (
+//           safeFeatureProducts.map((product) => (
+//             <li key={product.id}>{product.name}</li>
+//           ))
+//         ) : (
+//           <li>No featured products available.</li>
+//         )}
+//       </ul>
+//     </div>
+//   );
+// }
 
