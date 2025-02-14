@@ -21,7 +21,7 @@ import Password from "./component/Auth/Password.jsx";
 import Temp from "./route/ProductDetails.jsx";
 import ShoppingCartTopUp from "./route/ShoppingCartTopUp.jsx";
 import HomeSquareSection from "./component/HomeSquareSection.jsx";
-import ProductListSkeleton from "./component/skeleton/productDetailSkeleton.jsx";
+
 export const GoogleBtn = ({ text }) => {
   return (
     <GoogleOAuthProvider clientId={import.meta.env.VITE_GOOGLE_API}>
@@ -50,7 +50,7 @@ const router = createBrowserRouter(
       <Route path="shoppingcart" element={<ShoppingCart />} />
       <Route path="productDetails" element={<ProductDetails />} />
       <Route path="ss" element={<HomeSquareSection/>} />
-      <Route path="skeleton" element={<ProductListSkeleton/>} />
+    
     </>
   )
 );
