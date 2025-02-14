@@ -18,8 +18,9 @@ import {
 import { MdLockOutline } from "react-icons/md";
 import { Box, Container } from "@mui/system";
 import { NavLink } from "react-router-dom";
+import { PasswordOpenEye, PasswordCloseEye } from "./PasswordEye";
 
-function NewRegister({text}) {
+function NewRegister({ text }) {
   const [credentials, setCredentials] = useState({
     name: "",
     email: "",
@@ -32,77 +33,140 @@ function NewRegister({text}) {
   const [isRegistered, setIsRegistered] = useState(false);
   const navigate = useNavigate();
 
+  //  focus
+  const nameRef = useRef();
+  const emailRef = useRef();
+  const passwordRef = useRef();
 
-  //  focus 
-  const nameRef =useRef()
-  const emailRef =useRef()
-  const passwordRef =useRef()
-  const inputRef = useRef(null);
-  const [isFocused, setIsFocused] = useState(false);
-  const handleFocus = () => {
-    // Check if the input is focused
-    setIsFocused(inputRef.current === document.activeElement);
-  };
 
+ 
 
   const handleClickShowPassword = () => {
     setShowPassword(!showPassword);
   };
 
-  const handleOnChange = (e) => {
-    setCredentials({ ...credentials, [e.target.name]: e.target.value });
+  const emailMounted = useRef(false);
 
-  };
+  let emailRegex =
+    /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+
+  useEffect(() => {
+    if (emailMounted.current) {
+      const isResgis = async () => {
+        try {
+          const response = await axios.get(
+            `${import.meta.env.VITE_ISREGISTERED}/isregistered?email=${credentials.email}`
+          );
+          const data = response.data;
+          console.log("Response data:", data);
+          setIsRegistered(data.isAlreadyRegistered);
+          return data.isAlreadyRegistered; // Return the value to use later
+        } catch (error) {
+          if (error.response && error.response.status === 409) {
+            // Handle conflict
+            console.log("Conflict:", error.response.data);
+          } else {
+            // Handle other errors
+            console.log("Error:", error);
+          }
+        }
+      };
+
+      if (credentials.email) {
+        const isRegistered = isResgis(); // Ensure you handle the result of the async function
+        isRegistered.then((isRegistered) => {
+          if (isRegistered) {
+            console.log("User is already registered.");
+            document.querySelector(".emailText").textContent =
+              "User is already registered";
+          } else {
+            if (emailRegex.test(credentials.email) === false) {
+              document.querySelector(".emailText").textContent =
+                "Please enter valid email";
+              // document.querySelector(".emailText").classList.remove("hidden");
+              // document.querySelector(".emailText").classList.add("hidden");
+            } else {
+              document.querySelector(".emailText").classList.add("hidden");
+            }
+          }
+        });
+      }
 
  
+    } else {
+      emailMounted.current = true;
+    }
+  }, [credentials.email]);
 
-  const isResgis = useCallback(() => {
-    axios
-      .get(
-        `https://expresstest-31m8.onrender.com/api/auth/isregistered?email=${credentials.email}`
-      )
-      .then((response) => {
-        console.log(response.data);
-        const data = response.data;
-        console.log(data.isAlreadyRegistered);
-        setIsRegistered(data.isAlreadyRegistered);
-        return data.isAlreadyRegistered;
-      })
-      .catch((error) => {
-        if (error.response && error.response.status === 409) {
-          // Handle conflict
-          console.log("Conflict:", error.response.data);
-        } else {
-          // Handle other errors
-          console.log("Error:", error);
-        }
-      });
-  }, []);
+  const handleOnChange = (e) => {
+    setCredentials({ ...credentials, [e.target.name]: e.target.value });
+  };
 
-  if(emailRef.activeElement === true) {
-    console.log(true);
-    
-  }else{
-    false
-  }
+  useEffect(() => {
+    if (credentials.name.length >= 1) {
+      document.querySelector(".nameText").classList.add("hidden");
+    }
+  }, [credentials.name]);
+
+  const nameBlur = () => {
+    if (credentials.name.length < 1) {
+      document.querySelector(".nameText").classList.remove("hidden");
+    }
+  };
+
+  const emailBlur = () => {
+    if (credentials.email.length < 1) {
+      document.querySelector(".emailText").textContent = "Email is required";
+      document.querySelector(".emailText").classList.remove("hidden");
+    }
+  };
+
+  const passwordBlur = () => {
+    if (credentials.password.length < 1) {
+      document.querySelector(".passwordText").textContent =
+        "Password is required";
+      document.querySelector(".passwordText").classList.remove("hidden");
+    }
+  };
+
+  const passMounted = useRef(false);
+
+  useEffect(() => {
+    if (passMounted.current) {
+      if (credentials.password.length < 8) {
+        document.querySelector(".passwordText").textContent =
+          "Enter password with more than 8 characters";
+      } else {
+        document.querySelector(".passwordText").classList.add("hidden");
+        console.log("password is greater than 8 characters");
+      }
+    } else {
+      passMounted.current = true;
+    }
+  }, [credentials.password]);
+
   // console.log(isFocused)
-
-  // if(isFocused == false) {
-  //        useEffect(() => {
-  //   isResgis();
-  // }, []);
-  //   const isResgister  = useEffect(()=>{
-  //         isResgis()
-  //       },[handleOnChange])
-  // }
-    
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    let emailRegex =
-      /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+
     try {
-      if (!credentials.name && !credentials.email && !credentials.password) {
+      if (!credentials.name || !credentials.email || !credentials.password) {
+        if (credentials.name.length < 1) {
+          document.querySelector(".nameText").classList.remove("hidden");
+        }
+        if (credentials.email.length < 1) {
+          document.querySelector(".emailText").textContent =
+            "Email is required";
+          document.querySelector(".emailText").classList.remove("hidden");
+        }
+
+        if (credentials.password.length < 1) {
+          document.querySelector(".passwordText").textContent =
+            "Password is required";
+          document.querySelector(".passwordText").classList.remove("hidden");
+        }
+
         console.log("All fields are required", {
           autoClose: 500,
           theme: "colored",
@@ -113,6 +177,7 @@ function NewRegister({text}) {
           autoClose: 500,
           theme: "colored",
         });
+        document.querySelector(".nameText").classList.remove("hidden");
       } else if (emailRegex.test(credentials.email) === false) {
         console.log("Please enter valid email", {
           autoClose: 500,
@@ -131,22 +196,29 @@ function NewRegister({text}) {
         if (isRegistered === false) {
           axios
             .post(
-              "https://expresstest-31m8.onrender.com/api/auth/register",
+              `${import.meta.env.VITE_ISREGISTERED}/register`,
               credentials
             )
             .then((response) => {
               console.log(response);
+              navigate("/");
             })
             .catch((error) => {
               console.log("error is occur in register api ", error);
             });
         } else {
           console.log("user is already exist");
+          navigate("/login");
         }
       }
     } catch (error) {
       console.log("try catch err ", error);
     }
+  };
+
+  const togglePass = () => {
+    setShowPassword((prev) => !prev);
+    console.log("show password", showPassword);
   };
 
   return (
@@ -161,150 +233,60 @@ function NewRegister({text}) {
           />
         </div>
         <div className="h-full w-[50%] ml-5  rounded-xl border-2 border-red">
-         
-            <div className=" h-full w-full grid  place-items-center    rounded-2xl  ">
-              <div className="card min-w-[350px] min-h-[60%]  bg-white rounded-xl text-black grid gap-2 items-center p-[52px] font-comfortaa text-lg ">
-              
-                <div className="text-3xl col-span-1 row-span-1 font-bold ">
-                  Sign Up To Adaa Jaipur{" "}
-                </div>
-
-                <div className=" col-span-1 row-span-1">
-                  <label htmlFor="text" className="block  font-medium text-gray-900">
-                    Name*
-                  </label>
-                  <div className="">
-                    <input
-                      type="name"
-                      name="name"
-                       
-                      required
-                      value={credentials.name}
-                      onChange={handleOnChange}
-                    
-                      placeholder="Enter Name"
-                      className='border-2 border-solid border-black  block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900  placeholder:text-gray-400 sm:text-sm/6 '
-                    />
-                  </div>
-                </div>
-
-                <div className=" col-span-1 row-span-1">
-                  <label htmlFor="email" className="block  font-medium text-gray-900">
-                    Email*
-                  </label>
-                  <div className="">
-                    <input
-                      type="email"
-                      name="email"
-                     ref={emailRef}
-                      value={credentials.email}
-                      onChange={handleOnChange}
-                      autoComplete="email"
-                      required
-                      placeholder="Enter Email"
-                      className="border-2 border-solid border-black  block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900  placeholder:text-gray-400 sm:text-sm/6"
-                    />
-                  </div>
-                  <div className="text-red-600 text-xs my-1">Envalid email </div>
-
-                </div>
-
-                <div className=" col-span-1 row-span-1">
-                  <div className="flex justify-between">
-                    <label
-                      htmlFor="password"
-                      className="block  font-medium text-gray-900"
-                    >
-                      Password*
-                    </label>
-                  
-                  </div>
-                  <div className="">
-                    <input
-                      type="password"
-                      name="password"
-                      
-                      required
-                      value={credentials.password}
-                      onChange={handleOnChange}
-                      placeholder="Enter Password"
-                      className="border-2 border-solid border-black block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900   placeholder:text-gray-400   sm:text-sm/6"
-                    />
-                  </div>
-                  <div className="text-red-600 text-xs my-1">password should be at least 8 characters</div>
-                </div>
-                <div className="grid gap-1">
-                  <div  className="col-span-1 row-span-1 rounded-xl bg-[#3F3F3F]   block text-center text-white text-2xl py-1 hover:scale-[0.95] "   onClick={handleSubmit}>
-                   Sign Up &gt;&gt;
-                  </div>
-
-                  <div className=" text-center leading-none  text-[#3F3F3F] ">
-                    or
-                  </div>
-                  <GoogleBtn text= "Sign Up wih Google"/>
-                </div>
-                <div className="mt-2 text-sm text-center">
-                  Don't have an account?{" "}
-                  <NavLink to="/login" className="text-[#0F7DE3]">
-                  Sign In &rarr;
-                  </NavLink>
-                </div>
+          <div className=" h-full w-full grid  place-items-center    rounded-2xl  ">
+            <div className="card min-w-[350px] min-h-[60%]  bg-white rounded-xl text-black grid gap-2 items-center p-[52px] font-comfortaa text-lg ">
+              <div className="text-3xl col-span-1 row-span-1 font-bold ">
+                Sign Up To Adaa Jaipur{" "}
               </div>
-            </div>
-         
-        </div>
-      </div>
 
-      {/* for mobile */}
-
-      <div className=" h-screen sm:hidden flex flex-col justify-between">
-              <div className="relative h-[30%] w-full  bg-center  flex items-center justify-center">
-              <img src="./images/bgImgJaipur.png" alt="" className='h-full w-full absolute top-0 bottom-0  rounded-2xl z-[0]' />
-              <div className="text-4xl  font-bold text-white z-[1]">
-                Sign Up To Adaa Jaipur
-              </div>
-              </div>
-              <div className="h-[70%] w-full flex justify-center ">
-              <div className="card w-[450px] min-h-[60%]  bg-white rounded-xl text-black grid gap-2 items-center p-[52px] font-comfortaa text-lg ">
-              
-  
               <div className=" col-span-1 row-span-1">
-                <label htmlFor="text" className="block  font-medium text-gray-900">
+                <label
+                  htmlFor="text"
+                  className="block  font-medium text-gray-900"
+                >
                   Name*
                 </label>
                 <div className="">
                   <input
                     type="name"
                     name="name"
-                     
+                    onBlur={nameBlur}
+                    ref={nameRef}
                     required
                     value={credentials.name}
                     onChange={handleOnChange}
                     placeholder="Enter Name"
-                    className="border-2 border-solid border-black  block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline-1 -outline-offset-1 outline-solid placeholder:text-gray-400 focus:outline-1 focus:-outline-offset-2 focus:outline-gray-400 sm:text-sm/6"
+                    className="border-2 border-solid border-black  block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900  placeholder:text-gray-400 sm:text-sm/6 "
                   />
+                </div>
+                <div className="nameText text-red-600 text-xs my-1 hidden">
+                  Name is required
                 </div>
               </div>
 
               <div className=" col-span-1 row-span-1">
-                <label htmlFor="email" className="block  font-medium text-gray-900">
+                <label
+                  htmlFor="email"
+                  className="block  font-medium text-gray-900"
+                >
                   Email*
                 </label>
                 <div className="">
                   <input
                     type="email"
                     name="email"
-                      
+                    ref={emailRef}
                     value={credentials.email}
+                    onBlur={emailBlur}
                     onChange={handleOnChange}
                     autoComplete="email"
                     required
                     placeholder="Enter Email"
-                    className="border-2 border-solid border-black  block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline-1 -outline-offset-1 outline-solid placeholder:text-gray-400 focus:outline-1 focus:-outline-offset-2 focus:outline-gray-400 sm:text-sm/6"
+                    className="border-2 border-solid border-black  block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900  placeholder:text-gray-400 sm:text-sm/6"
                   />
                 </div>
-                <div className="text-red-600 text-xs my-1">Envalid email </div>
-
+              
+                <div className="emailText text-red-600 text-xs my-1 hidden"></div>
               </div>
 
               <div className=" col-span-1 row-span-1">
@@ -315,40 +297,165 @@ function NewRegister({text}) {
                   >
                     Password*
                   </label>
-                 
                 </div>
-                <div className="">
+                <div className="flex border-2 border-solid border-black w-full rounded-md bg-white">
                   <input
                     type="password"
                     name="password"
-                    
+                    {...(showPassword
+                      ? { type: "text" }
+                      : { type: "password" })}
+                    ref={passwordRef}
                     required
                     value={credentials.password}
                     onChange={handleOnChange}
+                    onBlur={passwordBlur}
                     placeholder="Enter Password"
-                    className="border-2 border-solid border-black block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline-1 -outline-offset-1 outline-solid outline-gray-600 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-gray-400 sm:text-sm/6"
+                    className=" border-none outline-none w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900   placeholder:text-gray-400   sm:text-sm/6"
                   />
+                  <button className="bg-white mr-2" onClick={togglePass}>
+                    {showPassword ? <PasswordOpenEye /> : <PasswordCloseEye />}
+                  </button>
                 </div>
-                <div className="text-red-600 text-xs my-1">password should be at least 8 characters</div>
+                <div className="passwordText text-red-600 text-xs my-1 hidden"></div>
               </div>
               <div className="grid gap-1">
-                <div  className="col-span-1 row-span-1 rounded-xl bg-[#3F3F3F]   block text-center text-white text-xl py-1 hover:scale-[0.95] "   onClick={handleSubmit}>
-                 Sign Up &gt;&gt;
-                </div>
+                <button
+                  className="col-span-1 row-span-1 rounded-xl bg-[#3F3F3F]   block text-center text-white text-2xl py-1 hover:scale-[1.05] focus:scale-[0.95] "
+                  onClick={handleSubmit}
+                >
+                  Sign Up &gt;&gt;
+                </button>
 
                 <div className=" text-center leading-none  text-[#3F3F3F] ">
                   or
                 </div>
-                <GoogleBtn text= "Sign Up wih Google"/>
+                <GoogleBtn text="Sign Up wih Google" />
               </div>
               <div className="mt-2 text-sm text-center">
                 Don't have an account?{" "}
                 <NavLink to="/login" className="text-[#0F7DE3]">
-                Sign In &rarr;
+                  Sign In &rarr;
                 </NavLink>
               </div>
             </div>
+          </div>
+        </div>
+      </div>
+
+      {/* for mobile */}
+
+      <div className=" h-screen sm:hidden flex flex-col justify-between">
+        <div className="relative h-[30%] w-full  bg-center  flex items-center justify-center">
+          <img
+            src="./images/bgImgJaipur.png"
+            alt=""
+            className="h-full w-full absolute top-0 bottom-0  rounded-2xl z-[0]"
+          />
+          <div className="text-4xl  font-bold text-white z-[1]">
+            Sign Up To Adaa Jaipur
+          </div>
+        </div>
+        <div className="h-[70%] w-full flex justify-center ">
+          <div className="card w-[450px] min-h-[60%]  bg-white rounded-xl text-black grid gap-2 items-center p-[52px] font-comfortaa text-lg ">
+            <div className=" col-span-1 row-span-1">
+              <label
+                htmlFor="text"
+                className="block  font-medium text-gray-900"
+              >
+                Name*
+              </label>
+              <div className="">
+                <input
+                  type="name"
+                  name="name"
+                  ref={nameRef}
+                  onBlur={nameBlur}
+                  required
+                  value={credentials.name}
+                  onChange={handleOnChange}
+                  placeholder="Enter Name"
+                  className="border-2 border-solid border-black  block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline-1 -outline-offset-1 outline-solid placeholder:text-gray-400 focus:outline-1 focus:-outline-offset-2 focus:outline-gray-400 sm:text-sm/6"
+                />
               </div>
+              <div className="nameText text-red-600 text-xs my-1 hidden">
+                Name is required
+              </div>
+            </div>
+
+            <div className=" col-span-1 row-span-1">
+              <label
+                htmlFor="email"
+                className="block  font-medium text-gray-900"
+              >
+                Email*
+              </label>
+              <div className="">
+                <input
+                  type="email"
+                  name="email"
+                  ref={emailRef}
+                  value={credentials.email}
+                  onChange={handleOnChange}
+                  onBlur={emailBlur}
+                  autoComplete="email"
+                  required
+                  placeholder="Enter Email"
+                  className="border-2 border-solid border-black  block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline-1 -outline-offset-1 outline-solid placeholder:text-gray-400 focus:outline-1 focus:-outline-offset-2 focus:outline-gray-400 sm:text-sm/6"
+                />
+              </div>
+              <div className="emailText text-red-600 text-xs my-1 hidden"></div>
+            </div>
+
+            <div className=" col-span-1 row-span-1">
+              <div className="flex justify-between">
+                <label
+                  htmlFor="password"
+                  className="block  font-medium text-gray-900"
+                >
+                  Password*
+                </label>
+              </div>
+              <div className="flex border-2 border-solid border-black w-full rounded-md bg-white">
+                <input
+                  type="password"
+                  name="password"
+                  {...(showPassword ? { type: "text" } : { type: "password" })}
+                  ref={passwordRef}
+                  onBlur={passwordBlur}
+                  required
+                  value={credentials.password}
+                  onChange={handleOnChange}
+                  placeholder="Enter Password"
+                  className=" border-none outline-none w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900   placeholder:text-gray-400   sm:text-sm/6"
+                />
+                <button className="bg-white mr-2" onClick={togglePass}>
+                  {showPassword ? <PasswordOpenEye /> : <PasswordCloseEye />}
+                </button>
+              </div>
+              <div className="passwordText text-red-600 text-xs my-1 hidden"></div>
+            </div>
+            <div className="grid gap-1">
+              <button
+                className="col-span-1 row-span-1 rounded-xl bg-[#3F3F3F]   block text-center text-white text-xl py-1 focus:scale-[0.95] "
+                onClick={handleSubmit}
+              >
+                Sign Up &gt;&gt;
+              </button>
+
+              <div className=" text-center leading-none  text-[#3F3F3F] ">
+                or
+              </div>
+              <GoogleBtn text="Sign Up wih Google" />
+            </div>
+            <div className="mt-2 text-sm text-center">
+              Don't have an account?{" "}
+              <NavLink to="/login" className="text-[#0F7DE3]">
+                Sign In &rarr;
+              </NavLink>
+            </div>
+          </div>
+        </div>
       </div>
     </>
   );

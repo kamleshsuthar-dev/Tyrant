@@ -1,38 +1,48 @@
 "use client";
-
-import React, { useState } from "react";
+import { useLocation } from "react-router-dom";
+import React, { useState,useEffect } from "react";
+import { useCartContext } from "../context/CartContext";
 // import Image from "./images/bgImgJaipur.png";
 
 export default function ShoppingCart() {
+
+  // const location = useLocation();
+  // const product = location.state?.product;
+  // console.log(product);
+
+  const {cart} = useCartContext()
+  console.log("cart" , cart);
+  // console.log("cart" , cart[0].id);
+  
+
   const [cartItems, setCartItems] = useState([
-    {
-      id: "1",
-      name: "Arha Junior Comfort Floral Printed Cotton Shirt",
-      color: "Carbonized Maroon",
-      status: "In Stock",
-      price: 139900,
-      quantity: 1,
-      image: "./images/bgImgJaipur.png",
-    },
-    {
-      id: "2",
-      name: "Arha Junior Comfort Floral Printed Cotton Shirt",
-      color: "Carbonized Maroon",
-      status: "In Stock",
-      price: 139900,
-      quantity: 1,
-      image: "./images/bgImgJaipur.png",
-    },
-    {
-      id: "3",
-      name: "Arha Junior Comfort Floral Printed Cotton Shirt",
-      color: "Carbonized Maroon",
-      status: "In Stock",
-      price: 139900,
-      quantity: 1,
-      image: "./images/bgImgJaipur.png",
-    },
+    // {
+    //   id: product.id,
+    //   name: product.name,
+    //   color: "Carbonized Maroon",
+    //   status: "In Stock",
+    //   price: product.pPrice,
+    //   quantity: 1,
+    //   image: product.pImg
+    // },
+  
   ]);
+  
+  useEffect(() => {
+    if (cart && cart.length > 0) {
+      const updatedItems = cart.map(product => ({
+        id: product.id,
+        name: product.name,
+        color: product.selectedColor, 
+        size: product.selectedSize,
+        status: "In Stock",
+        price: product.price,
+        quantity: product.quantity,
+        image: product.image
+      }));
+      setCartItems(updatedItems);
+    }
+  }, [cart]); 
 
   const updateQuantity = (id, quantity) => {
     setCartItems((items) =>
@@ -51,78 +61,11 @@ export default function ShoppingCart() {
 
   return (
     <div className="min-h-screen bg-white">
-      {/* Discount Banner */}
-      {/* <div className="bg-emerald-500 text-white text-center py-2 text-sm">
-        20% DISCOUNT ON ALL THE KURTA SETS
-      </div> */}
 
-      {/* Navigation */}
-      {/* <nav className="bg-black text-white border-b">
-        <div className="max-w-7xl mx-auto px-4 py-3 flex items-center justify-between">
-          <div className="flex items-center space-x-6">
-            <span className="font-serif italic text-lg">Arha</span>
-            <a href="#" className="hidden md:inline-block hover:text-gray-300">
-              KURTA SETS
-            </a>
-            <a href="#" className="hidden md:inline-block hover:text-gray-300">
-              GOWNS
-            </a>
-            <a href="#" className="hidden md:inline-block hover:text-gray-300">
-              BOTTOMS
-            </a>
-            <a href="#" className="hidden md:inline-block hover:text-gray-300">
-              TOPS
-            </a>
-            <a href="#" className="hidden md:inline-block hover:text-gray-300">
-              ABOUT US
-            </a>
-          </div>
-          <div className="flex items-center space-x-4">
-            <div className="relative">
-              <input
-                type="search"
-                placeholder="SEARCH"
-                className="pl-8 pr-2 py-1 bg-transparent border border-gray-600 rounded text-sm focus:outline-none focus:border-gray-400"
-              />
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                className="h-4 w-4 absolute left-2 top-1/2 transform -translate-y-1/2 text-gray-400"
-                fill="none"
-                viewBox="0 0 24 24"
-                stroke="currentColor"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth={2}
-                  d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"
-                />
-              </svg>
-            </div>
-            <button className="hover:text-gray-300">LOGIN</button>
-            <button className="hover:text-gray-300">
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                className="h-6 w-6"
-                fill="none"
-                viewBox="0 0 24 24"
-                stroke="currentColor"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth={2}
-                  d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z"
-                />
-              </svg>
-            </button>
-          </div>
-        </div>
-      </nav> */}
 
       {/* Shopping Cart */}
       <div className="max-w-7xl mx-auto px-4 py-8">
-        <h1 className="text-2xl font-medium mb-8 bg-gray-800 text-white py-3 px-4">
+        <h1 className="text-2xl font-medium mb-8 bg-gray-800 text-white py-3 px-4 flex justify-center">
           SHOPPING CART
         </h1>
 
@@ -172,6 +115,7 @@ export default function ShoppingCart() {
                 </div>
               </div>
             ))}
+      
           </div>
 
           {/* Order Summary */}

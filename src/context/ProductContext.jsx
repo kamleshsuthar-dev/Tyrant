@@ -1,51 +1,23 @@
-import axios from "axios";
-import { createContext, useContext, useEffect, useReducer } from "react";
-// import reducer from '../reducers/ProductReducer';
+import React from 'react'
+import { createContext,useContext } from 'react'
 
-const API = 'https://api.pujakaitem.com/api/products';
+export const ProductDataContext= createContext()
 
-const initialState = {  
-  isLoading: false,
-  isError: false,
-  products: [],
-  featureProducts: [], // Fixed typo here
-};
+function ProductContext({children}) {
+    const prd = {
+        name: "Banti Saini",
 
-const AppContext = createContext();
+    }
 
-const AppProvider = ({ children }) => {
-  // const [state, dispatch] = useReducer(reducer, initialState);
-
-  const getProducts = async (url) => {
-    // dispatch({ type: 'Is_Loading' });
-    try {
-      const response = await axios.get(url);
-      const products = await response.data;
-      // dispatch({ type: 'Set_Product_List_Data', payload: products });   
-    } catch (error) {
-      // dispatch({ type: 'Product_Api_Error' });
-    }        
-  };
-
-  useEffect(() => {
-    getProducts(API);
-  }, []);
-    const  name="banti"
   return (
-    <AppContext.Provider 
-      value={ name}
-    >
+    <ProductDataContext.Provider value={{prd}}>
       {children}
-    </AppContext.Provider>
-  );
-};
+    </ProductDataContext.Provider>
+  )
+}
 
-const useProductContext = () => {
-  const context = useContext(AppContext);
-  if (context === undefined) {
-    throw new Error('useProductContext must be used within an AppProvider');
-  }
-  return context;
-};
+export const useProduct = ()=>{
+    return useContext(ProductDataContext)
+}
 
-export { AppProvider, AppContext, useProductContext };
+export default ProductContext

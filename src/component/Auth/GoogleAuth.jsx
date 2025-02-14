@@ -1,36 +1,59 @@
 import { useGoogleLogin } from "@react-oauth/google";
 import axios from "axios";
+import { data, useNavigate } from "react-router-dom";
+import { useState } from "react";
+import Password from "./Password";
 
-const url = "https://expresstest-31m8.onrender.com/api/auth/google";
+const url = `${import.meta.env.VITE_ISREGISTERED}/google`;
 
-// window.location.href= 'https://expresstest-31m8.onrender.com/api/auth/google'
 
-// axios.get ('https://expresstest-31m8.onrender.com/api/auth/google')
-// .then((response)=>{
-//   console.log(response);
-
-// })
-// .catch((error)=>{
-//   console.log(error);
-//   console.log(error.message);
-//   if (error.response) {
-//     console.error('Response error:', error.response.data);
-//   } else if (error.request) {
-//     console.error('No response received:', error.request);
-//   } else {
-//     console.error('Error setting up request:', error.message);
-//   }
-
-// })}
 
 import React from "react";
 
-function GoogleAuth({text}) {
+function GoogleAuth({ text }) {
+  const navigate = useNavigate();
+  const [userEmail, setUserEmail] = useState("");
+
+
   const responseGoogle = async (authResult) => {
     try {
       if (authResult["code"]) {
         const result = await axios.get(`${url}?code=${authResult["code"]}`);
-        console.log(result);
+        console.log(result.data);
+        const data = result.data;
+        console.log(data.isRegistered);
+        console.log(data.userDetails.email);
+        setUserEmail(data.userDetails.email);
+        
+        if (data.isRegistered) {
+          await axios
+            .get(
+              `${import.meta.env.VITE_ISREGISTERED}/google/login?email=${data.userDetails.email}`
+            )
+            .then(async (response) => {
+              console.log(response);
+              navigate("/");
+              await axios
+                .get(`${import.meta.env.VITE_ISREGISTERED}/me`)
+                .then((response) => {
+                  console.log(response);
+                });
+            })
+            .catch((error) => {
+              console.log(error);
+            });
+        } else {
+      
+        navigate("/password", {
+          state: {
+            email: data.userDetails.email
+          }
+        });
+          console.log(data.userDetails.email);
+          
+          
+        }
+        // navigate("/password");
       }
     } catch (error) {
       console.log(error);

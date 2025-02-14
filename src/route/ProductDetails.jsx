@@ -1,317 +1,555 @@
-import React from 'react'
+// import React, { useState } from "react";
+// import { Heart, Share2, Minus, Plus, LogIn } from "lucide-react";
 
-/*
-  This example requires some changes to your config:
-  
-  ```
-  // tailwind.config.js
-  module.exports = {
-    // ...
-    theme: {
-      extend: {
-        gridTemplateRows: {
-          '[auto,auto,1fr]': 'auto auto 1fr',
-        },
-      },
-    },
-  }
+// import { useLocation, useNavigate,NavLink } from "react-router-dom";
+// import { useCartContext } from "../context/CartContext";
+
+// const ProductPage = () => {
+//   const location = useLocation();
+//   const product = location.state?.product;
+//   // console.log(product);
+//   const {addToCart} = useCartContext()
+
+//   const [quantity, setQuantity] = useState(1);
+//   const [selectedSize, setSelectedSize] = useState("S");
+//   const [selectedColor, setSelectedColor] = useState("cyan");
+
+//   const sizes = ["XS", "S", "M", "L", "XL"];
+//   const colors = ["cyan", "lime", "yellow", "magenta"];
+
+//   const incrementQuantity = () => setQuantity((prev) => prev + 1);
+//   const decrementQuantity = () =>
+//     setQuantity((prev) => (prev > 1 ? prev - 1 : 1));
+
+//   const navigate = useNavigate()
+//   const addCart = ()=>{
+//         navigate('/shoppingcart',{state :{product}})
+//         addToCart(quantity,selectedColor,selectedSize,product)
+
+//   }
+
+//   return (
+//     <div className="bg-pink-400 mx-auto p-4">
+//       <div className=" flex flex-col md:flex-row bg-white rounded-lg p-4">
+//         <div className=" flex w-[40wh] bg-pink-400 rounded-lg justify-center p-2">
+//           <div className="Img flex flex-col gap-2 mr-2">
+//             <img
+//               src="https://m.media-amazon.com/images/I/61CkG3E9EjL._SX569_.jpg"
+//               alt=""
+//               className="h-[67px] min-w-[67px] object-cover rounded-2xl"
+//             />
+//             <img
+//               src="https://m.media-amazon.com/images/I/61CkG3E9EjL._SX569_.jpg"
+//               alt=""
+//               className="h-[67px] min-w-[67px] object-cover rounded-2xl"
+//             />
+//             <img
+//               src="https://m.media-amazon.com/images/I/61CkG3E9EjL._SX569_.jpg"
+//               alt=""
+//               className="h-[67px] min-w-[67px] object-cover rounded-2xl"
+//             />
+//             <img
+//               src="https://m.media-amazon.com/images/I/61CkG3E9EjL._SX569_.jpg"
+//               alt=""
+//               className="h-[67px] min-w-[67px] object-cover rounded-2xl"
+//             />
+//             <img
+//               src="https://m.media-amazon.com/images/I/61CkG3E9EjL._SX569_.jpg"
+//               alt=""
+//               className="h-[67px] min-w-[67px] object-cover rounded-2xl"
+//             />
+//           </div>
+//           <div className="">
+//             <div className="p-0">
+//               <img
+//                 // src={product.imageSrc}
+//                 src={product.pImages[0].URL}
+//                 alt="Yellow printed kurta"
+//                 className="object-cover max-w-[450px] minw-[350px] h-[600px] rounded-lg"
+//               />
+//               <button className="absolute top-4 right-4">
+//                 <Heart className="w-6 h-6 text-gray-600" />
+//               </button>
+//             </div>
+//           </div>
+//         </div>
+
+//         <div className="detail space-y-6 w-[60vw]  flex flex-col justify-between space-x-4">
+//           <div className="pl-4">
+//             <h1 className="text-2xl font-semibold mb-2">
+//               {product.pName}
+//               {/* {product.name} */}
+//             </h1>
+//             <div className="flex items-center gap-2">
+//               <span className="text-lg">4.5</span>
+//               <div className="flex">
+//                 {"★".repeat(3)}
+//                 {"☆".repeat(2)}
+//               </div>
+//               <span className="text-gray-600">- 761</span>
+//             </div>
+//           </div>
+
+//           <div className="flex items-center gap-4">
+//             <span className="text-2xl font-bold">Rs. {product.price}</span>
+//             <span className="text-gray-500 line-through">Rs. 2,599.00</span>
+//             <span className="bg-green-100 text-green-800 px-2 py-1 rounded text-sm">
+//               %13 Off
+//             </span>
+//           </div>
+
+//           <div>
+//             <p className="text-gray-600 mb-1">Tax included.</p>
+//             <button className="text-blue-600 hover:underline">
+//               {/* Shipping calculated at checkout. */}
+//               {product.pDetail}
+//               {/* {product.detail} */}
+//             </button>
+//           </div>
+
+//           <div>
+//             <h2 className="text-lg font-semibold mb-3">Size</h2>
+//             <div className="flex gap-2">
+//               {sizes.map((size) => (
+//                 <button
+//                   key={size}
+//                   onClick={() => setSelectedSize(size)}
+//                   className={`px-4 py-2 rounded-md ${
+//                     selectedSize === size
+//                       ? "bg-teal-600 text-white"
+//                       : "bg-gray-200"
+//                   }`}
+//                 >
+//                   {size}
+//                 </button>
+//               ))}
+//             </div>
+//           </div>
+
+//           <div>
+//             <h2 className="text-lg font-semibold mb-3">Color</h2>
+//             <div className="flex gap-2">
+//               {colors.map((color) => (
+//                 <button
+//                   key={color}
+//                   onClick={() => setSelectedColor(color)}
+//                   className={`w-8 h-8 rounded-full border-2 ${
+//                     selectedColor === color
+//                       ? "border-black"
+//                       : "border-transparent"
+//                   }`}
+//                   style={{ backgroundColor: color }}
+//                 />
+//               ))}
+//             </div>
+//           </div>
+
+//           <div>
+//             <h2 className="text-lg font-semibold mb-3">Quantity</h2>
+//             <div className="flex items-center gap-2">
+//               <button
+//                 onClick={decrementQuantity}
+//                 className="p-2 bg-gray-200 rounded-md"
+//               >
+//                 <Minus className="w-4 h-4" />
+//               </button>
+//               <span className="w-12 text-center">{quantity}</span>
+//               <button
+//                 onClick={incrementQuantity}
+//                 className="p-2 bg-gray-200 rounded-md"
+//               >
+//                 <Plus className="w-4 h-4" />
+//               </button>
+//             </div>
+//           </div>
+
+//           <div className="flex gap-4">
+//             <button
+//               className="flex-1 bg-white text-black border-2 border-black hover:bg-gray-100"
+//               size="lg"
+//               onClick={addCart}
+//             >
+//               Add to Cart
+//             </button>
+//             <button className="flex-1" size="lg">
+//               Buy Now
+//             </button>
+//           </div>
+
+//           <div className="flex justify-between items-center pt-4">
+//             <button variant="link" className="text-gray-600" onClick={() => {}}>
+//               See More
+//             </button>
+//             <Share2 className="w-6 h-6 text-gray-600 cursor-pointer" />
+//           </div>
+//         </div>
+//       </div>
+//     </div>
+//   );
+// };
+
+// export default ProductPage;
+
+"use client";
+import { useEffect } from "react";
+import { Heart, Minus, Plus, Share2 } from "lucide-react";
+import { useState } from "react";
+import { useLocation } from "react-router-dom";
+import { Button } from "@/components/ui/button";
+import { Card } from "@/components/ui/card";
+import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
+import { Label } from "@/components/ui/label";
+import { CardContent } from "@/components/ui/card";
+import { Carousel,CarouselContent,CarouselItem,CarouselNext,CarouselPrevious } from "@/components/ui/carousel";
+import { toast } from "sonner"
+import ShoppingCartTopUp from "./ShoppingCartTopUp";
+import ProductDetailSkeleton from "../component/skeleton/ProductDetailSkeleton"
+import axios from "axios";
+// import { toast } from "@/components/ui/use-toast";
+// import { useToast } from "@/components/ui/use-toast";
+
+// import { cn } from "@/lib/utils"
+function cn(...classes) {
+  return classes.filter(Boolean).join(" ");
+}
+
+export default function ProductDetail() {
  
-  ```
-*/
+  const [quantity, setQuantity] = useState(1);
+  const [selectedSize, setSelectedSize] = useState("M");
+  const [selectedColor, setSelectedColor] = useState("yellow");
+  const [selectedImageIndex, setSelectedImageIndex] = useState(0);
+  const [api, setApi] = useState()
+  const [current, setCurrent] = useState(0)
+  const [count, setCount] = useState(0)
+  const [hoveredImageIndex, setHoveredImageIndex] = useState(null);
+  const [activeIndex, setActiveIndex] = useState(0);
+  const sizes = ["XS", "S", "M", "L", "XL"];
+  const colors = ["yellow", "blue", "pink", "purple"];
+  const [product,setProduct] = useState(null)
+  const location = useLocation();
+  const productData = location.state?.product;
+  // console.log(product);
+  
+  const productId = productData._id
 
-
-
-
-
-
-'use client'
-
-import { useState } from 'react'
-import { StarIcon } from '@heroicons/react/20/solid'
-import { Radio, RadioGroup } from '@headlessui/react'
-
-const product = {
-  name: 'Basic Tee 6-Pack',
-  price: '$192',
-  href: '#',
-  breadcrumbs: [
-    { id: 1, name: 'Men', href: '#' },
-    { id: 2, name: 'Clothing', href: '#' },
-  ],
-  images: [
-    {
-      src: 'https://tailwindui.com/plus/img/ecommerce-images/product-page-02-secondary-product-shot.jpg',
-      alt: 'Two each of gray, white, and black shirts laying flat.',
-    },
-    {
-      src: 'https://tailwindui.com/plus/img/ecommerce-images/product-page-02-tertiary-product-shot-01.jpg',
-      alt: 'Model wearing plain black basic tee.',
-    },
-    {
-      src: 'https://tailwindui.com/plus/img/ecommerce-images/product-page-02-tertiary-product-shot-02.jpg',
-      alt: 'Model wearing plain gray basic tee.',
-    },
-    {
-      src: 'https://tailwindui.com/plus/img/ecommerce-images/product-page-02-featured-product-shot.jpg',
-      alt: 'Model wearing plain white basic tee.',
-    },
-  ],
-  colors: [
-    { name: 'White', class: 'bg-white', selectedClass: 'ring-gray-400' },
-    { name: 'Gray', class: 'bg-gray-200', selectedClass: 'ring-gray-400' },
-    { name: 'Black', class: 'bg-gray-900', selectedClass: 'ring-gray-900' },
-  ],
-  sizes: [
-    { name: 'XXS', inStock: false },
-    { name: 'XS', inStock: true },
-    { name: 'S', inStock: true },
-    { name: 'M', inStock: true },
-    { name: 'L', inStock: true },
-    { name: 'XL', inStock: true },
-    { name: '2XL', inStock: true },
-    { name: '3XL', inStock: true },
-  ],
-  description:
-    'The Basic Tee 6-Pack allows you to fully express your vibrant personality with three grayscale options. Feeling adventurous? Put on a heather gray tee. Want to be a trendsetter? Try our exclusive colorway: "Black". Need to add an extra pop of color to your outfit? Our white tee has you covered.',
-  highlights: [
-    'Hand cut and sewn locally',
-    'Dyed with our proprietary colors',
-    'Pre-washed & pre-shrunk',
-    'Ultra-soft 100% cotton',
-  ],
-  details:
-    'The 6-Pack includes two black, two white, and two heather gray Basic Tees. Sign up for our subscription service and be the first to get new, exciting colors, like our upcoming "Charcoal Gray" limited release.',
-}
-const reviews = { href: '#', average: 4, totalCount: 117 }
-
-function classNames(...classes) {
-  return classes.filter(Boolean).join(' ')
-}
-
-export default function ProductDetails() {
-  const [selectedColor, setSelectedColor] = useState(product.colors[0])
-  const [selectedSize, setSelectedSize] = useState(product.sizes[2])
+  useEffect( ()=>{
+       const singlePrd = async()=>{
+        try {
+          let res = await axios.post(`${import.meta.env.VITE_PRODUCT_SINGLE_PRODUCT}`,{ pId: productId})
+          setProduct(res.data.product)
+         
+          
+        } catch (error) {
+          return (<ProductDetailSkeleton/>)
+        }
+      }
+      // const productImages = product.pImages
+     
+      
+    singlePrd();  
+  },[productId])
 
   
+      // console.log("fuck",product);
+  // useEffect(() => {
+  //   if (!api) {
+  //     return
+  //   }
+  //   setCount(api.scrollSnapList().length)
+  //   setCurrent(api.selectedScrollSnap() + 1)
 
+  //   api.on("select", () => {
+  //     setCurrent(api.selectedScrollSnap() + 1);
+  //     setActiveIndex(api.selectedScrollSnap());
+  //   })
+  // }, [api])
+  useEffect(() => {
+    if (!api) {
+      return () => {}; // Return empty cleanup function
+    }
+    
+    setCount(api.scrollSnapList().length);
+    setCurrent(api.selectedScrollSnap() + 1);
+  
+    const handleSelect = () => {
+      setCurrent(api.selectedScrollSnap() + 1);
+      setActiveIndex(api.selectedScrollSnap());
+    };
+  
+    api.on("select", handleSelect);
+  
+    // Cleanup function
+    return () => {
+      api.off("select", handleSelect); // Remove event listener
+    };
+  }, [api]);
 
+  const addToCart =()=>{               
+    return  ( 
+      toast(
+        "Event has been created", {
+          description:  <ShoppingCartTopUp product={product} />,
+          className:"bg-blue flex justify-center items-center p-none"
+        })
+      )
+    } 
+    
+    if(!product) return <ProductDetailSkeleton/>
+    const productImages = product.pImages.map((img)=>img.URL) || [];
+ 
   return (
-    <div className="bg-white">
-      <div className="pt-6">
-        <nav aria-label="Breadcrumb">
-          <ol role="list" className="mx-auto flex max-w-2xl items-center space-x-2 px-4 sm:px-6 lg:max-w-7xl lg:px-8">
-            {product.breadcrumbs.map((breadcrumb) => (
-              <li key={breadcrumb.id}>
-                <div className="flex items-center">
-                  <a href={breadcrumb.href} className="mr-2 text-sm font-medium text-gray-900">
-                    {breadcrumb.name}
-                  </a>
-                  <svg
-                    fill="currentColor"
-                    width={16}
-                    height={20}
-                    viewBox="0 0 16 20"
-                    aria-hidden="true"
-                    className="h-5 w-4 text-gray-300"
+    <div className="min-h-screen bg-pink-50 md:bg-pink-100 p-4">
+      <div className="max-w-7xl mx-auto">
+        {/* Main Product Section */}
+        <Card className="bg-white rounded-3xl overflow-hidden">
+          <div className="grid md:grid-cols-2 gap-8 p-4 md:p-8">
+            {/* Image Section */}
+            <div className="relative">
+              {/* chat gpt  */}
+
+              {/* Desktop: Vertical thumbnails on the left */}
+              <div className="hidden md:flex flex-col gap-4 absolute left-0 top-0 h-full pr-4">
+                {productImages.map((image, index) => (
+                  <button
+                    key={index}
+                    onMouseEnter={() => setHoveredImageIndex(index)} // Set hover state
+                    onMouseLeave={() => setHoveredImageIndex(null)} // Reset on leave
+                    onClick={() => setSelectedImageIndex(index)} // Click to set selected image
+                    className={cn(
+                      "relative w-16 aspect-[3/4] rounded-lg overflow-hidden border-2",
+                      selectedImageIndex === index
+                        ? "border-black"
+                        : "border-transparent hover:border-gray-200"
+                    )}
                   >
-                    <path d="M5.697 4.34L8.98 16.532h1.327L7.025 4.341H5.697z" />
-                  </svg>
-                </div>
-              </li>
-            ))}
-            <li className="text-sm">
-              <a href={product.href} aria-current="page" className="font-medium text-gray-500 hover:text-gray-600">
-                {product.name}
-              </a>
-            </li>
-          </ol>
-        </nav>
-
-        {/* Image gallery */}
-        <div className="mx-auto mt-6 max-w-2xl sm:px-6 lg:grid lg:max-w-7xl lg:grid-cols-3 lg:gap-x-8 lg:px-8">
-          <img
-            alt={product.images[0].alt}
-            src={product.images[0].src}
-            className="hidden size-full rounded-lg object-cover lg:block"
-          />
-          <div className="hidden lg:grid lg:grid-cols-1 lg:gap-y-8">
-            <img
-              alt={product.images[1].alt}
-              src={product.images[1].src}
-              className="aspect-[3/2] w-full rounded-lg object-cover"
-            />
-            <img
-              alt={product.images[2].alt}
-              src={product.images[2].src}
-              className="aspect-[3/2] w-full rounded-lg object-cover"
-            />
-          </div>
-          <img
-            alt={product.images[3].alt}
-            src={product.images[3].src}
-            className="aspect-[4/5] size-full object-cover sm:rounded-lg lg:aspect-auto"
-          />
-        </div>
-
-        {/* Product info */}
-        <div className="mx-auto max-w-2xl px-4 pb-16 pt-10 sm:px-6 lg:grid lg:max-w-7xl lg:grid-cols-3 lg:grid-rows-[auto_auto_1fr] lg:gap-x-8 lg:px-8 lg:pb-24 lg:pt-16">
-          <div className="lg:col-span-2 lg:border-r lg:border-gray-200 lg:pr-8">
-            <h1 className="text-2xl font-bold tracking-tight text-gray-900 sm:text-3xl">{product.name}</h1>
-          </div>
-
-          {/* Options */}
-          <div className="mt-4 lg:row-span-3 lg:mt-0">
-            <h2 className="sr-only">Product information</h2>
-            <p className="text-3xl tracking-tight text-gray-900">{product.price}</p>
-
-            {/* Reviews */}
-            <div className="mt-6">
-              <h3 className="sr-only">Reviews</h3>
-              <div className="flex items-center">
-                <div className="flex items-center">
-                  {[0, 1, 2, 3, 4].map((rating) => (
-                    <StarIcon
-                      key={rating}
-                      aria-hidden="true"
-                      className={classNames(
-                        reviews.average > rating ? 'text-gray-900' : 'text-gray-200',
-                        'size-5 shrink-0',
-                      )}
+                    <img
+                      src={image || "/placeholder.svg"}
+                      alt={`Product ${index + 1}`}
+                      className="object-cover"
                     />
-                  ))}
+                  </button>
+                ))}
+              </div>
+
+              {/* Main Image */}
+              <div className="hidden md:flex aspect-[3/4] relative rounded-2xl overflow-hidden md:ml-20">
+                <img
+                  src={
+                    productImages[
+                      hoveredImageIndex !== null
+                        ? hoveredImageIndex
+                        : selectedImageIndex
+                    ] || "/placeholder.svg"
+                  }
+                  alt="Product Image"
+                  className="object-cover"
+                />
+                <Button
+                  variant="ghost"
+                  size="icon"
+                  className="absolute top-4 right-4 bg-white/80 backdrop-blur-sm rounded-full"
+                >
+                  <Heart className="w-5 h-5" />
+                </Button>
+              </div>
+
+              {/* Mobile: Horizontal thumbnails below */}
+              <div className="flex md:hidden gap-2 mt-4 overflow-auto pb-2 snap-x">
+                <div className="mx-auto max-w-xs">
+                    <Carousel setApi={setApi} className="w-full max-w-xs">
+                      <CarouselContent>
+                        {productImages.map((image, index) =>{         
+                         return(
+                          <CarouselItem key={index}    >
+                            <Card>
+                              <CardContent className="flex aspect-square items-center justify-center p-6"  >
+                                {/* <span className="text-4xl font-semibold">{index + 1}</span> */}
+                                <img src={image} alt="" />
+                              </CardContent>
+                            </Card>
+                          </CarouselItem>
+                        )})}
+                      </CarouselContent>
+                    
+                    </Carousel>
+                      {/* Dots Navigation */}
+                    <div className="flex justify-center gap-2 mt-4">
+                        {productImages.map((_, index) => (
+                          <div
+                            key={index}
+                            className={`h-2 w-2 rounded-full transition-all duration-300 ${
+                              activeIndex === index ? "bg-blue-500 scale-125" : "bg-gray-300"
+                            }`}
+                          ></div>
+                        ))}
+                   </div>
+
                 </div>
-                <p className="sr-only">{reviews.average} out of 5 stars</p>
-                <a href={reviews.href} className="ml-3 text-sm font-medium text-indigo-600 hover:text-indigo-500">
-                  {reviews.totalCount} reviews
-                </a>
+
               </div>
             </div>
 
-            <form className="mt-10">
-              {/* Colors */}
+            {/* Product Details Section */}
+            <div className="space-y-6">
               <div>
-                <h3 className="text-sm font-medium text-gray-900">Color</h3>
-
-                <fieldset aria-label="Choose a color" className="mt-4">
-                  <RadioGroup value={selectedColor} onChange={setSelectedColor} className="flex items-center gap-x-3">
-                    {product.colors.map((color) => (
-                      <Radio
-                        key={color.name}
-                        value={color}
-                        aria-label={color.name}
-                        className={classNames(
-                          color.selectedClass,
-                          'relative -m-0.5 flex cursor-pointer items-center justify-center rounded-full p-0.5 focus:outline-none data-[checked]:ring-2 data-[focus]:data-[checked]:ring data-[focus]:data-[checked]:ring-offset-1',
-                        )}
-                      >
-                        <span
-                          aria-hidden="true"
-                          className={classNames(color.class, 'size-8 rounded-full border border-black/10')}
-                        />
-                      </Radio>
+                <h1 className="text-2xl font-semibold">
+                 {product.pName}
+                </h1>
+                <p>
+                  {product.pDescription}
+                </p>
+                <div className="flex items-center gap-2 mt-2">
+                  <div className="flex">
+                    {[1, 2, 3, 4].map((star) => (
+                      <span key={star} className="text-yellow-400">
+                        ★
+                      </span>
                     ))}
-                  </RadioGroup>
-                </fieldset>
+                    <span className="text-gray-300">★</span>
+                  </div>
+                  <span className="text-sm text-gray-500">(4.0)</span>
+                </div>
               </div>
 
-              {/* Sizes */}
-              <div className="mt-10">
-                <div className="flex items-center justify-between">
-                  <h3 className="text-sm font-medium text-gray-900">Size</h3>
-                  <a href="#" className="text-sm font-medium text-indigo-600 hover:text-indigo-500">
-                    Size guide
-                  </a>
+              <div className="space-y-1">
+                <div className="flex items-center gap-2">
+                  <span className="text-2xl font-bold">Rs. {product.pPrice*(100-product.pOffer)/100}</span>
+                  <span className="text-sm text-gray-500 line-through">
+                    Rs. {product.pPrice}
+                  </span>
+                  <span className="text-sm text-green-600 font-medium bg-green-100 px-2 py-0.5 rounded">
+                   {product.pOffer}% OFF
+                  </span>
+                </div>
+                <p className="text-sm text-gray-500">
+                  Tax included. Shipping calculated at checkout.
+                </p>
+              </div>
+
+              {/* Size Selector */}
+              <div className="space-y-4">
+                <div>
+                  <Label className="text-base">Size</Label>
+                  <RadioGroup
+                    defaultValue={selectedSize}
+                    onValueChange={setSelectedSize}
+                    className="flex flex-wrap gap-2 mt-2"
+                  >
+                    {sizes.map((size) => (
+                      <Label
+                        key={size}
+                        className={`px-4 py-2 rounded-full border-2 cursor-pointer ${
+                          selectedSize === size
+                            ? "border-black bg-black text-white"
+                            : "border-gray-200 hover:border-gray-300"
+                        }`}
+                      >
+                        <RadioGroupItem value={size} className="sr-only" />
+                        {size}
+                      </Label>
+                    ))}
+                  </RadioGroup>
                 </div>
 
-                <fieldset aria-label="Choose a size" className="mt-4">
+                {/* Color Selector */}
+                <div>
+                  <Label className="text-base">Color</Label>
                   <RadioGroup
-                    value={selectedSize}
-                    onChange={setSelectedSize}
-                    className="grid grid-cols-4 gap-4 sm:grid-cols-8 lg:grid-cols-4"
+                    defaultValue={selectedColor}
+                    onValueChange={setSelectedColor}
+                    className="flex gap-2 mt-2"
                   >
-                    {product.sizes.map((size) => (
-                      <Radio
-                        key={size.name}
-                        value={size}
-                        disabled={!size.inStock}
-                        className={classNames(
-                          size.inStock
-                            ? 'cursor-pointer bg-white text-gray-900 shadow-sm'
-                            : 'cursor-not-allowed bg-gray-50 text-gray-200',
-                          'group relative flex items-center justify-center rounded-md border px-4 py-3 text-sm font-medium uppercase hover:bg-gray-50 focus:outline-none data-[focus]:ring-2 data-[focus]:ring-indigo-500 sm:flex-1 sm:py-6',
-                        )}
+                    {colors.map((color) => (
+                      <Label
+                        key={color}
+                        className={`w-8 h-8 rounded-full cursor-pointer border-2 ${
+                          selectedColor === color
+                            ? "border-black"
+                            : "border-transparent"
+                        }`}
                       >
-                        <span>{size.name}</span>
-                        {size.inStock ? (
-                          <span
-                            aria-hidden="true"
-                            className="pointer-events-none absolute -inset-px rounded-md border-2 border-transparent group-data-[focus]:border group-data-[checked]:border-indigo-500"
-                          />
-                        ) : (
-                          <span
-                            aria-hidden="true"
-                            className="pointer-events-none absolute -inset-px rounded-md border-2 border-gray-200"
-                          >
-                            <svg
-                              stroke="currentColor"
-                              viewBox="0 0 100 100"
-                              preserveAspectRatio="none"
-                              className="absolute inset-0 size-full stroke-2 text-gray-200"
-                            >
-                              <line x1={0} x2={100} y1={100} y2={0} vectorEffect="non-scaling-stroke" />
-                            </svg>
-                          </span>
-                        )}
-                      </Radio>
+                        <RadioGroupItem value={color} className="sr-only" />
+                        <span
+                          className="block w-full h-full rounded-full"
+                          style={{ backgroundColor: color }}
+                        />
+                      </Label>
                     ))}
                   </RadioGroup>
-                </fieldset>
+                </div>
+
+                {/* Quantity Selector */}
+                <div>
+                  <Label className="text-base">Quantity</Label>
+                  <div className="flex items-center gap-2 mt-2">
+                    <Button
+                      variant="outline"
+                      size="icon"
+                      onClick={() => setQuantity(Math.max(1, quantity - 1))}
+                    >
+                      <Minus className="w-4 h-4" />
+                    </Button>
+                    <span className="w-12 text-center">{quantity}</span>
+                    <Button
+                      variant="outline"
+                      size="icon"
+                      onClick={() => setQuantity(quantity + 1)}
+                    >
+                      <Plus className="w-4 h-4" />
+                    </Button>
+                  </div>
+                </div>
               </div>
 
-              <button
-                type="submit"
-                className="mt-10 flex w-full items-center justify-center rounded-md border border-transparent bg-indigo-600 px-8 py-3 text-base font-medium text-white hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
-              >
-                Add to bag
-              </button>
-            </form>
+              {/* Action Buttons */}
+              <div className="flex flex-col sm:flex-row gap-4">
+                {/* <Button className="flex-1 text-lg h-12"onClick={addToCart} >Add to Cart</Button> */}
+                <Button
+                  // variant="outline"
+                  className="flex-1 text-lg h-12"
+                 onClick={ addToCart } 
+                 >
+               Add to Cart
+              </Button>
+                <Button variant="secondary" className="flex-1 text-lg h-12"> Buy Now </Button>
+              </div>
+
+              {/* Share Button */}
+              <Button variant="ghost" className="w-full sm:w-auto">
+                <Share2 className="w-4 h-4 mr-2" />
+                Share
+              </Button>
+            </div>
           </div>
+        </Card>
 
-          <div className="py-10 lg:col-span-2 lg:col-start-1 lg:border-r lg:border-gray-200 lg:pb-16 lg:pr-8 lg:pt-6">
-            {/* Description and details */}
-            <div>
-              <h3 className="sr-only">Description</h3>
-
-              <div className="space-y-6">
-                <p className="text-base text-gray-900">{product.description}</p>
+        {/* Similar Products */}
+        <div className="mt-8 grid grid-cols-2 md:grid-cols-4 gap-4">
+          {Array.from({ length: 4 }).map((_, i) => (
+            <Card key={i} className="overflow-hidden">
+              <div className="aspect-[3/4] relative">
+                <img
+                  src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/%7B29A32F65-986C-4D6C-9FA9-F59A29CACDEF%7D-gh0Fx6Io6ARfqYrKf5RUUO65Z6pXBd.png"
+                  alt="Similar Product"
+                  className="object-cover"
+                />
               </div>
-            </div>
-
-            <div className="mt-10">
-              <h3 className="text-sm font-medium text-gray-900">Highlights</h3>
-
-              <div className="mt-4">
-                <ul role="list" className="list-disc space-y-2 pl-4 text-sm">
-                  {product.highlights.map((highlight) => (
-                    <li key={highlight} className="text-gray-400">
-                      <span className="text-gray-600">{highlight}</span>
-                    </li>
-                  ))}
-                </ul>
+              <div className="p-4">
+                <h3 className="font-medium truncate">
+                  Adaa Jaipur Comfort Printed Cotton Shirt
+                </h3>
+                <div className="flex items-center justify-between mt-2">
+                  <span className="font-bold">Rs. 1,999.00</span>
+                  <span className="text-sm text-green-600 font-medium bg-green-100 px-2 py-0.5 rounded">
+                    33% OFF
+                  </span>
+                </div>
               </div>
-            </div>
-
-            <div className="mt-10">
-              <h2 className="text-sm font-medium text-gray-900">Details</h2>
-
-              <div className="mt-4 space-y-6">
-                <p className="text-sm text-gray-600">{product.details}</p>
-              </div>
-            </div>
-          </div>
+            </Card>
+          ))}
         </div>
       </div>
     </div>
-  )
+  );
 }
-
