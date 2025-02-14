@@ -203,7 +203,7 @@ import { CardContent } from "@/components/ui/card";
 import { Carousel,CarouselContent,CarouselItem,CarouselNext,CarouselPrevious } from "@/components/ui/carousel";
 import { toast } from "sonner"
 import ShoppingCartTopUp from "./ShoppingCartTopUp";
-import ProductDetailSkeleton from "../component/skeleton/ProductDetailSkeleton"
+import ProductDetailSkeleton from "@/component/skeleton/ProductDetailSkeleton";
 import axios from "axios";
 // import { toast } from "@/components/ui/use-toast";
 // import { useToast } from "@/components/ui/use-toast";
