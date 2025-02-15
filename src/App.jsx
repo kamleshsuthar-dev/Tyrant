@@ -88,7 +88,7 @@ import Layout from "../Layout.jsx";
 import Home from "./route/Home.jsx";
 import { GoogleOAuthProvider } from "@react-oauth/google";
 import { lazy } from "react";
-
+import TempTopUP from "./route/TempTopUP.jsx";
 // Lazy loaded components
 const ProductList = lazy(() => import("./route/ProductList.jsx"));
 const Login = lazy(() => import("./component/Auth/Login/Login.jsx"));
@@ -186,7 +186,7 @@ const router = createBrowserRouter(
 
       {/* Shopping routes */}
       <Route
-        path="productdetails/shoppingcarttopup"
+        path="/shoppingcarttopup"
         element={
           <Suspense fallback={<LoadingFallback />}>
             <ShoppingCartTopUp />
@@ -217,6 +217,8 @@ const router = createBrowserRouter(
           </Suspense>
         }
       />
+      <Route path="cart" element={<TempTopUP/>}/>
+    
     </>
   )
 );

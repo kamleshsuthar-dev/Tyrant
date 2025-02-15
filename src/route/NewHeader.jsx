@@ -246,11 +246,12 @@ export default function NewHeader() {
                       ))}
                     </DisclosurePanel> */}
                   </Disclosure>
+                 
                   <NavLink
                     to="/productlist"
-                    className="-mx-3 block rounded-lg px-3 py-2 text-base/7 font-semibold text-text-white hover:bg-gray-50"
+                    className="-mx-3 block rounded-lg px-3 py-2 text-base/7 font-semibold text-white hover:bg-gray-50"
                   >
-                   ProductList
+                    Productlist
                   </NavLink>
                   <NavLink
                     to="/shoppingcart"
