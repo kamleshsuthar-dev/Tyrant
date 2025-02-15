@@ -161,7 +161,7 @@ const Login = ({ text }) => {
           />
           <div className="card min-w-[350px] min-h-[60%]  bg-white rounded-xl text-black grid gap-2 items-center p-[52px] font-comfortaa text-lg z-[1]">
             <div className="invalidEP text-red-500 text-sm mt-[2px] text-center mb-6 hidden  ">
-              Invaild email and password ? {name}
+              Invaild email and password ? 
             </div>
 
             <div className="text-3xl col-span-1 row-span-1 font-bold ">
@@ -298,9 +298,9 @@ const Login = ({ text }) => {
                 >
                   Password*
                 </label>
-                <a href="#" className="text-xs text-[#0F7DE3] mt-1">
+                <Link  to="/forgotpasswordform" className="text-xs text-[#0F7DE3] mt-1">
                   Forgot Password ?
-                </a>
+                </Link>
               </div>
               <div className="flex border-2 border-solid border-black w-full rounded-md bg-white">
                 <input
@@ -323,7 +323,9 @@ const Login = ({ text }) => {
               <div className="passwordText text-red-600 text-xs my-1 hidden"></div>
             </div>
             <div className="grid gap-1">
-              <button className="col-span-1 row-span-1 rounded-xl bg-[#3F3F3F]   block text-center text-white text-xl py-1 focus:scale-[0.95]">
+              <button className="col-span-1 row-span-1 rounded-xl bg-[#3F3F3F]   block text-center text-white text-xl py-1 focus:scale-[0.95]"
+               onClick={handleSubmit}
+              >
                 Sign In &gt;&gt;
               </button>
 

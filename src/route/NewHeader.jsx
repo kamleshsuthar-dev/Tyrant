@@ -121,13 +121,13 @@ export default function NewHeader() {
                         />
                       </div>
                       <div className="flex-auto">
-                        <a
+                        <NavLink
                           href={item.href}
                           className="block font-semibold text-gray-900"
                         >
                           {item.name}
                           <span className="absolute inset-0" />
-                        </a>
+                        </NavLink>
                         <p className="mt-1 text-gray-600">{item.description}</p>
                       </div>
                     </div>
@@ -139,7 +139,7 @@ export default function NewHeader() {
 
           
             <NavLink
-              to="/productList"
+              to="/productlist"
               className="text-sm/6 font-semibold"
             >
              ProductList
@@ -180,7 +180,7 @@ export default function NewHeader() {
               LOGIN
             </button>
             </NavLink>
-            <NavLink to="/shoppingCart">
+            <NavLink to="/shoppingcart">
                   <button className="px-4 py-1 bg-white border text-black border-gray-300 rounded-md hover:bg-gray-100  flex items-center">
                       <div className="relative">
                           <ShoppingCart className="h-6 w-6 text-gray-700" />
@@ -246,31 +246,33 @@ export default function NewHeader() {
                       ))}
                     </DisclosurePanel> */}
                   </Disclosure>
-                  <a
-                    href="#"
+                  <NavLink
+                    to="/productlist"
                     className="-mx-3 block rounded-lg px-3 py-2 text-base/7 font-semibold text-text-white hover:bg-gray-50"
                   >
-                    Features
-                  </a>
-                  <a
-                    href="#"
+                   ProductList
+                  </NavLink>
+                  <NavLink
+                    to="/shoppingcart"
                     className="-mx-3 block rounded-lg px-3 py-2 text-base/7 font-semibold text-white hover:bg-gray-50"
                   >
-                    Marketplace
-                  </a>
-                  <a
-                    href="#"
+                    Cart
+                  </NavLink>
+                  <NavLink
+                    to=""
                     className="-mx-3 block rounded-lg px-3 py-2 text-base/7 font-semibold text-white hover:bg-gray-50"
                   >
                     Company
-                  </a>
+                  </NavLink>
                 </div>
 
                 <NavLink
                   to="/login"
                   className="-mx-3 block rounded-lg px-3 py-2.5 text-base/7 font-semibold text-white hover:bg-gray-50"
                 >
+                  <button>
                   Login
+                  </button>
                 </NavLink>
               </div>
             </div>

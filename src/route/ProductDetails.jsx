@@ -191,6 +191,8 @@
 // export default ProductPage;
 
 "use client";
+import { Suspense } from "react";
+import { lazy } from "react";
 import { useEffect } from "react";
 import { Heart, Minus, Plus, Share2 } from "lucide-react";
 import { useState } from "react";
@@ -202,11 +204,11 @@ import { Label } from "@/components/ui/label";
 import { CardContent } from "@/components/ui/card";
 import { Carousel,CarouselContent,CarouselItem,CarouselNext,CarouselPrevious } from "@/components/ui/carousel";
 import { toast } from "sonner"
-import ShoppingCartTopUp from "./ShoppingCartTopUp";
 import ProductDetailSkeleton from "@/component/skeleton/ProductDetailSkeleton";
 import axios from "axios";
 // import { toast } from "@/components/ui/use-toast";
 // import { useToast } from "@/components/ui/use-toast";
+const ShoppingCartTopUp = lazy(() => import("./ShoppingCartTopUp"));
 
 // import { cn } from "@/lib/utils"
 function cn(...classes) {
@@ -251,19 +253,7 @@ export default function ProductDetail() {
   },[productId])
 
   
-      // console.log("fuck",product);
-  // useEffect(() => {
-  //   if (!api) {
-  //     return
-  //   }
-  //   setCount(api.scrollSnapList().length)
-  //   setCurrent(api.selectedScrollSnap() + 1)
-
-  //   api.on("select", () => {
-  //     setCurrent(api.selectedScrollSnap() + 1);
-  //     setActiveIndex(api.selectedScrollSnap());
-  //   })
-  // }, [api])
+  
   useEffect(() => {
     if (!api) {
       return () => {}; // Return empty cleanup function
@@ -285,15 +275,19 @@ export default function ProductDetail() {
     };
   }, [api]);
 
-  const addToCart =()=>{               
-    return  ( 
-      toast(
-        "Event has been created", {
-          description:  <ShoppingCartTopUp product={product} />,
-          className:"bg-blue flex justify-center items-center p-none"
-        })
-      )
-    } 
+  const addToCart = () => {
+    return toast(
+      "Event has been created", 
+      {
+        description: (
+          <Suspense fallback={<div>Loading cart...</div>}>
+            <ShoppingCartTopUp product={product} />
+          </Suspense>
+        ),
+        className: "bg-blue flex justify-center items-center p-none"
+      }
+    );
+  };
     
     if(!product) return <ProductDetailSkeleton/>
     const productImages = product.pImages.map((img)=>img.URL) || [];

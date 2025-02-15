@@ -4,19 +4,19 @@ import axios from "axios";
 import { Link, useNavigate } from "react-router-dom";
 import { useGoogleLogin } from "@react-oauth/google";
 import { GoogleBtn } from "../../../App";
-import {
-  Avatar,
-  Button,
-  Checkbox,
-  CssBaseline,
-  FormControlLabel,
-  Grid,
-  InputAdornment,
-  TextField,
-  Typography,
-} from "@mui/material";
-import { MdLockOutline } from "react-icons/md";
-import { Box, Container } from "@mui/system";
+// import {
+//   Avatar,
+//   Button,
+//   Checkbox,
+//   CssBaseline,
+//   FormControlLabel,
+//   Grid,
+//   InputAdornment,
+//   TextField,
+//   Typography,
+// } from "@mui/material";
+// import { MdLockOutline } from "react-icons/md";
+// import { Box, Container } from "@mui/system";
 import { NavLink } from "react-router-dom";
 import { PasswordOpenEye, PasswordCloseEye } from "./PasswordEye";
 
@@ -335,7 +335,9 @@ function NewRegister({ text }) {
               <div className="mt-2 text-sm text-center">
                 Don't have an account?{" "}
                 <NavLink to="/login" className="text-[#0F7DE3]">
+                <button>
                   Sign In &rarr;
+                </button>
                 </NavLink>
               </div>
             </div>
@@ -451,7 +453,9 @@ function NewRegister({ text }) {
             <div className="mt-2 text-sm text-center">
               Don't have an account?{" "}
               <NavLink to="/login" className="text-[#0F7DE3]">
+              <button>
                 Sign In &rarr;
+              </button>
               </NavLink>
             </div>
           </div>

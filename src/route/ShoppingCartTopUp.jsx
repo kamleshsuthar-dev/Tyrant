@@ -3,7 +3,10 @@ import { Card, CardContent, CardFooter } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { ShoppingCart } from 'lucide-react';
 
+
+
 const ShoppingCartTopUp = ({product}) => {
+  
   console.log("hii",product);
   
   const [showSuccess, setShowSuccess] = useState(false);
@@ -26,6 +29,7 @@ const ShoppingCartTopUp = ({product}) => {
     setShowSuccess(true);
     setTimeout(() => setShowSuccess(false), 2000);
   };
+ 
 
   return (
     <>
@@ -69,10 +73,15 @@ const ShoppingCartTopUp = ({product}) => {
         <Button className="w-full bg-gray-800 hover:bg-gray-700 text-white">
           CHECK OUT
         </Button>
-        <Button variant="outline" className="w-full flex items-center gap-2">
-          <ShoppingCart size={16} />
-          View Cart
-        </Button>
+
+    
+          <Button variant="outline" className="w-full flex items-center gap-2" >
+            <ShoppingCart size={16} />
+            View Cart
+          </Button>
+   
+     
+
       </CardFooter>
     </Card>
     </>
