@@ -114,11 +114,11 @@ export default function ProductDetail() {
         <Card className="bg-white rounded-3xl overflow-hidden">
           <div className="grid md:grid-cols-2 gap-8 p-4 md:p-8 ">
             {/* Image Section */}
-            <div className="relative">
+            <div className="relative rounded-3xl bg-[#202020]">
               {/* chat gpt  */}
 
               {/* Desktop: Vertical thumbnails on the left */}
-              <div className="hidden md:flex flex-col gap-4 absolute left-0 top-0 h-full pr-4">
+              <div className="hidden md:flex flex-col gap-4 absolute  left-0 top-0 h-full pr-4">
                 {productImages.map((image, index) => (
                   <button
                     key={index}
@@ -142,7 +142,7 @@ export default function ProductDetail() {
               </div>
 
               {/* Main Image */}
-              <div className="hidden md:flex aspect-[3/4] relative rounded-2xl overflow-hidden md:ml-20">
+              <div className="hidden md:flex aspect-[3/4] relative border-[12px] border-[#202020] rounded-3xl overflow-hidden  md:ml-20">
                 <img
                   src={
                     productImages[
@@ -152,7 +152,7 @@ export default function ProductDetail() {
                     ] || "/placeholder.svg"
                   }
                   alt="Product Image"
-                  className="object-cover"
+                  className="object-cover w-full"
                 />
                 <Button
                   variant="ghost"
