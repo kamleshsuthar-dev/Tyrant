@@ -4,7 +4,7 @@ import { lazy } from "react";
 import { useEffect } from "react";
 import { Heart, Minus, Plus, Share2 } from "lucide-react";
 import { useState } from "react";
-import { useLocation } from "react-router-dom";
+import { useLocation, NavLink, useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
@@ -31,9 +31,11 @@ function cn(...classes) {
 }
 
 export default function ProductDetail() {
+  const navigate = useNavigate();
   const [quantity, setQuantity] = useState(1);
   const [selectedSize, setSelectedSize] = useState("M");
-  const [selectedColor, setSelectedColor] = useState("yellow");
+  const colors = ["#00D1FF", "#15F301", "#FDD33C", "#E700C2"];
+  const [selectedColor, setSelectedColor] = useState(colors[0]);
   const [selectedImageIndex, setSelectedImageIndex] = useState(0);
   const [api, setApi] = useState();
   const [current, setCurrent] = useState(0);
@@ -41,12 +43,11 @@ export default function ProductDetail() {
   const [hoveredImageIndex, setHoveredImageIndex] = useState(null);
   const [activeIndex, setActiveIndex] = useState(0);
   const sizes = ["XS", "S", "M", "L", "XL"];
-  const colors = ["yellow", "blue", "pink", "purple"];
   const [product, setProduct] = useState(null);
   const location = useLocation();
   const productData = location.state?.product;
   // console.log(product);
-  const popUp = useRef(null)
+  const popUp = useRef(null);
   const productId = productData._id;
 
   useEffect(() => {
@@ -85,21 +86,33 @@ export default function ProductDetail() {
     };
   }, [api]);
 
-  const addtoCart = ()=>{
-        popUp.current.click()      
-  }
- console.log("product",product);
- 
+  const addtoCart = () => {
+    popUp.current.click();
+  };
+  const [wishlist, setWishlist] = useState(false);
+  const addToWishList = () => {
+    (async () => {
+      const res = await axios.post(
+        `${import.meta.env.VITE_PRODUCT_TOGGLE_WISHLIST}`,
+        productId
+      );
+      console.log(res);
+      setWishlist((prev) => !prev);
+    })();
+  };
+  const checkOut = () => {
+    navigate("/checkout");
+  };
 
   if (!product) return <ProductDetailSkeleton />;
   const productImages = product.pImages.map((img) => img.URL) || [];
 
   return (
-    <div className="min-h-screen bg-pink-50 md:bg-pink-100 p-4">
+    <div className="min-h-screen bg-white p-4">
       <div className="max-w-7xl mx-auto">
         {/* Main Product Section */}
         <Card className="bg-white rounded-3xl overflow-hidden">
-          <div className="grid md:grid-cols-2 gap-8 p-4 md:p-8">
+          <div className="grid md:grid-cols-2 gap-8 p-4 md:p-8 ">
             {/* Image Section */}
             <div className="relative">
               {/* chat gpt  */}
@@ -145,8 +158,13 @@ export default function ProductDetail() {
                   variant="ghost"
                   size="icon"
                   className="absolute top-4 right-4 bg-white/80 backdrop-blur-sm rounded-full"
+                  onClick={addToWishList}
                 >
-                  <Heart className="w-5 h-5" />
+                  <Heart
+                    className={`w-5 h-5 ${
+                      wishlist ? "fill-pink-400" : "fill-none"
+                    }`}
+                  />
                 </Button>
               </div>
 
@@ -189,7 +207,7 @@ export default function ProductDetail() {
             {/* Product Details Section */}
             <div className="space-y-6">
               <div>
-                <h1 className="text-2xl font-semibold">{product.pName}</h1>
+                <h1 className="text-3xl font-bold">{product.pName}</h1>
                 <p>{product.pDescription}</p>
                 <div className="flex items-center gap-2 mt-2">
                   <div className="flex">
@@ -212,11 +230,11 @@ export default function ProductDetail() {
                   <span className="text-sm text-gray-500 line-through">
                     Rs. {product.pPrice}
                   </span>
-                  <span className="text-sm text-green-600 font-medium bg-green-100 px-2 py-0.5 rounded">
-                    {product.pOffer}% OFF
+                  <span className="text-sm text-[#202020] font-medium bg-[#72D570] px-1 py-1 rounded">
+                    {product.pOffer}% Off
                   </span>
                 </div>
-                <p className="text-sm text-gray-500">
+                <p className="text-sm text-[#202020]">
                   Tax included. Shipping calculated at checkout.
                 </p>
               </div>
@@ -224,7 +242,7 @@ export default function ProductDetail() {
               {/* Size Selector */}
               <div className="space-y-4">
                 <div>
-                  <Label className="text-base">Size</Label>
+                  <Label className="text-2xl">Size</Label>
                   <RadioGroup
                     defaultValue={selectedSize}
                     onValueChange={setSelectedSize}
@@ -233,10 +251,10 @@ export default function ProductDetail() {
                     {sizes.map((size) => (
                       <Label
                         key={size}
-                        className={`px-4 py-2 rounded-full border-2 cursor-pointer ${
+                        className={`py-[1.5px] rounded-xl px-auto border-2 w-[60px] cursor-pointer text-lg text-[#FFFFFF] bg-[#42985A] flex items-center justify-center  ${
                           selectedSize === size
-                            ? "border-black bg-black text-white"
-                            : "border-gray-200 hover:border-gray-300"
+                            ? "border-[#35343A] bg-[#35343A] "
+                            : "border-[#42985A] hover:border-[#42985A]"
                         }`}
                       >
                         <RadioGroupItem value={size} className="sr-only" />
@@ -248,7 +266,7 @@ export default function ProductDetail() {
 
                 {/* Color Selector */}
                 <div>
-                  <Label className="text-base">Color</Label>
+                  <Label className="text-2xl">Color</Label>
                   <RadioGroup
                     defaultValue={selectedColor}
                     onValueChange={setSelectedColor}
@@ -257,15 +275,15 @@ export default function ProductDetail() {
                     {colors.map((color) => (
                       <Label
                         key={color}
-                        className={`w-8 h-8 rounded-full cursor-pointer border-2 ${
+                        className={`w-8 h-8 rounded-[11px] cursor-pointer border-[3px]   ${
                           selectedColor === color
-                            ? "border-black"
+                            ? "border-[#202020] drop-shadow-[0_4px_9.6px_rgba(0,0,0,0.25)] -translate-y-[2px]"
                             : "border-transparent"
                         }`}
                       >
                         <RadioGroupItem value={color} className="sr-only" />
                         <span
-                          className="block w-full h-full rounded-full"
+                          className="block w-full h-full rounded-[8px] "
                           style={{ backgroundColor: color }}
                         />
                       </Label>
@@ -275,19 +293,21 @@ export default function ProductDetail() {
 
                 {/* Quantity Selector */}
                 <div>
-                  <Label className="text-base">Quantity</Label>
-                  <div className="flex items-center gap-2 mt-2">
+                  <Label className="text-2xl">Quantity</Label>
+                  <div className="flex items-center mt-2 bg-[#202020] w-fit text-[#FFFFFF] rounded-lg">
                     <Button
                       variant="outline"
                       size="icon"
+                      className="bg-transparent hover:bg-transparent hover:text-[#FFFFFF] border-none"
                       onClick={() => setQuantity(Math.max(1, quantity - 1))}
                     >
                       <Minus className="w-4 h-4" />
                     </Button>
-                    <span className="w-12 text-center">{quantity}</span>
+                    <span className="w-12 text-center border-l-2 border-r-2 text-lg">{quantity}</span>
                     <Button
                       variant="outline"
                       size="icon"
+                      className="bg-transparent hover:bg-transparent hover:text-[#FFFFFF] border-none"
                       onClick={() => setQuantity(quantity + 1)}
                     >
                       <Plus className="w-4 h-4" />
@@ -297,17 +317,19 @@ export default function ProductDetail() {
               </div>
 
               {/* Action Buttons */}
-              <div className="flex flex-col sm:flex-row gap-4">
-               <div >
-                    <Suspense fallback={<div>Loading...</div>}>
-                      <ShoppingCartTopUp  ref={popUp} />
-                    </Suspense>
-                  </div>
-                <Button className="flex-1 text-lg h-12" onClick={addtoCart}>Add to Cart</Button>
-                <Button variant="secondary" className="flex-1 text-lg h-12">
-                  {" "}
-                  Buy Now{" "}
-                </Button>
+              <div className="flex flex-row gap-4 max-w-[460px] flex-wrap ">
+                <div>
+                  <Suspense fallback={<div>Loading...</div>}>
+                    <ShoppingCartTopUp ref={popUp} product={product} />
+                  </Suspense>
+                </div>
+                <Button className="flex w-full text-2xl text-[#FFFFFF] bg-[#202020] py-[24px] px-[144px] rounded-xl" onClick={addtoCart}>Add to Cart</Button>
+
+                <Button
+                  variant="secondary"
+                  className="flex w-full text-2xl text-[#202020] bg-[#9EFF00] py-[24px] px-[144px] rounded-xl"
+                  onClick={checkOut}
+                >Buy Now</Button>
               </div>
 
               {/* Share Button */}

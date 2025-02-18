@@ -2,7 +2,7 @@ import axios from 'axios';
 import React, { useEffect, useState } from 'react'
 import { use } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { useProduct } from '../context/ProductContext';
+// import { useProduct } from '../context/ProductContext';
 import { Card, CardContent } from "@/components/ui/card"
 import { Star, StarHalf } from "lucide-react"
 import ProductListSkeleton from '../component/skeleton/ProductListSkeleton';
@@ -11,21 +11,42 @@ import ProductListSkeleton from '../component/skeleton/ProductListSkeleton';
 
 
 export default function ProductList() {
-  const {prd,name} = useProduct()
+  // const {prd,name} = useProduct()
   const discount = 20
   const cId="67ab9caa61b7763a0938c690"
   const [products,setProducts] = useState([])
-         useEffect(()=>{
-              ;( async()=>{
-                    const res= await axios.post(`${import.meta.env.VITE_PRODUCT_BY_CATEGORY}`,{cId:cId})
-                                console.log(res);
+
+        //  useEffect(()=>{
+        //    const productapi =  async()=>{
+        //         try {
+        //               const res= await axios.post(`${import.meta.env.VITE_PRODUCT_BY_CATEGORY}`,{cId:cId})
+        //                           console.log(res);
+                                  
+        //                         console.log(res.data.products);
                                 
-                              console.log(res.data.products);
-                              
-                       setProducts(res.data.products)
-                })()
-               
-         },[]) 
+        //                  setProducts(res.data.products)
+        //         } catch (error) {
+        //           console.log("productlist api error" , error );
+                  
+        //         }
+              
+        //        productapi();
+        //       }
+        //  },[]) 
+
+        useEffect(()=>{
+          ;(async()=>{
+            try {
+              let res = await axios.post(`${import.meta.env.VITE_PRODUCT_BY_CATEGORY}`,{cId:cId})
+              console.log(res.data.products);
+                setProducts(res.data.products)
+              
+            } catch (error) {
+              console.log("poductList api error ", error);
+              
+            }
+          })()
+        },[])
 
             let navigate = useNavigate()
 
@@ -36,8 +57,10 @@ export default function ProductList() {
 
 // let originalPrice = 5000;
 const renderStars = (rating) => {
+  console.log(rating);
+  
   const stars = []
-  const fullStars = Math.floor(rating)
+  const fullStars= Math.floor(rating )
   const hasHalfStar = rating % 1 !== 0
 
   for (let i = 0; i < fullStars; i++) {
@@ -69,7 +92,7 @@ else  return (
                 }
                 className="aspect-square w-full rounded-lg bg-gray-200 object-cover group-hover:opacity-75 xl:aspect-[7/8]"
               />
-        <h3 className="text-base font-medium text-gray-900">{product.pName}</h3>
+        <h3 className="text-xl font-bold text-gray-900">{product.pName}</h3>
 
         <div className="mt-1 flex items-center gap-1">
           <div className="flex items-center">{renderStars(product.avgRating

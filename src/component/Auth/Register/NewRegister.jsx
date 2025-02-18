@@ -4,19 +4,6 @@ import axios from "axios";
 import { Link, useNavigate } from "react-router-dom";
 import { useGoogleLogin } from "@react-oauth/google";
 import { GoogleBtn } from "../../../App";
-// import {
-//   Avatar,
-//   Button,
-//   Checkbox,
-//   CssBaseline,
-//   FormControlLabel,
-//   Grid,
-//   InputAdornment,
-//   TextField,
-//   Typography,
-// } from "@mui/material";
-// import { MdLockOutline } from "react-icons/md";
-// import { Box, Container } from "@mui/system";
 import { NavLink } from "react-router-dom";
 import { PasswordOpenEye, PasswordCloseEye } from "./PasswordEye";
 
@@ -62,19 +49,22 @@ function NewRegister({ text }) {
           setIsRegistered(data.isAlreadyRegistered);
           return data.isAlreadyRegistered; // Return the value to use later
         } catch (error) {
-          if (error.response && error.response.status === 409) {
-            // Handle conflict
-            console.log("Conflict:", error.response.data);
-          } else {
-            // Handle other errors
-            console.log("Error:", error);
-          }
+              if (error.response && error.response.status === 409) {
+                // Handle conflict
+                console.log("Conflict:", error.response.data);
+              } else {
+                // Handle other errors
+                console.log("Error:", error);
+              }
         }
       };
 
       if (credentials.email) {
-        const isRegistered = isResgis(); // Ensure you handle the result of the async function
+        const isRegistered = isResgis();
+         // Ensure you handle the result of the async function
         isRegistered.then((isRegistered) => {
+       
+          
           if (isRegistered) {
             console.log("User is already registered.");
             document.querySelector(".emailText").textContent =
@@ -466,3 +456,5 @@ function NewRegister({ text }) {
 }
 
 export default NewRegister;
+
+

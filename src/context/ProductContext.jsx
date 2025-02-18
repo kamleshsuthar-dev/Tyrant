@@ -16,7 +16,7 @@ function ProductContext({children}) {
   )
 }
 
-export const useProduct = ()=>{
+export const useProductContext = ()=>{
     return useContext(ProductDataContext)
 }
 

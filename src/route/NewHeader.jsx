@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import {
   Dialog,
   DialogPanel,
@@ -28,7 +28,8 @@ import {
 } from "@heroicons/react/20/solid";
 import { Link, NavLink } from "react-router-dom";
 import {User,ShoppingCart} from 'lucide-react'
-
+import { useGoogleAuthContext } from "@/context/GoogleAuth";
+import axios from "axios";
 const products = [
   {
     name: "Analytics",
@@ -58,12 +59,31 @@ const callsToAction = [
 
 export default function NewHeader() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const{googleData} = useGoogleAuthContext()
+
+   const btnclick = useCallback(()=>{
+        (async()=>{
+      try {
+
+        // axios.get('url', {withCredentials: true})
+          let res =  await axios.get(`${import.meta.env.VITE_ISREGISTERED}/me`,{withCredentials:true})
+                 console.log(res.data);
+      } catch (error) {
+        console.log(error.response.data);
+        
+      }
+               
+        })()
+    },[])
+
+
 
   return (
     <>
       <header className="bg-black text-white">
         <div className="h-12 bg-white text-gray-400 flex justify-center items-center ">
-          show me your POM POM ,get 90% OFF{" "}
+          show me your POM POM ,get 90% OFF{" "}  
+          <button onClick={btnclick}>click</button>
         </div>
 
         <nav
@@ -177,7 +197,7 @@ export default function NewHeader() {
             <NavLink to="/login">
              <button className="px-4 py-1 bg-white border text-black border-gray-300 rounded-md hover:bg-gray-100  flex items-center">
               <User className="h-4 w-4 mr-2" />
-              LOGIN
+                {googleData.data== 'Logged in successfully' ? "POFILE" : "LOGIN"}
             </button>
             </NavLink>
             <NavLink to="/shoppingcart">

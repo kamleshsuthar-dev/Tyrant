@@ -1,62 +1,61 @@
 import { useGoogleLogin } from "@react-oauth/google";
 import axios from "axios";
 import { data, useNavigate } from "react-router-dom";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Password from "./Password";
-
+import { useGoogleAuthContext } from "@/context/GoogleAuth";
 const url = `${import.meta.env.VITE_ISREGISTERED}/google`;
-
-
 
 import React from "react";
 
 function GoogleAuth({ text }) {
+  const {googleData} = useGoogleAuthContext()
   const navigate = useNavigate();
   const [userEmail, setUserEmail] = useState("");
-
+  const [userName, setUserName] = useState("");
 
   const responseGoogle = async (authResult) => {
     try {
       if (authResult["code"]) {
         const result = await axios.get(`${url}?code=${authResult["code"]}`);
-        console.log(result.data);
+
         const data = result.data;
-        console.log(data.isRegistered);
+        console.log("dataisregis", data.isRegistered); //true ya falsse
         console.log(data.userDetails.email);
         setUserEmail(data.userDetails.email);
-        
+        setUserName(data.userDetails.name);
         if (data.isRegistered) {
-          await axios
-            .get(
-              `${import.meta.env.VITE_ISREGISTERED}/google/login?email=${data.userDetails.email}`
+          // true
+          await axios.get(
+              `${import.meta.env.VITE_ISREGISTERED}/google/login?email=${
+                data.userDetails.email
+              }`
             )
             .then(async (response) => {
-              console.log(response);
+              console.log("1 google api",response);
+              console.log("1 google api",response.data.message);
+                  googleData.setData(response.data.message)
               navigate("/");
-              await axios
-                .get(`${import.meta.env.VITE_ISREGISTERED}/me`)
-                .then((response) => {
-                  console.log(response);
-                });
+            
             })
             .catch((error) => {
               console.log(error);
             });
         } else {
+          // false
+            // console.log("fuck ", userEmail,userName);
+            
+          navigate("/password", {
+            state: {email:data.userDetails.email ,
+                    name:data.userDetails.name},
+          });
+
       
-        navigate("/password", {
-          state: {
-            email: data.userDetails.email
-          }
-        });
-          console.log(data.userDetails.email);
-          
-          
+
         }
-        // navigate("/password");
       }
     } catch (error) {
-      console.log(error);
+      console.log("google auth error",error);
     }
   };
 

@@ -4,20 +4,19 @@ import App from "./App";
 import { StrictMode } from "react";
 import ProductContext from "./context/ProductContext";
 import { CartProvider } from "./context/CartContext";
-import { Toaster } from "@/components/ui/sonner"
+import GoogleAuthProvider from './context/GoogleAuth'
 
 createRoot(document.getElementById("root")).render(
   <>
   
   <StrictMode>
+    <GoogleAuthProvider>
     <ProductContext>
       <CartProvider>
-        <App/>
-        <Toaster 
-        toastOptions ={{className:"bg-white flex justify-center items-center p-none px-1  border-none"}}
-        />
+        <App/>     
       </CartProvider>
     </ProductContext>
+    </GoogleAuthProvider>
   </StrictMode>
   </>
 );

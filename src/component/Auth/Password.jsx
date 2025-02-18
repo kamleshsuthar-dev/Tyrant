@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { useState, useRef ,useContext } from "react";
 import { useNavigate,Link,NavLink } from "react-router-dom";
 import { PasswordCloseEye, PasswordOpenEye } from "../Auth/Register/PasswordEye";
@@ -7,11 +7,14 @@ import { useLocation } from "react-router-dom";
 
 function Password() {
     const location = useLocation(); 
-    const email = location.state?.email ; 
+    // const email = location.state?.email ; 
+    // const name = location.state?.name
+    const {email, name} = location.state || {}
     // console.log("email", email);
+    console.log("chut",email, name) ;
 
     const [credentials, setCredentials] = useState({
-        name: "",
+        name: name||"",
         email: email || '',
         password: "",
         passwordConfirm: "",
@@ -51,6 +54,13 @@ function Password() {
         }
       };
 
+      useEffect(()=>{
+            if(credentials.password.length <8){
+              document.querySelector(".passwordText").textContent = "Password Must More then 8 character"
+              document.querySelector("passwordText").classList.remove("hidden")
+            }
+      },[credentials.password])
+
       const passMounted = useRef();
       const passConfirmMounted = useRef();
       const nameMounted = useRef();
@@ -81,6 +91,10 @@ function Password() {
             else if(credentials.password !== credentials.passwordConfirm){
                 document.querySelector(".passwordConfirmText").textContent = "Password and Password Confirm should be same";
                 document.querySelector(".passwordConfirmText").classList.remove("hidden");
+              }
+            else if(credentials.password.length<8){
+              document.querySelector(".passwordConfirmText").textContent = "Password Should be 8 or More Character";
+              document.querySelector(".passwordConfirmText").classList.remove("hidden");
             }
             else if (credentials.name , credentials.password , credentials.passwordConfirm) {
            

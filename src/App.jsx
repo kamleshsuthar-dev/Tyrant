@@ -1,82 +1,3 @@
-// import React from "react";
-// import {
-//   BrowserRouter,
-//   Route,
-//   RouterProvider,
-//   createBrowserRouter,
-//   createRoutesFromElements,
-// } from "react-router-dom";
-// import Layout from "../Layout.jsx";
-// import Home from "./route/Home.jsx";
-
-// // import Login from "./component/Auth/Login/Login.jsx";
-// // import NewRegister from "./component/Auth/Register/NewRegister.jsx";
-// // import ForgotPasswordForm from "./component/Auth/ForgotPassword/ForgotPasswordForm.jsx";
-// // import ShoppingCart from "./route/ShoppingCart.jsx";
-// // import ProductDetails from './route/ProductDetails.jsx'
-// import Profile from "./route/Profile.jsx";
-// //   import {AppProvider} from './context/ProductContext.jsx'
-// import { GoogleOAuthProvider } from "@react-oauth/google";
-// // import GoogleAuth from "./component/Auth/GoogleAuth.jsx";
-// // import Password from "./component/Auth/Password.jsx";
-// import Temp from "./route/ProductDetails.jsx";
-// // import ShoppingCartTopUp from "./route/ShoppingCartTopUp.jsx";
-// import HomeSquareSection from "./component/home/HomeSquareSection.jsx";
-// import { lazy } from "react";
-
-// const ProductList = lazy(()=>import("./route/ProductList.jsx"))
-// const Login = lazy(()=>import("./component/Auth/Login/Login.jsx"))
-// const ShoppingCartTopUp = lazy(()=>import("./route/ShoppingCartTopUp.jsx"))
-// const Password = lazy(()=>import("./component/Auth/Password.jsx"))
-// const GoogleAuth = lazy(()=>import("./component/Auth/GoogleAuth.jsx"))
-// const ProductDetails = lazy(()=>import("./route/ProductDetails.jsx"))
-// const ShoppingCart = lazy(()=>import("./route/ShoppingCart.jsx"))
-// const ForgotPasswordForm = lazy(()=>import("./component/Auth/ForgotPassword/ForgotPasswordForm.jsx"))
-// const NewRegister = lazy(()=>import("./component/Auth/Register/NewRegister.jsx"))
-
-// export const GoogleBtn = ({ text }) => {
-//   return (
-//     <GoogleOAuthProvider clientId={import.meta.env.VITE_GOOGLE_API}>
-//       <GoogleAuth text={text} />
-//     </GoogleOAuthProvider>
-//   );
-// };
-
-// const router = createBrowserRouter(
-//   createRoutesFromElements(
-//     <>
-//       <Route path="/" element={<Layout />}>
-//         <Route path="" element={<Home />} />
-
-//         <Route path="/productlist" element={<ProductList />} />
-
-//         <Route path="profile" element={<Profile />} />
-//       </Route>
-//       <Route path="/forgotpasswordform" element={<ForgotPasswordForm />} />
-//       <Route path="/register" element={<NewRegister />} />
-//       <Route path="/login" element={<Login />} />
-//       <Route path="/password" element={<Password />} />
-//       <Route path="productdetails/shoppingcarttopup" element={<ShoppingCartTopUp/>} />
-//       <Route path="/shoppingcart" element={<ShoppingCart />} />
-//       <Route path="/productdetails" element={<ProductDetails />} />
-//       <Route path="ss" element={<HomeSquareSection/>} />
-
-//     </>
-//   )
-// );
-
-// function App() {
-//   return (
-//     <>
-
-//       <RouterProvider router={router} />
-
-//     </>
-//   );
-// }
-
-// export default App;
-
 import React, { Suspense } from "react";
 import {
   Route,
@@ -88,7 +9,8 @@ import Layout from "../Layout.jsx";
 import Home from "./route/Home.jsx";
 import { GoogleOAuthProvider } from "@react-oauth/google";
 import { lazy } from "react";
-import TempTopUP from "./route/TempTopUP.jsx";
+import AboutUs from "./route/AboutUs.jsx";
+// import TempTopUP from "./route/TempTopUP.jsx";
 // Lazy loaded components
 const ProductList = lazy(() => import("./route/ProductList.jsx"));
 const Login = lazy(() => import("./component/Auth/Login/Login.jsx"));
@@ -97,6 +19,8 @@ const Password = lazy(() => import("./component/Auth/Password.jsx"));
 const GoogleAuth = lazy(() => import("./component/Auth/GoogleAuth.jsx"));
 const ProductDetails = lazy(() => import("./route/ProductDetails.jsx"));
 const ShoppingCart = lazy(() => import("./route/ShoppingCart.jsx"));
+const WishList = lazy (()=>import('../src/route/WishList.jsx'))
+const Buy = lazy (()=>import('../src/route/Buy.jsx'))
 const ForgotPasswordForm = lazy(() =>
   import("./component/Auth/ForgotPassword/ForgotPasswordForm.jsx")
 );
@@ -141,6 +65,14 @@ const router = createBrowserRouter(
           }
         />
         <Route
+          path="about"
+          element={
+            <Suspense fallback={<LoadingFallback />}>
+             <AboutUs/>
+            </Suspense>
+          }
+        />
+        <Route
           path="profile"
           element={
             <Suspense fallback={<LoadingFallback />}>
@@ -148,6 +80,14 @@ const router = createBrowserRouter(
             </Suspense>
           }
         />
+         <Route
+        path="checkout"
+        element={
+          <Suspense fallback={<LoadingFallback />}>
+            <Buy/>
+          </Suspense>
+        }
+      />
       </Route>
 
       {/* Auth routes */}
@@ -217,7 +157,16 @@ const router = createBrowserRouter(
           </Suspense>
         }
       />
-      <Route path="cart" element={<TempTopUP/>}/>
+      <Route
+        path="wishlist"
+        element={
+          <Suspense fallback={<LoadingFallback />}>
+            <WishList />
+          </Suspense>
+        }
+      />
+     
+    
     
     </>
   )

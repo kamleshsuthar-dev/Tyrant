@@ -7,16 +7,18 @@ import { NavLink } from "react-router-dom";
 import { GoogleBtn } from "../../../App";
 import { PasswordCloseEye, PasswordOpenEye } from "../Register/PasswordEye.jsx";
 
+
 let emailRegex =
   /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
 
 const Login = ({ text }) => {
+ 
   const [credentials, setCredentials] = useState({ email: "", password: "" });
   const [responseData, setResponseData] = useState(null);
   const [showPassword, setShowPassword] = useState(false);
   const [isValid, setIsValid] = useState(null);
   const [error, setError] = useState(null);
-  const [isRegistered, setIsRegistered] = useState(false); // Added missing state
+  const [isAlreadyRegistered, setIsAlreadyRegistered] = useState(false); // Added missing state
   const navigate = useNavigate();
   const handleClickShowPassword = () => {
     setShowPassword(!showPassword);
@@ -33,11 +35,14 @@ const Login = ({ text }) => {
         `${import.meta.env.VITE_ISREGISTERED}/isregistered?email=${email}`
       );
       const data = response.data;
-      setIsRegistered(data.isAlreadyRegistered);
+            console.log(response);
+            
+      console.log(data.isAlreadyRegistered,"hhjhh");     
+      setIsAlreadyRegistered(data.isAlreadyRegistered);
       return data.isAlreadyRegistered;
     } catch (error) {
       console.error("Error:", error);
-      setIsRegistered(false);
+      setIsAlreadyRegistered(false);
       return false;
     }
   };
@@ -65,17 +70,17 @@ const Login = ({ text }) => {
 
     try {
       if (!credentials.email || !credentials.password) {
-        console.log("enter valid email");
-        if (credentials.email.length < 1) {
-          document.querySelector(".emailText").textContent =
-            "Email is required";
-          document.querySelector(".emailText").classList.remove("hidden");
-        }
-        if (credentials.password.length < 1) {
-          document.querySelector(".passwordText").textContent =
-            "Password is required";
-          document.querySelector(".passwordText").classList.remove("hidden");
-        }
+            console.log("enter valid email");
+            if (credentials.email.length < 1) {
+              document.querySelector(".emailText").textContent =
+                "Email is required";
+              document.querySelector(".emailText").classList.remove("hidden");
+            }
+            if (credentials.password.length < 1) {
+              document.querySelector(".passwordText").textContent =
+                "Password is required";
+              document.querySelector(".passwordText").classList.remove("hidden");
+            }
       } else if (!emailRegex.test(credentials.email)) {
         document.querySelector(".emailText").textContent =
           "Please enter a valid email";
@@ -88,12 +93,14 @@ const Login = ({ text }) => {
         const isUserRegistered = await checkIsRegistered(credentials.email);
         console.log("isUserRegistered", isUserRegistered);
 
-        if (isUserRegistered) {
+        if (isUserRegistered) {    // true
           try {
             const response = await axios.post(
             `${import.meta.env.VITE_ISREGISTERED}/login`,
               credentials
             );
+            console.log(response,"loginnnn");
+            
             setResponseData(response.data);
             console.log("data transfer success", response.data.message);
             if (response.data.message === "Logged in successfully") {
@@ -108,8 +115,10 @@ const Login = ({ text }) => {
             setResponseData(null);
             alert("Invalid email or password");
           }
-        } else {
-          document.querySelector(".invalidEP").classList.remove("hidden");
+        } else {   //false
+          document.querySelector(".message").classList.remove("hidden");
+          document.querySelector(".message").textContent =
+          "User Is Not Registered Yet";
         }
 
      
@@ -119,8 +128,7 @@ const Login = ({ text }) => {
 
    
     } catch (error) {
-      console.log("this is err", error);
-     
+      console.log("this is err on handle submit", error);
     }
   };
 
@@ -162,6 +170,9 @@ const Login = ({ text }) => {
           <div className="card min-w-[350px] min-h-[60%]  bg-white rounded-xl text-black grid gap-2 items-center p-[52px] font-comfortaa text-lg z-[1]">
             <div className="invalidEP text-red-500 text-sm mt-[2px] text-center mb-6 hidden  ">
               Invaild email and password ? 
+            </div>
+            <div className="message text-red-500 text-sm mt-[2px] text-center mb-6 hidden  ">
+             
             </div>
 
             <div className="text-3xl col-span-1 row-span-1 font-bold ">
