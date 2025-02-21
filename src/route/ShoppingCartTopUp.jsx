@@ -1,10 +1,11 @@
 "use client"
 
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import { ShoppingCart } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { forwardRef } from "react";
 import { NavLink } from "react-router-dom";
+import axios from "axios";
 
  const ShoppingCartTopUp= forwardRef(({product},ref)=> {
   
@@ -55,9 +56,9 @@ const leave = ()=>{
         return prevCursorEnter; // Ensure state consistency
       });
     }, 2000);
- 
-  
   }
+
+ 
 
   return (
     <div>

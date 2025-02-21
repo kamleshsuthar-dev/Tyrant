@@ -1,7 +1,7 @@
 "use client";
 import { Suspense } from "react";
 import { lazy } from "react";
-import { useEffect } from "react";
+import { useEffect,useRef } from "react";
 import { Heart, Minus, Plus, Share2 } from "lucide-react";
 import { useState } from "react";
 import { useLocation, NavLink, useNavigate } from "react-router-dom";
@@ -14,15 +14,11 @@ import {
   Carousel,
   CarouselContent,
   CarouselItem,
-  CarouselNext,
-  CarouselPrevious,
 } from "@/components/ui/carousel";
-import { toast } from "sonner";
+import { useGoogleAuthContext } from "@/context/GoogleAuth";
 import ProductDetailSkeleton from "@/component/skeleton/ProductDetailSkeleton";
 import axios from "axios";
-import { useRef } from "react";
-// import { toast } from "@/components/ui/use-toast";
-// import { useToast } from "@/components/ui/use-toast";
+
 const ShoppingCartTopUp = lazy(() => import("./ShoppingCartTopUp"));
 
 // import { cn } from "@/lib/utils"
@@ -31,7 +27,10 @@ function cn(...classes) {
 }
 
 export default function ProductDetail() {
-  const navigate = useNavigate();
+  const {googleData} =useGoogleAuthContext()
+        console.log(googleData);
+        
+
   const [quantity, setQuantity] = useState(1);
   const [selectedSize, setSelectedSize] = useState("M");
   const colors = ["#00D1FF", "#15F301", "#FDD33C", "#E700C2"];
@@ -44,19 +43,21 @@ export default function ProductDetail() {
   const [activeIndex, setActiveIndex] = useState(0);
   const sizes = ["XS", "S", "M", "L", "XL"];
   const [product, setProduct] = useState(null);
+
+  const navigate = useNavigate();
+  const popUp = useRef(null);
+
   const location = useLocation();
   const productData = location.state?.product;
-  // console.log(product);
-  const popUp = useRef(null);
   const productId = productData._id;
 
   useEffect(() => {
     const singlePrd = async () => {
       try {
-        let res = await axios.post(
-          `${import.meta.env.VITE_PRODUCT_SINGLE_PRODUCT}`,
-          { pId: productId }
-        );
+        let res = await axios.post(`${import.meta.env.VITE_PRODUCT_SINGLE_PRODUCT}`,{ pId: productId });
+
+      //  console.log("detail",res.data.product);
+       
         setProduct(res.data.product);
       } catch (error) {
         return <ProductDetailSkeleton />;
@@ -86,28 +87,65 @@ export default function ProductDetail() {
     };
   }, [api]);
 
-  const addtoCart = () => {
-    popUp.current.click();
-  };
+
   const [wishlist, setWishlist] = useState(false);
   const addToWishList = () => {
-    (async () => {
-      const res = await axios.post(
-        `${import.meta.env.VITE_PRODUCT_TOGGLE_WISHLIST}`,
-        productId
-      );
-      console.log(res);
-      setWishlist((prev) => !prev);
-    })();
+    if(googleData.isLoginUser==true){
+
+      (async () => {
+        try {
+          const res = await axios.post(`${import.meta.env.VITE_PRODUCT_TOGGLE_WISHLIST}`,  { productId: productId },{withCredentials:true});         
+          console.log( res.data);
+          setWishlist((prev) => !prev);
+        } catch (error) {
+          console.log("whishlist api error",error);
+          
+        }
+      })();
+    }
+
+   
+    
+     
   };
+
+  const addtoCart = () => {
+      (async()=>{
+     try {
+         let res = await axios.post(`${import.meta.env.VITE_ADD_CART_PRODUCT}`,{
+           productId: productId ,
+           quantity: quantity,
+           color:selectedColor,
+           size: selectedSize
+         })
+ 
+         console.log(res.data.message);
+     } catch (error) {
+      console.log("add cart api error",error);
+      
+     }
+        
+      })()
+    
+    popUp.current.click();
+  };
+
   const checkOut = () => {
     navigate("/checkout");
   };
+  
+ 
+
 
   if (!product) return <ProductDetailSkeleton />;
   const productImages = product.pImages.map((img) => img.URL) || [];
-
+  
   return (
+    <>
+  
+      
+  
+
     <div className="min-h-screen bg-white p-4">
       <div className="max-w-7xl mx-auto">
         {/* Main Product Section */}
@@ -248,7 +286,8 @@ export default function ProductDetail() {
                     onValueChange={setSelectedSize}
                     className="flex flex-wrap gap-2 mt-2"
                   >
-                    {sizes.map((size) => (
+                    {sizes.map((size) =>{                          
+                      return(
                       <Label
                         key={size}
                         className={`py-[1.5px] rounded-xl px-auto border-2 w-[60px] cursor-pointer text-lg text-[#FFFFFF] bg-[#42985A] flex items-center justify-center  ${
@@ -260,7 +299,7 @@ export default function ProductDetail() {
                         <RadioGroupItem value={size} className="sr-only" />
                         {size}
                       </Label>
-                    ))}
+                    )})}
                   </RadioGroup>
                 </div>
 
@@ -315,7 +354,7 @@ export default function ProductDetail() {
                   </div>
                 </div>
               </div>
-
+          
               {/* Action Buttons */}
               <div className="flex flex-row gap-4 max-w-[460px] flex-wrap ">
                 <div>
@@ -368,5 +407,7 @@ export default function ProductDetail() {
         </div>
       </div>
     </div>
+   
+   </>
   );
 }

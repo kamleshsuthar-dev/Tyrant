@@ -4,10 +4,10 @@ import { createContext,useContext,useState } from 'react'
 export const GoogleAuthContext= createContext()
 
 function GoogleAuthProvider({children}) {
-  const [data,setData] =useState()
+  const [isLoginUser,setIsLoginUser] =useState()
     const googleData = {
-        data,
-        setData
+      isLoginUser,
+      setIsLoginUser
     }
 
   return (

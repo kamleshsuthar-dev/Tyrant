@@ -2,36 +2,66 @@
 import { useLocation } from "react-router-dom";
 import React, { useState,useEffect } from "react";
 import { useCartContext } from "../context/CartContext";
-
+import axios from "axios";
+import { useGoogleAuthContext } from "@/context/GoogleAuth";
 
 export default function WishList() {
-
+    const {googleData} =useGoogleAuthContext()
   // const location = useLocation();
   // const product = location.state?.product;
   // console.log(product);
 
-  const {cart} = useCartContext()
-  console.log("cart" , cart);
+  // const {cart} = useCartContext()
+  // console.log("cart" , cart);
  
   
 
   const [cartItems, setCartItems] = useState([ ]);
   
-  useEffect(() => {
-    if (cart && cart.length > 0) {
-      const updatedItems = cart.map(product => ({
-        id: product.id,
-        name: product.name,
-        color: product.selectedColor, 
-        size: product.selectedSize,
-        status: "In Stock",
-        price: product.price,
-        quantity: product.quantity,
-        image: product.image
-      }));
-      setCartItems(updatedItems);
-    }
-  }, [cart]); 
+  // useEffect(() => {
+  //   if (cart && cart.length > 0) {
+  //     const updatedItems = cart.map(product => ({
+  //       id: product.id,
+  //       name: product.name,
+  //       color: product.selectedColor, 
+  //       size: product.selectedSize,
+  //       status: "In Stock",
+  //       price: product.price,
+  //       quantity: product.quantity,
+  //       image: product.image
+  //     }));
+  //     setCartItems(updatedItems);
+  //   }
+  // }, [cart]); 
+
+//   useEffect(()=>{
+//  if (googleData.isLoginUser==true) {
+//      ;(async()=>{
+//       try {
+//         let res = await axios.get(`${import.meta.env.VITE_PRODUCT_WISHLIST}`,{withCredentials:true})
+//             console.log(res);
+//             console.log(res.data);
+//       } catch (error) {
+//        console.log(error);
+       
+//       }
+           
+//      })()
+//  }
+//   },[])
+
+// useEffect(()=>{
+//   (async()=>{
+//    try {
+//      let res = await axios.get(`${import.meta.env.VITE_PRODUCT_WISHLIST}`)
+//              console.log("whislist true",res);
+//             } catch (error) {
+//      console.log("whislist false",error);
+    
+//    }
+            
+//   })()
+// },[])
 
   const updateQuantity = (id, quantity) => {
     setCartItems((items) =>

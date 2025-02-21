@@ -97,7 +97,8 @@ const Login = ({ text }) => {
           try {
             const response = await axios.post(
             `${import.meta.env.VITE_ISREGISTERED}/login`,
-              credentials
+              credentials, 
+              {withCredentials:true}
             );
             console.log(response,"loginnnn");
             
@@ -111,6 +112,8 @@ const Login = ({ text }) => {
 
             setError(null);
           } catch (err) {
+            console.log(err);
+            
             setError(err.message);
             setResponseData(null);
             alert("Invalid email or password");

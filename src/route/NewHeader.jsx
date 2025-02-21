@@ -1,6 +1,7 @@
 "use client";
 
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useEffect, useState,} from "react";
+import { useNavigate } from "react-router-dom";
 import {
   Dialog,
   DialogPanel,
@@ -27,9 +28,20 @@ import {
   PlayCircleIcon,
 } from "@heroicons/react/20/solid";
 import { Link, NavLink } from "react-router-dom";
-import {User,ShoppingCart} from 'lucide-react'
+import { User, ShoppingCart, Home, Heart, List, X } from "lucide-react";
 import { useGoogleAuthContext } from "@/context/GoogleAuth";
 import axios from "axios";
+import {
+  Sheet,
+  SheetContent,
+  SheetDescription,
+  SheetHeader,
+  SheetTitle,
+  SheetTrigger,
+} from "@/components/ui/sheet";
+
+import { Button } from "@mui/material";
+
 const products = [
   {
     name: "Analytics",
@@ -59,31 +71,45 @@ const callsToAction = [
 
 export default function NewHeader() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
-  const{googleData} = useGoogleAuthContext()
-
-   const btnclick = useCallback(()=>{
-        (async()=>{
+  const { googleData } = useGoogleAuthContext();
+  let navigate = useNavigate()
+  const [isLogin , setIsLogin]=useState(false)  
+  useEffect(() => {
+    (async () => {
       try {
+        console.log("Document cookies before request:", document.cookie);
 
-        // axios.get('url', {withCredentials: true})
-          let res =  await axios.get(`${import.meta.env.VITE_ISREGISTERED}/me`,{withCredentials:true})
-                 console.log(res.data);
+        let response =  await axios.get(`${import.meta.env.VITE_ISREGISTERED}/me`, { withCredentials:true })
+
+        console.log("Response:", response.data.success);
+              setIsLogin (response.data.success)
+              googleData.setIsLoginUser(response.data.success)
+
       } catch (error) {
-        console.log(error.response.data);
-        
+        console.error("Error object:", error);
+        if (error.response) {
+          console.error("Error response:", error.response.data);
+          console.error("Status:", error.response.status);
+          console.error("Headers:", error.response.headers);
+        } else if (error.request) {
+          console.error("No response received:", error.request);
+        } else {
+          console.error("Error message:", error.message);
+        }
       }
-               
-        })()
-    },[])
+    })();
+  }, []);
 
 
+
+ 
 
   return (
     <>
       <header className="bg-black text-white">
         <div className="h-12 bg-white text-gray-400 flex justify-center items-center ">
-          show me your POM POM ,get 90% OFF{" "}  
-          <button onClick={btnclick}>click</button>
+          show me your POM POM ,get 90% OFF{" "}
+          {/* <button onClick={btnclick}>click</button> */}
         </div>
 
         <nav
@@ -101,22 +127,65 @@ export default function NewHeader() {
             </NavLink>
           </div>
 
+          {/* mobile design  */}
           <div className="flex lg:hidden">
-            <button
-              type="button"
-              onClick={() => setMobileMenuOpen(true)}
-              className="-m-2.5 inline-flex items-center justify-center rounded-md p-2.5 text-gray-700"
-            >
-              <span className="sr-only">Open main menu</span>
-              <Bars3Icon aria-hidden="true" className="size-6" />
-            </button>
+            <Sheet>
+              <SheetTrigger asChild>
+                <Button variant="ghost" size="icon" className="flex md:hidden">
+                  <List className="h-6 w-6" />
+                  <span className="sr-only">Toggle menu</span>
+                </Button>
+              </SheetTrigger>
+              <SheetContent className="w-[300px] p-0 bg-gradient-to-b from-gray-900 to-black text-white border-r border-gray-800">
+                <div className="flex justify-between items-center p-4 border-b border-gray-800">
+                  <h2 className="text-xl font-bold">Menu</h2>
+                  {/* <SheetTrigger asChild>
+                <Button variant="ghost" size="icon" className="text-gray-400 hover:text-white">
+                  <X className="h-5 w-5" />
+                  <span className="sr-only">Close menu</span>
+                </Button>
+              </SheetTrigger> */}
+                </div>
+
+                <div className="py-6 px-4 space-y-2">
+                  <NavItem
+
+                    icon={<Home className="mr-3 h-5 w-5" />}
+                    label="Home"
+                    active
+                  />
+                  <NavItem
+                    icon={<List className="mr-3 h-5 w-5" />}
+                    label="Products"
+                  />
+                  <NavItem
+                    icon={<Heart className="mr-3 h-5 w-5" />}
+                    label="Wishlist"
+                  />
+                  <NavItem
+                    icon={<ShoppingCart className="mr-3 h-5 w-5" />}
+                    label="Cart"
+                  />
+                </div>
+
+                <div className="mt-auto p-4 border-t border-gray-800">
+                  <Button
+                    variant="outline"
+                    onClick={()=>navigate('/login')}
+                    className="w-full justify-start text-gray-400 hover:text-white hover:bg-gray-800"
+                  >                
+                    Sign In
+                  </Button>
+                </div>
+              </SheetContent>
+            </Sheet>
           </div>
-          
+
           <PopoverGroup className="hidden lg:flex lg:gap-x-12">
             <Popover className="relative">
               <NavLink to="/">
                 <PopoverButton className="flex items-center gap-x-1 text-sm/6 font-semibold  outline-none">
-                list
+                  list
                   <ChevronDownIcon
                     aria-hidden="true"
                     className="size-5 flex-none "
@@ -132,7 +201,6 @@ export default function NewHeader() {
                     <div
                       key={item.name}
                       className="group relative flex items-center gap-x-6 rounded-lg p-4 text-sm/6 hover:bg-gray-50"
-                     
                     >
                       <div className="flex size-11 flex-none items-center justify-center rounded-lg bg-gray-50 group-hover:bg-white">
                         <item.icon
@@ -153,31 +221,23 @@ export default function NewHeader() {
                     </div>
                   ))}
                 </div>
-             
               </PopoverPanel>
             </Popover>
 
-          
-            <NavLink
-              to="/productlist"
-              className="text-sm/6 font-semibold"
-            >
-             ProductList
+            <NavLink to="/productlist" className="text-sm/6 font-semibold">
+              ProductList
             </NavLink>
-            <NavLink
-              to="Profile"
-              className="text-sm/6 font-semibold "
-            >
+            <NavLink to="Profile" className="text-sm/6 font-semibold ">
               Company
             </NavLink>
           </PopoverGroup>
           {/* search bar */}
-          <div className="hidden lg:flex lg:flex-1 lg:justify-end gap-2">
-               <div className="relative">
+          <div className="hidden lg:flex lg:flex-1 lg:justify-end gap-8">
+            <div className="relative">
               <input
                 type="search"
                 placeholder="SEARCH"
-                className="pl-8 pr-2 py-1 bg-transparent border border-gray-600 rounded text-sm focus:outline-none focus:border-gray-400"
+                className="pl-8 pr-2 py-1 w-64 bg-transparent border border-gray-600 rounded text-sm focus:outline-none focus:border-gray-400"
               />
               <svg
                 xmlns="http://www.w3.org/2000/svg"
@@ -195,26 +255,28 @@ export default function NewHeader() {
               </svg>
             </div>
             <NavLink to="/login">
-             <button className="px-4 py-1 bg-white border text-black border-gray-300 rounded-md hover:bg-gray-100  flex items-center">
-              <User className="h-4 w-4 mr-2" />
-                {googleData.data== 'Logged in successfully' ? "POFILE" : "LOGIN"}
-            </button>
+              <button className="px-4 py-1 bg-white border text-black border-gray-300 rounded-md hover:bg-gray-100  flex items-center">
+                <User className="h-4 w-4 mr-2" />
+                  {
+                      isLogin == true ? "PROFILE":"LOGIN"
+                  }
+              </button>
             </NavLink>
             <NavLink to="/shoppingcart">
-                  <button className="px-4 py-1 bg-white border text-black border-gray-300 rounded-md hover:bg-gray-100  flex items-center">
-                      <div className="relative">
-                          <ShoppingCart className="h-6 w-6 text-gray-700" />
-                          <span className="absolute -top-2 -right-2 bg-green-500 text-white text-xs rounded-full h-5 w-5 flex items-center justify-center">
-                            2
-                          </span>
-                      </div>
-                  </button>
+              <button className="px-4 py-1 bg-white border text-black border-gray-300 rounded-md hover:bg-gray-100  flex items-center">
+                <div className="relative">
+                  <ShoppingCart className="h-6 w-6 text-gray-700" />
+                  <span className="absolute -top-2 -right-2 bg-green-500 text-white text-xs rounded-full h-5 w-5 flex items-center justify-center">
+                    2
+                  </span>
+                </div>
+              </button>
             </NavLink>
           </div>
         </nav>
 
-    {/* mobile design  */}
-        <Dialog
+        {/* mobile design  1*/}
+        {/* <Dialog
           open={mobileMenuOpen}
           onClose={setMobileMenuOpen}
           className="lg:hidden"
@@ -233,14 +295,7 @@ export default function NewHeader() {
           
               </NavLink>
                 </div>
-              <button
-                type="button"
-                onClick={() => setMobileMenuOpen(false)}
-                className="-m-2.5 rounded-md p-2.5 text-white"
-              >
-                <span className="sr-only">Close menu</span>
-                <XMarkIcon aria-hidden="true" className="size-6" />
-              </button>
+          
             </div>
             <div className="mt-6 flow-root">
               <div className="-my-6 divide-y divide-gray-500/10">
@@ -253,18 +308,7 @@ export default function NewHeader() {
                         className="size-5 flex-none group-data-[open]:rotate-180"
                       />
                     </DisclosureButton>
-                    {/* <DisclosurePanel className="mt-2 space-y-2">
-                      {[...products, ...callsToAction].map((item) => (
-                        <DisclosureButton
-                          key={item.name}
-                          as="a"
-                          href={item.href}
-                          className="block rounded-lg py-2 pl-6 pr-3 text-sm/7 font-semibold bg-gray-800 text-white hover:bg-gray-50"
-                        >
-                          {item.name}
-                        </DisclosureButton>
-                      ))}
-                    </DisclosurePanel> */}
+                
                   </Disclosure>
                  
                   <NavLink
@@ -298,10 +342,44 @@ export default function NewHeader() {
               </div>
             </div>
           </DialogPanel>
-        </Dialog>
+        </Dialog> */}
       </header>
-
-    
     </>
   );
 }
+
+
+const NavItem = ({ icon, label, active = false }) => {
+
+  let navigate = useNavigate()
+const handleOnClick =(e)=> {
+  
+  const label = e.currentTarget.textContent.trim().toLowerCase();
+      console.log(label);
+
+   switch (label){
+      case "home" : navigate('/') 
+      break;
+      case "products": navigate('/productlist') 
+      break;
+      case "wishlist" : navigate('/wishlist')
+      break;
+      case "cart" : navigate('shoppingcart')
+   } 
+}
+
+  return (
+    <Button
+      variant="ghost"
+      onClick={handleOnClick}
+      className={`w-full justify-start ${
+        active
+          ? "bg-gray-800 text-white"
+          : "text-gray-400 hover:text-white hover:bg-gray-800"
+      }`}
+    >
+      {icon}
+      {label}
+    </Button>
+  );
+};

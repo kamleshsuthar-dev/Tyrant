@@ -3,13 +3,12 @@ import axios from "axios";
 import { data, useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
 import Password from "./Password";
-import { useGoogleAuthContext } from "@/context/GoogleAuth";
 const url = `${import.meta.env.VITE_ISREGISTERED}/google`;
 
 import React from "react";
 
 function GoogleAuth({ text }) {
-  const {googleData} = useGoogleAuthContext()
+ 
   const navigate = useNavigate();
   const [userEmail, setUserEmail] = useState("");
   const [userName, setUserName] = useState("");
@@ -34,7 +33,6 @@ function GoogleAuth({ text }) {
             .then(async (response) => {
               console.log("1 google api",response);
               console.log("1 google api",response.data.message);
-                  googleData.setData(response.data.message)
               navigate("/");
             
             })

@@ -18,9 +18,10 @@ const ShoppingCartTopUp = lazy(() => import("./route/ShoppingCartTopUp.jsx"));
 const Password = lazy(() => import("./component/Auth/Password.jsx"));
 const GoogleAuth = lazy(() => import("./component/Auth/GoogleAuth.jsx"));
 const ProductDetails = lazy(() => import("./route/ProductDetails.jsx"));
+const ProductDetailsPopUp = lazy(() => import("./route/ProductDetailsPopUp.jsx"));
 const ShoppingCart = lazy(() => import("./route/ShoppingCart.jsx"));
 const WishList = lazy (()=>import('../src/route/WishList.jsx'))
-const Buy = lazy (()=>import('../src/route/Buy.jsx'))
+const CheckOut = lazy (()=>import('./route/CheckOut.jsx'))
 const ForgotPasswordForm = lazy(() =>
   import("./component/Auth/ForgotPassword/ForgotPasswordForm.jsx")
 );
@@ -40,7 +41,8 @@ const LoadingFallback = () => (
     </div>
   </div>
 );
-
+import axios from "axios";
+  axios.defaults.withCredentials=true;
 export const GoogleBtn = ({ text }) => {
   return (
     <GoogleOAuthProvider clientId={import.meta.env.VITE_GOOGLE_API}>
@@ -56,6 +58,7 @@ const router = createBrowserRouter(
     <>
       <Route path="/" element={<Layout />}>
         <Route path="" element={<Home />} />
+
         <Route
           path="productlist"
           element={
@@ -72,6 +75,22 @@ const router = createBrowserRouter(
             </Suspense>
           }
         />
+           <Route
+        path="productdetails"
+        element={
+          <Suspense fallback={<LoadingFallback />}>
+            <ProductDetails />
+          </Suspense>
+        }
+      />
+           <Route
+        path="productdetailspopup"
+        element={
+          <Suspense fallback={<LoadingFallback />}>
+            <ProductDetailsPopUp />
+          </Suspense>
+        }
+      />
         <Route
           path="profile"
           element={
@@ -84,10 +103,27 @@ const router = createBrowserRouter(
         path="checkout"
         element={
           <Suspense fallback={<LoadingFallback />}>
-            <Buy/>
+            <CheckOut/>
           </Suspense>
         }
       />
+         <Route
+        path="/shoppingcarttopup"
+        element={
+          <Suspense fallback={<LoadingFallback />}>
+            <ShoppingCartTopUp />
+          </Suspense>
+        }
+      />
+        <Route
+        path="wishlist"
+        element={
+          <Suspense fallback={<LoadingFallback />}>
+            <WishList />
+          </Suspense>
+        }
+      />
+      
       </Route>
 
       {/* Auth routes */}
@@ -125,14 +161,7 @@ const router = createBrowserRouter(
       />
 
       {/* Shopping routes */}
-      <Route
-        path="/shoppingcarttopup"
-        element={
-          <Suspense fallback={<LoadingFallback />}>
-            <ShoppingCartTopUp />
-          </Suspense>
-        }
-      />
+   
       <Route
         path="shoppingcart"
         element={
@@ -141,14 +170,7 @@ const router = createBrowserRouter(
           </Suspense>
         }
       />
-      <Route
-        path="productdetails"
-        element={
-          <Suspense fallback={<LoadingFallback />}>
-            <ProductDetails />
-          </Suspense>
-        }
-      />
+   
       <Route
         path="ss"
         element={
@@ -157,14 +179,7 @@ const router = createBrowserRouter(
           </Suspense>
         }
       />
-      <Route
-        path="wishlist"
-        element={
-          <Suspense fallback={<LoadingFallback />}>
-            <WishList />
-          </Suspense>
-        }
-      />
+    
      
     
     

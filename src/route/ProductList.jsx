@@ -1,12 +1,12 @@
 import axios from 'axios';
 import React, { useEffect, useState } from 'react'
 import { use } from 'react';
-import { useNavigate } from 'react-router-dom';
-// import { useProduct } from '../context/ProductContext';
+import { useNavigate ,Link} from 'react-router-dom';
+
 import { Card, CardContent } from "@/components/ui/card"
 import { Star, StarHalf } from "lucide-react"
 import ProductListSkeleton from '../component/skeleton/ProductListSkeleton';
-  
+
 
 
 
@@ -16,29 +16,13 @@ export default function ProductList() {
   const cId="67ab9caa61b7763a0938c690"
   const [products,setProducts] = useState([])
 
-        //  useEffect(()=>{
-        //    const productapi =  async()=>{
-        //         try {
-        //               const res= await axios.post(`${import.meta.env.VITE_PRODUCT_BY_CATEGORY}`,{cId:cId})
-        //                           console.log(res);
-                                  
-        //                         console.log(res.data.products);
-                                
-        //                  setProducts(res.data.products)
-        //         } catch (error) {
-        //           console.log("productlist api error" , error );
-                  
-        //         }
-              
-        //        productapi();
-        //       }
-        //  },[]) 
+    
 
         useEffect(()=>{
           ;(async()=>{
             try {
               let res = await axios.post(`${import.meta.env.VITE_PRODUCT_BY_CATEGORY}`,{cId:cId})
-              console.log(res.data.products);
+              // console.log(res.data.products);
                 setProducts(res.data.products)
               
             } catch (error) {
@@ -53,11 +37,21 @@ export default function ProductList() {
   const productDetailFunction = (e,product)=>{
     e.preventDefault();
         navigate('/productdetails',{state:{product}})
+             
 }
+
+  // const productDetailFunction = (e, product) => {
+  //   e.preventDefault();
+  //   setSelectedProduct(product);
+  //   // Programmatically click the drawer trigger
+  //   if (drawerTriggerRef.current) {
+  //     drawerTriggerRef.current.click();
+  //   }
+  // };
 
 // let originalPrice = 5000;
 const renderStars = (rating) => {
-  console.log(rating);
+  // console.log(rating);
   
   const stars = []
   const fullStars= Math.floor(rating )
@@ -78,12 +72,14 @@ if(products.length === 0) return <ProductListSkeleton/>
 else  return (
 
     <div className="bg-white">
+
+      
       <div className="mx-auto max-w-2xl px-4 py-16 sm:px-6 sm:py-24 lg:max-w-7xl lg:px-8">
         <h2 className="sr-only">Products </h2>
 
         <div className="grid grid-cols-1 gap-x-6 gap-y-10 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 xl:gap-x-8">
           {products.map((product) => (
-            <a key={product.id} href={product.href} onClick={(e)=>productDetailFunction(e,product)} className="group">
+            <Link key={product._id} href={product.href} onClick={(e)=>productDetailFunction(e,product)} className="group" >
               <Card className="max-w-sm overflow-hidden rounded-3xl border-0 shadow-lg">
       <CardContent className="p-4">
               <img
@@ -119,7 +115,7 @@ else  return (
         </div> */}
       </CardContent>
     </Card>
-         </a>
+            </Link>
           ))
           }
     
