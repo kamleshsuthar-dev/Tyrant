@@ -50,18 +50,18 @@ export default function WishList() {
 //  }
 //   },[])
 
-// useEffect(()=>{
-//   (async()=>{
-//    try {
-//      let res = await axios.get(`${import.meta.env.VITE_PRODUCT_WISHLIST}`)
-//              console.log("whislist true",res);
-//             } catch (error) {
-//      console.log("whislist false",error);
+useEffect(()=>{
+  (async()=>{
+   try {
+     let res = await axios.get(`${import.meta.env.VITE_PRODUCT_WISHLIST}`,{withCredentials: true})
+             console.log("whislist true",res);
+            } catch (error) {
+     console.log("whislist false",error);
     
-//    }
+   }
             
-//   })()
-// },[])
+  })()
+},[])
 
   const updateQuantity = (id, quantity) => {
     setCartItems((items) =>
