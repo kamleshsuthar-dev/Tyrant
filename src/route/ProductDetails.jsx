@@ -29,7 +29,7 @@ function cn(...classes) {
 
 export default function ProductDetail() {
   const { googleData } = useGoogleAuthContext();
-  console.log(googleData);
+  // console.log(googleData);
 
   const [quantity, setQuantity] = useState(1);
   const [selectedSize, setSelectedSize] = useState("M");
@@ -48,8 +48,12 @@ export default function ProductDetail() {
   const popUp = useRef(null);
 
   const location = useLocation();
+  const wishlistlocations = useLocation()
   const productData = location.state?.product;
-  const productId = productData._id;
+  const wishlistData = wishlistlocations.state?.wishlistItems;
+  console.log("wishlist",wishlistData);
+
+  const productId = productData._id  ;
 
   useEffect(() => {
     const singlePrd = async () => {
@@ -94,17 +98,10 @@ export default function ProductDetail() {
     };
   }, [api]);
 
-  // const [isLiked, setIsLiked] = useState(false);
-  // const [isLoading, setIsLoading] = useState(false);
+ 
   const [wishlistLoading, setWishlistLoading] = useState(false);
 
-  // const toggleLike = async () => {
-  //   setIsLoading(true);
-  //   // Simulate API call with timeout
-  //   await new Promise((resolve) => setTimeout(resolve, 1000));
-  //   setIsLiked(!isLiked);
-  //   setIsLoading(false);
-  // };
+
 
   const addToWishList = () => {
    

@@ -6,20 +6,7 @@ import { Minus, Plus } from "lucide-react";
 import { useCartContext } from "@/context/CartContext";
 import axios from "axios";
 import { use } from "react";
-import { useAsyncError } from "react-router-dom";
-// const products = [
-//   {
-//     id: 1,
-//     name: "Adaa Jaipur Comfort Floral Printed Casual Shirt",
-//     price: 1299.0,
-//     image:
-//       "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/%7B1197B3BE-D05D-4021-BAD1-9321ECFAE70D%7D-FUfAYE6dqH6hPJPs2k2AMbJwABHjuD.png",
-//     color: "Carbonated Maroon",
-//     status: "In Stock",
-//     quantity: 1,
-//   },
-//   // Add more products as needed
-// ];
+
 export default function ShoppingCart() {
   // const {cart}= useCartContext()
   const shipping = "FREE";
@@ -51,25 +38,27 @@ export default function ShoppingCart() {
     // })()
   }, []);
 
-  const updateQuantity = (productId, newQuantity) => {
-    console.log(productId);
-          // ;(async()=>{
-          //   let res = await axios.patch(`${import.meta.env.VITE_UPDATE_CART_PRODUCT_QUANTITY}`,
-          //         {
-          //           cartItemId: {productId},
-          //           quantity: 1,
-          //           operation:""
-          //         })
-          //         console.log(res);   
-          // })()
-
-    // setProducts(prevProducts => 
-    //   prevProducts.map(product => 
-    //     product.productId._id === productId 
-    //       ? { ...product, quantity: Math.max(1, newQuantity) }
-    //       : product
-    //   )
-    // );
+   
+  
+  const updateQuantity = async (product, newQuantity) => {
+  
+      console.log(product,"abc");
+      
+     
+    try {
+        const response = await axios.patch( `${import.meta.env.VITE_UPDATE_CART_PRODUCT_QUANTITY}`,
+          {
+            cartItemId: product._id,
+            quantity: newQuantity,
+          }
+        );
+          console.log("fuck",response);
+    } catch (error) {
+      console.log("fuck error",error);
+      
+    }
+        
+  
   };
 
   return (
@@ -93,7 +82,7 @@ export default function ShoppingCart() {
             </div>
             {products.map((product) => (
               <div
-                key={product.productId._id}
+                key={product._id}
                 className="grid grid-cols-[2fr,1fr,1fr,1fr] gap-4 items-center mb-4 border-b pb-4"
               >
                 <div className="flex gap-4">
@@ -125,7 +114,7 @@ export default function ShoppingCart() {
                         variant="outline"
                         size="icon"
                         className=" hover:bg-transparent hover:text-gray-400 border-none"
-                        onClick={() =>updateQuantity(product.productId._id, product.quantity - 1)}
+                        onClick={() => updateQuantity(product, product.quantity - 1)}
                       >
                         <Minus className="w-4 h-4" />
                       </Button>
@@ -136,7 +125,7 @@ export default function ShoppingCart() {
                         variant="outline"
                         size="icon"
                         className="bg-transparent hover:bg-transparent hover:text-gray-400 border-none"
-                        onClick={() =>updateQuantity(product.productId._id, product.quantity + 1) }
+                        onClick={() => updateQuantity(product, product.quantity + 1)}
                       >
                         <Plus className="w-4 h-4" />
                       </Button>
@@ -178,7 +167,7 @@ export default function ShoppingCart() {
           {/* Mobile View */}
           <div className="lg:hidden space-y-4">
             {products.map((product) => (
-              <Card key={product.productId._id}>
+              <Card key={product._id}>
                 <CardContent className="p-4">
                   <div className="flex gap-4">
                     <img
@@ -207,7 +196,7 @@ export default function ShoppingCart() {
                               variant="outline"
                               size="icon"
                               className=" hover:bg-transparent hover:text-gray-400 border-none"
-                              onClick={() =>  updateQuantity(product.productId._id, product.quantity - 1)}
+                              onClick={() =>  updateQuantity(product._id, product.quantity - 1)}
                             >
                               <Minus className="w-4 h-4" />
                             </Button>
@@ -218,7 +207,7 @@ export default function ShoppingCart() {
                               variant="outline"
                               size="icon"
                               className="bg-transparent hover:bg-transparent hover:text-gray-400 border-none"
-                              onClick={() => updateQuantity(product.productId._id, product.quantity - 1) }
+                              onClick={() => updateQuantity(product._id, product.quantity - 1) }
                             >
                               <Plus className="w-4 h-4" />
                             </Button>
