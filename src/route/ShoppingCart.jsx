@@ -31,23 +31,45 @@ export default function ShoppingCart() {
   // const subtotal = products.reduce((sum, product) => sum + product.price * product.quantity, 0)
   const subtotal = 1234;
   const total = subtotal - discount + tax;
+
   useEffect(() => {
-    (async () => {
+    ;(async () => {
       let res = await axios.get(`${import.meta.env.VITE_GET_CART_PRODUCT}`);
       console.log("shop ", res.data);
 
       setProducts(res.data);
-    })();
+    })()
+
+    // ;(async()=>{
+    //   let res = await axios.patch(`${import.meta.env.VITE_UPDATE_CART_PRODUCT_QUANTITY}`,
+    //     {
+    //       cartItemId: "",
+    //       quantity: 1,
+    //       operation: 
+    //     })
+    //     console.log(res);    
+    // })()
   }, []);
 
   const updateQuantity = (productId, newQuantity) => {
-    setProducts(prevProducts => 
-      prevProducts.map(product => 
-        product.productId._id === productId 
-          ? { ...product, quantity: Math.max(1, newQuantity) }
-          : product
-      )
-    );
+    console.log(productId);
+          // ;(async()=>{
+          //   let res = await axios.patch(`${import.meta.env.VITE_UPDATE_CART_PRODUCT_QUANTITY}`,
+          //         {
+          //           cartItemId: {productId},
+          //           quantity: 1,
+          //           operation:""
+          //         })
+          //         console.log(res);   
+          // })()
+
+    // setProducts(prevProducts => 
+    //   prevProducts.map(product => 
+    //     product.productId._id === productId 
+    //       ? { ...product, quantity: Math.max(1, newQuantity) }
+    //       : product
+    //   )
+    // );
   };
 
   return (

@@ -55,9 +55,10 @@ useEffect(()=>{
    try {
      let res = await axios.get(`${import.meta.env.VITE_PRODUCT_WISHLIST}`,{withCredentials: true})
              console.log("whislist true",res);
+            //  console.log("whislist true",res.data.data);
             } catch (error) {
      console.log("whislist false",error);
-    
+              
    }
             
   })()

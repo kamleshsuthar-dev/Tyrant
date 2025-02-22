@@ -22,7 +22,7 @@ export default function ProductList() {
           ;(async()=>{
             try {
               let res = await axios.post(`${import.meta.env.VITE_PRODUCT_BY_CATEGORY}`,{cId:cId})
-              // console.log(res.data.products);
+              console.log(res.data.products);
                 setProducts(res.data.products)
               
             } catch (error) {
