@@ -121,8 +121,8 @@ export default function NewHeader() {
               <span className="sr-only">Your Company</span>
               <img
                 alt="fuck off"
-                src="https://upload.wikimedia.org/wikipedia/commons/7/7c/Logo_of_Pornhub.png"
-                className="h-8 w-auto"
+                src="../../public/Nemesis.svg"
+                className="w-16 h-auto"
               />
             </NavLink>
           </div>
