@@ -1,10 +1,9 @@
 "use client";
-import { Suspense } from "react";
-import { lazy } from "react";
-import { useEffect, useRef } from "react";
+
+import { useEffect, useRef,Suspense,lazy ,useState } from "react";
 import { Heart, Minus, Plus, Share2 } from "lucide-react";
-import { useState } from "react";
-import { useLocation, NavLink, useNavigate } from "react-router-dom";
+
+import { useLocation, NavLink, useNavigate,useParams } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
@@ -28,7 +27,7 @@ function cn(...classes) {
 }
 
 export default function ProductDetail() {
-  const { googleData } = useGoogleAuthContext();
+  const { isLoginUser } = useGoogleAuthContext();
   // console.log(googleData);
 
   const [quantity, setQuantity] = useState(1);
@@ -44,16 +43,15 @@ export default function ProductDetail() {
   const sizes = ["XS", "S", "M", "L", "XL"];
   const [product, setProduct] = useState(null);
   const [wishlist, setWishlist] = useState(false);
+  // const {wishlistID} = useParams()
   const navigate = useNavigate();
   const popUp = useRef(null);
 
   const location = useLocation();
-  const wishlistlocations = useLocation()
   const productData = location.state?.product;
-  const wishlistData = wishlistlocations.state?.wishlistItems;
-  console.log("wishlist",wishlistData);
-
-  const productId = productData._id  ;
+    const wishlistID = location.state?.wishlistID;
+    
+  const productId = productData?._id ?? wishlistID ;
 
   useEffect(() => {
     const singlePrd = async () => {
@@ -105,41 +103,52 @@ export default function ProductDetail() {
 
   const addToWishList = () => {
    
-      (async () => {
-        try {
-          setWishlistLoading(true)
-          const res = await axios.post(
-            `${import.meta.env.VITE_PRODUCT_TOGGLE_WISHLIST}`,
-            { productId: productId },
-            { withCredentials: true }
-          );
-          console.log(res.data);
-          setWishlist((prev) => !prev);
-          setWishlistLoading(false)
-        } catch (error) {
-          console.log("whishlist api error", error);
+     const wishlistfun = async () => {
+      if (isLoginUser === true) {
+          try {
+            setWishlistLoading(true)
+            const res = await axios.post(
+              `${import.meta.env.VITE_PRODUCT_TOGGLE_WISHLIST}`,
+              { productId: productId },
+              { withCredentials: true }
+            );
+            console.log(res.data);
+            setWishlist((prev) => !prev);
+            setWishlistLoading(false)
+          } catch (error) {
+            console.log("whishlist api error", error);
+          }
         }
-      })();
-    
+       else {
+        alert("login toh kar pahle Bhosdike ")
+      }
+    }
+
+      wishlistfun()
   };
 
   const addtoCart = () => {
-    (async () => {
-      try {
-        let res = await axios.post(`${import.meta.env.VITE_ADD_CART_PRODUCT}`, {
-          productId: productId,
-          quantity: quantity,
-          color: selectedColor,
-          size: selectedSize,
-        });
-
-        console.log(res.data.message);
-      } catch (error) {
-        console.log("add cart api error", error);
-      }
-    })();
-
+   const cartfun = async () => {
+    if (isLoginUser === true) {
+        try {
+          let res = await axios.post(`${import.meta.env.VITE_ADD_CART_PRODUCT}`, {
+            productId: productId,
+            quantity: quantity,
+            color: selectedColor,
+            size: selectedSize,
+          });
+          
+          console.log(res.data.message);
+        } catch (error) {
+          console.log("add cart api error", error);
+        }
+    } else {
+      alert("login kon tera Baap kare ga Bhosdike ")
+      return
+    }
     popUp.current.click();
+    }
+      cartfun()
   };
 
   const checkOut = () => {
@@ -199,18 +208,6 @@ export default function ProductDetail() {
                     alt="Product Image"
                     className="object-cover w-full"
                   />
-                  {/* <Button
-                  variant="ghost"
-                  size="icon"
-                  className="absolute top-4 right-4 bg-white/80 backdrop-blur-sm rounded-full"
-                  onClick={addToWishList}
-                >
-                  <Heart
-                    className={`w-5 h-5 ${
-                      wishlist ? "fill-pink-400" : "fill-none"
-                    }`}
-                  />
-                </Button> */}
                   <Button
                     onClick={addToWishList}
                     disabled={wishlistLoading}

@@ -6,7 +6,7 @@ import { Minus, Plus } from "lucide-react";
 import { useCartContext } from "@/context/CartContext";
 import axios from "axios";
 import { use } from "react";
-
+import DeleteBtn from '../component/home/DeleteBtn.jsx'
 export default function ShoppingCart() {
   // const {cart}= useCartContext()
   const shipping = "FREE";
@@ -14,7 +14,7 @@ export default function ShoppingCart() {
   const tax = 18;
 
   const [quantity, setQuantity] = useState(1);
-  const [products, setProducts] = useState([]);
+  const [cartItems, setCartItems] = useState([]);
   // const subtotal = products.reduce((sum, product) => sum + product.price * product.quantity, 0)
   const subtotal = 1234;
   const total = subtotal - discount + tax;
@@ -23,44 +23,40 @@ export default function ShoppingCart() {
     ;(async () => {
       let res = await axios.get(`${import.meta.env.VITE_GET_CART_PRODUCT}`);
       console.log("shop ", res.data);
-
-      setProducts(res.data);
+       let reversedData = res.data.reverse();      
+       setCartItems(res.data);
     })()
 
-    // ;(async()=>{
-    //   let res = await axios.patch(`${import.meta.env.VITE_UPDATE_CART_PRODUCT_QUANTITY}`,
-    //     {
-    //       cartItemId: "",
-    //       quantity: 1,
-    //       operation: 
-    //     })
-    //     console.log(res);    
-    // })()
   }, []);
 
    
   
-  const updateQuantity = async (product, newQuantity) => {
-  
-      console.log(product,"abc");
-      
-     
+  const updateQuantity = async (cartItem, newQuantity) => {
+      // console.log(product,"abc");
     try {
         const response = await axios.patch( `${import.meta.env.VITE_UPDATE_CART_PRODUCT_QUANTITY}`,
           {
-            cartItemId: product._id,
+            cartItemId: cartItem._id,
             quantity: newQuantity,
           }
         );
           console.log("fuck",response);
     } catch (error) {
-      console.log("fuck error",error);
-      
+      console.log("fuck error",error); 
     }
-        
-  
   };
 
+  const deleteCartBtn = async(productCartID)=>{
+    try {
+        const res = await axios.post(`${import.meta.env.VITE_DELETE_CART_PRODUCT}`,{cartItemId: productCartID})
+            console.log(res);
+            setCartItems((prevProducts) => prevProducts.filter((product) => product._id !== productCartID));
+    } catch (error) {
+      console.log("delete cart btn error :" , error);
+      
+    }
+  }
+  
   return (
     <div className="w-full max-w-6xl mx-auto p-4">
       <h1
@@ -80,31 +76,34 @@ export default function ShoppingCart() {
               <div>QUANTITY</div>
               <div>TOTAL</div>
             </div>
-            {products.map((product) => (
+          
+           {cartItems.length<1 ? (
+             <h1 className=" text-4xl text-center pt-40">No items in cart</h1>
+           ) :( cartItems.map((cartItem) => (
               <div
-                key={product._id}
-                className="grid grid-cols-[2fr,1fr,1fr,1fr] gap-4 items-center mb-4 border-b pb-4"
+                key={cartItem._id}
+                className="grid grid-cols-[2fr,1fr,1fr,1fr] gap-4 items-center mb-4 border-b pb-4 relative"
               >
                 <div className="flex gap-4">
                   <img
-                    src={product.productId.pImages[0].URL || "/placeholder.svg"}
-                    alt={product.name}
+                    src={cartItem.productId.pImages[0].URL || "/placeholder.svg"}
+                    alt={cartItem.name}
                     width={80}
                     height={80}
                     className="object-cover"
                   />
                   <div>
-                    <h3 className="font-medium">{product.productId.name}</h3>
+                    <h3 className="font-medium">{cartItem.productId.name}</h3>
                     <p className="text-sm text-muted-foreground">
-                      Color: <div className={`h-3 w-3 bg-[${product.variant.color || "bg-pink-400"}] inline-block rounded-3xl`}></div>
+                      Color: <div className={`h-3 w-3 bg-[${cartItem.variant.color || "bg-pink-400"}] inline-block rounded-3xl`}></div>
                     </p>
                     <p className="text-sm text-muted-foreground">
-                      Size: {product.variant.size || "red"}
+                      Size: {cartItem.variant.size || "red"}
                     </p>
                     {/* <p className="text-sm text-muted-foreground">Status: {product.status}</p> */}
                   </div>
                 </div>
-                <div>Rs. {product.productId.pPrice.toFixed(2)}</div>
+                <div>Rs. {cartItem.productId.pPrice.toFixed(2)}</div>
                 <div>
                   {/* produt quantity */}
                   {/* <input type="number" value={product.quantity} min={1} className="w-20" /> */}
@@ -114,81 +113,59 @@ export default function ShoppingCart() {
                         variant="outline"
                         size="icon"
                         className=" hover:bg-transparent hover:text-gray-400 border-none"
-                        onClick={() => updateQuantity(product, product.quantity - 1)}
+                        onClick={() => updateQuantity(cartItem, cartItem.quantity - 1)}
                       >
                         <Minus className="w-4 h-4" />
                       </Button>
                       <span className="w-12 text-center border-l-2 border-r-2 text-lg">
-                        {product.quantity }
+                        {cartItem.quantity }
                       </span>
                       <Button
                         variant="outline"
                         size="icon"
                         className="bg-transparent hover:bg-transparent hover:text-gray-400 border-none"
-                        onClick={() => updateQuantity(product, product.quantity + 1)}
+                        onClick={() => updateQuantity(cartItem, cartItem.quantity + 1)}
                       >
                         <Plus className="w-4 h-4" />
                       </Button>
                     </div>
-                    {/* <div className="flex items-center mt-2 text-[#202020] w-fit bg-[#FFFFFF] rounded-lg">
-                      <Button
-                        variant="outline"
-                        size="icon"
-                        className=" hover:bg-transparent hover:text-gray-400 border-none"
-                        onClick={() =>
-                          setQuantity(Math.max(1, quantity - 1))
-                        }
-                      >
-                        <Minus className="w-4 h-4" />
-                      </Button>
-                      <span className="w-12 text-center border-l-2 border-r-2 text-lg">
-                        {product.quantity || quantity}
-                      </span>
-                      <Button
-                        variant="outline"
-                        size="icon"
-                        className="bg-transparent hover:bg-transparent hover:text-gray-400 border-none"
-                        onClick={() =>
-                          setQuantity(quantity + 1)
-                        }
-                      >
-                        <Plus className="w-4 h-4" />
-                      </Button>
-                    </div> */}
                   </div>
                 </div>
                 <div>
-                  Rs. {(product.productId.pPrice * product.quantity).toFixed(2)}
+                  Rs. {(cartItem.productId.pPrice * cartItem.quantity).toFixed(2)}
+                </div>
+                <div className="absolute right-0 top-5" onClick={()=>deleteCartBtn(cartItem._id)}>
+                  <DeleteBtn/>
                 </div>
               </div>
-            ))}
+            )))}
           </div>
 
           {/* Mobile View */}
           <div className="lg:hidden space-y-4">
-            {products.map((product) => (
-              <Card key={product._id}>
+            {cartItems.map((cartItem) => (
+              <Card key={cartItem._id}>
                 <CardContent className="p-4">
                   <div className="flex gap-4">
                     <img
                       src={
-                        product.productId.pImages[0].URL || "/placeholder.svg"
+                        cartItem.productId.pImages[0].URL || "/placeholder.svg"
                       }
-                      alt={product.name}
+                      alt={cartItem.name}
                       width={80}
                       height={80}
                       className="object-cover"
                     />
                     <div className="flex-1">
-                      <h3 className="font-medium">{product.productId.name}</h3>
+                      <h3 className="font-medium">{cartItem.productId.name}</h3>
                       <p className="text-sm text-muted-foreground">
-                      Color: <div className={`h-3 w-3 bg-[${product.variant.color || "bg-pink-400"}] inline-block rounded-3xl`}></div>
+                      Color: <div className={`h-3 w-3 bg-[${cartItem.variant.color || "bg-pink-400"}] inline-block rounded-3xl`}></div>
                       </p>
                       <p className="text-sm text-muted-foreground">
-                        Status: {product.status}
+                        Status: {cartItem.status}
                       </p>
                       <div className="flex justify-between items-center mt-2">
-                        <div>Rs. {product.productId.pPrice.toFixed(2)}</div>
+                        <div>Rs. {cartItem.productId.pPrice.toFixed(2)}</div>
                         {/* <input type="number" value={product.quantity} min={1} className="w-20" /> */}
                         <div>
                           <div className="flex items-center mt-2 text-[#202020] w-fit bg-[#FFFFFF] rounded-lg">
@@ -196,18 +173,18 @@ export default function ShoppingCart() {
                               variant="outline"
                               size="icon"
                               className=" hover:bg-transparent hover:text-gray-400 border-none"
-                              onClick={() =>  updateQuantity(product._id, product.quantity - 1)}
+                              onClick={() =>  updateQuantity(cartItem._id, cartItem.quantity - 1)}
                             >
                               <Minus className="w-4 h-4" />
                             </Button>
                             <span className="w-12 text-center border-l-2 border-r-2 text-lg">
-                              {product.quantity }
+                              {cartItem.quantity }
                             </span>
                             <Button
                               variant="outline"
                               size="icon"
                               className="bg-transparent hover:bg-transparent hover:text-gray-400 border-none"
-                              onClick={() => updateQuantity(product._id, product.quantity - 1) }
+                              onClick={() => updateQuantity(cartItem._id, cartItem.quantity - 1) }
                             >
                               <Plus className="w-4 h-4" />
                             </Button>

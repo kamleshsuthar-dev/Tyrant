@@ -7,53 +7,40 @@ import { useGoogleAuthContext } from "@/context/GoogleAuth";
 import { Delete, Star } from "lucide-react"
 import { useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button"
+
+import Login from "@/component/Auth/Login/Login";
+
 export default function WishList() {
-    const {googleData} =useGoogleAuthContext()
+
     const [wishlistItems,setWishlistItems] = useState([])
+    const {isLoginUser} = useGoogleAuthContext()
     const navigate = useNavigate()
-  // const wishlistItems = [
-  //   {
-  //     id: 1,
-  //     name: "Adaa Jaipur Comfort Floral Printed Casual Shirt",
-  //     rating: 4,
-  //     status: "In Stock",
-  //     price: 1299.0,
-  //     originalPrice: 1500.0,
-  //   },
-  //   {
-  //     id: 2,
-  //     name: "Adaa Jaipur Comfort Floral Printed Casual Shirt",
-  //     rating: 4,
-  //     status: "In Stock",
-  //     price: 1299.0,
-  //     originalPrice: 1500.0,
-  //   },
-  //   {
-  //     id: 3,
-  //     name: "Adaa Jaipur Comfort Floral Printed Casual Shirt",
-  //     rating: 4,
-  //     status: "In Stock",
-  //     price: 1299.0,
-  //     originalPrice: 1500.0,
-  //   },
-  // ]
 
-  
-
+    
 
 useEffect(()=>{
-  (async()=>{
-   try {
-     let res = await axios.get(`${import.meta.env.VITE_PRODUCT_WISHLIST}`,{withCredentials: true})
-             console.log("whislist true",res.data.data.wishlist);
-              setWishlistItems(res.data.data.wishlist)
-            } catch (error) {
-     console.log("whislist false",error);
-              
-   }
-            
-  })()
-},[])
+
+  const wishlistfun = async()=>{
+
+      if (isLoginUser === true) {
+        try {
+          let res = await axios.get(`${import.meta.env.VITE_PRODUCT_WISHLIST}`,{withCredentials: true})
+                  // console.log("whislist true",res.data.data.wishlist);
+                    setWishlistItems(res.data.data.wishlist)
+          } catch (error) {
+          console.log("whislist false",error);           
+        }
+      } else {
+      document.querySelector('.container').innerHTML =  `<h3 class = 'text-3xl text-center pt-[170px] pb-0'>
+                                                        User Not Authenticate , Login kar Lowde
+                                                      </h3>`;    
+      }
+  }
+  if(isLoginUser !== undefined){
+    wishlistfun()
+  }
+ 
+},[isLoginUser])
 
 const deleteBtn = async(productId)=>{
   console.log("delete" , productId);
@@ -66,12 +53,34 @@ const deleteBtn = async(productId)=>{
   }
 }
 
-const productDetailFunction = (e,wishlistItems)=>{
-       e.preventDefault();
-      navigate('/productdetails',{state:{wishlistItems}})
-           
+const productDetailFunction = (wishlistID,wishlistItems)=>{
+  // console.log("wishlistitems",wishlistItems);
+  console.log(wishlistID);
+      navigate('/productdetails',{state:{wishlistID}})
+      // navigate(`/productdetails/${wishlistID}`);   
 }
  
+const addtoCart = (wishlistID,wishlist) => {
+  console.log("addtocart wishlist" , wishlistID , wishlist);
+  
+  const cartfun = async () => {
+       try {
+         let res = await axios.post(`${import.meta.env.VITE_ADD_CART_PRODUCT}`, {
+           productId: wishlist._id,
+           quantity: 1,
+           color: wishlist,
+           size: selectedSize,
+         });
+ 
+         console.log(res.data.message);
+       } catch (error) {
+         console.log("add cart api error", error);
+       }
+   }
+   popUp.current.click();
+   
+     cartfun()
+ };
 
   return (
     <div className="container mx-auto px-4 py-8">
@@ -86,12 +95,12 @@ const productDetailFunction = (e,wishlistItems)=>{
 
     <div className="space-y-6">
       {wishlistItems.map((wishlist) => (
-        <div key={wishlist._id} onClick={productDetailFunction} className="flex items-center gap-6 border rounded-lg p-4">
-          <div className="shrink-0">
+        <div key={wishlist._id}  className="flex items-center gap-6 border rounded-lg p-4">
+          <div className="shrink-0" onClick={()=>productDetailFunction(wishlist._id,wishlistItems)}>
             <img src={wishlist.pImages[0].URL} alt={wishlist.pName} width={100} height={100} className="rounded-md" />
           </div>
 
-          <div className="flex-grow">
+          <div className="flex-grow" onClick={()=>productDetailFunction(wishlist._id,wishlistItems)}>
             <h3 className="font-medium mb-2">{wishlist.pName}</h3>
             <div className="flex items-center gap-1 mb-1">
               {[...Array(5)].map((_, index) => (
@@ -111,7 +120,7 @@ const productDetailFunction = (e,wishlistItems)=>{
           </div>
 
           <div className="flex flex-col gap-2">
-            <Button className="bg-green-500 hover:bg-green-600 text-white">ADD TO CART</Button>
+            <Button className="bg-green-500 hover:bg-green-600 text-white" onClick={()=>productDetailFunction(wishlist._id,wishlistItems)}>VIEW PRODUCT</Button>
             <Button onClick={()=>deleteBtn(wishlist._id)} variant="destructive" >DELETE</Button>
           </div>
         </div>

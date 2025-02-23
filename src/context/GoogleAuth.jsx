@@ -5,13 +5,14 @@ export const GoogleAuthContext= createContext()
 
 function GoogleAuthProvider({children}) {
   const [isLoginUser,setIsLoginUser] =useState()
-    const googleData = {
-      isLoginUser,
-      setIsLoginUser
-    }
+    // const googleData = {
+    //   isLoginUser,
+    //   setIsLoginUser
+    // }
+ 
 
   return (
-    <GoogleAuthContext.Provider value={{googleData}}>
+    <GoogleAuthContext.Provider value={{isLoginUser,setIsLoginUser}}>
       {children}
     </GoogleAuthContext.Provider>
   )

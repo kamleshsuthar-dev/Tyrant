@@ -71,31 +71,37 @@ const callsToAction = [
 
 export default function NewHeader() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
-  const { googleData } = useGoogleAuthContext();
+  const { isLoginUser,setIsLoginUser } = useGoogleAuthContext();
+  
   let navigate = useNavigate()
   const [isLogin , setIsLogin]=useState(false)  
+
   useEffect(() => {
     (async () => {
       try {
-        console.log("Document cookies before request:", document.cookie);
+        // console.log("Document cookies before request:", document.cookie);
 
         let response =  await axios.get(`${import.meta.env.VITE_ISREGISTERED}/me`, { withCredentials:true })
 
         console.log("Response:", response.data.success);
               setIsLogin (response.data.success)
-              googleData.setIsLoginUser(response.data.success)
+              setIsLoginUser(response.data.success)
 
       } catch (error) {
         console.error("Error object:", error);
         if (error.response) {
           console.error("Error response:", error.response.data);
-          console.error("Status:", error.response.status);
-          console.error("Headers:", error.response.headers);
-        } else if (error.request) {
-          console.error("No response received:", error.request);
-        } else {
-          console.error("Error message:", error.message);
-        }
+          console.error("Error response:", error.response.data.message);
+          console.error("Error response:", error.response.data.success);
+          setIsLoginUser(error.response.data.success)
+
+         } // console.error("Status:", error.response.status);
+          // console.error("Headers:", error.response.headers);
+        // } else if (error.request) {
+        //   console.error("No response received:", error.request);
+        // } else {
+        //   console.error("Error message:", error.message);
+        // }
       }
     })();
   }, []);
@@ -114,16 +120,15 @@ export default function NewHeader() {
 
         <nav
           aria-label="Global"
-          className=" flex max-w-8xl items-center justify-between px-6 py-4 lg:px-8 bg-black text-white"
+          className=" flex max-w-8xl items-center justify-between px-6 py-3 lg:px-8 bg-black text-white"
         >
-          <div className="flex lg:flex-1">
+          <div className="relative flex lg:flex-1 left-14">
             <NavLink to="/" className="-m-1.5 p-1.5">
               <span className="sr-only">Your Company</span>
               <img
                 alt="fuck off"
                 src="/Nemesis.svg"
-                className="w-16 h-auto"
-                
+                className=" h-auto w-16"
               />
             </NavLink>
           </div>
@@ -228,8 +233,8 @@ export default function NewHeader() {
             <NavLink to="/productlist" className="text-sm/6 font-semibold">
               ProductList
             </NavLink>
-            <NavLink to="Profile" className="text-sm/6 font-semibold ">
-              Company
+            <NavLink to="/wishlist" className="text-sm/6 font-semibold ">
+              wishlist
             </NavLink>
           </PopoverGroup>
           {/* search bar */}
@@ -255,11 +260,11 @@ export default function NewHeader() {
                 />
               </svg>
             </div>
-            <NavLink to="/login">
+            <NavLink to={isLogin==true ? "./profile" : "./login"}>
               <button className="px-4 py-1 bg-white border text-black border-gray-300 rounded-md hover:bg-gray-100  flex items-center">
                 <User className="h-4 w-4 mr-2" />
                   {
-                      isLogin == true ? "PROFILE":"LOGIN"
+                      isLogin == true ? "PROFILE":"LOGIN" 
                   }
               </button>
             </NavLink>

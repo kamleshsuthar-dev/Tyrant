@@ -6,32 +6,22 @@ import { Button } from "@/components/ui/button"
 import { forwardRef } from "react";
 import { NavLink } from "react-router-dom";
 import axios from "axios";
-
+import DeleteBtn from '../component/home/DeleteBtn.jsx'
  const ShoppingCartTopUp= forwardRef(({product},ref)=> {
   
   // console.log(product,"shoppingcart");
   
   const [isOpen, setIsOpen] = useState(false);
-  const [items] = useState([
-    {
-      id: 1,
-      name: "Floral Print Kurta Set",
-      price: 129.5,
-      image:
-        "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/%7BC06A71B7-4076-4D41-8FA1-01B098E71F15%7D-zIxMpmdJd5Mb8LIJ1ORTkh4dczZqkW.png",
-    },
-  
+  const [cartItems , setCartItems] = useState([])
  
-  ]);
 
-  const subtotal = items.reduce((sum, item) => sum + item.price, 0)
 
- const [cursorEnter,setCursorEnter] = useState(false)
+ 
 
+const [cursorEnter , setCursorEnter] = useState(false)   
 const enter = ()=>{  
   setCursorEnter(true) 
 }
-
 const leave = ()=>{
      setCursorEnter(false)
      setTimeout(() => {
@@ -44,10 +34,40 @@ const leave = ()=>{
     }, 2000);
 }
 
+// useEffect(() => {
 
-  const addToCart = () => {
+//     const shoppingPopUp = async () => {
+//             try {
+//             let res = await axios.get(`${import.meta.env.VITE_GET_CART_PRODUCT}`);
+//             console.log("shop popupp  ", res.data);
+//             // let reversedData = res.data.reverse();    
+//             setCartItems(res.data.reverse());
+//             } catch (error) {
+//               console.log("pop up shopping cart get prd error" , error); 
+//             }
+//      }
+
+//     shoppingPopUp();
+// }, [setCartItems]);
+      const [cartMessage , setCartMessage] = useState(false)
+  const addToCart = async() => {
     setIsOpen(true)
    
+    try {
+    
+      let res = await axios.get(`${import.meta.env.VITE_GET_CART_PRODUCT}`);
+      console.log("shop popupp  ", res);
+      // let reversedData = res.data.reverse();    
+      setCartItems(res.data.reverse());
+        setCartMessage(true)
+      } catch (error) {
+        console.log("pop up shopping cart get prd error" , error); 
+      }
+    
+    setTimeout(() => {
+      setCartMessage(false)
+    }, 1000);  
+
     setTimeout(() => {
       setCursorEnter((prevCursorEnter) => {
         if (!prevCursorEnter) {
@@ -58,7 +78,16 @@ const leave = ()=>{
     }, 2000);
   }
 
- 
+  const deleteCartBtn = async(productCartID)=>{
+    try {
+        const res = await axios.post(`${import.meta.env.VITE_DELETE_CART_PRODUCT}`,{cartItemId: productCartID})
+            console.log(res);
+            setCartItems((prevProducts) => prevProducts.filter((product) => product._id !== productCartID));
+    } catch (error) {
+      console.log("delete cart btn error :" , error);
+      
+    }
+  }
 
   return (
     <div>
@@ -81,31 +110,52 @@ const leave = ()=>{
                 </div>
 
                 <div className="space-y-4">
-                  <div className="bg-[#9EFF00] text-[#202020] px-4 py-0.5 rounded-md text-sm text-extrabold text-center">
+                  <div className={`bg-[#9EFF00] text-[#202020] px-4 py-0.5 rounded-md text-sm text-extrabold text-center ${cartMessage === true? " ": "hidden"}`}>
                     Item Has Been Added Successfully
                   </div>
 
-                  <div className="space-y-4">
-                    {items.map((item) => (
-                      <div key={item.id} className="flex gap-4">
+                  {/* <div className="space-y-4 -h-[200px] bg-scroll">
+                    {cartItems.map((cartItem) => (
+                      <div key={cartItem._id} className="flex gap-4">
                         <div className="h-16 w-16 bg-muted rounded-md overflow-hidden">
                           <img
-                            src={item.image || "/placeholder.svg"}
-                            alt={item.name}
+                            src={cartItem.productId.pImages[0].URL || "/placeholder.svg"}
+                            alt={cartItem.name}
                             className="h-full w-full object-cover"
                           />
                         </div>
                         <div className="flex-1">
-                          <h3 className="font-medium text-sm">{item.name}</h3>
-                          <div className="text-sm text-muted-foreground mt-1">${item.price.toFixed(2)}</div>
+                          <h3 className="font-medium text-sm">{cartItem.name}</h3>
+                          <div className="text-sm text-muted-foreground mt-1">${cartItem.productId.pPrice.toFixed(2)}</div>
                         </div>
                       </div>
                     ))}
+                  </div> */}
+                  <div className="space-y-4 h-[150px] overflow-y-auto scrollbar-hide">
+                        {cartItems.map((cartItem) => (
+                          <div key={cartItem._id} className="flex gap-4">
+                            <div className="h-16 w-16 bg-muted rounded-md overflow-hidden">
+                              <img
+                                src={cartItem.productId.pImages[0].URL || "/placeholder.svg"}
+                                alt={cartItem.name}
+                                className="h-full w-full object-cover"
+                              />
+                            </div>
+                            <div className="flex-1 items-center">
+                              <h3 className="font-medium text-sm">{cartItem.productId.pName}</h3>
+                              <div className="text-sm text-muted-foreground mt-1">${cartItem.productId.pPrice.toFixed(2)}</div>
+                            </div>
+                            <div className=" " onClick={()=>deleteCartBtn(cartItem._id)}>
+                                 <DeleteBtn/>
+                            </div>
+                          </div>
+                        ))}
                   </div>
+
 
                   <div className="flex justify-between pt-4 border-t">
                     <div className="font-medium">SUBTOTAL</div>
-                    <div className="font-medium">${subtotal.toFixed(2)}</div>
+                    {/* <div className="font-medium">${subtotal.toFixed(2)}</div> */}
                   </div>
 
                   <div className="space-y-2 ">
