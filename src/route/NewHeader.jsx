@@ -121,7 +121,7 @@ export default function NewHeader() {
               <span className="sr-only">Your Company</span>
               <img
                 alt="fuck off"
-                src="../../public/Nemesis.svg"
+                src=".././public/Nemesis.svg"
                 className="w-16 h-auto"
                 
               />
