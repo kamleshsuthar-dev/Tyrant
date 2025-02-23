@@ -123,6 +123,7 @@ export default function NewHeader() {
                 alt="fuck off"
                 src="../../public/Nemesis.svg"
                 className="w-16 h-auto"
+                
               />
             </NavLink>
           </div>
