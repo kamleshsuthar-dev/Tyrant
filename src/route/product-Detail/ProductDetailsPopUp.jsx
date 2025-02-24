@@ -13,7 +13,7 @@
   // import { lazy,Suspense } from 'react'
 
   // const ProductDetails = lazy(()=> import('./ProductDetails'))
-  import ProductDetail from './product-Detail/ProductDetails'
+  import ProductDetail from './ProductDetails'
 
   function ProductDetailsPopUp() {
     return (

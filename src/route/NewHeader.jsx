@@ -83,7 +83,7 @@ export default function NewHeader() {
 
         let response =  await axios.get(`${import.meta.env.VITE_ISREGISTERED}/me`, { withCredentials:true })
 
-        console.log("Response:", response.data.success);
+        console.log("Response:", response.data);
               setIsLogin (response.data.success)
               setIsLoginUser(response.data.success)
 
