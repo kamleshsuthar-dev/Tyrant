@@ -10,19 +10,21 @@ import Home from "./route/Home.jsx";
 import { GoogleOAuthProvider } from "@react-oauth/google";
 import { lazy } from "react";
 import AboutUs from "./route/AboutUs.jsx";
+import ReviewSection from "./route/product-Detail/ReviewSection.jsx";
+import ProductDesciption from "./route/product-Detail/ProductDescription.jsx";
 // import TempTopUP from "./route/TempTopUP.jsx";
 // Lazy loaded components
 const ProductList = lazy(() => import("./route/ProductList.jsx"));
 const Login = lazy(() => import("./component/Auth/Login/Login.jsx"));
-const ShoppingCartTopUp = lazy(() => import("./route/ShoppingCartTopUp.jsx"));
+const ShoppingCartTopUp = lazy(() => import("./route/shoppingCart/ShoppingCartTopUp.jsx"));
 const Password = lazy(() => import("./component/Auth/Password.jsx"));
 const GoogleAuth = lazy(() => import("./component/Auth/GoogleAuth.jsx"));
-const ProductDetails = lazy(() => import("./route/ProductDetails.jsx"));
+const ProductDetails = lazy(() => import("./route/product-Detail/ProductDetails.jsx"));
 const ProductDetailsPopUp = lazy(() =>
-  import("./route/ProductDetailsPopUp.jsx")
+  import("./route/product-Detail/ProductDetailsPopUp.jsx")
 );
-const ShoppingCart = lazy(() => import("./route/ShoppingCart.jsx"));
-const WishList = lazy(() => import("../src/route/WishList.jsx"));
+const ShoppingCart = lazy(() => import("./route/shoppingCart/ShoppingCart.jsx"));
+const WishList = lazy(() => import("./route/wishlist/WishList.jsx"));
 const CheckOut = lazy(() => import("./route/CheckOut.jsx"));
 const ForgotPasswordForm = lazy(() =>
   import("./component/Auth/ForgotPassword/ForgotPasswordForm.jsx")
@@ -62,6 +64,8 @@ const router = createBrowserRouter(
       <Route path="/" element={<Layout />}>
               <Route path="" element={<Home />} />
               <Route path="deletebtn" element={<DeleteBtn />} />
+              <Route path="review" element={<ReviewSection />} />
+              <Route path="description" element={<ProductDesciption />} />
 
               <Route
                 path="productlist"
@@ -127,6 +131,14 @@ const router = createBrowserRouter(
                   </Suspense>
                 }
               />
+             <Route
+              path="shoppingcart"
+              element={
+                <Suspense fallback={<LoadingFallback />}>
+                  <ShoppingCart />
+                </Suspense>
+              }
+             />
 
       </Route>
 
@@ -166,14 +178,7 @@ const router = createBrowserRouter(
 
       {/* Shopping routes */}
 
-      <Route
-        path="shoppingcart"
-        element={
-          <Suspense fallback={<LoadingFallback />}>
-            <ShoppingCart />
-          </Suspense>
-        }
-      />
+    
 
       <Route
         path="ss"

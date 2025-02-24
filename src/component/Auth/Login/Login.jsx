@@ -81,7 +81,8 @@ const Login = ({ text }) => {
                 "Password is required";
               document.querySelector(".passwordText").classList.remove("hidden");
             }
-      } else if (!emailRegex.test(credentials.email)) {
+      } 
+       if (!emailRegex.test(credentials.email)) {
         document.querySelector(".emailText").textContent =
           "Please enter a valid email";
         document.querySelector(".emailText").classList.remove("hidden");
@@ -89,7 +90,14 @@ const Login = ({ text }) => {
           autoClose: 500,
           theme: "colored",
         });
-      } else if (credentials.email && credentials.password) {
+      }
+       if (!credentials.password>8){
+        document.querySelector(".passwordText").textContent =
+        "Password is required ";
+      document.querySelector(".passwordText").classList.remove("hidden");
+    
+      } 
+       if (credentials.email && credentials.password) {
         const isUserRegistered = await checkIsRegistered(credentials.email);
         console.log("isUserRegistered", isUserRegistered);
 
@@ -107,7 +115,9 @@ const Login = ({ text }) => {
             if (response.data.message === "Logged in successfully") {
               await navigate("/");
             } else if (response.data.message === "Password Invalid") {
-              document.querySelector(".invalidEP").classList.remove("hidden");
+              // document.querySelector(".invalidEP").classList.remove("hidden");
+                document.querySelector('.message').classList.remove('hidden');
+                document.querySelector('.message').textContent = "Invalid email or password"
             }
 
             setError(null);
@@ -122,11 +132,17 @@ const Login = ({ text }) => {
           document.querySelector(".message").classList.remove("hidden");
           document.querySelector(".message").textContent =
           "User Is Not Registered Yet";
+          setTimeout(() => {
+            navigate('/register')
+          }, (1000));
         }
 
      
       } else {
-        document.querySelector(".invalidEP").classList.remove("hidden");
+        // document.querySelector(".invalidEP").classList.remove("hidden");
+        document.querySelector(".message").textContent =
+       " Invaild email and password ?" ;
+        document.querySelector(".message").classList.remove('remove');
       }
 
    
@@ -171,9 +187,9 @@ const Login = ({ text }) => {
             className="h-full w-full absolute top-0 bottom-0  rounded-2xl z-[0]"
           />
           <div className="card min-w-[350px] min-h-[60%]  bg-white rounded-xl text-black grid gap-2 items-center p-[52px] font-comfortaa text-lg z-[1]">
-            <div className="invalidEP text-red-500 text-sm mt-[2px] text-center mb-6 hidden  ">
+            {/* <div className="invalidEP text-red-500 text-sm mt-[2px] text-center mb-6 hidden  ">
               Invaild email and password ? 
-            </div>
+            </div> */}
             <div className="message text-red-500 text-sm mt-[2px] text-center mb-6 hidden  ">
              
             </div>
@@ -268,10 +284,12 @@ const Login = ({ text }) => {
       <div className="sm:hidden flex flex-col justify-between items-center h-screen ">
         <div className="h-[70%] flex justify-center items-center">
           <div className="card w-[350px]  min-w-[286px]  bg-white rounded-xl text-black grid gap-2 items-center p-8 font-comfortaa text-md border-solid border-black ">
-            <div className="invalidEP text-red-500 text-sm mt-[2px] text-center mb-6 hidden ">
+            {/* <div className="invalidEP text-red-500 text-sm mt-[2px] text-center mb-6 hidden ">
               Invaild email and password ?
-            </div>
-
+            </div> */}
+            <div className="message text-red-500 text-sm mt-[2px] text-center mb-6 hidden  ">
+             
+             </div>
             <div>
               <div className="text-3xl col-span-1 row-span-1 font-bold ">
                 Sign In To{" "}

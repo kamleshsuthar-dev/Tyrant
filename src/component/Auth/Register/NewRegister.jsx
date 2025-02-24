@@ -162,27 +162,37 @@ function NewRegister({ text }) {
           theme: "colored",
         });
         // toast.error("All fields are required", { autoClose: 500, theme: 'colored' })
-      } else if (credentials.name.length < 1) {
+      } 
+       if (credentials.name.length < 1) {
+        document.querySelector(".nameText").classList.remove("hidden");
         console.log("Please enter valid name", {
           autoClose: 500,
           theme: "colored",
         });
         document.querySelector(".nameText").classList.remove("hidden");
-      } else if (emailRegex.test(credentials.email) === false) {
+      } 
+       if (emailRegex.test(credentials.email) === false) {
+        document.querySelector(".emailText").textContent =
+        "Enter a Valid Email ";
+      document.querySelector(".emailText").classList.remove("hidden");
         console.log("Please enter valid email", {
           autoClose: 500,
           theme: "colored",
         });
-      } else if (credentials.password.length < 8) {
-        console.log("Please enter password with more than 8 characters", {
-          autoClose: 500,
-          theme: "colored",
-        });
-      } else if (
-        credentials.email &&
-        credentials.name &&
-        credentials.password
-      ) {
+      } 
+
+      if (credentials.password.length < 1) {
+        document.querySelector(".passwordText").textContent =
+          "Password is required";
+        document.querySelector(".passwordText").classList.remove("hidden");
+      }
+        else if (credentials.password.length < 8) {
+        document.querySelector(".passwordText").textContent =
+        "Password Should Be More Then 8 letter";
+      document.querySelector(".passwordText").classList.remove("hidden");
+        console.log("Please enter password with more than 8 characters");
+      } 
+       if ( credentials.email && credentials.name && credentials.password ) {
         if (isRegistered === false) {
           axios
             .post(

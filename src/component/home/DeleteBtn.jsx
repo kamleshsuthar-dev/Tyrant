@@ -34,13 +34,13 @@ const DeleteIconButton = () => {
       >
         {!isDeleting &&  (
           <Trash2 
-            className="w-5 h-5 text-gray-600"
+            className="w-5 h-5 text-white"
           />
         )}
            
         {isDeleting && (
           <Loader 
-            className="w-5 h-5 text-red-600 animate-spin"
+            className="w-5 h-5 text-[#FFFFFF] animate-spin"
           />
         )}
       </button>
