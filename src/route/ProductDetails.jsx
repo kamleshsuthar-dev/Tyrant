@@ -56,11 +56,7 @@ export default function ProductDetail() {
   useEffect(() => {
     const singlePrd = async () => {
       try {
-        let res = await axios.post(
-          `${import.meta.env.VITE_PRODUCT_SINGLE_PRODUCT}`,
-          { pId: productId }
-        );
-
+        let res = await axios.get(${import.meta.env.VITE_PRODUCT_SINGLE_PRODUCT}?pId=${productId});
         console.log("detail", res.data.product);
         if (res.data.product.isInWishlist) {
           setWishlist(true);
