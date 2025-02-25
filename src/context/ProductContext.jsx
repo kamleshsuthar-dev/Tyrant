@@ -1,16 +1,13 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { createContext,useContext } from 'react'
 
 export const ProductDataContext= createContext()
 
 function ProductContext({children}) {
-    const prd = {
-        name: "Banti Saini",
-
-    }
+  const [f,setF] = useState()
 
   return (
-    <ProductDataContext.Provider value={{prd}}>
+    <ProductDataContext.Provider value={{f,setF}}>
       {children}
     </ProductDataContext.Provider>
   )

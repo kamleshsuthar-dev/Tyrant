@@ -1,9 +1,10 @@
+
 "use client";
 
 import { useEffect, useRef,Suspense,lazy ,useState } from "react";
 import { Heart, Minus, Plus, Share2 } from "lucide-react";
 
-import { useLocation, NavLink, useNavigate,useParams } from "react-router-dom";
+import { useLocation, NavLink, useNavigate,useParams,useLoaderData } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
@@ -20,13 +21,14 @@ import axios from "axios";
 import WishList from "../wishlist/WishList";
 import ReviewSection from "./ReviewSection";
 import ProductDesciption from "./ProductDescription";
-
 const ShoppingCartTopUp = lazy(() => import("../shoppingCart/ShoppingCartTopUp"));
 
 // import { cn } from "@/lib/utils"
 function cn(...classes) {
   return classes.filter(Boolean).join(" ");
 }
+
+
 
 export default function ProductDetail() {
   const { isLoginUser } = useGoogleAuthContext();
@@ -49,21 +51,21 @@ export default function ProductDetail() {
   const navigate = useNavigate();
   const popUp = useRef(null);
 
-  const location = useLocation();
-  const productData = location.state?.product;
-    const wishlistID = location.state?.wishlistID;
+  // const location = useLocation();
+  // const productData = location.state?.product;
+  //   const wishlistID = location.state?.wishlistID;
     
-  const productId = productData?._id ?? wishlistID ;
-
+  // const productId = productData?._id ?? wishlistID ;
+//  const product =  useLoaderData()
+   
+  const {pId} = useParams()
+  
   useEffect(() => {
     const singlePrd = async () => {
       try {
-        let res = await axios.post(
-          `${import.meta.env.VITE_PRODUCT_SINGLE_PRODUCT}`,
-          { pId: productId }
-        );
-
-        console.log("detail", res.data.product);
+        let res = await axios.get(`${import.meta.env.VITE_PRODUCT_SINGLE_PRODUCT}?pId=${pId}`);
+       
+        // console.log("detail", res.data.product);
         if (res.data.product.isInWishlist) {
           setWishlist(true);
         } else {
@@ -76,6 +78,7 @@ export default function ProductDetail() {
     };
     singlePrd();
   }, []);
+
 
   useEffect(() => {
     if (!api) {
@@ -111,7 +114,7 @@ export default function ProductDetail() {
             setWishlistLoading(true)
             const res = await axios.post(
               `${import.meta.env.VITE_PRODUCT_TOGGLE_WISHLIST}`,
-              { productId: productId },
+              { productId: pId },
               { withCredentials: true }
             );
             console.log(res.data);
@@ -134,7 +137,7 @@ export default function ProductDetail() {
     if (isLoginUser === true) {
         try {
           let res = await axios.post(`${import.meta.env.VITE_ADD_CART_PRODUCT}`, {
-            productId: productId,
+            productId: pId,
             quantity: quantity,
             color: selectedColor,
             size: selectedSize,

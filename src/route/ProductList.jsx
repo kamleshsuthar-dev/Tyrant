@@ -1,17 +1,27 @@
 import axios from 'axios';
 import React, { useEffect, useState } from 'react'
 import { use } from 'react';
-import { useNavigate ,Link} from 'react-router-dom';
+import { useNavigate ,Link, useLoaderData,} from 'react-router-dom';
 
 import { Card, CardContent } from "@/components/ui/card"
 import { Star, StarHalf } from "lucide-react"
 import ProductListSkeleton from '../component/skeleton/ProductListSkeleton';
 
-
+// export const productListApiLoader = async({params })=>{
+//       cId = params .cId
+//       try {
+//           let res = await axios.get(`${import.meta.env.VITE_PRODUCT_BY_CATEGORY}?cId=${cId}`)
+//           console.log(res);
+//           return res ;
+//       } catch (error) {
+//         console.log("poductList api error ", error);
+//       }
+// }
 
 
 export default function ProductList() {
   // const {prd,name} = useProduct()
+  
   const discount = 20
   const cId="67ab9caa61b7763a0938c690"
   const [products,setProducts] = useState([])
@@ -21,8 +31,8 @@ export default function ProductList() {
         useEffect(()=>{
           ;(async()=>{
             try {
-              let res = await axios.get(`${import.meta.env.VITE_PRODUCT_BY_CATEGORY}?cId=${cId}`);
-              console.log(res.data.products);
+              let res = await axios.get(`${import.meta.env.VITE_PRODUCT_BY_CATEGORY}?cId=${cId}`)
+              console.log(res);
                 setProducts(res.data.products)
               
             } catch (error) {
@@ -35,8 +45,10 @@ export default function ProductList() {
             let navigate = useNavigate()
 
   const productDetailFunction = (e,product)=>{
+    console.log(product._id);
+    
     e.preventDefault();
-        navigate('/productdetails',{state:{product}})
+        navigate(`/productdetails/${product._id}`, { replace: true })
              
 }
 

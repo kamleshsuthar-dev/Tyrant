@@ -47,6 +47,9 @@ const LoadingFallback = () => (
   </div>
 );
 import axios from "axios";
+
+import ProductDetailSkeleton from "./component/skeleton/ProductDetailSkeleton.jsx";
+
 axios.defaults.withCredentials = true;
 export const GoogleBtn = ({ text }) => {
   return (
@@ -68,13 +71,33 @@ const router = createBrowserRouter(
               <Route path="description" element={<ProductDesciption />} />
 
               <Route
-                path="productlist"
+                path="productlist/:cId"
                 element={
-                  <Suspense fallback={<LoadingFallback />}>
-                    <ProductList />
+                <Suspense fallback={<LoadingFallback />}>
+                  <ProductList />
+                </Suspense>
+                 }
+                 >
+              </Route>
+              <Route
+               
+                path="productdetails/:pId"
+                element={
+                  <Suspense fallback={<ProductDetailSkeleton/>}>
+                    <ProductDetails />
                   </Suspense>
                 }
               />
+             {/* <Route
+                loader={ProductDetailLoader}
+                path="productdetails/:pId"
+                element={
+                  <Suspense fallback={<LoadingFallback />}>
+                    <ProductDetails />
+                  </Suspense>
+                }
+              /> */}
+
               <Route
                 path="about"
                 element={
@@ -83,14 +106,7 @@ const router = createBrowserRouter(
                   </Suspense>
                 }
               />
-              <Route
-                path="productdetails"
-                element={
-                  <Suspense fallback={<LoadingFallback />}>
-                    <ProductDetails />
-                  </Suspense>
-                }
-              />
+            
               <Route
                 path="productdetailspopup"
                 element={

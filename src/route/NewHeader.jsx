@@ -71,8 +71,8 @@ const callsToAction = [
 
 export default function NewHeader() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
-  const { isLoginUser,setIsLoginUser } = useGoogleAuthContext();
-  
+  const { setIsLoginUser,setUserDetails} = useGoogleAuthContext();
+ 
   let navigate = useNavigate()
   const [isLogin , setIsLogin]=useState(false)  
 
@@ -83,9 +83,10 @@ export default function NewHeader() {
 
         let response =  await axios.get(`${import.meta.env.VITE_ISREGISTERED}/me`, { withCredentials:true })
 
-        console.log("Response:", response.data);
+        // console.log("Response:", response.data);
               setIsLogin (response.data.success)
               setIsLoginUser(response.data.success)
+              setUserDetails(response.data.user)
 
       } catch (error) {
         console.error("Error object:", error);
@@ -230,7 +231,10 @@ export default function NewHeader() {
               </PopoverPanel>
             </Popover>
 
-            <NavLink to="/productlist" className="text-sm/6 font-semibold">
+            {/* <NavLink to={`/productlist/67ab9caa61b7763a0938c690`} className="text-sm/6 font-semibold">
+              ProductList
+            </NavLink> */}
+            <NavLink to={`/productlist/67ab9caa61b7763a0938c690`} className="text-sm/6 font-semibold">
               ProductList
             </NavLink>
             <NavLink to="/wishlist" className="text-sm/6 font-semibold ">
