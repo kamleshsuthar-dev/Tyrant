@@ -21,7 +21,7 @@ export default function ProductList() {
         useEffect(()=>{
           ;(async()=>{
             try {
-              let res = await axios.post(`${import.meta.env.VITE_PRODUCT_BY_CATEGORY}`,{cId:cId})
+              let res = await axios.get(${import.meta.env.VITE_PRODUCT_BY_CATEGORY}?cId=${cId});
               console.log(res.data.products);
                 setProducts(res.data.products)
               
