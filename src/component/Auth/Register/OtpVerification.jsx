@@ -7,12 +7,12 @@ import {
 import { useCallback, useEffect, useState } from "react"
 import { Button } from "@mui/material"
 import axios from "axios"
-import { useLocation } from "react-router-dom"
+import { useLocation,useNavigate } from "react-router-dom"
   export function OtpVerification() {
     const location = useLocation()
     const credentials = location?.state.credentials
     console.log(credentials);
-    
+    const navigate = useNavigate()
     const [value , setValue] = useState()
     const [OTP,setOTP] = useState()
    
