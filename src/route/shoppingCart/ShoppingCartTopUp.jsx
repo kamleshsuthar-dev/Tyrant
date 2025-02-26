@@ -7,13 +7,35 @@ import { forwardRef } from "react";
 import { NavLink } from "react-router-dom";
 import axios from "axios";
 import DeleteBtn from '../../component/home/DeleteBtn.jsx'
+
+
+const SkeletonCartItem = () => {
+  return (
+    <div className="flex items-center p-4 border-b animate-pulse">
+      <div className="bg-gray-200 h-15 w-15 mr-4"></div>
+      <div className="flex-1">
+        <div className="h-3 bg-gray-200 rounded w-3/4 mb-2"></div>
+        <div className="h-2 bg-gray-200 rounded w-1/4 mb-2"></div>
+        <div className="h-2 bg-gray-200 rounded w-1/2"></div>
+      </div>
+      <div className="mx-4">
+        <div className="h-2 bg-gray-200 rounded w-16"></div>
+      </div>
+      <div>
+        <div className="h-2 bg-gray-200 rounded w-20"></div>
+      </div>
+    </div>
+  );
+};
+
+
  const ShoppingCartTopUp= forwardRef(({product},ref)=> {
   
   // console.log(product,"shoppingcart");
   
   const [isOpen, setIsOpen] = useState(false);
   const [cartItems , setCartItems] = useState([])
- 
+  const [shoppingPopupLoader,setShoppingPopupLoadeer] = useState(true)
 
 
  
@@ -34,34 +56,26 @@ const leave = ()=>{
     }, 2000);
 }
 
-// useEffect(() => {
 
-//     const shoppingPopUp = async () => {
-//             try {
-//             let res = await axios.get(`${import.meta.env.VITE_GET_CART_PRODUCT}`);
-//             console.log("shop popupp  ", res.data);
-//             // let reversedData = res.data.reverse();    
-//             setCartItems(res.data.reverse());
-//             } catch (error) {
-//               console.log("pop up shopping cart get prd error" , error); 
-//             }
-//      }
-
-//     shoppingPopUp();
-// }, [setCartItems]);
       const [cartMessage , setCartMessage] = useState(false)
   const addToCart = async() => {
     setIsOpen(true)
+    let cartText = document.getElementsByClassName('cartMessage')
    
     try {
-    
       let res = await axios.get(`${import.meta.env.VITE_GET_CART_PRODUCT}`);
       console.log("shop popupp  ", res);
       // let reversedData = res.data.reverse();    
       setCartItems(res.data.reverse());
+        setShoppingPopupLoadeer(false)
         setCartMessage(true)
+        cartText.textContent='Item Has Been Added Successfully'
+
       } catch (error) {
         console.log("pop up shopping cart get prd error" , error); 
+        setShoppingPopupLoadeer(false)
+        setCartMessage(true)
+        cartText.textContent='Something went wrong try Again'
       }
     
     setTimeout(() => {
@@ -80,9 +94,15 @@ const leave = ()=>{
 
   const deleteCartBtn = async(productCartID)=>{
     try {
-        const res = await axios.post(`${import.meta.env.VITE_DELETE_CART_PRODUCT}`,{cartItemId: productCartID})
+        const res = await axios.delete(`${import.meta.env.VITE_DELETE_CART_PRODUCT}/${productCartID}`)
             console.log(res);
             setCartItems((prevProducts) => prevProducts.filter((product) => product._id !== productCartID));
+            setCartMessage(true)
+            document.querySelector('.cartMessage').textContent='Item Has Been Deleted Successfully'
+            setTimeout(() => {
+              setCartMessage(false)
+            }, 1000);  
+        
     } catch (error) {
       console.log("delete cart btn error :" , error);
       
@@ -96,7 +116,8 @@ const leave = ()=>{
         Add to Cart
       </Button>
 
-      {isOpen && (
+      {  isOpen && (
+       
         <>
           <div className="main-box fixed inset-0 bg-black/20 z-50 transition-opacity" onClick={() => setIsOpen(false)} />
           <div className="fixed bottom-0 right-4 z-50 w-full max-w-[380px] animate-slide-up ">
@@ -110,29 +131,20 @@ const leave = ()=>{
                 </div>
 
                 <div className="space-y-4">
-                  <div className={`bg-[#9EFF00] text-[#202020] px-4 py-0.5 rounded-md text-sm text-extrabold text-center ${cartMessage === true? " ": "hidden"}`}>
+                  <div className={`cartMessage bg-[#9EFF00] text-[#202020] px-4 py-0.5 rounded-md text-sm text-extrabold text-center ${cartMessage === true? " ": "hidden"}`}>
                     Item Has Been Added Successfully
                   </div>
 
-                  {/* <div className="space-y-4 -h-[200px] bg-scroll">
-                    {cartItems.map((cartItem) => (
-                      <div key={cartItem._id} className="flex gap-4">
-                        <div className="h-16 w-16 bg-muted rounded-md overflow-hidden">
-                          <img
-                            src={cartItem.productId.pImages[0].URL || "/placeholder.svg"}
-                            alt={cartItem.name}
-                            className="h-full w-full object-cover"
-                          />
-                        </div>
-                        <div className="flex-1">
-                          <h3 className="font-medium text-sm">{cartItem.name}</h3>
-                          <div className="text-sm text-muted-foreground mt-1">${cartItem.productId.pPrice.toFixed(2)}</div>
-                        </div>
-                      </div>
-                    ))}
-                  </div> */}
+      
                   <div className="space-y-4 h-[150px] overflow-y-auto scrollbar-hide">
-                        {cartItems.map((cartItem) => (
+                        { shoppingPopupLoader? (
+                            <>
+                            <SkeletonCartItem/>
+                            <SkeletonCartItem/>
+                            <SkeletonCartItem/>
+                            </>
+                          ):(
+                        cartItems.map((cartItem) => (
                           <div key={cartItem._id} className="flex gap-4">
                             <div className="h-16 w-16 bg-muted rounded-md overflow-hidden">
                               <img
@@ -149,7 +161,7 @@ const leave = ()=>{
                                  <DeleteBtn/>
                             </div>
                           </div>
-                        ))}
+                        )))}
                   </div>
 
 

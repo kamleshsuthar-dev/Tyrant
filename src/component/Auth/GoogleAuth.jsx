@@ -66,7 +66,7 @@ function GoogleAuth({ text }) {
   return (
     <>
       <button
-        className="col-span-1 row-span-1 rounded-xl bg-white flex items-center justify-center gap-2 py-1 text-center sm:text-xl text-lg  text-[#3F3F3F] border-2 border-solid border-black hover:scale-[0.95] "
+        className="col-span-1 row-span-1 rounded-xl bg-white flex items-center justify-center gap-2 py-1 text-center sm:text-xl text-lg  text-[#3F3F3F] border-2 border-solid border-black active:scale-[0.95] hover:bg-[#dcd7d7] "
         onClick={googleSubmit}
       >
         <svg

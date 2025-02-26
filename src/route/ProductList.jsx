@@ -5,18 +5,9 @@ import { useNavigate ,Link, useLoaderData,} from 'react-router-dom';
 
 import { Card, CardContent } from "@/components/ui/card"
 import { Star, StarHalf } from "lucide-react"
+
 import ProductListSkeleton from '../component/skeleton/ProductListSkeleton';
 
-// export const productListApiLoader = async({params })=>{
-//       cId = params .cId
-//       try {
-//           let res = await axios.get(`${import.meta.env.VITE_PRODUCT_BY_CATEGORY}?cId=${cId}`)
-//           console.log(res);
-//           return res ;
-//       } catch (error) {
-//         console.log("poductList api error ", error);
-//       }
-// }
 
 
 export default function ProductList() {
@@ -32,7 +23,7 @@ export default function ProductList() {
           ;(async()=>{
             try {
               let res = await axios.get(`${import.meta.env.VITE_PRODUCT_BY_CATEGORY}?cId=${cId}`)
-              console.log(res);
+              // console.log(res);
                 setProducts(res.data.products)
               
             } catch (error) {

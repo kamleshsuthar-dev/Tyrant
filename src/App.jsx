@@ -1,18 +1,16 @@
 import React, { Suspense } from "react";
-import {
-  Route,
-  RouterProvider,
-  createBrowserRouter,
-  createRoutesFromElements,
-} from "react-router-dom";
+import { Route, RouterProvider, createBrowserRouter, createRoutesFromElements } from "react-router-dom";
 import Layout from "../Layout.jsx";
 import Home from "./route/Home.jsx";
 import { GoogleOAuthProvider } from "@react-oauth/google";
 import { lazy } from "react";
 import AboutUs from "./route/AboutUs.jsx";
 import ReviewSection from "./route/product-Detail/ReviewSection.jsx";
+import ReviewFilter from "./route/product-Detail/ReviewFilter.jsx";
 import ProductDesciption from "./route/product-Detail/ProductDescription.jsx";
-// import TempTopUP from "./route/TempTopUP.jsx";
+import ProductListSkeleton from './component/skeleton/ProductListSkeleton.jsx';
+import DeleteBtn from './component/home/DeleteBtn.jsx'
+import ShoppingCartSkeleton from "./component/skeleton/ShoppingCartSkeleton.jsx";
 // Lazy loaded components
 const ProductList = lazy(() => import("./route/ProductList.jsx"));
 const Login = lazy(() => import("./component/Auth/Login/Login.jsx"));
@@ -20,24 +18,18 @@ const ShoppingCartTopUp = lazy(() => import("./route/shoppingCart/ShoppingCartTo
 const Password = lazy(() => import("./component/Auth/Password.jsx"));
 const GoogleAuth = lazy(() => import("./component/Auth/GoogleAuth.jsx"));
 const ProductDetails = lazy(() => import("./route/product-Detail/ProductDetails.jsx"));
-const ProductDetailsPopUp = lazy(() =>
-  import("./route/product-Detail/ProductDetailsPopUp.jsx")
-);
+const ProductDetailsPopUp = lazy(() =>import("./route/product-Detail/ProductDetailsPopUp.jsx"));
 const ShoppingCart = lazy(() => import("./route/shoppingCart/ShoppingCart.jsx"));
 const WishList = lazy(() => import("./route/wishlist/WishList.jsx"));
 const CheckOut = lazy(() => import("./route/CheckOut.jsx"));
-const ForgotPasswordForm = lazy(() =>
-  import("./component/Auth/ForgotPassword/ForgotPasswordForm.jsx")
-);
-const NewRegister = lazy(() =>
-  import("./component/Auth/Register/NewRegister.jsx")
-);
-const Profile = lazy(() => import("./route/Profile.jsx"));
-const HomeSquareSection = lazy(() =>
-  import("./component/home/HomeSquareSection.jsx")
-);
+const ForgotPasswordForm = lazy(() =>import("./component/Auth/ForgotPassword/ForgotPasswordForm.jsx"));
+const NewRegister = lazy(() =>import("./component/Auth/Register/NewRegister.jsx"));
+const HomeSquareSection = lazy(() => import("./component/home/HomeSquareSection.jsx"));
+const Profile = lazy(() => import("./route/profile/Profile.jsx"));
+const EditProfile = lazy(() => import("./route/profile/EditProfile.jsx"));
+const Address = lazy(() => import("./route/profile/Address.jsx"));
+const Order = lazy(() => import("./route/profile/Order.jsx"));
 
-import DeleteBtn from './component/home/DeleteBtn.jsx'
 // Loading fallback component
 const LoadingFallback = () => (
   <div className="flex items-center justify-center min-h-screen">
@@ -46,11 +38,13 @@ const LoadingFallback = () => (
     </div>
   </div>
 );
+
 import axios from "axios";
 
 import ProductDetailSkeleton from "./component/skeleton/ProductDetailSkeleton.jsx";
 
 axios.defaults.withCredentials = true;
+
 export const GoogleBtn = ({ text }) => {
   return (
     <GoogleOAuthProvider clientId={import.meta.env.VITE_GOOGLE_API}>
@@ -69,18 +63,19 @@ const router = createBrowserRouter(
               <Route path="deletebtn" element={<DeleteBtn />} />
               <Route path="review" element={<ReviewSection />} />
               <Route path="description" element={<ProductDesciption />} />
+              <Route path="skeleton" element={<ShoppingCartSkeleton />} />
+              <Route path="filter" element={<ReviewFilter/>} />
 
               <Route
                 path="productlist/:cId"
                 element={
-                <Suspense fallback={<LoadingFallback />}>
+                <Suspense fallback={<ProductListSkeleton />}>
                   <ProductList />
                 </Suspense>
                  }
                  >
               </Route>
-              <Route
-               
+              <Route             
                 path="productdetails/:pId"
                 element={
                   <Suspense fallback={<ProductDetailSkeleton/>}>
@@ -88,16 +83,7 @@ const router = createBrowserRouter(
                   </Suspense>
                 }
               />
-             {/* <Route
-                loader={ProductDetailLoader}
-                path="productdetails/:pId"
-                element={
-                  <Suspense fallback={<LoadingFallback />}>
-                    <ProductDetails />
-                  </Suspense>
-                }
-              /> */}
-
+        
               <Route
                 path="about"
                 element={
@@ -120,6 +106,30 @@ const router = createBrowserRouter(
                 element={
                   <Suspense fallback={<LoadingFallback />}>
                     <Profile />
+                  </Suspense>
+                }
+              />
+              <Route
+                path="editprofile"
+                element={
+                  <Suspense fallback={<LoadingFallback />}>
+                    <EditProfile />
+                  </Suspense>
+                }
+              />
+              <Route
+                path="address"
+                element={
+                  <Suspense fallback={<LoadingFallback />}>
+                    <Address />
+                  </Suspense>
+                }
+              />
+              <Route
+                path="order"
+                element={
+                  <Suspense fallback={<LoadingFallback />}>
+                    <Order />
                   </Suspense>
                 }
               />

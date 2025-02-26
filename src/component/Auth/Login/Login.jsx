@@ -259,7 +259,7 @@ const Login = ({ text }) => {
             </div>
             <div className="grid gap-1">
               <button
-                className="col-span-1 row-span-1 rounded-xl bg-[#3F3F3F]   block text-center text-white text-2xl py-1 hover:scale-[0.95]"
+                className="col-span-1 row-span-1 rounded-xl bg-[#3F3F3F]   block text-center text-white text-2xl py-1 active:scale-[0.95] hover:bg-[#232222]"
                 onClick={handleSubmit}
               >
                 Sign In &gt;&gt;
@@ -272,7 +272,7 @@ const Login = ({ text }) => {
             </div>
             <div className="mt-2 text-sm text-center">
               Don't have an account?{" "}
-              <NavLink to="/register" className="text-[#0F7DE3]">
+              <NavLink to="/register" className="text-[#0F7DE3] hover:underline">
                 Sign up &rarr;
               </NavLink>
             </div>
@@ -355,7 +355,7 @@ const Login = ({ text }) => {
               <div className="passwordText text-red-600 text-xs my-1 hidden"></div>
             </div>
             <div className="grid gap-1">
-              <button className="col-span-1 row-span-1 rounded-xl bg-[#3F3F3F]   block text-center text-white text-xl py-1 focus:scale-[0.95]"
+              <button className="col-span-1 row-span-1 rounded-xl bg-[#3F3F3F]   block text-center text-white text-xl py-1 active:scale-[0.95] hover:bg-[#232222]"
                onClick={handleSubmit}
               >
                 Sign In &gt;&gt;
@@ -369,7 +369,7 @@ const Login = ({ text }) => {
 
               <div className="mt-2 text-sm text-center">
                 Don't have an account?{" "}
-                <NavLink to="/register" className="text-[#0F7DE3]">
+                <NavLink to="/register" className="text-[#0F7DE3] hover:underline">
                   Sign up &rarr;
                 </NavLink>
               </div>

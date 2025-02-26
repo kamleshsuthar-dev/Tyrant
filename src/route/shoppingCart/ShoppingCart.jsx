@@ -15,9 +15,27 @@ export default function ShoppingCart() {
 
   // const [quantity, setQuantity] = useState(1);
   const [cartItems, setCartItems] = useState([]);
-  // const subtotal = products.reduce((sum, product) => sum + product.price * product.quantity, 0)
+  const [isLoading , setISLoading] = useState(true)
+ 
   
-  
+  const SkeletonCartItem = () => {
+    return (
+      <div className="flex items-center p-4 border-b animate-pulse">
+        <div className="bg-gray-200 h-20 w-20 mr-4"></div>
+        <div className="flex-1">
+          <div className="h-4 bg-gray-200 rounded w-3/4 mb-2"></div>
+          <div className="h-3 bg-gray-200 rounded w-1/4 mb-2"></div>
+          <div className="h-3 bg-gray-200 rounded w-1/2"></div>
+        </div>
+        <div className="mx-4">
+          <div className="h-4 bg-gray-200 rounded w-16"></div>
+        </div>
+        <div>
+          <div className="h-4 bg-gray-200 rounded w-20"></div>
+        </div>
+      </div>
+    );
+  };
   
 
   const [checkedItems, setCheckedItems] = useState({});
@@ -48,9 +66,18 @@ export default function ShoppingCart() {
       try {
         let res = await axios.get(`${import.meta.env.VITE_GET_CART_PRODUCT}`);
         console.log("shop ", res.data);
+
+        const initialCheckedState = res.data.reduce((acc, item) => {
+          acc[item._id] = true; // Set all items to checked initially
+          return acc;
+        }, {});
+  
+        setCheckedItems(initialCheckedState);
         setCartItems(res.data.reverse());
+        setISLoading(false)
       } catch (error) {
         console.log("fetch cart error", error);
+        setISLoading(false)
       }
     })();
   }, []);
@@ -90,7 +117,7 @@ export default function ShoppingCart() {
     }
   };
 
-  const buttonStyles = "hover:bg-transparent hover:text-gray-400 border-none";
+
   return (
     <div className="w-full max-w-[1300px] mx-auto p-4">
       <h1
@@ -111,7 +138,14 @@ export default function ShoppingCart() {
               <div>TOTAL</div>
             </div>
 
-            {cartItems.length < 1 ? (
+            { isLoading === true ? (
+              <>
+              <SkeletonCartItem />
+              <SkeletonCartItem />
+              <SkeletonCartItem />
+              </>
+            ) :(
+            cartItems.length < 1 ? (
               <h1 className=" text-4xl text-center pt-40">No items in cart</h1>
             ) : (
               cartItems.map((cartItem) => (
@@ -140,9 +174,7 @@ export default function ShoppingCart() {
                       <h3 className="text-lg font-semibold ">
                         {cartItem.productId.pName}
                       </h3>
-                      <h3 className="text-sm font-semibold ">
-                        {cartItem.productId.pDescription}
-                      </h3>
+                   
                       <div className="text-sm text-muted-foreground">
                         Color:{" "}
                         <div
@@ -220,12 +252,19 @@ export default function ShoppingCart() {
                 </div>
               
               ))
-            )}
+            ) )}
           </div>
 
           {/* Mobile View */}
           <div className="lg:hidden space-y-4">
-            {cartItems.length < 1 ? (
+            {isLoading == true ? (
+               <>
+               <SkeletonCartItem />
+               <SkeletonCartItem />
+               <SkeletonCartItem />
+             </>
+            ):(
+            cartItems.length < 1 ? (
               <h1 className=" text-2xl text-center pt-40">No items in cart</h1>
             ) : (
               cartItems.map((cartItem) => (
@@ -243,9 +282,9 @@ export default function ShoppingCart() {
                         className="object-cover"
                       />
                       <div className="flex-1">
-                        <h3 className="font-medium">
-                          {cartItem.productId.name}
-                        </h3>
+                      <h3 className="text-lg font-semibold ">
+                        {cartItem.productId.pName}
+                      </h3>
                         <div className="text-sm text-muted-foreground">
                           Color:{" "}
                           <div
@@ -271,7 +310,7 @@ export default function ShoppingCart() {
                             </div>
                           </div>
                           {/* <input type="number" value={product.quantity} min={1} className="w-20" /> */}
-                          <div>
+                          <div className="relative">
                             <div className="flex items-center mt-2 text-[#202020] w-fit bg-[#FFFFFF] rounded-lg">
                               <Button
                                 variant="outline"
@@ -303,7 +342,14 @@ export default function ShoppingCart() {
                               >
                                 <Plus className="w-4 h-4" />
                               </Button>
+
                             </div>
+                            <div
+                                className="absolute top-[-4.5rem] right-8  h-12 w-9 bg-[#FF1010] rounded-md flex justify-center items-center"
+                                onClick={() => deleteCartBtn(cartItem._id)}
+                              >
+                                <DeleteBtn />
+                              </div>
                           </div>
                         </div>
                       </div>
@@ -311,7 +357,7 @@ export default function ShoppingCart() {
                   </CardContent>
                 </Card>
               ))
-            )}
+            ))}
           </div>
         </div>
 

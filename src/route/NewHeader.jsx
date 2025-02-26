@@ -176,13 +176,14 @@ export default function NewHeader() {
                 </div>
 
                 <div className="mt-auto p-4 border-t border-gray-800">
-                  <Button
-                    variant="outline"
-                    onClick={()=>navigate('/login')}
-                    className="w-full justify-start text-gray-400 hover:text-white hover:bg-gray-800"
-                  >                
-                    Sign In
-                  </Button>
+                <NavLink to={isLogin==true ? "./profile" : "./login"}>
+                    <Button  variant="outline" className="w-full justify-start text-gray-400 hover:text-white hover:bg-gray-800">
+                      <User className="h-4 w-4 mr-2" />
+                        {
+                            isLogin == true ? "PROFILE":"LOGIN" 
+                        }
+                   </Button>
+                </NavLink>
                 </div>
               </SheetContent>
             </Sheet>
@@ -285,74 +286,6 @@ export default function NewHeader() {
           </div>
         </nav>
 
-        {/* mobile design  1*/}
-        {/* <Dialog
-          open={mobileMenuOpen}
-          onClose={setMobileMenuOpen}
-          className="lg:hidden"
-        >
-          <div className="fixed inset-0 z-10" />
-          <DialogPanel className="fixed inset-y-0 right-0 z-10 w-full overflow-y-auto bg-gray-800 text-white px-6 py-6 sm:max-w-sm sm:ring-1 sm:ring-gray-900/10">
-            <div className="flex items-center justify-between">
-                  <div>
-              <NavLink to="https://google.com" className="-m-1.5 p-1.5">
-                <span className="sr-only">Your Company</span>
-                <img
-                  alt=""
-                  src=""
-                  className="h-8 w-auto"
-                />
-          
-              </NavLink>
-                </div>
-          
-            </div>
-            <div className="mt-6 flow-root">
-              <div className="-my-6 divide-y divide-gray-500/10">
-                <div className="space-y-2 py-6">
-                  <Disclosure as="div" className="-mx-3">
-                    <DisclosureButton className="group flex w-full items-center justify-between rounded-lg py-2 pl-3 pr-3.5 text-base/7 font-semibold text-white hover:bg-gray-50">
-                      list
-                      <ChevronDownIcon
-                        aria-hidden="true"
-                        className="size-5 flex-none group-data-[open]:rotate-180"
-                      />
-                    </DisclosureButton>
-                
-                  </Disclosure>
-                 
-                  <NavLink
-                    to="/productlist"
-                    className="-mx-3 block rounded-lg px-3 py-2 text-base/7 font-semibold text-white hover:bg-gray-50"
-                  >
-                    Productlist
-                  </NavLink>
-                  <NavLink
-                    to="/shoppingcart"
-                    className="-mx-3 block rounded-lg px-3 py-2 text-base/7 font-semibold text-white hover:bg-gray-50"
-                  >
-                    Cart
-                  </NavLink>
-                  <NavLink
-                    to=""
-                    className="-mx-3 block rounded-lg px-3 py-2 text-base/7 font-semibold text-white hover:bg-gray-50"
-                  >
-                    Company
-                  </NavLink>
-                </div>
-
-                <NavLink
-                  to="/login"
-                  className="-mx-3 block rounded-lg px-3 py-2.5 text-base/7 font-semibold text-white hover:bg-gray-50"
-                >
-                  <button>
-                  Login
-                  </button>
-                </NavLink>
-              </div>
-            </div>
-          </DialogPanel>
-        </Dialog> */}
       </header>
     </>
   );
@@ -370,7 +303,7 @@ const handleOnClick =(e)=> {
    switch (label){
       case "home" : navigate('/') 
       break;
-      case "products": navigate('/productlist') 
+      case "products": navigate( '/productlist/67ab9caa61b7763a0938c690') 
       break;
       case "wishlist" : navigate('/wishlist')
       break;

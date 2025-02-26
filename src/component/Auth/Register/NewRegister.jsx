@@ -321,7 +321,7 @@ function NewRegister({ text }) {
               </div>
               <div className="grid gap-1">
                 <button
-                  className="col-span-1 row-span-1 rounded-xl bg-[#3F3F3F]   block text-center text-white text-2xl py-1 hover:scale-[1.05] focus:scale-[0.95] "
+                  className="col-span-1 row-span-1 rounded-xl bg-[#3F3F3F]   block text-center text-white text-2xl py-1 active:scale-[0.95] hover:bg-[#232222] "
                   onClick={handleSubmit}
                 >
                   Sign Up &gt;&gt;
@@ -334,7 +334,7 @@ function NewRegister({ text }) {
               </div>
               <div className="mt-2 text-sm text-center">
                 Don't have an account?{" "}
-                <NavLink to="/login" className="text-[#0F7DE3]">
+                <NavLink to="/login" className="text-[#0F7DE3] hover:underline">
                 <button>
                   Sign In &rarr;
                 </button>
@@ -439,7 +439,7 @@ function NewRegister({ text }) {
             </div>
             <div className="grid gap-1">
               <button
-                className="col-span-1 row-span-1 rounded-xl bg-[#3F3F3F]   block text-center text-white text-xl py-1 focus:scale-[0.95] "
+                className="col-span-1 row-span-1 rounded-xl bg-[#3F3F3F]   block text-center text-white text-xl py-1active:scale-[0.95] hover:bg-[#232222] "
                 onClick={handleSubmit}
               >
                 Sign Up &gt;&gt;
@@ -452,7 +452,7 @@ function NewRegister({ text }) {
             </div>
             <div className="mt-2 text-sm text-center">
               Don't have an account?{" "}
-              <NavLink to="/login" className="text-[#0F7DE3]">
+              <NavLink to="/login" className="text-[#0F7DE3] hover:underline">
               <button>
                 Sign In &rarr;
               </button>

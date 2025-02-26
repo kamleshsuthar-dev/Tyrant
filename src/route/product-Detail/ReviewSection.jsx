@@ -1,311 +1,8 @@
-// "use client"
-
-// // import type React from "react"
-
-// import { useEffect, useState } from "react"
-// import { Star } from "lucide-react"
-// import {Progress} from '@/components/ui/progress'
-// import { Button } from "@/components/ui/button"
-// import { Card, CardContent } from "@/components/ui/card"
-// import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog"
-// import { Input } from "@/components/ui/input"
-// import { Textarea } from "@/components/ui/textarea"
-// import { Label } from "@/components/ui/label"
-// import axios from "axios"
-// import { useGoogleAuthContext } from "@/context/GoogleAuth"
-// import DeleteBtn from '@/component/home/DeleteBtn.jsx'
-// export default function ReviewSection({product}) {
-//   const {userDetails} = useGoogleAuthContext()
-  
-//   console.log("product",product);
-//   console.log("pReviews",product.pReviews);
-//   console.log("user" ,userDetails )
- 
-
-//   const [reviews, setReviews] = useState([])
-
-//   // useEffect(()=>{
-//   //       setReviews(product.pReviews)
-     
-//   // },[product.pReviews])
-
-//   useEffect(() => {
-//     if (!product.pReviews) return;
-  
-//     const sortedReviews = [...product.pReviews].sort((a, b) => {
-//       if (a?.user?._id === userDetails?._id) return -1; // Push user's review to the top
-//       if (b?.user?._id === userDetails?._id) return 1;
-//       return 0;
-//     });
-  
-//     setReviews(sortedReviews);
-//   }, [product.pReviews, userDetails]);
-
-
-//   const [ratingStats, setRatingStats] = useState({
-//     average: 4.5,
-//     total: 127475,
-//     totalReviews: 10793,
-//     distribution: [86434, 28487, 7089, 2503, 5182],
-//   })
-
-//   // New review form state
-//   const [newReview, setNewReview] = useState({
-//     // author: "",
-//     rating: 0,
-//     comment: "",
-//     summary: "",
-//   })
-
-//   const [isDialogOpen, setIsDialogOpen] = useState(false)
-
-
-// const handleSubmitReview = async (e) => {
-//     e.preventDefault();
-    
-//     if (
-//         // !newReview.author ||
-//          !newReview.rating || !newReview.comment || !newReview.summary) {
-//       alert("Please fill in all fields");
-//       return;
-//     }
-  
-//     try {
-
-//       const res = await axios.post(`${import.meta.env.VITE_ADD_PRODUCT_REVIEW}`, {
-//         productId: product._id,  // Ensure pReviews has _id
-//         rating: newReview.rating,
-//         reviewTitle: newReview.comment,
-//         reviewDescription: newReview.summary,
-//       });
-  
-//       if (res.status === 200 || res.status === 201) {
-//         // Add new review to the state
-//         const newAddedReview = {
-//           id: reviews.length + 1,
-//         //   author: newReview.author,
-//           rating: newReview.rating,
-//           comment: newReview.comment,
-//           summary: newReview.summary,
-//         };
-  
-//         setReviews([newAddedReview, ...reviews]);
-//         setNewReview({ rating: 0, comment: "", summary: "" });
-//         // setNewReview({ author: "", rating: 0, comment: "", summary: "" });
-
-//         setIsDialogOpen(false);
-//       } else {
-//         alert("Failed to add review. Please try again.");
-//       }
-//     } catch (error) {
-//       console.error("Error adding review:", error.response.data.error);
-//         if(error.response.data.error=== 'You have already reviewed this product'){
-//              const messageElement = document.querySelector('.message');
-//                 if (messageElement) {
-//                     messageElement.classList.remove('hidden');
-//                     await new Promise(resolve => setTimeout(resolve, 1500));
-//                     messageElement.classList.add('hidden');
-//                 }
-//                 setIsDialogOpen(false)
-//                 setNewReview({
-//                         //   author: "",
-//                         rating: 0,
-//                         comment: "",
-//                         summary: "",
-//                         })
-//         }
-//     }
-//   };
-
-//         // console.log("btn", product._id);     
-//   const deleteBtn = async(review)=>{
-//     console.log("review ",review)
-//     console.log("product api di",product._id)
-//     try {
-//          let res = await axios.post(`${import.meta.env.VITE_DELETE_PRODUCT_REVIEW}` ,{
-//            productId : product._id ,
-//            reviewId : review._id
-//          })
-//         //  setCartItems((prevProducts) => prevProducts.filter((product) => product._id !== productCartID));
-//          setReviews(prevReviews => prevReviews.filter((prevReview)=> prevReview._id !== review._id ) )
-//            console.log(res);
-         
-//      } catch (error) {
-//       console.log(error);
-      
-//      }
-//   }
-
-//   return (
-//     <div className="max-w-4xl mx-auto p-4 space-y-6">
-//       <div className="flex justify-between items-start">
-//         <h2 className="text-2xl font-semibold">Ratings & Reviews</h2>
-//         <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
-//           <DialogTrigger asChild>
-//             <Button variant="outline" className="gap-2">
-//               <span className="text-lg">+</span> Add Review
-//             </Button>
-//           </DialogTrigger>
-//           <DialogContent className="sm:max-w-[425px]">
-            
-//             <DialogHeader>
-//               <DialogTitle className='message hidden text-red-600'>! You have already reviewed this product </DialogTitle>
-//               <DialogTitle>Write a Review</DialogTitle>
-                
-//             </DialogHeader>
-//             <form onSubmit={handleSubmitReview} className="space-y-4">
-//               <div className="space-y-2">
-//                 <Label htmlFor="rating">Rating</Label>
-//                 <div className="flex gap-1">
-//                   {[1, 2, 3, 4, 5].map((star) => (
-//                     <button
-//                       key={star}
-//                       type="button"
-//                       onClick={() => setNewReview({ ...newReview, rating: star })}
-//                       className="hover:scale-110 transition-transform"
-//                     >
-//                       <Star
-//                         className={`w-6 h-6 ${
-//                           star <= newReview.rating ? "fill-primary text-primary" : "fill-muted text-muted-foreground"
-//                         }`}
-//                       />
-//                     </button>
-//                   ))}
-//                 </div>
-//               </div>
-//               <div className="space-y-2">
-//                 {/* <Label htmlFor="name">Name</Label>
-//                 <Input
-//                   id="name"
-//                   value={newReview.author}
-//                   onChange={(e) => setNewReview({ ...newReview, author: e.target.value })}
-//                   placeholder="Your name"
-//                   required
-//                 /> */}
-//               </div>
-//               <div className="space-y-2">
-//                 <Label htmlFor="comment">Review</Label>
-//                 <Textarea
-//                   id="comment"
-//                   value={newReview.comment}
-//                   onChange={(e) => setNewReview({ ...newReview, comment: e.target.value })}
-//                   placeholder="Write your review here..."
-//                   required
-//                 />
-//               </div>
-//               <div className="space-y-2">
-//                 <Label htmlFor="summary">Summary</Label>
-//                 <Input
-//                   id="summary"
-//                   value={newReview.summary}
-//                   onChange={(e) => setNewReview({ ...newReview, summary: e.target.value })}
-//                   placeholder="Brief summary of your review"
-//                   required
-//                 />
-//               </div>
-//               <Button type="submit" className="w-full">
-//                 Submit Review
-//               </Button>
-//             </form>
-//           </DialogContent>
-//         </Dialog>
-//       </div>
-
-//       <div className="grid md:grid-cols-2 gap-8">
-//         {/* Rating Overview */}
-//         <div className="space-y-4">
-//           <div className="flex items-center gap-4">
-//             <div className="relative w-32 h-32">
-//               <div className="absolute inset-0 flex items-center justify-center">
-//                 <div className="text-4xl font-bold ">{ratingStats.average}</div>
-//               </div>
-//               <svg className="w-full h-full -rotate-90 ">
-//                 <circle
-//                   cx="64"
-//                   cy="64"
-//                   r="60"
-//                   fill="none"
-//                   stroke="currentColor"
-//                   strokeWidth="8"
-//                   className="text-[#9EFF00] "
-//                 />
-//                 <circle
-//                   cx="64"
-//                   cy="64"
-//                   r="60"
-//                   fill="none"
-//                   stroke="currentColor"
-//                   strokeWidth="8"
-//                   className="text-[#202020] "
-//                   strokeDasharray={`${(ratingStats.average / 5) * 377} 377`}
-//                 />
-//               </svg>
-//             </div>
-//             <div>
-//               <div className="font-semibold">{ratingStats.total.toLocaleString()} Ratings</div>
-//               <div className="text-muted-foreground">&</div>
-//               <div className="font-semibold">{ratingStats.totalReviews.toLocaleString()} Reviews</div>
-//             </div>
-//           </div>
-
-//           {/* Rating Distribution */}
-//           <div className="space-y-2">
-//             {ratingStats.distribution.map((count, index) => (
-//               <div key={5 - index} className="flex items-center gap-2">
-//                 <div className="w-12 text-sm">{5 - index} ★</div>
-//                 <Progress value={(count / Math.max(...ratingStats.distribution)) * 100} className="h-2" />
-//                 <div className="w-16 text-sm text-right">{count.toLocaleString()}</div>
-//               </div>
-//             ))}
-//           </div>
-//         </div>
-
-//         {/* Reviews List */}
-//         <div className="space-y-4">
-//           {reviews.map((review) => (
-//             <Card key={review?.user?._id}>
-//               <CardContent className="p-4 space-y-2 relative">
-//                 <div className="flex items-center gap-2">
-//                   <div className="flex">
-//                     {[...Array(5)].map((_, i) => (
-//                       <Star
-//                         key={i}
-//                         className={`w-4 h-4 ${
-//                           i < review.rating ? "fill-primary text-primary" : "fill-muted text-muted-foreground"
-//                         }`}
-//                       />
-//                     ))}
-//                   </div>
-//                   <span className="font-medium">{review?.user?.name || "Anonymous"}</span> 
-//                 </div>
-//                 <p className="text-md font-bold">{review?.review?.title || "No Title"}</p>
-//                 <p className="text-sm font-medium">{review?.review?.description || "No Description"}</p>
-              
-//                 {review?.user?._id=== userDetails?._id && (
-//                     <div className="absolute right-4 top-6 h-12 w-9 bg-[#FF1010] rounded-md flex justify-center items-center" onClick={()=>deleteBtn(review)}>
-//                       <DeleteBtn />
-//                     </div>
-//                   )}
-//               </CardContent>
-//             </Card>
-//           ))}
-//         </div>
-
-//       </div>
-
-//       <Button variant="outline" className="w-full">
-//         See More
-//       </Button>
-//     </div>
-//   )
-// }
-
-
 
 "use client"
 
 import { useEffect, useState } from "react"
-import { Star } from "lucide-react"
+import { LogIn, Star } from "lucide-react"
 import { Progress } from '@/components/ui/progress'
 import { Button } from "@/components/ui/button"
 import { Card, CardContent } from "@/components/ui/card"
@@ -316,21 +13,22 @@ import { Label } from "@/components/ui/label"
 import axios from "axios"
 import { useGoogleAuthContext } from "@/context/GoogleAuth"
 import DeleteBtn from '@/component/home/DeleteBtn.jsx'
-
-export default function ReviewSection({product}) {
+import { useParams } from "react-router-dom"
+import ReviewFilter from "./ReviewFilter"
+export default function ReviewSection({avgRating}) {
+        const {pId} = useParams()
   const {userDetails} = useGoogleAuthContext()
   
+          // console.log(userDetails._id);
+          
   const [reviews, setReviews] = useState([])
   const [isDialogOpen, setIsDialogOpen] = useState(false)
   const [errorMessage, setErrorMessage] = useState("")
-  // const [starRatingCount , setStarRating] = useState([
-
-  // ])
+  
   // Initialize with default rating stats
   const [ratingStats, setRatingStats] = useState({
-    average: 1,
-    total: 127475,
-    totalReviews: 10793,
+    average: avgRating || 1,
+    totalReviews: 0,
     distribution: [0,0,0,0,0],
   })
 
@@ -342,36 +40,55 @@ export default function ReviewSection({product}) {
     summary: "",
   })
 
-  // Sort reviews to show the user's review at the top
-  useEffect(() => {
-    if (!product.pReviews) return;
-  
-    const userReview = [...product.pReviews].sort((a, b) => {
-      if (a?.user?._id === userDetails?._id) return -1; // Push user's review to the top
-      if (b?.user?._id === userDetails?._id) return 1;
-      return 0;
-    });
-
-
-    const oneStar = product.pReviews.filter(review => review.rating === 1);
-    const twoStar = product.pReviews.filter(review => review.rating === 2);
-    const threeStar = product.pReviews.filter(review => review.rating === 3);
-    const fourStar = product.pReviews.filter(review => review.rating === 4);
-    const fiveStar = product.pReviews.filter(review => review.rating === 5);
-    const totalRatings = product.pReviews.reduce((sum, review) => sum + review.rating, 0);
-    const averageRating = (totalRatings / product.pReviews.length).toFixed(1);
-    console.log({ oneStar , twoStar, threeStar,fourStar,  fiveStar, },);
-
-      setRatingStats({
-        average: averageRating,
-        total: 127475,
-        totalReviews: 10793,
-        distribution: [fiveStar.length,fourStar.length,threeStar.length,twoStar.length,oneStar.length,],
-      })
    
-    setReviews(userReview);
+    const [filterValue,setFilterValue] = useState()
+    const [sortValue,setSortValue] = useState("latest")
+
+    const handleFilter = (star)=>{
+      console.log(star);
+      setFilterValue(star) 
+     }
+
+    const handleSort = (sort)=>{
+    console.log(sort);
+    setSortValue(sort)
+        
+    }
+
+
+ useEffect(()=>{
+         
+    const getReview =  async()=>{
+   try {
+      let res = await axios.get(`${import.meta.env.VITE_GET_PRODUCT_REVIEW}/${pId}/reviews`,{
+         params :{
+           page:1,
+           limit:10,
+           sort: sortValue,
+           rating: filterValue
+         }
+      })
+               console.log(res.data);
+               console.log(res.data.totalReviews);
+               const totalReviews = res.data.totalReviews ;
+               const distributionRating = Object.values(res.data.ratingDistributionCount).reverse()
+                     console.log(distributionRating);
+                     
+                       
+               setReviews(res.data.reviews)
+               setRatingStats((prevReview)=>({
+                 ...prevReview,
+               totalReviews: totalReviews ,
+               distribution: distributionRating.length === 5 ? distributionRating : [0, 0, 0, 0, 0]
+               }))
+   } catch (error) {
+    console.log("review api error" , error);
     
-  }, [product.pReviews, userDetails]);
+   }
+    }
+    getReview()     
+ },[filterValue,sortValue])
+ 
 
   // Handle review submission
   const handleSubmitReview = async (e) => {
@@ -385,7 +102,7 @@ export default function ReviewSection({product}) {
   
     try {
       const res = await axios.post(`${import.meta.env.VITE_ADD_PRODUCT_REVIEW}`, {
-        productId: product._id,
+        productId: pId,
         rating: newReview.rating,
         reviewTitle: newReview.comment,
         reviewDescription: newReview.summary,
@@ -482,16 +199,14 @@ export default function ReviewSection({product}) {
   //   }
   // }
   const [isDeleting, setIsDeleting] = useState(false)
+  
   const deleteBtn = async(review) => {
-    if (!review?._id || !product?._id || isDeleting) return;
+    if (!review?._id  || isDeleting) return;
     
     try {
       setIsDeleting(true);
       
-      const res = await axios.post(`${import.meta.env.VITE_DELETE_PRODUCT_REVIEW}`, {
-        productId: product._id,
-        reviewId: review._id
-      });
+      const res = await axios.delete(`${import.meta.env.VITE_DELETE_PRODUCT_REVIEW}/${review._id}`);
 
       if (res.status === 200 || res.status === 201) {
         // Remove deleted review from the list
@@ -541,6 +256,7 @@ export default function ReviewSection({product}) {
     <div className="max-w-4xl mx-auto p-4 space-y-6">
       <div className="flex justify-between items-start">
         <h2 className="text-2xl font-semibold">Ratings & Reviews</h2>
+          <ReviewFilter handleSort={handleSort} handleFilter={handleFilter}/>
         <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
           <DialogTrigger asChild>
             <Button variant="outline" className="gap-2">
@@ -632,10 +348,10 @@ export default function ReviewSection({product}) {
                 />
               </svg>
             </div>
-            <div>
-              <div className="font-semibold">{ratingStats.total.toLocaleString()} Ratings</div>
+            <div className="">
+              <div className="font-semibold">{ratingStats.totalReviews.toLocaleString()} Ratings</div>
               <div className="text-muted-foreground">&</div>
-              <div className="font-semibold">{ratingStats.totalReviews.toLocaleString()} Reviews</div>
+              <div className="font-semibold"> Reviews</div>
             </div>
           </div>
 
@@ -644,7 +360,8 @@ export default function ReviewSection({product}) {
             {ratingStats.distribution.map((count, index) => (
               <div key={5 - index} className="flex items-center gap-2">
                 <div className="w-12 text-sm">{5 - index} ★</div>
-                <Progress value={(count / Math.max(...ratingStats.distribution)) * 100} className="h-2" />
+                <Progress value={((count)/ratingStats.totalReviews)*100} className="h-2" />
+                {/* <Progress value={(count / Math.max(...ratingStats.distribution)) * 100} className="h-2" /> */}
                 <div className="w-16 text-sm text-right">{count.toLocaleString()}</div>
               </div>
             ))}

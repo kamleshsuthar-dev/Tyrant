@@ -65,7 +65,7 @@ export default function ProductDetail() {
       try {
         let res = await axios.get(`${import.meta.env.VITE_PRODUCT_SINGLE_PRODUCT}?pId=${pId}`);
        
-        // console.log("detail", res.data.product);
+        console.log("detail", res.data.product);
         if (res.data.product.isInWishlist) {
           setWishlist(true);
         } else {
@@ -132,29 +132,31 @@ export default function ProductDetail() {
       wishlistfun()
   };
 
-  const addtoCart = () => {
-   const cartfun = async () => {
-    if (isLoginUser === true) {
-        try {
-          let res = await axios.post(`${import.meta.env.VITE_ADD_CART_PRODUCT}`, {
-            productId: pId,
-            quantity: quantity,
-            color: selectedColor,
-            size: selectedSize,
-          });
-          
-          console.log(res.data.message);
-        } catch (error) {
-          console.log("add cart api error", error);
-        }
-    } else {
-      alert("login kon tera Baap kare ga Bhosdike ")
+  const addtoCart = async () => {
+    if (!isLoginUser) {
+      alert("Please login to add items to cart")
       return
     }
-    popUp.current.click();
+    
+    try {
+    
+      popUp.current.click()
+      axios.post(`${import.meta.env.VITE_ADD_CART_PRODUCT}`, {
+        productId: pId,
+        quantity: quantity,
+        color: selectedColor,
+        size: selectedSize,
+      })
+      .then(res => {
+        console.log(res.data.message)
+      })
+      .catch(error => {
+        console.log("Add to cart API error:", error)
+      })
+    } catch (error) {
+      console.log("Add to cart error:", error)
     }
-      cartfun()
-  };
+  }
 
   const checkOut = () => {
     navigate("/checkout");
@@ -424,7 +426,7 @@ export default function ProductDetail() {
 
         {/* review  */}
         <div className=" mt-4">
-          <ReviewSection product = {product}/>       
+          <ReviewSection avgRating = {product.avgRating}/>       
           </div>
           
 
