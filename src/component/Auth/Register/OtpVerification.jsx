@@ -7,8 +7,12 @@ import {
 import { useCallback, useEffect, useState } from "react"
 import { Button } from "@mui/material"
 import axios from "axios"
+import { useLocation } from "react-router-dom"
   export function OtpVerification() {
-
+    const location = useLocation()
+    const credentials = location?.state.credentials
+    console.log(credentials);
+    
     const [value , setValue] = useState()
     const [OTP,setOTP] = useState()
    
@@ -18,11 +22,11 @@ import axios from "axios"
         setOTP(otp)
         const sendEmail = async()=>{
             let res = await axios.post(`${import.meta.env.VITE_SEND_EMAIL_REGISTRATION}`,{
-                email : "bantisaini6699@gmail.com",
+                email : `${credentials.email}`,
                 from : "Tyrant <tyrant.co.in@gmail.com>",
-                subject : "Email Verification Code is" ,
+                subject : "Email Verification Code " ,
                 content : `<div>
-                            <h1>Hello Mansi Prajapati</h1>
+                            <h1>Hello ${credentials.name} Welcome To Tyrant</h1>
                             <p>Your OTP is ${otp}</p>   
                           </div>`
             })
@@ -32,7 +36,7 @@ import axios from "axios"
         }
         sendEmail()
 
-    },[])
+    },[credentials])
 
     const submitBtn = ()=>{
         if(value == OTP){

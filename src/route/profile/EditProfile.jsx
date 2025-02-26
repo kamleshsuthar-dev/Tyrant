@@ -17,6 +17,7 @@ export default function Profile() {
     let res = await axios.post(`${import.meta.env.VITE_LOGOUT}`)
           console.log(res);
           navigate('/')
+          location.reload();
   }
 
 

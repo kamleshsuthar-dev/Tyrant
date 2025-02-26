@@ -182,7 +182,7 @@ function NewRegister({ text }) {
        if ( credentials.email && credentials.name && credentials.password ) {
         if (isRegistered === false) { 
           // otp here
-              navigate('/otp')
+              navigate('/otp',{state:{credentials}})
          
         } else {
           console.log("user is already exist");

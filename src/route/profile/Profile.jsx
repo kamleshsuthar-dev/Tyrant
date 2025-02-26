@@ -4,6 +4,7 @@ import { Package, MapPin, Heart, LogOut, User } from "lucide-react"
 import { useState } from "react"
 import { useGoogleAuthContext } from "@/context/GoogleAuth"
 import { useNavigate } from "react-router-dom"
+import axios from "axios"
 // interface OrderStatusProps {
 //   hasOrder: boolean
 //   userName?: string
@@ -17,11 +18,13 @@ export default function Profile({  expectedDelivery = "TOMORROW" }) {
   const userEmail = userDetails?.email || " "
   const [hasOrder , setHasOrder] = useState(true)
   const navigate = useNavigate()
+
   const logout = async()=>{
     let res = await axios.post(`${import.meta.env.VITE_LOGOUT}`)
           console.log(res);
           navigate('/')
-     }
+          location.reload();
+  }
 
   return (
     <div className="w-full max-w-2xl mx-auto p-4">
@@ -97,8 +100,8 @@ export default function Profile({  expectedDelivery = "TOMORROW" }) {
               <Heart className="mr-2 h-4 w-4" />
               WISHLIST
             </Button>
-            <Button variant="destructive" className="justify-start mt-auto">
-              <LogOut className="mr-2 h-4 w-4"  onClick={logout} />
+            <Button variant="destructive" className="justify-start mt-auto" onClick={logout}>
+              <LogOut className="mr-2 h-4 w-4"   />
               LOG OUT
              </Button>
           </div>
