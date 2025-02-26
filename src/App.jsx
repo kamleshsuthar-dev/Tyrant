@@ -11,6 +11,7 @@ import ProductDesciption from "./route/product-Detail/ProductDescription.jsx";
 import ProductListSkeleton from './component/skeleton/ProductListSkeleton.jsx';
 import DeleteBtn from './component/home/DeleteBtn.jsx'
 import ShoppingCartSkeleton from "./component/skeleton/ShoppingCartSkeleton.jsx";
+import { OtpVerification } from "./component/Auth/Register/OtpVerification.jsx";
 // Lazy loaded components
 const ProductList = lazy(() => import("./route/ProductList.jsx"));
 const Login = lazy(() => import("./component/Auth/Login/Login.jsx"));
@@ -65,6 +66,7 @@ const router = createBrowserRouter(
               <Route path="description" element={<ProductDesciption />} />
               <Route path="skeleton" element={<ShoppingCartSkeleton />} />
               <Route path="filter" element={<ReviewFilter/>} />
+              <Route path="otp" element={<OtpVerification/>} />
 
               <Route
                 path="productlist/:cId"

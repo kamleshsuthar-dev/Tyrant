@@ -24,7 +24,8 @@ function NewRegister({ text }) {
   const nameRef = useRef();
   const emailRef = useRef();
   const passwordRef = useRef();
-
+  const emailMounted = useRef(false);
+  const passMounted = useRef(false);
 
  
 
@@ -32,10 +33,8 @@ function NewRegister({ text }) {
     setShowPassword(!showPassword);
   };
 
-  const emailMounted = useRef(false);
 
-  let emailRegex =
-    /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+  let emailRegex = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
 
   useEffect(() => {
     if (emailMounted.current) {
@@ -45,7 +44,7 @@ function NewRegister({ text }) {
             `${import.meta.env.VITE_ISREGISTERED}/isregistered?email=${credentials.email}`
           );
           const data = response.data;
-          console.log("Response data:", data);
+          // console.log("Response data:", data);
           setIsRegistered(data.isAlreadyRegistered);
           return data.isAlreadyRegistered; // Return the value to use later
         } catch (error) {
@@ -67,14 +66,12 @@ function NewRegister({ text }) {
           
           if (isRegistered) {
             console.log("User is already registered.");
-            document.querySelector(".emailText").textContent =
-              "User is already registered";
+            document.querySelector(".emailText").classList.remove('hidden')
+            document.querySelector(".emailText").textContent = "User is already registered please Login";
           } else {
             if (emailRegex.test(credentials.email) === false) {
-              document.querySelector(".emailText").textContent =
-                "Please enter valid email";
-              // document.querySelector(".emailText").classList.remove("hidden");
-              // document.querySelector(".emailText").classList.add("hidden");
+              document.querySelector(".emailText").classList.remove('hidden')
+              document.querySelector(".emailText").textContent = "Please enter valid email";
             } else {
               document.querySelector(".emailText").classList.add("hidden");
             }
@@ -101,6 +98,7 @@ function NewRegister({ text }) {
   const nameBlur = () => {
     if (credentials.name.length < 1) {
       document.querySelector(".nameText").classList.remove("hidden");
+      document.querySelector(".nameText").textContent="Name is required "
     }
   };
 
@@ -119,7 +117,7 @@ function NewRegister({ text }) {
     }
   };
 
-  const passMounted = useRef(false);
+ 
 
   useEffect(() => {
     if (passMounted.current) {
@@ -165,47 +163,34 @@ function NewRegister({ text }) {
       } 
        if (credentials.name.length < 1) {
         document.querySelector(".nameText").classList.remove("hidden");
-        console.log("Please enter valid name", {
-          autoClose: 500,
-          theme: "colored",
-        });
-        document.querySelector(".nameText").classList.remove("hidden");
+        document.querySelector(".nameText").textContent="Name is required"
       } 
        if (emailRegex.test(credentials.email) === false) {
-        document.querySelector(".emailText").textContent =
-        "Enter a Valid Email ";
+        document.querySelector(".emailText").textContent ="Enter a Valid Email ";
       document.querySelector(".emailText").classList.remove("hidden");
-        console.log("Please enter valid email", {
-          autoClose: 500,
-          theme: "colored",
-        });
       } 
 
       if (credentials.password.length < 1) {
-        document.querySelector(".passwordText").textContent =
-          "Password is required";
+        document.querySelector(".passwordText").textContent ="Password is required";
         document.querySelector(".passwordText").classList.remove("hidden");
       }
         else if (credentials.password.length < 8) {
         document.querySelector(".passwordText").textContent =
         "Password Should Be More Then 8 letter";
       document.querySelector(".passwordText").classList.remove("hidden");
-        console.log("Please enter password with more than 8 characters");
       } 
        if ( credentials.email && credentials.name && credentials.password ) {
-        if (isRegistered === false) {
-          axios
-            .post(
-              `${import.meta.env.VITE_ISREGISTERED}/register`,
-              credentials
-            )
-            .then((response) => {
-              console.log(response);
-              navigate("/");
-            })
-            .catch((error) => {
-              console.log("error is occur in register api ", error);
-            });
+        if (isRegistered === false) { 
+          // otp here
+              navigate('/otp')
+          // axios.post(`${import.meta.env.VITE_ISREGISTERED}/register`, credentials )
+          //   .then((response) => {
+          //     console.log(response);
+          //     navigate("/");
+          //   })
+          //   .catch((error) => {
+          //     console.log("error is occur in register api ", error);
+          //   });
         } else {
           console.log("user is already exist");
           navigate("/login");
@@ -259,9 +244,7 @@ function NewRegister({ text }) {
                     className="border-2 border-solid border-black  block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900  placeholder:text-gray-400 sm:text-sm/6 "
                   />
                 </div>
-                <div className="nameText text-red-600 text-xs my-1 hidden">
-                  Name is required
-                </div>
+                <div className="nameText text-red-600 text-xs my-1 hidden"> </div>
               </div>
 
               <div className=" col-span-1 row-span-1">
