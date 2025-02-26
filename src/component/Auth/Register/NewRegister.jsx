@@ -183,14 +183,7 @@ function NewRegister({ text }) {
         if (isRegistered === false) { 
           // otp here
               navigate('/otp')
-          // axios.post(`${import.meta.env.VITE_ISREGISTERED}/register`, credentials )
-          //   .then((response) => {
-          //     console.log(response);
-          //     navigate("/");
-          //   })
-          //   .catch((error) => {
-          //     console.log("error is occur in register api ", error);
-          //   });
+         
         } else {
           console.log("user is already exist");
           navigate("/login");

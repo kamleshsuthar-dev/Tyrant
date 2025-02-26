@@ -37,17 +37,18 @@ import axios from "axios"
     const submitBtn = ()=>{
         if(value == OTP){
             console.log("register success");
-              // axios.post(`${import.meta.env.VITE_ISREGISTERED}/register`, credentials )
-                //   .then((response) => {
-                //     console.log(response);
-                //     navigate("/");
-                //   })
-                //   .catch((error) => {
-                //     console.log("error is occur in register api ", error);
-                //   });
+              axios.post(`${import.meta.env.VITE_ISREGISTERED}/register`, credentials )
+                  .then((response) => {
+                    console.log(response);
+                    navigate("/");
+
+                  })
+                  .catch((error) => {
+                    console.log("error is occur in register api ", error);
+                  });
         }else{
             console.log("OTP not Match");
-            
+            alert('OTP galat hai Lowde')
         }
       
         // console.log(value);
