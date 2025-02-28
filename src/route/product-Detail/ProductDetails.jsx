@@ -125,7 +125,7 @@ export default function ProductDetail() {
           }
         }
        else {
-        alert("login toh kar pahle Bhosdike ")
+        alert("login toh kar pahle ")
       }
     }
 
@@ -134,7 +134,7 @@ export default function ProductDetail() {
 
   const addtoCart = async () => {
     if (!isLoginUser) {
-      alert("Please login to add items to cart")
+      alert("Please login to add items in cart")
       return
     }
     

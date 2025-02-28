@@ -9,8 +9,12 @@ import { use } from "react";
 import DeleteBtn from "../../component/home/DeleteBtn.jsx";
 import { Navigate, useNavigate } from "react-router-dom";
 import { Checkbox } from "@/components/ui/checkbox.jsx"
+import { useGoogleAuthContext } from "@/context/GoogleAuth.jsx";
 export default function ShoppingCart() {
   // const {cart}= useCartContext()
+  const {isLoginUser} = useGoogleAuthContext()
+ 
+  
   const navigate = useNavigate();
 
   // const [quantity, setQuantity] = useState(1);
@@ -145,9 +149,11 @@ export default function ShoppingCart() {
               <SkeletonCartItem />
               </>
             ) :(
-            cartItems.length < 1 ? (
-              <h1 className=" text-4xl text-center pt-40">No items in cart</h1>
-            ) : (
+           !isLoginUser && cartItems.length < 1 ? (
+              <h1 className=" text-4xl text-center pt-40">No items in cart ,User Not Login Yet</h1>
+            ) : cartItems.length < 1 ? (<>
+             <h1 className=" text-4xl text-center pt-40">No items in cart </h1>
+            </>): (
               cartItems.map((cartItem) => (
              
                 <div
@@ -264,9 +270,11 @@ export default function ShoppingCart() {
                <SkeletonCartItem />
              </>
             ):(
-            cartItems.length < 1 ? (
-              <h1 className=" text-2xl text-center pt-40">No items in cart</h1>
-            ) : (
+          !isLoginUser && cartItems.length < 1 ? (
+              <h1 className=" text-2xl text-center pt-40">No items in cart ,User Not Login Yet</h1>
+            ) : cartItems.length <1 ? (<>
+            <h1 className=" text-2xl text-center pt-40">No items in cart </h1>
+            </>): (
               cartItems.map((cartItem) => (
                 <Card key={cartItem._id}>
                   <CardContent className="p-4">

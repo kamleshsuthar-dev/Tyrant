@@ -7,14 +7,7 @@ export default function ReviewFilter({handleFilter ,handleSort }) {
   const [selectedSort, setSelectedSort] = useState("Newest");
   const [selectedFilter, setSelectedFilter] = useState(null);
 
-      // const handleFilter = (star)=>{
-      //       console.log(star);
-      // }
-
-      // const handleSort = (sort)=>{
-      //   console.log(sort);
-        
-      // }
+   
   return (
     <div className="flex gap-2">
       {/* Sort Button */}

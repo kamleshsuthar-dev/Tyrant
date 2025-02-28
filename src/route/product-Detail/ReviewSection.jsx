@@ -17,14 +17,14 @@ import { useParams } from "react-router-dom"
 import ReviewFilter from "./ReviewFilter"
 export default function ReviewSection({avgRating}) {
         const {pId} = useParams()
-  const {userDetails} = useGoogleAuthContext()
+  const {userDetails,isLoginUser} = useGoogleAuthContext()
   
           // console.log(userDetails._id);
           
   const [reviews, setReviews] = useState([])
   const [isDialogOpen, setIsDialogOpen] = useState(false)
   const [errorMessage, setErrorMessage] = useState("")
-  
+  const [isButtonDisabled , setIsButtonDisabled] = useState(false)
   // Initialize with default rating stats
   const [ratingStats, setRatingStats] = useState({
     average: avgRating || 1,
@@ -88,12 +88,22 @@ export default function ReviewSection({avgRating}) {
     }
     getReview()     
  },[filterValue,sortValue])
- 
+
+ const addReview = ()=>{
+  if(!isLoginUser) {
+     alert("not login yet !")
+     return
+    }
+    setIsDialogOpen(true)
+
+  }
 
   // Handle review submission
   const handleSubmitReview = async (e) => {
+      setIsButtonDisabled(true)
     e.preventDefault();
     setErrorMessage("");
+    if(!isLoginUser) return alert("login first ")
     
     if (!newReview.rating || !newReview.comment || !newReview.summary) {
       setErrorMessage("Please fill in all fields");
@@ -146,12 +156,14 @@ export default function ReviewSection({avgRating}) {
         // Reset the form
         setNewReview({ rating: 0, comment: "", summary: "" });
         setIsDialogOpen(false);
+        setIsButtonDisabled(false)
       } else {
         setErrorMessage("Failed to add review. Please try again.");
       }
+
     } catch (error) {
       console.error("Error adding review:", error?.response?.data?.error);
-      
+    
       if(error?.response?.data?.error === 'You have already reviewed this product') {
         setErrorMessage("You have already reviewed this product");
         
@@ -165,6 +177,7 @@ export default function ReviewSection({avgRating}) {
         setErrorMessage("An error occurred. Please try again.");
       }
     }
+    setIsButtonDisabled(false)
   };
       
   // Handle review deletion
@@ -254,15 +267,14 @@ export default function ReviewSection({avgRating}) {
   }
   return (
     <div className="max-w-4xl mx-auto p-4 space-y-6">
-      <div className="flex justify-between items-start">
+      <div className="flex flex-wrap justify-between items-start">
         <h2 className="text-2xl font-semibold">Ratings & Reviews</h2>
           <ReviewFilter handleSort={handleSort} handleFilter={handleFilter}/>
-        <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
-          <DialogTrigger asChild>
-            <Button variant="outline" className="gap-2">
+        <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen} >
+            <Button variant="outline" className="gap-2" onClick ={addReview}>
               <span className="text-lg">+</span> Add Review
             </Button>
-          </DialogTrigger>
+         
           <DialogContent className="sm:max-w-[425px]">
             <DialogHeader>
               <DialogTitle>Write a Review</DialogTitle>
@@ -310,7 +322,7 @@ export default function ReviewSection({avgRating}) {
                   required
                 />
               </div>
-              <Button type="submit" className="w-full">
+              <Button type="submit" className="w-full" disabled = {isButtonDisabled}>
                 Submit Review
               </Button>
             </form>

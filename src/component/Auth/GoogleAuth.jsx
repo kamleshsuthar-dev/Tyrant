@@ -41,7 +41,7 @@ function GoogleAuth({ text }) {
             });
         } else {
           // false
-            // console.log("fuck ", userEmail,userName);
+         
             
           navigate("/password", {
             state: {email:data.userDetails.email ,

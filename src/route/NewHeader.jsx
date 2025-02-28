@@ -114,8 +114,8 @@ export default function NewHeader() {
   return (
     <>
       <header className="bg-black text-white">
-        <div className="h-12 bg-white text-gray-400 flex justify-center items-center ">
-          show me your POM POM ,get 90% OFF{" "}
+        <div className="h-12 bg-white text-gray-400 flex justify-center items-center capitalize">
+          Tell me something that i don't Know ,get 90% OFF{" "}
           {/* <button onClick={btnclick}>click</button> */}
         </div>
 

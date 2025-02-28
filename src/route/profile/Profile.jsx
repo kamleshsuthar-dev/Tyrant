@@ -83,16 +83,16 @@ export default function Profile({  expectedDelivery = "TOMORROW" }) {
           </CardContent>
 
           <div className="flex flex-col gap-2 p-6 border-t md:border-t-0 md:border-l">
-            <Button variant="outline" className="justify-start" onClick={()=>{navigate("/editprofile")}}>
+            <Button variant="outline" className="justify-start" onClick={()=>{navigate("/profile/editprofile")}}>
               <User className="mr-2 h-4 w-4" />
               EDIT PROFILE
             </Button>
 
-            <Button variant="outline" className="justify-start" onClick={()=>{navigate("/order")}}>
+            <Button variant="outline" className="justify-start" onClick={()=>{navigate("/profile/order")}}>
               <Package className="mr-2 h-4 w-4" />
               MY ORDERS
             </Button>
-            <Button variant="outline" className="justify-start" onClick={()=>{navigate("/address")}}>
+            <Button variant="outline" className="justify-start" onClick={()=>{navigate("/profile/address")}}>
               <MapPin className="mr-2 h-4 w-4" />
               MY ADDRESSES
             </Button>

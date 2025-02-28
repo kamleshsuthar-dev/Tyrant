@@ -1,8 +1,8 @@
 import "./login.css";
-import React, { useContext, useEffect, useRef } from "react";
+import React, { useContext, useEffect, useRef  } from "react";
 import { useState } from "react";
 import axios from "axios";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useNavigate ,useLocation} from "react-router-dom";
 import { NavLink } from "react-router-dom";
 import { GoogleBtn } from "../../../App";
 import { PasswordCloseEye, PasswordOpenEye } from "../Register/PasswordEye.jsx";
@@ -13,6 +13,9 @@ let emailRegex =
 
 const Login = ({ text }) => {
  
+ 
+ 
+
   const [credentials, setCredentials] = useState({ email: "", password: "" });
   const [responseData, setResponseData] = useState(null);
   const [showPassword, setShowPassword] = useState(false);
@@ -20,6 +23,7 @@ const Login = ({ text }) => {
   const [error, setError] = useState(null);
   const [isAlreadyRegistered, setIsAlreadyRegistered] = useState(false); // Added missing state
   const navigate = useNavigate();
+  const location =useLocation()
   const handleClickShowPassword = () => {
     setShowPassword(!showPassword);
   };
@@ -37,7 +41,7 @@ const Login = ({ text }) => {
       const data = response.data;
             console.log(response);
             
-      console.log(data.isAlreadyRegistered,"hhjhh");     
+      console.log(data.isAlreadyRegistered,"login page");     
       setIsAlreadyRegistered(data.isAlreadyRegistered);
       return data.isAlreadyRegistered;
     } catch (error) {
@@ -64,10 +68,10 @@ const Login = ({ text }) => {
       emailMounted.current = true;
     }
   }, [credentials.email]);
-
+ 
   const handleSubmit = async (e) => {
     e.preventDefault();
-
+  
     try {
       if (!credentials.email || !credentials.password) {
             console.log("enter valid email");
@@ -113,6 +117,12 @@ const Login = ({ text }) => {
             setResponseData(response.data);
             console.log("data transfer success", response.data.message);
             if (response.data.message === "Logged in successfully") {
+            
+              // const from = location.state?.from?.pathname || "/";  
+              // navigate(from, { replace: true });
+              // console.log("Location State:", location.state);
+                // console.log("Redirecting to:", from);
+              // window.history.back();      
               await navigate("/");
             } else if (response.data.message === "Password Invalid") {
               // document.querySelector(".invalidEP").classList.remove("hidden");
