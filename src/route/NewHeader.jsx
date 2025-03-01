@@ -241,6 +241,9 @@ export default function NewHeader() {
             <NavLink to="/wishlist" className="text-sm/6 font-semibold ">
               wishlist
             </NavLink>
+            {/* <NavLink to="/login" className="text-sm/6 font-semibold ">
+              login
+            </NavLink> */}
           </PopoverGroup>
           {/* search bar */}
           <div className="hidden lg:flex lg:flex-1 lg:justify-end gap-8">
