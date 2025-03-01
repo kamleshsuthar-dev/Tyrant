@@ -1,6 +1,7 @@
-import React, { Suspense } from "react";
+import React, { Suspense, useEffect, useState } from "react";
 import {
   Navigate,
+  Outlet,
   Route,
   RouterProvider,
   createBrowserRouter,
@@ -10,7 +11,7 @@ import {
 import Layout from "../Layout.jsx";
 import Home from "./route/Home.jsx";
 import { GoogleOAuthProvider } from "@react-oauth/google";
-import { lazy } from "react";
+import { lazy,useMemo } from "react";
 import AboutUs from "./route/AboutUs.jsx";
 import ReviewSection from "./route/product-Detail/ReviewSection.jsx";
 import ReviewFilter from "./route/product-Detail/ReviewFilter.jsx";
@@ -66,6 +67,7 @@ import axios from "axios";
 
 import ProductDetailSkeleton from "./component/skeleton/ProductDetailSkeleton.jsx";
 import UserProtected from "./route/protectedRoute/UserProtected.jsx";
+import AdminProtected from "./route/protectedRoute/AdminProtected.jsx";
 
 axios.defaults.withCredentials = true;
 
@@ -82,15 +84,17 @@ export const GoogleBtn = ({ text }) => {
 
 
 function App() {
-  const { isLoginUser,userDetails } = useGoogleAuthContext();
-  console.log(isLoginUser , userDetails);
+  const { isLoginUser, userDetails } = useGoogleAuthContext();
+  // const [userEmail, setUserEmail] = useState(null); // Set initial state to null
+
+  
 
   const router = createBrowserRouter(
     createRoutesFromElements(
       <>
         <Route path="/" element={<Layout />}>
           <Route path="" element={<Home />} />
-          <Route path="*" element={<Home />} />
+          {/* <Route path="*" element={<Home />} /> */}
           <Route path="deletebtn" element={<DeleteBtn />} />
           <Route path="review" element={<ReviewSection />} />
           <Route path="description" element={<ProductDesciption />} />
@@ -100,21 +104,21 @@ function App() {
 
        
 
-
+          <Route element={<AdminProtected/>}>
+                <Route path="/admin/product/add" element={<ProductAdminPanel />} />
+                <Route path="/admin/product/delete"element={<ProductDeleteAdminPanel />}/>
+            </Route>
+             
     
 
 
           <Route element={<UserProtected />}>
-            {/* <Route path="login" element={<Navigate to='/'/>}/>
-            <Route path="register" element={<Navigate to='/'/>}/>
-            <Route path="/" element={<Navigate to='/profile' />} /> */}
-            {
-                userDetails._id == "67c1537fa9235c06b156811b" && (<>
-                      <Route path="/admin/product/add" element={<ProductAdminPanel />} />
-                      <Route path="/admin/product/delete"element={<ProductDeleteAdminPanel />}/>
-                </>)
-            }
-             
+         
+
+            {/* <Route path="/admin/product/add" element={<ProductAdminPanel />} />
+            <Route path="/admin/product/delete"element={<ProductDeleteAdminPanel />}/> */}
+
+        
             <Route
               path="/profile"
               element={
@@ -164,6 +168,8 @@ function App() {
                 </Suspense>
               }
             />
+
+         
           </Route>
 
           <Route
@@ -240,31 +246,7 @@ function App() {
             />
           </Route>
 
-        {/* {!isLoginUser && (
-          <>
-            <Route
-              path="register"
-              element={
-                <AuthRedirect>
-                <Suspense fallback={<LoadingFallback />}>
-                  <NewRegister />
-                </Suspense>
-                </AuthRedirect>
-              }
-            />
-            <Route
-              path="login"
-              element={
-                <AuthRedirect>
-                <Suspense fallback={<LoadingFallback />}>
-                  <Login />
-                </Suspense>
-                </AuthRedirect>
-              }
-            />
-          </>
-        )} */}
-
+   
     
 
         <Route

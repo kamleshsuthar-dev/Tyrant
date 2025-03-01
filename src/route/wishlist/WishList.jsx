@@ -128,34 +128,34 @@ const addtoCart = (wishlistID,wishlist) => {
           <h1 className=" text-4xl text-center flex-grow h-40 border rounded-xl flex justify-center items-center">No items in Wishlist </h1>
       ) : (
          wishlistItems.map((wishlist) => (
-        <div key={wishlist._id}  className="flex items-center gap-6 border rounded-xl p-4">
+        <div key={wishlist?._id}  className="flex items-center gap-6 border rounded-xl p-4">
 
-          <div className="shrink-0" onClick={()=>productDetailFunction(wishlist._id,wishlistItems)}>
-            <img src={wishlist.pImages[0].URL} alt={wishlist.pName} width={100} height={100} className="rounded-md" />
+          <div className="shrink-0" onClick={()=>productDetailFunction(wishlist?._id,wishlistItems)}>
+            <img src={wishlist?.pImages[0].URL} alt={wishlist?.pName} width={100} height={100} className="rounded-md" />
           </div>
 
-          <div className="flex-grow" onClick={()=>productDetailFunction(wishlist._id,wishlistItems)}>
-            <h3 className="font-medium mb-2">{wishlist.pName}</h3>
+          <div className="flex-grow" onClick={()=>productDetailFunction(wishlist?._id,wishlistItems)}>
+            <h3 className="font-medium mb-2">{wishlist?.pName}</h3>
             <div className="flex items-center gap-1 mb-1">
               {[...Array(5)].map((_, index) => (
                 <Star
                   key={index}
                   className={`w-4 h-4 ${
-                    index < wishlist.pRatingsReviews ? "fill-primary text-primary bg-black" : "fill-muted text-muted-foreground bg-red-500"
+                    index < wishlist?.pRatingsReviews ? "fill-primary text-primary bg-black" : "fill-muted text-muted-foreground bg-red-500"
                   }`}
                 />
                 ))}
             </div>
-            <p className="text-sm text-muted-foreground">Status: {wishlist.pStatus}</p>
+            <p className="text-sm text-muted-foreground">Status: {wishlist?.pStatus}</p>
             <div className="flex items-center gap-2 mt-1">
-              <span className="font-bold">Rs.{(wishlist.pPrice * (100 - wishlist.pOffer)) / 100}</span>
-              <span className="text-sm text-muted-foreground line-through">Rs.{wishlist.pPrice.toFixed(2)}</span>
+              <span className="font-bold">Rs.{(wishlist?.pPrice * (100 - wishlist?.pOffer)) / 100}</span>
+              <span className="text-sm text-muted-foreground line-through">Rs.{wishlist?.pPrice.toFixed(2)}</span>
             </div>
           </div>
 
           <div className="flex flex-col gap-2">
-            <Button className="bg-green-500 hover:bg-green-600 text-white" onClick={()=>productDetailFunction(wishlist._id,wishlistItems)}>VIEW PRODUCT</Button>
-            <Button onClick={()=>deleteBtn(wishlist._id)} variant="destructive" >DELETE</Button>
+            <Button className="bg-green-500 hover:bg-green-600 text-white" onClick={()=>productDetailFunction(wishlist?._id,wishlistItems)}>VIEW PRODUCT</Button>
+            <Button onClick={()=>deleteBtn(wishlist?._id)} variant="destructive" >DELETE</Button>
           </div>
         </div>
                 ))))

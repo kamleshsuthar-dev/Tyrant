@@ -52,7 +52,7 @@ export default function ShoppingCart() {
   const subtotal = cartItems.reduce((sum, item) => {
     const isChecked = checkedItems[item._id] || false;
     if (isChecked) {
-      const discountedPrice = (item.productId.pPrice * (100 - item.productId.pOffer)) / 100;
+      const discountedPrice = (item.productId?.pPrice * (100 - item.productId?.pOffer)) / 100;
       return sum + (discountedPrice * item.quantity);
     }
     return sum;
@@ -169,7 +169,7 @@ export default function ShoppingCart() {
                     </div>
                     <img
                       src={
-                        cartItem.productId.pImages[0].URL || "/placeholder.svg"
+                        cartItem.productId?.pImages[0].URL || "/placeholder.svg"
                       }
                       alt={cartItem.name}
                       width={80}
@@ -178,7 +178,7 @@ export default function ShoppingCart() {
                     />
                     <div>
                       <h3 className="text-lg font-semibold ">
-                        {cartItem.productId.pName}
+                        {cartItem.productId?.pName}
                       </h3>
                    
                       <div className="text-sm text-muted-foreground">
@@ -196,13 +196,13 @@ export default function ShoppingCart() {
                   </div>
                   <div>
                     <div className="line-through text-gray-400 text-xs">
-                      Rs. {cartItem.productId.pPrice.toFixed(2)}
+                      Rs. {cartItem.productId?.pPrice.toFixed(2)}
                     </div>
                     <div>
                       Rs.
                       {(
-                        (cartItem.productId.pPrice *
-                          (100 - cartItem.productId.pOffer)) /
+                        (cartItem.productId?.pPrice *
+                          (100 - cartItem.productId?.pOffer)) /
                         100
                       ).toFixed(2)}
                     </div>
@@ -243,8 +243,8 @@ export default function ShoppingCart() {
                   <div>
                     Rs.{" "}
                     {(
-                      ((cartItem.productId.pPrice *
-                        (100 - cartItem.productId.pOffer)) /
+                      ((cartItem.productId?.pPrice *
+                        (100 - cartItem.productId?.pOffer)) /
                         100) *
                       cartItem.quantity
                     ).toFixed(2)}
@@ -281,7 +281,7 @@ export default function ShoppingCart() {
                     <div className="flex gap-4">
                       <img
                         src={
-                          cartItem.productId.pImages[0].URL ||
+                          cartItem.productId?.pImages[0].URL ||
                           "/placeholder.svg"
                         }
                         alt={cartItem.name}
@@ -291,7 +291,7 @@ export default function ShoppingCart() {
                       />
                       <div className="flex-1">
                       <h3 className="text-lg font-semibold ">
-                        {cartItem.productId.pName}
+                        {cartItem.productId?.pName}
                       </h3>
                         <div className="text-sm text-muted-foreground">
                           Color:{" "}
@@ -306,13 +306,13 @@ export default function ShoppingCart() {
                         <div className="flex justify-between items-center mt-2">
                           <div>
                             <div className="line-through text-gray-400 text-xs">
-                              Rs. {cartItem.productId.pPrice.toFixed(2)}
+                              Rs. {cartItem.productId?.pPrice.toFixed(2)}
                             </div>
                             <div>
                               Rs.
                               {(
-                                (cartItem.productId.pPrice *
-                                  (100 - cartItem.productId.pOffer)) /
+                                (cartItem.productId?.pPrice *
+                                  (100 - cartItem.productId?.pOffer)) /
                                 100
                               ).toFixed(2)}
                             </div>

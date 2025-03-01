@@ -13,7 +13,7 @@ function UserProtected() {
       console.log("Redirecting to login from:", location.pathname);
       return <Navigate to="/login" state={{ from: location }} replace />;
     }
-  
+    
     return <Outlet />;
 
     // return (
