@@ -12,7 +12,7 @@ const DeleteIconButton = () => {
     setTimeout(() => {
       setIsDeleting(false);
      
-    }, 2000);
+    }, 4000);
   };
 
   return (

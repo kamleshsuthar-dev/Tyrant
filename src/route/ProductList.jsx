@@ -1,7 +1,7 @@
 import axios from 'axios';
-import React, { useEffect, useState } from 'react'
-import { use } from 'react';
-import { useNavigate ,Link, useLoaderData,} from 'react-router-dom';
+import React, { useEffect, useState, } from 'react'
+
+import { useNavigate ,Link, useLoaderData,useParams} from 'react-router-dom';
 
 import { Card, CardContent } from "@/components/ui/card"
 import { Star, StarHalf } from "lucide-react"
@@ -14,7 +14,8 @@ export default function ProductList() {
   // const {prd,name} = useProduct()
   
   const discount = 20
-  const cId="67ab9caa61b7763a0938c690"
+  // const cId="67ab9caa61b7763a0938c690"
+  const {cId} = useParams();
   const [products,setProducts] = useState([])
 
     
@@ -22,9 +23,15 @@ export default function ProductList() {
         useEffect(()=>{
           ;(async()=>{
             try {
-              let res = await axios.get(`${import.meta.env.VITE_PRODUCT_BY_CATEGORY}?cId=${cId}`)
-              // console.log(res);
-                setProducts(res.data.products)
+              // let res = await axios.get(`${import.meta.env.VITE_PRODUCT_BY_CATEGORY}?cId=${cId}`)
+              let res =await fetch(`${import.meta.env.VITE_PRODUCT_BY_CATEGORY}?cId=${cId}`)
+              
+              // console.log("resss",res);
+              let data =await res.json()
+              
+              console.log("dataaa",data);
+              // console.log("product api ",res);
+                setProducts(data.products)
               
             } catch (error) {
               console.log("poductList api error ", error);
@@ -74,11 +81,10 @@ const renderStars = (rating) => {
 if(products.length === 0) return <ProductListSkeleton/>
 else  return (
 
-    <div className="bg-white">
-
-      
+    <div className="bg-white ">
       <div className="mx-auto max-w-2xl px-4 py-16 sm:px-6 sm:py-24 lg:max-w-7xl lg:px-8">
-        <h2 className="sr-only">Products </h2>
+        <h2 className=" text-4xl font-extrabold flex justify-center  ">Products </h2>
+
 
         <div className="grid grid-cols-1 gap-x-6 gap-y-10 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 xl:gap-x-8">
           {products.map((product) => (

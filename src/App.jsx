@@ -21,8 +21,8 @@ import DeleteBtn from "./component/home/DeleteBtn.jsx";
 import ShoppingCartSkeleton from "./component/skeleton/ShoppingCartSkeleton.jsx";
 import { OtpVerification } from "./component/Auth/Register/OtpVerification.jsx";
 import { useGoogleAuthContext } from "./context/GoogleAuth.jsx";
-import { ProductAdminPanel } from "./component/AdminPanel/ProductAdminPanel.jsx";
-import ProductDeleteAdminPanel from "./component/AdminPanel/ProductDeleteAdminPanel.jsx";
+import { ProductAdminPanel } from "./component/AdminPanel/product/ProductAdminPanel.jsx";
+import ProductDeleteAdminPanel from "./component/AdminPanel/product/ProductDeleteAdminPanel.jsx";
 import AuthRedirect from "./route/protectedRoute/AuthRedirect.jsx";
 // Lazy loaded components
 const ProductList = lazy(() => import("./route/ProductList.jsx"));
@@ -68,6 +68,12 @@ import axios from "axios";
 import ProductDetailSkeleton from "./component/skeleton/ProductDetailSkeleton.jsx";
 import UserProtected from "./route/protectedRoute/UserProtected.jsx";
 import AdminProtected from "./route/protectedRoute/AdminProtected.jsx";
+import AddCategory from "./component/AdminPanel/category/AddCategory.jsx";
+import DeleteCategory from "./component/AdminPanel/category/DeleteCategory.jsx";
+import GetCategory from "./component/AdminPanel/category/GetCategory.jsx";
+import GetProductByCategory from "./component/AdminPanel/product/GetProductByCategory.jsx";
+import EditCategory from "./component/AdminPanel/category/EditCategory.jsx";
+// import GetCategory from "./component/AdminPanel/category/GetCategory.jsx";
 
 axios.defaults.withCredentials = true;
 
@@ -107,6 +113,11 @@ function App() {
           <Route element={<AdminProtected/>}>
                 <Route path="/admin/product/add" element={<ProductAdminPanel />} />
                 <Route path="/admin/product/delete"element={<ProductDeleteAdminPanel />}/>
+                <Route path="/admin/category/add" element={<AddCategory/>}/>
+                <Route path="/admin/category/delete" element={<DeleteCategory/>}/> 
+                <Route path="/admin/category/edit" element={<EditCategory/>}/> 
+                <Route path="/admin/category/all" element={<GetCategory/>}/> 
+                <Route path="/admin/category/allproduct/:cId" element={<GetProductByCategory/>}/> 
             </Route>
              
     

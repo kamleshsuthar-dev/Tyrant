@@ -27,7 +27,7 @@ export default function ReviewSection({avgRating}) {
   const [isButtonDisabled , setIsButtonDisabled] = useState(false)
   // Initialize with default rating stats
   const [ratingStats, setRatingStats] = useState({
-    average: avgRating || 1,
+    average: avgRating || 0,
     totalReviews: 0,
     distribution: [0,0,0,0,0],
   })
@@ -180,37 +180,7 @@ export default function ReviewSection({avgRating}) {
     setIsButtonDisabled(false)
   };
       
-  // Handle review deletion
-  // const deleteBtn = async(review) => {
-  //   try {
-  //     let res = await axios.post(`${import.meta.env.VITE_DELETE_PRODUCT_REVIEW}`, {
-  //       productId: product._id,
-  //       reviewId: review._id
-  //     });
-  //    // Remove deleted review from the list
-  //    const updatedReviews = reviews.filter(prevReview => prevReview._id !== review._id);
-  //    setReviews(updatedReviews);
-
-  //    // Recalculate rating statistics
-  //    const newTotalReviews = updatedReviews.length;
-  //    const newTotalRatings = updatedReviews.reduce((sum, r) => sum + r.rating, 0);
-  //    const newAverage = newTotalReviews > 0 ? (newTotalRatings / newTotalReviews).toFixed(1) : "0.0";
-
-  //    const updatedDistribution = [0, 0, 0, 0, 0];
-  //    updatedReviews.forEach(r => updatedDistribution[5 - r.rating]++);
-
-  //    setRatingStats({
-  //      average: newAverage,
-  //      total: newTotalRatings,
-  //      totalReviews: newTotalReviews,
-  //      distribution: updatedDistribution,
-  //    });
-     
-  //   } catch (error) {
-  //     console.error("Error deleting review:", error);
-  //     alert("Failed to delete review. Please try again.");
-  //   }
-  // }
+ 
   const [isDeleting, setIsDeleting] = useState(false)
   
   const deleteBtn = async(review) => {
