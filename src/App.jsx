@@ -73,6 +73,7 @@ import DeleteCategory from "./component/AdminPanel/category/DeleteCategory.jsx";
 import GetCategory from "./component/AdminPanel/category/GetCategory.jsx";
 import GetProductByCategory from "./component/AdminPanel/product/GetProductByCategory.jsx";
 import EditCategory from "./component/AdminPanel/category/EditCategory.jsx";
+import { EditProduct } from "./component/AdminPanel/product/EditProduct.jsx";
 // import GetCategory from "./component/AdminPanel/category/GetCategory.jsx";
 
 axios.defaults.withCredentials = true;
@@ -116,6 +117,7 @@ function App() {
                 <Route path="/admin/category/add" element={<AddCategory/>}/>
                 <Route path="/admin/category/delete" element={<DeleteCategory/>}/> 
                 <Route path="/admin/category/edit" element={<EditCategory/>}/> 
+                <Route path="/admin/category/product/edit/:pId" element={<EditProduct/>}/> 
                 <Route path="/admin/category/all" element={<GetCategory/>}/> 
                 <Route path="/admin/category/allproduct/:cId" element={<GetProductByCategory/>}/> 
             </Route>

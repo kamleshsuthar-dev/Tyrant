@@ -71,7 +71,8 @@ const callsToAction = [
 
 export default function NewHeader() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
-  const { setIsLoginUser,setUserDetails} = useGoogleAuthContext();
+  const { setIsLoginUser,setUserDetails, cartQuantity= 0} = useGoogleAuthContext();
+//  console.log(cartQuantity,"fgfdgdfg");
  
   let navigate = useNavigate()
   const [isLogin , setIsLogin]=useState(false)  
@@ -281,7 +282,7 @@ export default function NewHeader() {
                 <div className="relative">
                   <ShoppingCart className="h-6 w-6 text-gray-700" />
                   <span className="absolute -top-2 -right-2 bg-green-500 text-white text-xs rounded-full h-5 w-5 flex items-center justify-center">
-                    2
+                    {cartQuantity}
                   </span>
                 </div>
               </button>

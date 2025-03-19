@@ -10,8 +10,10 @@ function GoogleAuthProvider({children}) {
   const [userEmail , setUserEmail] = useState()
   const [userDetails , setUserDetails] = useState()
 
+  const [cartQuantity , setCartQuantity] = useState()
+
   return (
-    <GoogleAuthContext.Provider value={{isLoginUser,setIsLoginUser,userName,setUserName,userId,setUserId,setUserEmail,userEmail,userDetails,setUserDetails}}>
+    <GoogleAuthContext.Provider value={{setCartQuantity,cartQuantity,isLoginUser,setIsLoginUser,userName,setUserName,userId,setUserId,setUserEmail,userEmail,userDetails,setUserDetails}}>
       {children}
     </GoogleAuthContext.Provider>
   )

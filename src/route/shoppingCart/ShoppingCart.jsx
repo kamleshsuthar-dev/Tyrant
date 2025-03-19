@@ -12,7 +12,7 @@ import { Checkbox } from "@/components/ui/checkbox.jsx"
 import { useGoogleAuthContext } from "@/context/GoogleAuth.jsx";
 export default function ShoppingCart() {
   // const {cart}= useCartContext()
-  const {isLoginUser} = useGoogleAuthContext()
+  const {isLoginUser , setCartQuantity} = useGoogleAuthContext()
  
   
   const navigate = useNavigate();
@@ -75,7 +75,8 @@ export default function ShoppingCart() {
           acc[item._id] = true; // Set all items to checked initially
           return acc;
         }, {});
-  
+          
+        setCartQuantity(res.data.length)    
         setCheckedItems(initialCheckedState);
         setCartItems(res.data.reverse());
         setISLoading(false)
@@ -87,7 +88,7 @@ export default function ShoppingCart() {
   }, []);
 
   const updateQuantity = useCallback(async (cartItem, newQuantity) => {
-    console.log("update quantity", newQuantity, cartItem._id);
+    // console.log("update quantity", newQuantity, cartItem._id);
     setCartItems((prevItems) =>
       prevItems.map((item) =>
         item._id === cartItem._id ? { ...item, quantity: newQuantity } : item

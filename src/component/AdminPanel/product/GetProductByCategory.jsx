@@ -35,7 +35,7 @@ export default function GetProductByCategory() {
 
         // console.log("resss", res);
         let data = await res.json();
-        // console.log("dataaa", data);
+        console.log("dataaa", data);
         setMessage(data.message)
         // console.log("product api ", res);
         setProducts(data.products);
@@ -98,6 +98,13 @@ const deleteProduct = async (e, productId) => {
    
   }
 };
+
+const editProduct = (e,goods)=>{
+      e.preventDefault();
+      e.stopPropagation();
+      navigate(`/admin/category/product/edit/${goods._id}`,{state :{goods , cId}})
+      console.log("dfdfdsfsdf" , e,goods);
+}
 
   const renderStars = (rating) => {
     const stars = [];
@@ -191,7 +198,7 @@ const deleteProduct = async (e, productId) => {
                         </span>
                       </div>
                       <div className="flex justify-between items-end">
-                        <Button>Edit</Button>
+                        <Button onClick={(e)=>editProduct(e,product)}>Edit</Button>
                         <div onClick={(e)=>deleteProduct(e,product._id)} className='   h-12 w-9 bg-[#FF1010] rounded-md flex justify-center items-center'>
                         <DeleteBtn/>
                         </div>
