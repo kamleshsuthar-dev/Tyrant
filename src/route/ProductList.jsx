@@ -92,7 +92,7 @@ else  return (
 
 
         <div className="grid grid-cols-1 gap-x-6 gap-y-10 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 xl:gap-x-8">
-          { products && products.length >1 ?  (
+          { products && products.length >0 ?  (
           products.map((product) => (
             <Link key={product._id} href={product.href} onClick={(e)=>productDetailFunction(e,product)} className="group" >
               <Card className="max-w-sm overflow-hidden rounded-3xl border-0 shadow-lg">
