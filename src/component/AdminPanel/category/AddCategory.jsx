@@ -19,7 +19,7 @@ const AddCategory = () => {
   const handleImageChange = (e) => {
     const file = e.target.files[0];
     if (file) {
-      if (file.type !== 'image/png') {
+      if (file.type !== 'image/png' && file.type !== 'image/jpeg') {
         setMessage({ text: 'Please select a PNG image only', type: 'error' });
         return;
       }
@@ -152,7 +152,7 @@ const AddCategory = () => {
             type="file"
             id="cImage"
             name="cImage"
-            accept="image/png"
+            accept=".jpg ,.png ,.jpeg "
             onChange={handleImageChange}
             className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
           />

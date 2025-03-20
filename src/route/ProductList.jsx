@@ -17,12 +17,14 @@ export default function ProductList() {
   // const cId="67ab9caa61b7763a0938c690"
   const {cId} = useParams();
   const [products,setProducts] = useState([])
-
+  const [loading , setLoading] = useState(false)
+  const [message , setMessage] = useState(false)
     
 
         useEffect(()=>{
           ;(async()=>{
             try {
+              setLoading(true)
               // let res = await axios.get(`${import.meta.env.VITE_PRODUCT_BY_CATEGORY}?cId=${cId}`)
               let res =await fetch(`${import.meta.env.VITE_PRODUCT_BY_CATEGORY}?cId=${cId}`)
               
@@ -31,11 +33,12 @@ export default function ProductList() {
               
               console.log("dataaa",data);
               // console.log("product api ",res);
+                setMessage(data.message)
                 setProducts(data.products)
-              
+                setLoading(false)
             } catch (error) {
               console.log("poductList api error ", error);
-              
+              setLoading(false)
             }
           })()
         },[])
@@ -78,16 +81,19 @@ const renderStars = (rating) => {
   return stars
 }
 
-if(products.length === 0) return <ProductListSkeleton/>
+
+if(loading) return <ProductListSkeleton/>
+
 else  return (
 
     <div className="bg-white ">
-      <div className="mx-auto max-w-2xl px-4 py-16 sm:px-6 sm:py-24 lg:max-w-7xl lg:px-8">
-        <h2 className=" text-4xl font-extrabold flex justify-center  ">Products </h2>
+      <div className="relative mx-auto max-w-2xl px-4 py-16 sm:px-6 sm:py-24 lg:max-w-7xl lg:px-8">
+        <h2 className="relative text-4xl font-extrabold flex justify-center bg-slate-100 rounded-lg p-2 ">Products </h2>
 
 
         <div className="grid grid-cols-1 gap-x-6 gap-y-10 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 xl:gap-x-8">
-          {products.map((product) => (
+          { products && products.length >1 ?  (
+          products.map((product) => (
             <Link key={product._id} href={product.href} onClick={(e)=>productDetailFunction(e,product)} className="group" >
               <Card className="max-w-sm overflow-hidden rounded-3xl border-0 shadow-lg">
       <CardContent className="p-4">
@@ -125,7 +131,11 @@ else  return (
       </CardContent>
     </Card>
             </Link>
-          ))
+          ))):(
+            <>
+            <h1 className='absolute text-2xl w-full  text-center my-32'>{message}</h1>
+            </>
+          )
           }
     
         

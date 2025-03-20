@@ -15,7 +15,7 @@ import { useGoogleAuthContext } from "@/context/GoogleAuth"
 import DeleteBtn from '@/component/home/DeleteBtn.jsx'
 import { useParams } from "react-router-dom"
 import ReviewFilter from "./ReviewFilter"
-export default function ReviewSection({avgRating}) {
+export default function ReviewSection({avgRating , onReviewChange}) {
         const {pId} = useParams()
   const {userDetails,isLoginUser} = useGoogleAuthContext()
   
@@ -27,11 +27,14 @@ export default function ReviewSection({avgRating}) {
   const [isButtonDisabled , setIsButtonDisabled] = useState(false)
   // Initialize with default rating stats
   const [ratingStats, setRatingStats] = useState({
-    average: avgRating || 0,
+    average:  0,
     totalReviews: 0,
     distribution: [0,0,0,0,0],
   })
 
+  useEffect(()=>{
+    setRatingStats((prev)=>({...prev , average : avgRating}))
+  },[avgRating])
   
   // New review form state
   const [newReview, setNewReview] = useState({
@@ -98,143 +101,131 @@ export default function ReviewSection({avgRating}) {
 
   }
 
-  // Handle review submission
-  const handleSubmitReview = async (e) => {
-      setIsButtonDisabled(true)
-    e.preventDefault();
-    setErrorMessage("");
-    if(!isLoginUser) return alert("login first ")
-    
-    if (!newReview.rating || !newReview.comment || !newReview.summary) {
-      setErrorMessage("Please fill in all fields");
-      return;
-    }
+
+
+  // In your handleSubmitReview function, modify it to ensure the new review has the exact same structure as those from the API
+const handleSubmitReview = async (e) => {
+  setIsButtonDisabled(true)
+  e.preventDefault();
+  setErrorMessage("");
+  if(!isLoginUser) return alert("login first ")
   
-    try {
-      const res = await axios.post(`${import.meta.env.VITE_ADD_PRODUCT_REVIEW}`, {
-        productId: pId,
-        rating: newReview.rating,
-        reviewTitle: newReview.comment,
-        reviewDescription: newReview.summary,
+  if (!newReview.rating || !newReview.comment || !newReview.summary) {
+    setErrorMessage("Please fill in all fields");
+    setIsButtonDisabled(false);
+    return;
+  }
+
+ 
+
+  try {
+    const res = await axios.post(`${import.meta.env.VITE_ADD_PRODUCT_REVIEW}`, {
+      productId: pId,
+      rating: newReview.rating,
+      reviewTitle: newReview.comment,
+      reviewDescription: newReview.summary,
+    });
+
+    console.log("Review submission response:", res.data); // Debug: Log the actual response
+
+    if (res.status === 200 || res.status === 201) {
+      // After successful submission, fetch the updated reviews instead of manually creating one
+      const updatedReviewsResponse = await axios.get(`${import.meta.env.VITE_GET_PRODUCT_REVIEW}/${pId}/reviews`, {
+        params: {
+          page: 1,
+          limit: 10,
+          sort: sortValue,
+          rating: filterValue
+        }
       });
-  
-      if (res.status === 200 || res.status === 201) {
-        // Create a new review with the same structure as the API returns
-        const newAddedReview = {
-          _id: res.data.reviewId || Date.now().toString(), // Use the ID from the API or fallback
-          rating: newReview.rating,
-          user: {
-            _id: userDetails?._id,
-            name: userDetails?.name || "You"
-          },
-          review: {
-            title: newReview.comment,
-            description: newReview.summary
-          }
-        };
-  
-        // Add the new review to the top of the list
-        const updatedReviews = [newAddedReview, ...reviews.filter(r => r?.user?._id !== userDetails?._id)];
-        setReviews(updatedReviews);
-        
-        // update Rating Star 
-        const newTotalReviews = updatedReviews.length;
-        const newTotalRatings = updatedReviews.reduce((sum, r) => sum + r.rating, 0);
-        const newAverage = (newTotalRatings / newTotalReviews).toFixed(1);
-  
-        const updatedDistribution = [...ratingStats.distribution];
-        updatedDistribution[5 - newReview.rating] += 1; // Increase the corresponding star count
-  
-        setRatingStats({
-          average: newAverage,
-          total: newTotalRatings,
-          totalReviews: newTotalReviews,
-          distribution: updatedDistribution,
-        });
-
-
-        // Reset the form
-        setNewReview({ rating: 0, comment: "", summary: "" });
-        setIsDialogOpen(false);
-        setIsButtonDisabled(false)
-      } else {
-        setErrorMessage("Failed to add review. Please try again.");
+      
+      // Update the state with the fresh data from the API
+      setReviews(updatedReviewsResponse.data.reviews);
+      setRatingStats((prevReview) => ({
+        ...prevReview,
+        totalReviews: updatedReviewsResponse.data.totalReviews,
+        distribution: Object.values(updatedReviewsResponse.data.ratingDistributionCount).reverse()
+      }));
+      
+      if(onReviewChange){
+        onReviewChange()
       }
-
-    } catch (error) {
-      console.error("Error adding review:", error?.response?.data?.error);
-    
-      if(error?.response?.data?.error === 'You have already reviewed this product') {
-        setErrorMessage("You have already reviewed this product");
-        
-        // Show error message temporarily
-        setTimeout(() => {
-          setErrorMessage("");
-          setIsDialogOpen(false);
-          setNewReview({ rating: 0, comment: "", summary: "" });
-        }, 1500);
-      } else {
-        setErrorMessage("An error occurred. Please try again.");
-      }
+      // Reset the form
+      setNewReview({ rating: 0, comment: "", summary: "" });
+      setIsDialogOpen(false);
+    } else {
+      setErrorMessage("Failed to add review. Please try again.");
     }
-    setIsButtonDisabled(false)
-  };
+
+    
+  } catch (error) {
+    console.error("Error adding review:", error?.response?.data?.error);
+    
+    if(error?.response?.data?.error === 'You have already reviewed this product') {
+      setErrorMessage("You have already reviewed this product");
+      
+      setTimeout(() => {
+        setErrorMessage("");
+        setIsDialogOpen(false);
+        setNewReview({ rating: 0, comment: "", summary: "" });
+      }, 1500);
+    } else {
+      setErrorMessage("An error occurred. Please try again.");
+    }
+  }
+  setIsButtonDisabled(false);
+};
       
  
   const [isDeleting, setIsDeleting] = useState(false)
   
+
+
   const deleteBtn = async(review) => {
-    if (!review?._id  || isDeleting) return;
+    if (!review?._id || isDeleting) return;
+
     
     try {
       setIsDeleting(true);
+      console.log("Attempting to delete review with ID:", review._id); // Debug
       
       const res = await axios.delete(`${import.meta.env.VITE_DELETE_PRODUCT_REVIEW}/${review._id}`);
-
+      console.log("Delete response:", res); // Debug
+  
       if (res.status === 200 || res.status === 201) {
-        // Remove deleted review from the list
-        const updatedReviews = reviews.filter(prevReview => prevReview._id !== review._id);
-        setReviews(updatedReviews);
+        // After successful deletion, fetch the updated reviews instead of manually calculating
+        const updatedReviewsResponse = await axios.get(`${import.meta.env.VITE_GET_PRODUCT_REVIEW}/${pId}/reviews`, {
+          params: {
+            page: 1,
+            limit: 10,
+            sort: sortValue,
+            rating: filterValue
+          }
+        });
+        
+        // Update the state with the fresh data from the API
+        setReviews(updatedReviewsResponse.data.reviews);
+        setRatingStats((prevReview) => ({
+          ...prevReview,
+          totalReviews: updatedReviewsResponse.data.totalReviews,
+          distribution: Object.values(updatedReviewsResponse.data.ratingDistributionCount).reverse()
+        }));
 
-        // Recalculate rating statistics
-        if (updatedReviews.length > 0) {
-          const newTotalReviews = updatedReviews.length;
-          const newTotalRatings = updatedReviews.reduce((sum, r) => sum + (parseInt(r.rating) || 0), 0);
-          const newAverage = (newTotalRatings / newTotalReviews).toFixed(1);
-
-          const updatedDistribution = [0, 0, 0, 0, 0];
-          updatedReviews.forEach(r => {
-            const rating = parseInt(r.rating);
-            if (rating >= 1 && rating <= 5) {
-              updatedDistribution[5 - rating]++;
-            }
-          });
-
-          setRatingStats({
-            average: newAverage,
-            total: newTotalRatings,
-            totalReviews: newTotalReviews,
-            distribution: updatedDistribution,
-          });
-        } else {
-          // No reviews left
-          setRatingStats({
-            average: "0.0",
-            total: 0,
-            totalReviews: 0,
-            distribution: [0, 0, 0, 0, 0],
-          });
+        if(onReviewChange){
+          onReviewChange()
         }
       } else {
-        alert("Failed to delete review. Please try again.");
+        console.error("Failed to delete review with status:", res.status);
       }
     } catch (error) {
       console.error("Error deleting review:", error);
-      alert("Failed to delete review. Please try again.");
     } finally {
       setIsDeleting(false);
     }
-  }
+  };
+
+ 
+
   return (
     <div className="max-w-4xl mx-auto p-4 space-y-6">
       <div className="flex flex-wrap justify-between items-start">
@@ -373,12 +364,12 @@ export default function ReviewSection({avgRating}) {
                   <p className="text-sm font-medium">{review?.review?.description || "No Description"}</p>
                 
                   {review?.user?._id === userDetails?._id && (
-                      <button 
+                      <div
                         className="absolute right-4 top-6 h-12 w-9 bg-[#FF1010] rounded-md flex justify-center items-center"
                         onClick={() => deleteBtn(review)}
                       >
                         <DeleteBtn />
-                      </button>
+                      </div>
                     )}
                 </CardContent>
               </Card>

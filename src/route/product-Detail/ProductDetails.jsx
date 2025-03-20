@@ -47,6 +47,7 @@ export default function ProductDetail() {
   const sizes = ["XS", "S", "M", "L", "XL"];
   const [product, setProduct] = useState(null);
   const [wishlist, setWishlist] = useState(false);
+  const [reviewsUpdated, setReviewsUpdated] = useState(0);
   // const {wishlistID} = useParams()
   const navigate = useNavigate();
   const popUp = useRef(null);
@@ -77,7 +78,7 @@ export default function ProductDetail() {
       }
     };
     singlePrd();
-  }, []);
+  }, [pId, reviewsUpdated]);
 
 
   useEffect(() => {
@@ -426,7 +427,10 @@ export default function ProductDetail() {
 
         {/* review  */}
         <div className=" mt-4">
-          <ReviewSection avgRating = {product.avgRating}/>       
+          <ReviewSection
+           avgRating = {product.avgRating}
+           onReviewChange={() => setReviewsUpdated(Date.now())} 
+           />       
           </div>
           
 
