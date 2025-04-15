@@ -49,7 +49,8 @@ export default function ProductList() {
     console.log(product._id);
     
     e.preventDefault();
-        navigate(`/productdetails/${product._id}`, { replace: true })
+        navigate(`/productdetails/${product._id}`)
+        // navigate(`/productdetails/${product._id}`, { replace: true })
              
 }
 
