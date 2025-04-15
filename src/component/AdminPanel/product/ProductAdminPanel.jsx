@@ -181,6 +181,7 @@ export  const ProductAdminPanel = () => {
             type="number"
             id="pPrice"
             name="pPrice"
+            min={1}
             value={product.pPrice}
             onChange={handleInputChange}
             className="w-full p-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
@@ -196,6 +197,7 @@ export  const ProductAdminPanel = () => {
             type="number"
             id="pQuantity"
             name="pQuantity"
+            min={0}
             value={product.pQuantity}
             onChange={handleInputChange}
             className="w-full p-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
