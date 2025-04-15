@@ -8,10 +8,12 @@ import { useCallback, useEffect, useState } from "react"
 import { Button } from "@mui/material"
 import axios from "axios"
 import { useLocation,useNavigate } from "react-router-dom"
-  export function OtpVerification() {
+
+
+  export function OtpForResetPass() {
     const location = useLocation()
-    const credentials = location?.state.credentials
-    console.log(credentials);
+    const email = location?.state.email
+    console.log(email ,"resettttt");
     const navigate = useNavigate()
     const [value , setValue] = useState()
     const [OTP,setOTP] = useState()
@@ -22,11 +24,11 @@ import { useLocation,useNavigate } from "react-router-dom"
         setOTP(otp)
         const sendEmail = async()=>{
             let res = await axios.post(`${import.meta.env.VITE_SEND_EMAIL_REGISTRATION}`,{
-                email : `${credentials.email}`,
+                email : `${email}`,
                 from : "Tyrant <tyrant.co.in@gmail.com>",
                 subject : "Email Verification Code " ,
                 content : `<div>
-                            <h1>Hello ${credentials.name} Welcome To Tyrant</h1>
+                            <h1>Hello ${email.substr(0,10)} Welcome To Tyrant</h1>
                             <p>Your OTP is ${otp}</p>   
                           </div>`
             })
@@ -36,20 +38,21 @@ import { useLocation,useNavigate } from "react-router-dom"
         }
         sendEmail()
 
-    },[credentials])
+    },[email])
 
     const submitBtn = ()=>{
         if(value == OTP){
             console.log("register success");
-              axios.post(`${import.meta.env.VITE_ISREGISTERED}/register`, credentials )
-                  .then((response) => {
-                    console.log(response);
-                    navigate("/");
+            navigate('/updatepassword' ,{state:{email}})
+            //   axios.post(`${import.meta.env.VITE_ISREGISTERED}/register`, credentials )
+            //       .then((response) => {
+            //         console.log(response);
+            //         navigate("/");
 
-                  })
-                  .catch((error) => {
-                    console.log("error is occur in register api ", error);
-                  });
+            //       })
+            //       .catch((error) => {
+            //         console.log("error is occur in register api ", error);
+            //       });
         }else{
             console.log("OTP not Match");
             alert('OTP galat hai Lowde')
@@ -73,7 +76,7 @@ import { useLocation,useNavigate } from "react-router-dom"
           <InputOTPSlot index={5} />
         </InputOTPGroup>
       </InputOTP>
-      <Button onClick={ submitBtn() } className="!bg-white" >Submit</Button>
+      <Button onClick={ submitBtn} className="!bg-white" >Submit</Button>
       {/* <Button onClick={submitBtn} className="!bg-white" >Submit</Button> */}
       </div>
     )

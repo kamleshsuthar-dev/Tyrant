@@ -41,7 +41,7 @@ const Login = ({ text }) => {
       const data = response.data;
             console.log(response);
             
-      console.log(data.isAlreadyRegistered,"login page");     
+      console.log(data.isAlreadyRegistered,"loginnn page");     
       setIsAlreadyRegistered(data.isAlreadyRegistered);
       return data.isAlreadyRegistered;
     } catch (error) {

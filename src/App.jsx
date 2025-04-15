@@ -74,6 +74,8 @@ import GetCategory from "./component/AdminPanel/category/GetCategory.jsx";
 import GetProductByCategory from "./component/AdminPanel/product/GetProductByCategory.jsx";
 import EditCategory from "./component/AdminPanel/category/EditCategory.jsx";
 import { EditProduct } from "./component/AdminPanel/product/EditProduct.jsx";
+import { OtpForResetPass } from "./component/Auth/ForgotPassword/OtpForResetPass.jsx";
+import UpdatePassword from "./component/Auth/ForgotPassword/UpdatePassword.jsx";
 // import GetCategory from "./component/AdminPanel/category/GetCategory.jsx";
 
 axios.defaults.withCredentials = true;
@@ -101,13 +103,14 @@ function App() {
       <>
         <Route path="/" element={<Layout />}>
           <Route path="" element={<Home />} />
-          {/* <Route path="*" element={<Home />} /> */}
+          <Route path="*" element={<Home />} />
           <Route path="deletebtn" element={<DeleteBtn />} />
           <Route path="review" element={<ReviewSection />} />
           <Route path="description" element={<ProductDesciption />} />
           <Route path="skeleton" element={<ShoppingCartSkeleton />} />
           <Route path="filter" element={<ReviewFilter />} />
           <Route path="otp" element={<OtpVerification />} />
+          <Route path="otpforresetpass" element={<OtpForResetPass/>} />
 
        
 
@@ -276,6 +279,14 @@ function App() {
           element={
             <Suspense fallback={<LoadingFallback />}>
               <Password />
+            </Suspense>
+          }
+        />
+        <Route
+          path="updatepassword"
+          element={
+            <Suspense fallback={<LoadingFallback />}>
+              <UpdatePassword/>
             </Suspense>
           }
         />
