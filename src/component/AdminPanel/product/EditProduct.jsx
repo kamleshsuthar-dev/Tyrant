@@ -100,9 +100,9 @@ export const EditProduct = () => {
         throw new Error('Name, Description, Price, Quantity and Category are required fields');
       }
       
-      if (product.images.length === 0) {
-        throw new Error('At least one product image is required');
-      }
+      // if (product.images.length === 0) {
+      //   throw new Error('At least one product image is required');
+      // }
       
       // Create form data for API request
       const formData = new FormData();
