@@ -5,6 +5,7 @@ const AdminProtected = () => {
   const { userDetails,isLoginUser } = useGoogleAuthContext();
   const adminEmail = "bantysaini28072005@gmail.com"; // Admin Email
   const adminEmailOne = "kamleshsuthar240725@gmail.com"; // Admin Email
+  const adminEmailTwo = "limbachiyapinky95@gmail.com"; // Admin Email
 
   // Show a loading state until userDetails is available
 
@@ -33,7 +34,7 @@ if(isLoginUser === false){
   }
 
   // Redirect if user is not admin
-  if (userDetails.email !== adminEmail && userDetails.email !== adminEmailOne ) {
+  if (userDetails.email !== adminEmail && userDetails.email !== adminEmailOne &&userDetails.email !== adminEmailTwo) {
     return <Navigate to="/" replace />;
   }
 
