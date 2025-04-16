@@ -53,7 +53,7 @@ export default function GetProductByCategory() {
     console.log(product._id);
 
     e.preventDefault();
-    navigate(`/productdetails/${product._id}`, { replace: true });
+    navigate(`/productdetails/${product._id}`);
   };
 
   const addProduct = ()=>{

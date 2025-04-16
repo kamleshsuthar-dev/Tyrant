@@ -35,7 +35,7 @@ if(isLoginUser === false){
 
   // Redirect if user is not admin
   if (userDetails.email !== adminEmail && userDetails.email !== adminEmailOne &&userDetails.email !== adminEmailTwo) {
-    return <Navigate to="/" replace />;
+    return <Navigate to="/"  />;
   }
 
   return <Outlet />;

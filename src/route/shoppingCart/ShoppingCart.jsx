@@ -10,6 +10,7 @@ import DeleteBtn from "../../component/home/DeleteBtn.jsx";
 import { Navigate, useNavigate } from "react-router-dom";
 import { Checkbox } from "@/components/ui/checkbox.jsx"
 import { useGoogleAuthContext } from "@/context/GoogleAuth.jsx";
+import { preload } from "react-dom";
 export default function ShoppingCart() {
   // const {cart}= useCartContext()
   const {isLoginUser , setCartQuantity} = useGoogleAuthContext()
@@ -20,7 +21,7 @@ export default function ShoppingCart() {
   // const [quantity, setQuantity] = useState(1);
   const [cartItems, setCartItems] = useState([]);
   const [isLoading , setISLoading] = useState(true)
- 
+  const [cupounCode, setCupounCode] = useState("");
   
   const SkeletonCartItem = () => {
     return (
@@ -66,6 +67,9 @@ export default function ShoppingCart() {
 
 
   useEffect(() => {
+   
+
+   
     (async () => {
       try {
         let res = await axios.get(`${import.meta.env.VITE_GET_CART_PRODUCT}`);
@@ -411,11 +415,17 @@ export default function ShoppingCart() {
               <div className="mt-6">
                 <h3 className="font-bold mb-2">COUPON CODE</h3>
                 <input
-                  type="email"
-                  placeholder="Enter Email Address"
+                  type="text"
+                  placeholder="Enter CODE"
                   className="mb-2"
+                  value={cupounCode}
+                  onChange={(e) => setCupounCode(e.target.value)}
                 />
-                <Button className="w-full bg-green-500 hover:bg-green-600">
+                <Button className="w-full bg-green-500 hover:bg-green-600" onClick={()=>{
+                  if(cupounCode === "FUCKYOU"){
+                    alert("Coupon Applied")
+                  }
+                }}>
                   APPLY COUPON
                 </Button>
               </div>

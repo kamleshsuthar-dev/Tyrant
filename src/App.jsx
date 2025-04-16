@@ -11,7 +11,7 @@ import {
 import Layout from "../Layout.jsx";
 import Home from "./route/Home.jsx";
 import { GoogleOAuthProvider } from "@react-oauth/google";
-import { lazy,useMemo } from "react";
+import { lazy, useMemo } from "react";
 import AboutUs from "./route/AboutUs.jsx";
 import ReviewSection from "./route/product-Detail/ReviewSection.jsx";
 import ReviewFilter from "./route/product-Detail/ReviewFilter.jsx";
@@ -38,9 +38,10 @@ const ProductDetails = lazy(() =>
 const ProductDetailsPopUp = lazy(() =>
   import("./route/product-Detail/ProductDetailsPopUp.jsx")
 );
-const ShoppingCart = lazy(() =>
-  import("./route/shoppingCart/ShoppingCart.jsx")
-);
+// const ShoppingCart = lazy(() =>
+//   import("./route/shoppingCart/ShoppingCart.jsx")
+// );
+import ShoppingCart from "./route/shoppingCart/ShoppingCart.jsx";
 const WishList = lazy(() => import("./route/wishlist/WishList.jsx"));
 const CheckOut = lazy(() => import("./route/CheckOut.jsx"));
 const ForgotPasswordForm = lazy(() =>
@@ -51,7 +52,8 @@ const NewRegister = lazy(() =>
 );
 const Profile = lazy(() => import("./route/profile/Profile.jsx"));
 const EditProfile = lazy(() => import("./route/profile/EditProfile.jsx"));
-const Address = lazy(() => import("./route/profile/Address.jsx"));
+const Address = lazy(() => import("./route/profile/address/Address.jsx"));
+const AddAddress = lazy(() => import("./route/profile/address/AddAddress.jsx"));
 const Order = lazy(() => import("./route/profile/Order.jsx"));
 
 // Loading fallback component
@@ -76,6 +78,7 @@ import EditCategory from "./component/AdminPanel/category/EditCategory.jsx";
 import { EditProduct } from "./component/AdminPanel/product/EditProduct.jsx";
 import { OtpForResetPass } from "./component/Auth/ForgotPassword/OtpForResetPass.jsx";
 import UpdatePassword from "./component/Auth/ForgotPassword/UpdatePassword.jsx";
+import EditAddress from "./route/profile/address/EditAddress.jsx";
 // import GetCategory from "./component/AdminPanel/category/GetCategory.jsx";
 
 axios.defaults.withCredentials = true;
@@ -90,13 +93,9 @@ export const GoogleBtn = ({ text }) => {
   );
 };
 
-
-
 function App() {
   const { isLoginUser, userDetails } = useGoogleAuthContext();
   // const [userEmail, setUserEmail] = useState(null); // Set initial state to null
-
-  
 
   const router = createBrowserRouter(
     createRoutesFromElements(
@@ -110,31 +109,32 @@ function App() {
           <Route path="skeleton" element={<ShoppingCartSkeleton />} />
           <Route path="filter" element={<ReviewFilter />} />
           <Route path="otp" element={<OtpVerification />} />
-          <Route path="otpforresetpass" element={<OtpForResetPass/>} />
+          <Route path="otpforresetpass" element={<OtpForResetPass />} />
 
-       
-
-          <Route element={<AdminProtected/>}>
-                <Route path="/admin/product/add" element={<ProductAdminPanel />} />
-                <Route path="/admin/product/delete"element={<ProductDeleteAdminPanel />}/>
-                <Route path="/admin/category/add" element={<AddCategory/>}/>
-                <Route path="/admin/category/delete" element={<DeleteCategory/>}/> 
-                <Route path="/admin/category/edit" element={<EditCategory/>}/> 
-                <Route path="/admin/category/product/edit/:pId" element={<EditProduct/>}/> 
-                <Route path="/admin/category/all" element={<GetCategory/>}/> 
-                <Route path="/admin/category/allproduct/:cId" element={<GetProductByCategory/>}/> 
-            </Route>
-             
-    
-
+          <Route element={<AdminProtected />}>
+            <Route path="/admin/product/add" element={<ProductAdminPanel />} />
+            <Route
+              path="/admin/product/delete"
+              element={<ProductDeleteAdminPanel />}
+            />
+            <Route path="/admin/category/add" element={<AddCategory />} />
+            <Route path="/admin/category/delete" element={<DeleteCategory />} />
+            <Route path="/admin/category/edit" element={<EditCategory />} />
+            <Route
+              path="/admin/category/product/edit/:pId"
+              element={<EditProduct />}
+            />
+            <Route path="/admin/category/all" element={<GetCategory />} />
+            <Route
+              path="/admin/category/allproduct/:cId"
+              element={<GetProductByCategory />}
+            />
+          </Route>
 
           <Route element={<UserProtected />}>
-         
-
             {/* <Route path="/admin/product/add" element={<ProductAdminPanel />} />
             <Route path="/admin/product/delete"element={<ProductDeleteAdminPanel />}/> */}
 
-        
             <Route
               path="/profile"
               element={
@@ -158,7 +158,25 @@ function App() {
                   <Address />
                 </Suspense>
               }
-            />
+            >
+            
+            </Route>
+            <Route
+                path="/profile/address/add"
+                element={
+                  <Suspense fallback={<LoadingFallback />}>
+                    <AddAddress />
+                  </Suspense>
+                }
+              />
+            <Route
+                path="/profile/address/Edit/:AddressId"
+                element={
+                  <Suspense fallback={<LoadingFallback />}>
+                    <EditAddress/>
+                  </Suspense>
+                }
+              />
             <Route
               path="/profile/order"
               element={
@@ -184,18 +202,9 @@ function App() {
                 </Suspense>
               }
             />
-
-         
           </Route>
 
-          <Route
-            path="shoppingcart"
-            element={
-              <Suspense fallback={<LoadingFallback />}>
-                <ShoppingCart />
-              </Suspense>
-            }
-          />
+          <Route path="shoppingcart" element={<ShoppingCart />} />
 
           <Route
             path="productlist/:cId"
@@ -243,27 +252,24 @@ function App() {
 
         {/* Auth routes */}
 
-        <Route element={<AuthRedirect/>}>
+        <Route element={<AuthRedirect />}>
           <Route
-              path="register"
-              element={
-                <Suspense fallback={<LoadingFallback />}>
-                  <NewRegister />
-                </Suspense>
-              }
-            />
-            <Route
-              path="login"
-              element={
-                <Suspense fallback={<LoadingFallback />}>
-                  <Login />
-                </Suspense>
-              }
-            />
-          </Route>
-
-   
-    
+            path="register"
+            element={
+              <Suspense fallback={<LoadingFallback />}>
+                <NewRegister />
+              </Suspense>
+            }
+          />
+          <Route
+            path="login"
+            element={
+              <Suspense fallback={<LoadingFallback />}>
+                <Login />
+              </Suspense>
+            }
+          />
+        </Route>
 
         <Route
           path="forgotpasswordform"
@@ -286,7 +292,7 @@ function App() {
           path="updatepassword"
           element={
             <Suspense fallback={<LoadingFallback />}>
-              <UpdatePassword/>
+              <UpdatePassword />
             </Suspense>
           }
         />
