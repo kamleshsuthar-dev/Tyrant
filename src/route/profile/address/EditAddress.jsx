@@ -1,41 +1,42 @@
 import axios from 'axios';
 import chalk from 'chalk';
-import { useState } from 'react';
-import { useLocation,useParams } from 'react-router-dom';
+import { useEffect, useState } from 'react';
+import { useLocation, useParams } from 'react-router-dom';
 
 export default function EditAddress() {
-        const {AddressId} = useParams()
-        const location = useLocation();
-        const {currAddress} = location.state
-            console.log(currAddress , "dfdfdsd");
-            
-    const [formData, setState] = useState({
-        fullName: '',
-        mobileNumber: '',
-        nickName: currAddress.nickName,
-        landmark: currAddress.landmark,
-        addressLine: currAddress.addressLine,
-        locality: currAddress.locality,
-        pinCode: currAddress.pincode,
-        state: currAddress.state,
-        city: currAddress.city,
-        type: currAddress.type,
-        isDefault: currAddress.isDefault
-      });
+  const { AddressId } = useParams();
+  const location = useLocation();
+  const { currAddress } = location?.state;
+  console.log(currAddress, "dfdfdsd");
+  
+  const [formData, setFormData] = useState({
+    fullName: '',
+    mobileNumber: '',
+    nickName: currAddress.nickName || '',
+    landmark: currAddress.landmark || '',
+    addressLine: currAddress.addressLine || '',
+    locality: currAddress.locality || '',
+    pinCode: currAddress.pincode || '',
+    state: currAddress.state || '',
+    city: currAddress.city || '',
+    type: currAddress.type || 'Home',
+    isDefault: currAddress.isDefault || false
+  });
 
   const [success, setSuccess] = useState('');
   const [errors, setErrors] = useState({});
-  const [loading , setLoading] = useState(false)
+  const [loading, setLoading] = useState(false);
+  
   const handleChange = (e) => {
     const { name, value, type, checked } = e.target;
-    setState({
+    setFormData({
       ...formData,
       [name]: type === 'checkbox' ? checked : value
     });
   };
 
   const handleRadioChange = (e) => {
-    setState({
+    setFormData({
       ...formData,
       type: e.target.value
     });
@@ -55,14 +56,71 @@ export default function EditAddress() {
     return Object.keys(newErrors).length === 0;
   };
 
- 
+  const fetchLocationData = async (pincode) => {
+    const pinToUse = pincode || formData.pinCode;
+    
+    if (pinToUse && pinToUse.length === 6) {
+      try {
+        // For India pincodes
+        const response = await fetch(`https://api.postalpincode.in/pincode/${pinToUse}`);
+        const data = await response.json();
+        console.log(data);
 
-  const handleSubmit = async (e,formData) => {
+        if (data[0].Status === "Success" && data[0].PostOffice?.length > 0) {
+          const location = data[0].PostOffice[0];
+          setFormData((prev) => ({
+            ...prev,
+            city: location?.District || "",
+            state: location?.State || "",
+          }));
+
+          const newErrors = {};
+          newErrors.pinCode = "";
+          setErrors(newErrors);
+        } else if (data[0].Status === "Error") {
+          console.log(data[0].Message);
+          if (data[0].Message === "No records found") {
+            const newErrors = {};
+            newErrors.pinCode = "Invalid Pincode";
+            setErrors(newErrors);
+          }
+        }
+      } catch (error) {
+        console.error("Error fetching location data:", error);
+      }
+    }
+
+    if (pinToUse && pinToUse.length !== 6) {
+      setFormData((prev) => ({
+        ...prev,
+        city: "",
+        state: "",
+      }));
+    }
+  };
+
+  // Run fetchLocationData with the initial pincode when component mounts
+  useEffect(() => {
+    if (currAddress && currAddress.pincode) {
+      fetchLocationData(currAddress.pincode);
+    }
+  }, []);
+
+  // Run fetchLocationData when pincode changes after initial load
+  useEffect(() => {
+    // Skip the first render as we handle it separately
+    const skipFirstRender = currAddress && currAddress.pincode === formData.pinCode;
+    if (!skipFirstRender) {
+      fetchLocationData();
+    }
+  }, [formData.pinCode]);
+
+  const handleSubmit = async (e) => {
     e.preventDefault();
     console.log(errors);
     
     if (!validate()) return;
-    setLoading(true)
+    setLoading(true);
   
     const payload = {
       nickName: formData.nickName,
@@ -76,8 +134,6 @@ export default function EditAddress() {
       isDefault: formData.isDefault
     };
    
-
-    
     try {
       const res = await axios.post(`${import.meta.env.VITE_EDIT_ADDRESS}/${AddressId}`, payload, {
         headers: {
@@ -89,9 +145,9 @@ export default function EditAddress() {
   
       if (res.status === 200 || res.status === 201) {
         console.log(chalk.green('Address saved successfully!'));
-        setSuccess('Address saved successfully!')
+        setSuccess('Address saved successfully!');
 
-        setState({
+        setFormData({
           fullName: '',
           mobileNumber: '',
           nickName: '',
@@ -103,27 +159,32 @@ export default function EditAddress() {
           city: '',
           type: 'Home',
           isDefault: false
-        })
+        });
         // Reset form or redirect as needed
       } else {
         console.log(chalk.red('Failed to save address. Please try again.'));
       }
-      setLoading(false)
     } catch (error) {
       console.error('Error saving address:', error);
-      console.log(error.response.data.message);
-      const newErrors = {};
+      if (error.response?.data?.message) {
+        console.log(error.response.data.message);
+        const newErrors = {};
 
-      if (error?.response?.data?.message === 'address with same nickname already exists') {
-        newErrors.nickName = error.response.data.message;
-      } 
-      setErrors(newErrors);
+        if (error.response.data.message === 'address with same nickname already exists') {
+          newErrors.nickName = error.response.data.message;
+        }
+        setErrors(newErrors);
+      }
       console.log(chalk.red('An error occurred. Please try again later.'));
-    }finally{
-      setLoading(false)
+    } finally {
+      setLoading(false);
     }
-    
   };
+  
+  // Add your JSX return statement here
+  // ...
+
+
   
 
   return (
@@ -273,6 +334,7 @@ export default function EditAddress() {
               type="text"
               name="city"
               value={formData.city}
+              disabled
               onChange={handleChange}
               placeholder="Enter City"
               className={`w-full px-3 py-2 border rounded-md bg-black text-white ${errors.city ? 'border-red-500' : ''}`}
@@ -289,6 +351,7 @@ export default function EditAddress() {
             <input
               type="text"
               name="state"
+              disabled
               value={formData.state}
               onChange={handleChange}
               placeholder="Gujarat"
