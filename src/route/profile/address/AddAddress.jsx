@@ -52,7 +52,7 @@ export default function AddAddress() {
   };
 
   const fetchLocationData = async () => {
-    setPincodeLoad(true);
+   
     if (formData.pinCode.length === 6) {
       try {
         // For India pincodes
@@ -85,7 +85,7 @@ export default function AddAddress() {
       } catch (error) {
         console.error("Error fetching location data:", error);
       } finally {
-        setPincodeLoad(false);
+       
       }
     }
 
