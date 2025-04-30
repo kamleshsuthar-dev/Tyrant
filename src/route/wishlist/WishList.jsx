@@ -4,11 +4,12 @@ import React, { useState,useEffect } from "react";
 import { useCartContext } from "../../context/CartContext";
 import axios from "axios";
 import { useGoogleAuthContext } from "@/context/GoogleAuth";
-import { Delete, Star } from "lucide-react"
+import { Delete } from "lucide-react"
 import { useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button"
 
 import Login from "@/component/Auth/Login/Login";
+import StarRating from "@/features/reuseable-component/StarRating";
 
 const SkeletonCartItem = () => {
   return (
@@ -137,14 +138,8 @@ const addtoCart = (wishlistID,wishlist) => {
           <div className="flex-grow" onClick={()=>productDetailFunction(wishlist?._id,wishlistItems)}>
             <h3 className="font-medium mb-2">{wishlist?.pName}</h3>
             <div className="flex items-center gap-1 mb-1">
-              {[...Array(5)].map((_, index) => (
-                <Star
-                  key={index}
-                  className={`w-4 h-4 ${
-                    index < wishlist?.pRatingsReviews ? "fill-primary text-primary bg-black" : "fill-muted text-muted-foreground bg-red-500"
-                  }`}
-                />
-                ))}
+            <StarRating rating={wishlist.avgRating} Pcolor="#FFC224" Scolor="#202020"/>
+           
             </div>
             <p className="text-sm text-muted-foreground">Status: {wishlist?.pStatus}</p>
             <div className="flex items-center gap-2 mt-1">

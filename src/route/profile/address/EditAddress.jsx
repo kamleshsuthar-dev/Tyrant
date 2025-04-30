@@ -1,16 +1,18 @@
+import { useGoogleAuthContext } from '@/context/GoogleAuth';
 import axios from 'axios';
-import chalk from 'chalk';
+
 import { useEffect, useState } from 'react';
 import { useLocation, useParams } from 'react-router-dom';
 
 export default function EditAddress() {
+  const {userDetails} = useGoogleAuthContext()
   const { AddressId } = useParams();
   const location = useLocation();
   const { currAddress } = location?.state;
   console.log(currAddress, "dfdfdsd");
   
   const [formData, setFormData] = useState({
-    fullName: '',
+    fullName: userDetails.name,
     mobileNumber: '',
     nickName: currAddress.nickName || '',
     landmark: currAddress.landmark || '',
@@ -192,7 +194,7 @@ export default function EditAddress() {
       <div className="text-sm text-gray-500 border-b pb-2 mb-4">
         MY ACCOUNT &gt; MY PROFILE
       </div>
-      <h3>ADD ,</h3>
+      <h3>UPDATE ,</h3>
       <h2 className="text-xl font-bold mb-4 pl-10"> YOUR ADDRESS</h2>
       
       <div className="bg-green-100 h-24 rounded-lg mb-6 relative">
@@ -220,6 +222,7 @@ export default function EditAddress() {
             <input
               type="text"
               name="fullName"
+              disabled
               value={formData.fullName}
               onChange={handleChange}
               placeholder="Enter First Name"

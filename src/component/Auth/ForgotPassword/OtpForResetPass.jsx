@@ -55,7 +55,7 @@ import { useLocation,useNavigate } from "react-router-dom"
             //       });
         }else{
             console.log("OTP not Match");
-            alert('OTP galat hai Lowde')
+            alert('OTP galat hai Janab!')
         }
       
         // console.log(value);

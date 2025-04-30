@@ -114,184 +114,132 @@ export default function NewHeader() {
 
   return (
     <>
-      <header className="bg-black text-white">
-        <div className="h-12 bg-white text-gray-400 flex justify-center items-center capitalize">
-          Tell me something that i don't Know ,get 90% OFF{" "}
-          {/* <button onClick={btnclick}>click</button> */}
+    <header className="bg-black text-white">
+      <div className="h-12 bg-white text-gray-400 flex justify-center items-center capitalize">
+        Tell me something that i don't Know ,get 90% OFF{" "}
+        {/* <button onClick={btnclick}>click</button> */}
+      </div>
+
+      <nav
+        aria-label="Global"
+        className="flex max-w-8xl items-center justify-between  px-6 py-3 lg:px-8 bg-[#202020] text-white"
+      >
+        {/* Mobile menu button - now positioned on the left */}
+        <div className="flex lg:hidden">
+          <Sheet>
+            <SheetTrigger asChild>
+              <Button variant="ghost" size="icon" className="lg:hidden">
+                <List className="h-6 w-6" />
+                <span className="sr-only">Toggle menu</span>
+              </Button>
+            </SheetTrigger>
+            <SheetContent className="w-[300px] p-0 bg-gradient-to-b from-gray-900 to-black text-white border-r border-gray-800">
+              <div className="flex justify-between items-center p-4 border-b border-gray-800">
+                <h2 className="text-xl font-bold">Menu</h2>
+              </div>
+
+              <div className="py-6 px-4 space-y-2">
+                <NavItem
+                  icon={<Home className="mr-3 h-5 w-5" />}
+                  label="Home"
+                  active
+                />
+                <NavItem
+                  icon={<List className="mr-3 h-5 w-5" />}
+                  label="Products"
+                />
+                <NavItem
+                  icon={<Heart className="mr-3 h-5 w-5" />}
+                  label="Wishlist"
+                />
+                <NavItem
+                  icon={<ShoppingCart className="mr-3 h-5 w-5" />}
+                  label="Cart"
+                />
+              </div>
+
+              <div className="mt-auto p-4 border-t border-gray-800">
+                <NavLink to={isLogin==true ? "./profile" : "./login"}>
+                  <Button variant="outline" className="w-full justify-start text-gray-400 hover:text-white hover:bg-gray-800">
+                    <User className="h-4 w-4 mr-2" />
+                    {isLogin == true ? "PROFILE":"LOGIN"}
+                  </Button>
+                </NavLink>
+              </div>
+            </SheetContent>
+          </Sheet>
         </div>
 
-        <nav
-          aria-label="Global"
-          className=" flex max-w-8xl items-center justify-between px-6 py-3 lg:px-8 bg-black text-white"
-        >
-          <div className="relative flex lg:flex-1 left-14">
-            <NavLink to="/" className="-m-1.5 p-1.5">
-              <span className="sr-only">Your Company</span>
-              <img
-                alt="fuck off"
-                src="/Nemesis.svg"
-                className=" h-auto w-16"
+        {/* Logo - centered for mobile, left for desktop */}
+        <div className=" flex justify-self-start md:justify-center lg:justify-start">
+          <NavLink to="/" className="-m-1.5 p-1.5">
+            <span className="sr-only">Your Company</span>
+            <img
+              alt="fuck off"
+              src="/Nemesis.svg"
+              className="h-auto w-16"
+            />
+          </NavLink>
+      </div>
+
+        {/* Desktop navigation links */}
+        <div className="hidden lg:flex ml-9 gap-5 items-center">
+          <NavLink to="/">
+            list
+          </NavLink>
+          <NavLink to={`/productlist/67ab9caa61b7763a0938c690`} className="text-sm/6 font-semibold">
+            ProductList
+          </NavLink>
+          <NavLink to="/wishlist" className="text-sm/6 font-semibold">
+            wishlist
+          </NavLink>
+        </div>
+
+        {/* Search bar and user controls */}
+        <div className="flex md:flex  md:justify-end gap-2 lg:gap-5">
+          <div className="relative">
+            <input
+              type="search"
+              placeholder="SEARCH"
+              className="pl-8 pr-2 py-1 lg:w-96 md:w-40 w-5 bg-transparent border border-white rounded text-sm focus:outline-none focus:border-gray-400 "
+            />
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              className="h-4 w-4 absolute left-2 top-1/2 transform -translate-y-1/2 text-white"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth={2}
+                d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"
               />
-            </NavLink>
+            </svg>
           </div>
 
-          {/* mobile design  */}
-          <div className="flex lg:hidden">
-            <Sheet>
-              <SheetTrigger asChild>
-                <Button variant="ghost" size="icon" className="flex md:hidden">
-                  <List className="h-6 w-6" />
-                  <span className="sr-only">Toggle menu</span>
-                </Button>
-              </SheetTrigger>
-              <SheetContent className="w-[300px] p-0 bg-gradient-to-b from-gray-900 to-black text-white border-r border-gray-800">
-                <div className="flex justify-between items-center p-4 border-b border-gray-800">
-                  <h2 className="text-xl font-bold">Menu</h2>
-                  {/* <SheetTrigger asChild>
-                <Button variant="ghost" size="icon" className="text-gray-400 hover:text-white">
-                  <X className="h-5 w-5" />
-                  <span className="sr-only">Close menu</span>
-                </Button>
-              </SheetTrigger> */}
-                </div>
-
-                <div className="py-6 px-4 space-y-2">
-                  <NavItem
-
-                    icon={<Home className="mr-3 h-5 w-5" />}
-                    label="Home"
-                    active
-                  />
-                  <NavItem
-                    icon={<List className="mr-3 h-5 w-5" />}
-                    label="Products"
-                  />
-                  <NavItem
-                    icon={<Heart className="mr-3 h-5 w-5" />}
-                    label="Wishlist"
-                  />
-                  <NavItem
-                    icon={<ShoppingCart className="mr-3 h-5 w-5" />}
-                    label="Cart"
-                  />
-                </div>
-
-                <div className="mt-auto p-4 border-t border-gray-800">
-                <NavLink to={isLogin==true ? "./profile" : "./login"}>
-                    <Button  variant="outline" className="w-full justify-start text-gray-400 hover:text-white hover:bg-gray-800">
-                      <User className="h-4 w-4 mr-2" />
-                        {
-                            isLogin == true ? "PROFILE":"LOGIN" 
-                        }
-                   </Button>
-                </NavLink>
-                </div>
-              </SheetContent>
-            </Sheet>
-          </div>
-
-          <PopoverGroup className="hidden lg:flex lg:gap-x-12">
-            <Popover className="relative">
-              <NavLink to="/">
-                <PopoverButton className="flex items-center gap-x-1 text-sm/6 font-semibold  outline-none">
-                  list
-                  <ChevronDownIcon
-                    aria-hidden="true"
-                    className="size-5 flex-none "
-                  />
-                </PopoverButton>
-              </NavLink>
-              <PopoverPanel
-                transition
-                className="absolute -left-8 top-full z-10 mt-3 w-screen max-w-md overflow-hidden rounded-3xl bg-white shadow-lg ring-1 ring-gray-900/5 transition data-[closed]:translate-y-1 data-[closed]:opacity-0 data-[enter]:duration-200 data-[leave]:duration-150 data-[enter]:ease-out data-[leave]:ease-in"
-              >
-                <div className="p-4">
-                  {products.map((item) => (
-                    <div
-                      key={item.name}
-                      className="group relative flex items-center gap-x-6 rounded-lg p-4 text-sm/6 hover:bg-gray-50"
-                    >
-                      <div className="flex size-11 flex-none items-center justify-center rounded-lg bg-gray-50 group-hover:bg-white">
-                        <item.icon
-                          aria-hidden="true"
-                          className="size-6 text-gray-600 group-hover:text-indigo-600"
-                        />
-                      </div>
-                      <div className="flex-auto">
-                        <NavLink
-                          href={item.href}
-                          className="block font-semibold text-gray-900"
-                        >
-                          {item.name}
-                          <span className="absolute inset-0" />
-                        </NavLink>
-                        <p className="mt-1 text-gray-600">{item.description}</p>
-                      </div>
-                    </div>
-                  ))}
-                </div>
-              </PopoverPanel>
-            </Popover>
-
-            {/* <NavLink to={`/productlist/67ab9caa61b7763a0938c690`} className="text-sm/6 font-semibold">
-              ProductList
-            </NavLink> */}
-            <NavLink to={`/productlist/67ab9caa61b7763a0938c690`} className="text-sm/6 font-semibold">
-              ProductList
+          <NavLink to={isLogin ? "./profile" : "./login"}>
+                  <button className="p-2 lg:px-4 lg:py-1 bg-white border text-black border-gray-300 rounded-full lg:rounded-md hover:bg-gray-100 flex items-center h-full">
+                    <User className="h-4 w-4 lg:mr-2" />
+                    <span className="hidden lg:inline">{isLogin ? "PROFILE" : "LOGIN"}</span>
+                  </button>
             </NavLink>
-            <NavLink to="/wishlist" className="text-sm/6 font-semibold ">
-              wishlist
-            </NavLink>
-            {/* <NavLink to="/login" className="text-sm/6 font-semibold ">
-              login
-            </NavLink> */}
-          </PopoverGroup>
-          {/* search bar */}
-          <div className="hidden lg:flex lg:flex-1 lg:justify-end gap-8">
-            <div className="relative">
-              <input
-                type="search"
-                placeholder="SEARCH"
-                className="pl-8 pr-2 py-1 w-64 bg-transparent border border-gray-600 rounded text-sm focus:outline-none focus:border-gray-400"
-              />
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                className="h-4 w-4 absolute left-2 top-1/2 transform -translate-y-1/2 text-gray-400"
-                fill="none"
-                viewBox="0 0 24 24"
-                stroke="currentColor"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth={2}
-                  d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"
-                />
-              </svg>
-            </div>
-            <NavLink to={isLogin==true ? "./profile" : "./login"}>
-              <button className="px-4 py-1 bg-white border text-black border-gray-300 rounded-md hover:bg-gray-100  flex items-center">
-                <User className="h-4 w-4 mr-2" />
-                  {
-                      isLogin == true ? "PROFILE":"LOGIN" 
-                  }
-              </button>
-            </NavLink>
-            <NavLink to="/shoppingcart">
-              <button className="px-4 py-1 bg-white border text-black border-gray-300 rounded-md hover:bg-gray-100  flex items-center">
-                <div className="relative">
-                  <ShoppingCart className="h-6 w-6 text-gray-700" />
-                  <span className="absolute -top-2 -right-2 bg-green-500 text-white text-xs rounded-full h-5 w-5 flex items-center justify-center">
-                    {cartQuantity}
-                  </span>
-                </div>
-              </button>
-            </NavLink>
-          </div>
-        </nav>
 
-      </header>
-    </>
+          <NavLink to="/shoppingcart">
+            <button className="px-4 py-1 bg-white border text-black border-gray-300 rounded-md hover:bg-gray-100 flex items-center">
+              <div className="relative">
+                <ShoppingCart className="h-6 w-6 text-gray-700" />
+                <span className="absolute -top-2 -right-2 bg-green-500 text-white text-xs rounded-full h-5 w-5 flex items-center justify-center">
+                  {cartQuantity}
+                </span>
+              </div>
+            </button>
+          </NavLink>
+        </div>
+      </nav>
+    </header>
+  </>
   );
 }
 
@@ -330,3 +278,5 @@ const handleOnClick =(e)=> {
     </Button>
   );
 };
+
+

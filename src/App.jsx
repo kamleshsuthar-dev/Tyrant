@@ -50,11 +50,11 @@ const ForgotPasswordForm = lazy(() =>
 const NewRegister = lazy(() =>
   import("./component/Auth/Register/NewRegister.jsx")
 );
-const Profile = lazy(() => import("./route/profile/Profile.jsx"));
-const EditProfile = lazy(() => import("./route/profile/EditProfile.jsx"));
+const Profile = lazy(() => import("./route/profile/ProfileHome.jsx"));
+const EditProfile = lazy(() => import("./route/profile/user-profile/Profile.jsx"));
 const Address = lazy(() => import("./route/profile/address/Address.jsx"));
 const AddAddress = lazy(() => import("./route/profile/address/AddAddress.jsx"));
-const Order = lazy(() => import("./route/profile/Order.jsx"));
+const Order = lazy(() => import("./route/profile/order/Order.jsx"));
 
 // Loading fallback component
 const LoadingFallback = () => (

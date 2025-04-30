@@ -8,6 +8,22 @@ function UserProtected() {
   const location = useLocation();
     const {userDetails,isLoginUser} = useGoogleAuthContext()
                 console.log("userProtected...",isLoginUser);
+
+                if (isLoginUser === undefined || isLoginUser === null) {
+  
+                  return (
+                    <div className=" flex items-center justify-center  h-screen">
+                      <div className=" animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-gray-900 capitalize">
+                      
+                      </div>
+                      <div className="">
+                          Page Loading ...
+                      </div>
+                    </div>
+              
+                   
+                  );
+                }            
                 
     if (!isLoginUser) {
       console.log("Redirecting to login from:", location.pathname);

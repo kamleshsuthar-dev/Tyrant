@@ -53,6 +53,8 @@ export default function ShoppingCart() {
   const subtotal = cartItems.reduce((sum, item) => {
     const isChecked = checkedItems[item._id] || false;
     if (isChecked) {
+      
+     
       const discountedPrice = (item.productId?.pPrice * (100 - item.productId?.pOffer)) / 100;
       return sum + (discountedPrice * item.quantity);
     }
@@ -126,7 +128,20 @@ export default function ShoppingCart() {
     }
   };
 
+  const getCheckedItemIds = () => {
+    return cartItems
+      .filter(item => checkedItems[item._id] || false)
+      .map(item => item._id);
+  };
+  
 
+  const handleCheckout = (e)=>{
+   const cartCheckItemsId =  getCheckedItemIds()
+      
+    // console.log(cartCheckItemsId);
+    
+    navigate("/checkout" , {state: {cartCheckItemsId}});
+  }
   return (
     <div className="w-full max-w-[1300px] mx-auto p-4">
       <h1
@@ -405,9 +420,9 @@ export default function ShoppingCart() {
               </div>
               <Button
                 className="w-full mt-4 bg-green-500 hover:bg-green-600 "
-                onClick={() => {
-                  navigate("/checkout");
-                }}
+                // onClick={() => {
+                //   navigate("/checkout");}}
+                onClick={(e) => handleCheckout()}
               >
                 CHECKOUT &gt;&gt;
               </Button>

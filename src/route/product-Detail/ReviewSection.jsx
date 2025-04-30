@@ -5,6 +5,7 @@ import { LogIn, Star } from "lucide-react";
 import { Progress } from "@/components/ui/progress";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
+import StarRating from "@/features/reuseable-component/StarRating";
 import {
   Dialog,
   DialogContent,
@@ -381,6 +382,7 @@ export default function ReviewSection({ avgRating, onReviewChange }) {
           <></>
         )}
 
+
         {/* Reviews List */}
         <div className="space-y-4">
           {reviews && reviews.length > 0 ? (
@@ -389,7 +391,7 @@ export default function ReviewSection({ avgRating, onReviewChange }) {
                 <CardContent className="p-4 space-y-2 relative">
                   <div className="flex items-center gap-2">
                     <div className="flex">
-                      {[...Array(5)].map((_, i) => (
+                      {/* {[...Array(5)].map((_, i) => (
                         <Star
                           key={i}
                           className={`w-4 h-4 ${
@@ -398,7 +400,9 @@ export default function ReviewSection({ avgRating, onReviewChange }) {
                               : "fill-muted text-muted-foreground"
                           }`}
                         />
-                      ))}
+                      ))} */}
+                      <StarRating rating={review.rating} Pcolor="#202020" Scolor="#e6e3e0 
+" />
                     </div>
                     <span className="font-medium">
                       {review?.user?.name || "Anonymous"}

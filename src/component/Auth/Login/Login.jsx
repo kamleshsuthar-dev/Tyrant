@@ -205,7 +205,7 @@ const Login = ({ text }) => {
             </div>
 
             <div className="text-3xl col-span-1 row-span-1 font-bold ">
-              Sign In To Adaa Jaipur{" "}
+              Sign In To Tyrant{" "}
             </div>
 
             <div className=" col-span-1 row-span-1">
@@ -305,7 +305,7 @@ const Login = ({ text }) => {
                 Sign In To{" "}
               </div>
               <div className="text-3xl col-span-1 row-span-1 font-bold ">
-                Adaa Jaipur
+              Tyrant
               </div>
             </div>
             <div className=" col-span-1 row-span-1">

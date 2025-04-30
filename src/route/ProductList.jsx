@@ -4,9 +4,10 @@ import React, { useEffect, useState, } from 'react'
 import { useNavigate ,Link, useLoaderData,useParams} from 'react-router-dom';
 
 import { Card, CardContent } from "@/components/ui/card"
-import { Star, StarHalf } from "lucide-react"
+// import { Star, StarHalf } from "lucide-react"
 
 import ProductListSkeleton from '../component/skeleton/ProductListSkeleton';
+import StarRating from '@/features/reuseable-component/StarRating';
 
 
 
@@ -54,33 +55,24 @@ export default function ProductList() {
              
 }
 
-  // const productDetailFunction = (e, product) => {
-  //   e.preventDefault();
-  //   setSelectedProduct(product);
-  //   // Programmatically click the drawer trigger
-  //   if (drawerTriggerRef.current) {
-  //     drawerTriggerRef.current.click();
-  //   }
-  // };
-
-// let originalPrice = 5000;
-const renderStars = (rating) => {
-  // console.log(rating);
   
-  const stars = []
-  const fullStars= Math.floor(rating )
-  const hasHalfStar = rating % 1 !== 0
+// const renderStars = (rating) => {
+//   // console.log(rating);
+  
+//   const stars = []
+//   const fullStars= Math.floor(rating )
+//   const hasHalfStar = rating % 1 !== 0
 
-  for (let i = 0; i < fullStars; i++) {
-    stars.push(<Star key={i} className="fill-yellow-400 text-yellow-400 w-4 h-4" />)
-  }
+//   for (let i = 0; i < fullStars; i++) {
+//     stars.push(<Star key={i} className="fill-yellow-400 text-yellow-400 w-4 h-4" />)
+//   }
 
-  if (hasHalfStar) {
-    stars.push(<StarHalf key="half" className="fill-yellow-400 text-yellow-400 w-4 h-4" />)
-  }
+//   if (hasHalfStar) {
+//     stars.push(<StarHalf key="half" className="fill-yellow-400 text-yellow-400 w-4 h-4" />)
+//   }
 
-  return stars
-}
+//   return stars
+// }
 
 
 if(loading) return <ProductListSkeleton/>
@@ -107,8 +99,9 @@ else  return (
         <h3 className="text-xl font-bold text-gray-900">{product.pName}</h3>
 
         <div className="mt-1 flex items-center gap-1">
-          <div className="flex items-center">{renderStars(product.avgRating
-)}</div>
+          {/* <div className="flex items-center">{renderStars(product.avgRating
+              )}</div> */}
+            <StarRating rating={product.avgRating} Pcolor="#FFC224" Scolor="#202020"/>
           <span className={`text-sm text-gray-600 ${product.reviewCount==0 ? "hidden":" "}`}> ({product.reviewCount})</span>
         </div>
 

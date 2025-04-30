@@ -205,7 +205,7 @@ function NewRegister({ text }) {
       <div className="h-screen max-w-[1200px] w-screen sm:flex hidden  p-10 m-auto ">
         <div className="lg:h-full h-[90vh] w-[50%] mr-5 ">
           <img
-            src="./images/bgImgJaipur.png"
+            src="https://res.cloudinary.com/dzzs9yjcf/image/upload/v1745905391/SignUp_qwit1e.png"
             alt=""
             className="lg:h-full h-[90vh] w-full object-cover rounded-xl "
           />
@@ -214,7 +214,7 @@ function NewRegister({ text }) {
           <div className=" h-full w-full grid  place-items-center    rounded-2xl  ">
             <div className="card min-w-[350px] min-h-[60%]  bg-white rounded-xl text-black grid gap-2 items-center p-[52px] font-comfortaa text-lg ">
               <div className="text-3xl col-span-1 row-span-1 font-bold ">
-                Sign Up To Adaa Jaipur{" "}
+                Sign Up To Tyrant{" "}
               </div>
 
               <div className=" col-span-1 row-span-1">
@@ -331,7 +331,7 @@ function NewRegister({ text }) {
             className="h-full w-full absolute top-0 bottom-0  rounded-2xl z-[0]"
           />
           <div className="text-4xl  font-bold text-white z-[1]">
-            Sign Up To Adaa Jaipur
+            Sign Up To Tyrant
           </div>
         </div>
         <div className="h-[70%] w-full flex justify-center ">

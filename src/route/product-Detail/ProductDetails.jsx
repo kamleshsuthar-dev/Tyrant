@@ -21,6 +21,7 @@ import axios from "axios";
 import WishList from "../wishlist/WishList";
 import ReviewSection from "./ReviewSection";
 import ProductDesciption from "./ProductDescription";
+import StarRating from "@/features/reuseable-component/StarRating";
 const ShoppingCartTopUp = lazy(() => import("../shoppingCart/ShoppingCartTopUp"));
 
 // import { cn } from "@/lib/utils"
@@ -176,103 +177,163 @@ export default function ProductDetail() {
           <Card className="bg-white rounded-3xl overflow-hidden">
             <div className="grid md:grid-cols-2 gap-8 p-4 md:p-8 ">
               {/* Image Section */}
-              <div className="relative rounded-3xl bg-[#202020]">
+              <div className="relative rounded-3xl bg-[#202020] p-4">
                 {/* chat gpt  */}
 
-               {/* Desktop: Vertical thumbnails on the left */}
-                <div className="hidden md:flex flex-col gap-4 absolute  left-0 top-0 h-full pr-4">
-                  {productImages.map((image, index) => (
-                    <button
-                      key={index}
-                      onMouseEnter={() => setHoveredImageIndex(index)} // Set hover state
-                      onMouseLeave={() => setHoveredImageIndex(null)} // Reset on leave
-                      onClick={() => setSelectedImageIndex(index)} // Click to set selected image
-                      className={cn(
-                        "relative w-16 aspect-[3/4] rounded-lg overflow-hidden border-2",
-                        selectedImageIndex === index
-                          ? "border-black"
-                          : "border-transparent hover:border-gray-200"
-                      )}
-                    >
-                      <img
-                        src={image || "/placeholder.svg"}
-                        alt={`Product ${index + 1}`}
-                        className="object-cover"
-                      />
-                    </button>
-                  ))}
-                </div>
-
-                {/* Main Image */}
-                <div className="hidden md:flex aspect-[3/4] relative border-[12px] border-[#202020] rounded-3xl overflow-hidden  md:ml-20">
-                  <img
-                    src={
-                      productImages[
-                        hoveredImageIndex !== null
-                          ? hoveredImageIndex
-                          : selectedImageIndex
-                      ] || "/placeholder.svg"
-                    }
-                    alt="Product Image"
-                    className="object-cover w-full"
-                  />
-                  <Button
-                    onClick={addToWishList}
-                    disabled={wishlistLoading}
-                    variant="ghost"
-                  size="icon"
-                    className={`absolute top-4 right-4 inline-flex items-center justify-center p-4 rounded-full transition-all duration-200 ${
-                      wishlist ? "bg-red-100" : "bg-gray-100"
-                    } ${
-                      wishlistLoading ? "cursor-wait" : "hover:bg-red-50"
-                    } disabled:opacity-50`}
-                  >
-                    <Heart
-                      className={` w-5 h-5 transition-all duration-200 ${wishlist ? "fill-pink-500 stroke-[#202020]" : "stroke-[#202020]"} ${wishlistLoading ? "animate-pulse" : ""}  `}
-                    />
-
-                    {wishlistLoading && (
-                      <div className="absolute inset-0 flex items-center justify-center">
-                        <div className="absolute w-full h-full animate-ping rounded-full bg-red-200 opacity-75"></div>
-                      </div>
-                    )}
-                  </Button>
-                </div>
-
-                {/* Mobile: Horizontal thumbnails below images*/}
-                <div className="flex md:hidden gap-2 mt-4 overflow-auto pb-2 snap-x">
-                  <div className="mx-auto max-w-xs">
-                    <Carousel setApi={setApi} className="w-full max-w-xs">
-                      <CarouselContent>
-                        {productImages.map((image, index) => {
-                          return (
-                            <CarouselItem key={index}>
-                              <Card>
-                                <CardContent className="flex aspect-square items-center justify-center p-6">
-                                  {/* <span className="text-4xl font-semibold">{index + 1}</span> */}
-                                  <img src={image} alt="" />
-                                </CardContent>
-                              </Card>
-                            </CarouselItem>
-                          );
-                        })}
-                      </CarouselContent>
-                    </Carousel>
-                    {/* Dots Navigation */}
-                    <div className="flex justify-center gap-2 mt-4">
-                      {productImages.map((_, index) => (
-                        <div
+                  {/* Desktop: Vertical thumbnails on the left */}
+                    {/* <div className="hidden md:flex flex-col gap-4 absolute  left-0 top-0 h-full pr-4">
+                      {productImages.map((image, index) => (
+                        <button
                           key={index}
-                          className={`h-2 w-2 rounded-full transition-all duration-300 ${
-                            activeIndex === index
-                              ? "bg-blue-500 scale-125"
-                              : "bg-gray-300"
-                          }`}
-                        ></div>
+                          onMouseEnter={() => setHoveredImageIndex(index)} // Set hover state
+                          onMouseLeave={() => setHoveredImageIndex(null)} // Reset on leave
+                          onClick={() => setSelectedImageIndex(index)} // Click to set selected image
+                          className={cn(
+                            "relative w-16 aspect-[3/4] rounded-lg overflow-hidden border-2",
+                            selectedImageIndex === index
+                              ? "border-black"
+                              : "border-transparent hover:border-gray-200"
+                          )}
+                        >
+                          <img
+                            src={image || "/placeholder.svg"}
+                            alt={`Product ${index + 1}`}
+                            className="object-cover"
+                          />
+                        </button>
                       ))}
+                    </div> */}
+
+                  {/* Main Image */}
+                  {/* <div className="hidden md:flex aspect-[3/4] relative border-[12px] border-[#202020] rounded-3xl overflow-hidden  md:ml-20">
+                    <img
+                      src={
+                        productImages[
+                          hoveredImageIndex !== null
+                            ? hoveredImageIndex
+                            : selectedImageIndex
+                        ] || "/placeholder.svg"
+                      }
+                      alt="Product Image"
+                      className="object-cover w-full"
+                    />
+                    <Button
+                      onClick={addToWishList}
+                      disabled={wishlistLoading}
+                      variant="ghost"
+                    size="icon"
+                      className={`absolute top-4 right-4 inline-flex items-center justify-center p-4 rounded-full transition-all duration-200 ${
+                        wishlist ? "bg-red-100" : "bg-gray-100"
+                      } ${
+                        wishlistLoading ? "cursor-wait" : "hover:bg-red-50"
+                      } disabled:opacity-50`}
+                    >
+                      <Heart
+                        className={` w-5 h-5 transition-all duration-200 ${wishlist ? "fill-pink-500 stroke-[#202020]" : "stroke-[#202020]"} ${wishlistLoading ? "animate-pulse" : ""}  `}
+                      />
+
+                      {wishlistLoading && (
+                        <div className="absolute inset-0 flex items-center justify-center">
+                          <div className="absolute w-full h-full animate-ping rounded-full bg-red-200 opacity-75"></div>
+                        </div>
+                      )}
+                    </Button>
+                  </div> */}
+
+
+                  {/* Desktop: Vertical thumbnails on the left */}
+<div className="hidden md:flex flex-col gap-2 absolute   bg-[#D1D1D1] rounded-2xl p-2">
+  {productImages.map((image, index) => (
+    <button
+      key={index}
+      onMouseEnter={() => setHoveredImageIndex(index)}
+      onMouseLeave={() => setHoveredImageIndex(null)}
+      onClick={() => setSelectedImageIndex(index)}
+      className={cn(
+        "relative w-14 aspect-square rounded-2xl overflow-hidden border-2 bg-white",
+        selectedImageIndex === index
+          ? "border-[#202020]"
+          : "border-gray-200 hover:border-gray-300"
+      )}
+    >
+      <img
+        src={image || "/placeholder.svg"}
+        alt={`Product ${index + 1}`}
+        className="object-cover w-full h-full"
+      />
+    </button>
+  ))}
+</div>
+
+{/* Main Image */}
+<div className="hidden md:flex h-full relative border border-gray-100 bg-white rounded-2xl overflow-hidden ml-[5.3rem]">
+  <img
+    src={
+      productImages[
+        hoveredImageIndex !== null
+          ? hoveredImageIndex
+          : selectedImageIndex
+      ] || "/placeholder.svg"
+    }
+    alt="Product Image"
+    className="object-contain w-full h-full"
+  />
+  <Button
+    onClick={addToWishList}
+    disabled={wishlistLoading}
+    variant="ghost"
+    size="icon"
+    className={`absolute top-4 right-4 inline-flex items-center justify-center p-2 rounded-full transition-all duration-200 ${
+      wishlist ? "bg-red-50" : "bg-gray-50"
+    } ${
+      wishlistLoading ? "cursor-wait" : "hover:bg-red-50"
+    } disabled:opacity-50`}
+  >
+    <Heart
+      className={`w-5 h-5 transition-all duration-200 ${wishlist ? "fill-pink-500 stroke-gray-800" : "stroke-gray-800"} ${wishlistLoading ? "animate-pulse" : ""}`}
+    />
+    {wishlistLoading && (
+      <div className="absolute inset-0 flex items-center justify-center">
+        <div className="absolute w-full h-full animate-ping rounded-full bg-red-200 opacity-75"></div>
+      </div>
+    )}
+  </Button>
+</div>
+
+                  {/* Mobile: Horizontal thumbnails below images*/}
+                  <div className="flex md:hidden gap-2 mt-4 overflow-auto pb-2 snap-x">
+                    <div className="mx-auto max-w-xs">
+                      <Carousel setApi={setApi} className="w-full max-w-xs">
+                        <CarouselContent>
+                          {productImages.map((image, index) => {
+                            return (
+                              <CarouselItem key={index}>
+                                <Card>
+                                  <CardContent className="flex aspect-square items-center justify-center p-6">
+                                    {/* <span className="text-4xl font-semibold">{index + 1}</span> */}
+                                    <img src={image} alt="" />
+                                  </CardContent>
+                                </Card>
+                              </CarouselItem>
+                            );
+                          })}
+                        </CarouselContent>
+                      </Carousel>
+                      {/* Dots Navigation */}
+                      <div className="flex justify-center gap-2 mt-4">
+                        {productImages.map((_, index) => (
+                          <div
+                            key={index}
+                            className={`h-2 w-2 rounded-full transition-all duration-300 ${
+                              activeIndex === index
+                                ? "bg-blue-500 scale-125"
+                                : "bg-gray-300"
+                            }`}
+                          ></div>
+                        ))}
+                      </div>
                     </div>
                   </div>
-                </div>
               </div>
 
               {/* Product Details Section */}
@@ -280,20 +341,19 @@ export default function ProductDetail() {
                 <div>
                   <h1 className="text-3xl font-bold">{product.pName}</h1>
                   <p>{product.pDescription}</p>
-                  <div className="flex items-center gap-2 mt-2">
-                    <div className="flex">
-                      {[1, 2, 3, 4].map((star) => (
-                        <span key={star} className="text-yellow-400">
-                          ★
-                        </span>
-                      ))}
-                      <span className="text-gray-300">★</span>
-                    </div>
-                    <span className="text-sm text-gray-500">(4.0)</span>
+                  <div className="flex items-center gap-2 mt-2 text-xs text-gray-600">
+                    <span className="">{product.avgRating}</span>
+                  <StarRating rating={product.avgRating} Pcolor="#FFC224" Scolor="#202020"/>
+                  <span className={` flex justify-center items-center gap-1 ${product.reviewCount==0 ? "hidden":" "}`}>
+                       <svg 
+                    xmlns="http://www.w3.org/2000/svg" width="7" height="5" viewBox="0 0 7 3" className="pt-[1px]" fill="none">
+                        <path d="M1 0.5L3.5 2.5L6 0.5" stroke="#202020" stroke-linecap="round" stroke-linejoin="round"/>
+                        </svg>
+                     {product.reviewCount}</span>
                   </div>
                 </div>
 
-                <div className="space-y-1">
+                <div className="space-y-1 border-b-2 pb-4 border-dashed border-[#2020202c]">
                   <div className="flex items-center gap-2">
                     <span className="text-2xl font-bold">
                       Rs. {(product.pPrice * (100 - product.pOffer)) / 100}
@@ -308,11 +368,12 @@ export default function ProductDetail() {
                   <p className="text-sm text-[#202020]">
                     Tax included. Shipping calculated at checkout.
                   </p>
+                
                 </div>
 
                 {/* Size Selector */}
-                <div className="space-y-4">
-                  <div>
+                <div className="space-y-4 !mt-4">
+                  <div className="!mt-0">
                     <Label className="text-2xl">Size</Label>
                     <RadioGroup
                       defaultValue={selectedSize}

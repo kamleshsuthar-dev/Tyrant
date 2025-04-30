@@ -1,10 +1,15 @@
+import { useGoogleAuthContext } from "@/context/GoogleAuth";
 import axios from "axios";
-import chalk from "chalk";
+
 import { useEffect, useState } from "react";
 
 export default function AddAddress() {
+
+  const {userDetails} = useGoogleAuthContext()
+
+  
   const [formData, setFormData] = useState({
-    fullName: "",
+    fullName: userDetails.name,
     mobileNumber: "",
     nickName: "",
     landmark: "",
@@ -207,6 +212,7 @@ export default function AddAddress() {
             <input
               type="text"
               name="fullName"
+              disabled
               value={formData.fullName}
               onChange={handleChange}
               placeholder="Enter First Name"
