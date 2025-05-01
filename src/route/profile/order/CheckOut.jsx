@@ -139,9 +139,9 @@ export default function CheckoutPage() {
         // In a real app, replace with actual API call
         // const response = await mockFetchContactInfo()
         let res = await axios.get(`${import.meta.env.VITE_GET_PROFILE}`)
-                  //  console.log(res.data.user ,);
+                   console.log(res.data.user ,"");
         
-        setContactInfo(res.data.user)
+        setContactInfo(res?.data?.user)
       } catch (error) {
         console.error("Error fetching contact info:", error)
       }
