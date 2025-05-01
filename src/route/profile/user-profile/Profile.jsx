@@ -119,7 +119,7 @@ export default function Profile() {
               id="fullName"
               placeholder="Enter Full Name"
               className="bg-black text-white placeholder:text-gray-400"
-              value= {profile.name}
+              value= {profile?.name}
               onChange = {(e)=>{setProfile({...profile , name:e.target.value})}}
             />
           </div>
@@ -128,7 +128,7 @@ export default function Profile() {
         {/* Gender */}
         <div className="space-y-2">
           <Label>GENDER</Label>
-          <RadioGroup value={profile.gender}  className="flex gap-4">
+          <RadioGroup value={profile?.gender}  className="flex gap-4">
             <div className="flex items-center space-x-2">
               <RadioGroupItem value="male" onClick = {(e)=>{setProfile({...profile , gender: e.target.value})}} id="male" />
               <Label htmlFor="male">MALE</Label>
@@ -146,7 +146,7 @@ export default function Profile() {
             <Label htmlFor="mobile">MOBILE NUMBER*</Label>
             <div className="flex">
               <Input type="text" value="+91" className="w-16 rounded-r-none border-r-0" readOnly />
-              <Input id="mobile" type="number" placeholder="Enter Mobile Number" size="10" minLength="10" className="rounded-l-none" value= {profile.contact} onChange={(e)=>{
+              <Input id="mobile" type="number" placeholder="Enter Mobile Number" size="10" minLength="10" className="rounded-l-none" value= {profile?.contact} onChange={(e)=>{
                 const value = e.target.value;
                 if (/^\d{0,10}$/.test(value)) {
                   setProfile({ ...profile, contact: value });
@@ -159,7 +159,7 @@ export default function Profile() {
 
               }}/>
             </div>
-            <p className="text-red-500 text-xs mt-1">{error.contactError }</p>
+            <p className="text-red-500 text-xs mt-1">{error?.contactError }</p>
           </div>
 
           {/* Email */}
@@ -170,7 +170,7 @@ export default function Profile() {
               type="email"
               placeholder="Enter Email Address"
               className="bg-black text-white placeholder:text-gray-400"
-              value= {profile.email}
+              value= {profile?.email}
               readOnly
             />
           </div>
