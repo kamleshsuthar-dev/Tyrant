@@ -25,7 +25,7 @@ export default function CheckoutPage() {
   const [showAddressDropdown, setShowAddressDropdown] = useState(false)
 
   // State for contact info
-  const [contactInfo, setContactInfo] = useState({ email: "", contact: "" })
+  const [contactInfo, setContactInfo] = useState([])
   const [isEditingContact, setIsEditingContact] = useState(false)
 
   // State for delivery options
@@ -142,14 +142,14 @@ export default function CheckoutPage() {
         // Defensive check
         const user = res?.data?.user;
         if (user) {
-          setProfile(user);
+          setContactInfo(user);
         } else {
           console.warn("User data is missing in the response.");
-          setProfile(null); 
+          setContactInfo(null); 
         }
       } catch (error) {
         console.error("Error fetching profile:", error);
-        setProfile(null); 
+        setContactInfo(null); 
       }
     }
     // const fetchContactInfo = async () => {
