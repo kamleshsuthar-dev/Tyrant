@@ -9,10 +9,10 @@ import {
   useLocation,
 } from "react-router-dom";
 import Layout from "../Layout.jsx";
-import Home from "./route/Home.jsx";
+import Home from "./route/header/Home.jsx";
 import { GoogleOAuthProvider } from "@react-oauth/google";
 import { lazy, useMemo } from "react";
-import AboutUs from "./route/AboutUs.jsx";
+import AboutUs from "./route/header/AboutUs.jsx";
 import ReviewSection from "./route/product-Detail/ReviewSection.jsx";
 import ReviewFilter from "./route/product-Detail/ReviewFilter.jsx";
 import ProductDesciption from "./route/product-Detail/ProductDescription.jsx";
@@ -43,7 +43,7 @@ const ProductDetailsPopUp = lazy(() =>
 // );
 import ShoppingCart from "./route/shoppingCart/ShoppingCart.jsx";
 const WishList = lazy(() => import("./route/wishlist/WishList.jsx"));
-const CheckOut = lazy(() => import("./route/CheckOut.jsx"));
+const CheckOut = lazy(() => import("./route/profile/order/CheckOut.jsx"));
 const ForgotPasswordForm = lazy(() =>
   import("./component/Auth/ForgotPassword/ForgotPasswordForm.jsx")
 );

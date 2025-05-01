@@ -22,6 +22,8 @@ import WishList from "../wishlist/WishList";
 import ReviewSection from "./ReviewSection";
 import ProductDesciption from "./ProductDescription";
 import StarRating from "@/features/reuseable-component/StarRating";
+import PorductCard from "@/features/reuseable-component/PorductCard";
+import { GetApi } from "@/features/reuseable-component/GetApi";
 const ShoppingCartTopUp = lazy(() => import("../shoppingCart/ShoppingCartTopUp"));
 
 // import { cn } from "@/lib/utils"
@@ -53,12 +55,21 @@ export default function ProductDetail() {
   const navigate = useNavigate();
   const popUp = useRef(null);
 
-  // const location = useLocation();
-  // const productData = location.state?.product;
-  //   const wishlistID = location.state?.wishlistID;
-    
-  // const productId = productData?._id ?? wishlistID ;
-//  const product =  useLoaderData()
+  const [categoryP, setCategoryP] = useState([])
+
+  
+ const [data, error, loading] = GetApi(`${import.meta.env.VITE_PRODUCT_BY_CATEGORY}?cId=${product?.pCategory}`,"get product by category api ");
+
+  useEffect(() => {
+    if (data && data.data && data.data.products) {
+      setCategoryP(data.data.products);
+     
+    }
+ 
+  }, [data]);
+  console.log("proo", data?.data);
+
+   
    
   const {pId} = useParams()
   
@@ -74,12 +85,15 @@ export default function ProductDetail() {
           setWishlist(false);
         }
         setProduct(res.data.product);
+        
       } catch (error) {
         return <ProductDetailSkeleton />;
       }
     };
     singlePrd();
-  }, [pId, reviewsUpdated]);
+    window.scrollTo(0,0)
+    setProduct(null)
+  }, [pId, reviewsUpdated ]);
 
 
   useEffect(() => {
@@ -171,41 +185,40 @@ export default function ProductDetail() {
 
   return (
     <>
-      <div className="min-h-screen bg-white p-4">
+      <div className="min-h-screen bg-white p-4" id="top">
         <div className="max-w-7xl mx-auto">
           {/* Main Product Section */}
           <Card className="bg-white rounded-3xl overflow-hidden">
-            <div className="grid md:grid-cols-2 gap-8 p-4 md:p-8 ">
+            <div className="grid md:grid-cols-2 gap-8   p-4 md:p-8 ">
               {/* Image Section */}
-              <div className="relative rounded-3xl bg-[#202020] p-4">
-                {/* chat gpt  */}
+              <div className="relative w-fit rounded-3xl bg-[#202020] p-4 flex justify-center md:justify-between">
 
                   {/* Desktop: Vertical thumbnails on the left */}
-                    {/* <div className="hidden md:flex flex-col gap-4 absolute  left-0 top-0 h-full pr-4">
-                      {productImages.map((image, index) => (
-                        <button
-                          key={index}
-                          onMouseEnter={() => setHoveredImageIndex(index)} // Set hover state
-                          onMouseLeave={() => setHoveredImageIndex(null)} // Reset on leave
-                          onClick={() => setSelectedImageIndex(index)} // Click to set selected image
-                          className={cn(
-                            "relative w-16 aspect-[3/4] rounded-lg overflow-hidden border-2",
-                            selectedImageIndex === index
-                              ? "border-black"
-                              : "border-transparent hover:border-gray-200"
-                          )}
-                        >
-                          <img
-                            src={image || "/placeholder.svg"}
-                            alt={`Product ${index + 1}`}
-                            className="object-cover"
-                          />
-                        </button>
-                      ))}
-                    </div> */}
+                <div className="hidden md:flex flex-col gap-2 absolute   bg-[#D1D1D1] rounded-2xl p-2">
+                  {productImages.map((image, index) => (
+                    <button
+                      key={index}
+                      onMouseEnter={() => setHoveredImageIndex(index)}
+                      onMouseLeave={() => setHoveredImageIndex(null)}
+                      onClick={() => setSelectedImageIndex(index)}
+                      className={cn(
+                        "relative w-14 aspect-square rounded-2xl overflow-hidden border-2 bg-white",
+                        selectedImageIndex === index
+                          ? "border-[#202020]"
+                          : "border-gray-200 hover:border-gray-300"
+                      )}
+                    >
+                      <img
+                        src={image || "/placeholder.svg"}
+                        alt={`Product ${index + 1}`}
+                        className="object-cover w-full h-full"
+                      />
+                    </button>
+                  ))}
+                </div>
 
                   {/* Main Image */}
-                  {/* <div className="hidden md:flex aspect-[3/4] relative border-[12px] border-[#202020] rounded-3xl overflow-hidden  md:ml-20">
+                  <div className="hidden md:flex h-full relative border border-gray-100 bg-white rounded-2xl overflow-hidden ml-[5.3rem]">
                     <img
                       src={
                         productImages[
@@ -215,103 +228,42 @@ export default function ProductDetail() {
                         ] || "/placeholder.svg"
                       }
                       alt="Product Image"
-                      className="object-cover w-full"
+                      className="object-contain w-full h-full"
                     />
                     <Button
                       onClick={addToWishList}
                       disabled={wishlistLoading}
                       variant="ghost"
-                    size="icon"
-                      className={`absolute top-4 right-4 inline-flex items-center justify-center p-4 rounded-full transition-all duration-200 ${
-                        wishlist ? "bg-red-100" : "bg-gray-100"
+                      size="icon"
+                      className={`absolute top-4 right-4 inline-flex items-center justify-center p-2 rounded-full transition-all duration-200 ${
+                        wishlist ? "bg-red-50" : "bg-gray-50"
                       } ${
                         wishlistLoading ? "cursor-wait" : "hover:bg-red-50"
                       } disabled:opacity-50`}
                     >
                       <Heart
-                        className={` w-5 h-5 transition-all duration-200 ${wishlist ? "fill-pink-500 stroke-[#202020]" : "stroke-[#202020]"} ${wishlistLoading ? "animate-pulse" : ""}  `}
+                        className={`w-5 h-5 transition-all duration-200 ${wishlist ? "fill-pink-500 stroke-gray-800" : "stroke-gray-800"} ${wishlistLoading ? "animate-pulse" : ""}`}
                       />
-
                       {wishlistLoading && (
                         <div className="absolute inset-0 flex items-center justify-center">
                           <div className="absolute w-full h-full animate-ping rounded-full bg-red-200 opacity-75"></div>
                         </div>
                       )}
                     </Button>
-                  </div> */}
-
-
-                  {/* Desktop: Vertical thumbnails on the left */}
-<div className="hidden md:flex flex-col gap-2 absolute   bg-[#D1D1D1] rounded-2xl p-2">
-  {productImages.map((image, index) => (
-    <button
-      key={index}
-      onMouseEnter={() => setHoveredImageIndex(index)}
-      onMouseLeave={() => setHoveredImageIndex(null)}
-      onClick={() => setSelectedImageIndex(index)}
-      className={cn(
-        "relative w-14 aspect-square rounded-2xl overflow-hidden border-2 bg-white",
-        selectedImageIndex === index
-          ? "border-[#202020]"
-          : "border-gray-200 hover:border-gray-300"
-      )}
-    >
-      <img
-        src={image || "/placeholder.svg"}
-        alt={`Product ${index + 1}`}
-        className="object-cover w-full h-full"
-      />
-    </button>
-  ))}
-</div>
-
-{/* Main Image */}
-<div className="hidden md:flex h-full relative border border-gray-100 bg-white rounded-2xl overflow-hidden ml-[5.3rem]">
-  <img
-    src={
-      productImages[
-        hoveredImageIndex !== null
-          ? hoveredImageIndex
-          : selectedImageIndex
-      ] || "/placeholder.svg"
-    }
-    alt="Product Image"
-    className="object-contain w-full h-full"
-  />
-  <Button
-    onClick={addToWishList}
-    disabled={wishlistLoading}
-    variant="ghost"
-    size="icon"
-    className={`absolute top-4 right-4 inline-flex items-center justify-center p-2 rounded-full transition-all duration-200 ${
-      wishlist ? "bg-red-50" : "bg-gray-50"
-    } ${
-      wishlistLoading ? "cursor-wait" : "hover:bg-red-50"
-    } disabled:opacity-50`}
-  >
-    <Heart
-      className={`w-5 h-5 transition-all duration-200 ${wishlist ? "fill-pink-500 stroke-gray-800" : "stroke-gray-800"} ${wishlistLoading ? "animate-pulse" : ""}`}
-    />
-    {wishlistLoading && (
-      <div className="absolute inset-0 flex items-center justify-center">
-        <div className="absolute w-full h-full animate-ping rounded-full bg-red-200 opacity-75"></div>
-      </div>
-    )}
-  </Button>
-</div>
+                  </div>
 
                   {/* Mobile: Horizontal thumbnails below images*/}
-                  <div className="flex md:hidden gap-2 mt-4 overflow-auto pb-2 snap-x">
-                    <div className="mx-auto max-w-xs">
+                  <div className="flex md:hidden    snap-x">
+                    <div className=" max-w-xs">
                       <Carousel setApi={setApi} className="w-full max-w-xs">
                         <CarouselContent>
                           {productImages.map((image, index) => {
                             return (
                               <CarouselItem key={index}>
                                 <Card>
-                                  <CardContent className="flex aspect-square items-center justify-center p-6">
-                                    {/* <span className="text-4xl font-semibold">{index + 1}</span> */}
-                                    <img src={image} alt="" />
+                                  <CardContent className="flex aspect-square items-center justify-center xs:p-3 p-1">
+                                   
+                                    <img src={image} alt="Chitapak Dum Dum"  />
                                   </CardContent>
                                 </Card>
                               </CarouselItem>
@@ -496,29 +448,16 @@ export default function ProductDetail() {
           
 
           {/* Similar Products */}
-          <div className="mt-8 grid grid-cols-2 md:grid-cols-4 gap-4">
-            {Array.from({ length: 4 }).map((_, i) => (
-              <Card key={i} className="overflow-hidden">
-                <div className="aspect-[3/4] relative">
-                  <img
-                    src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/%7B29A32F65-986C-4D6C-9FA9-F59A29CACDEF%7D-gh0Fx6Io6ARfqYrKf5RUUO65Z6pXBd.png"
-                    alt="Similar Product"
-                    className="object-cover"
-                  />
-                </div>
-                <div className="p-4">
-                  <h3 className="font-medium truncate">
-                    Adaa Jaipur Comfort Printed Cotton Shirt
-                  </h3>
-                  <div className="flex items-center justify-between mt-2">
-                    <span className="font-bold">Rs. 1,999.00</span>
-                    <span className="text-sm text-green-600 font-medium bg-green-100 px-2 py-0.5 rounded">
-                      33% OFF
-                    </span>
-                  </div>
-                </div>
-              </Card>
-            ))}
+          <div className="mt-8 grid grid-cols-2 md:grid-cols-4 gap-4"  >
+                {
+                  categoryP && categoryP.length > 0 ? (
+                  <>
+                  {categoryP.map((p)=>(
+                      <PorductCard product={p} onClick={()=>{}}/>
+                  ))
+                  }
+                  </>):(<></>)
+                }  
           </div>
         </div>
       </div>
