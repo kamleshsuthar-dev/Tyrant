@@ -136,16 +136,34 @@ export default function CheckoutPage() {
     
     const fetchContactInfo = async () => {
       try {
-        // In a real app, replace with actual API call
-        // const response = await mockFetchContactInfo()
-        let res = await axios.get(`${import.meta.env.VITE_GET_PROFILE}`)
-                   console.log(res.data.user ,"");
-        
-        setContactInfo(res?.data?.user)
+        const res = await axios.get(`${import.meta.env.VITE_GET_PROFILE}`);
+        console.log("Profile response:", res);
+  
+        // Defensive check
+        const user = res?.data?.user;
+        if (user) {
+          setProfile(user);
+        } else {
+          console.warn("User data is missing in the response.");
+          setProfile(null); 
+        }
       } catch (error) {
-        console.error("Error fetching contact info:", error)
+        console.error("Error fetching profile:", error);
+        setProfile(null); 
       }
     }
+    // const fetchContactInfo = async () => {
+    //   try {
+    //     // In a real app, replace with actual API call
+    //     // const response = await mockFetchContactInfo()
+    //     let res = await axios.get(`${import.meta.env.VITE_GET_PROFILE}`)
+    //                console.log(res.data.user ,"");
+        
+    //     setContactInfo(res?.data?.user)
+    //   } catch (error) {
+    //     console.error("Error fetching contact info:", error)
+    //   }
+    // }
 
    
 

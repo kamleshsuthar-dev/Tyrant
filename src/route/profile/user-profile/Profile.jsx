@@ -28,20 +28,27 @@ export default function Profile() {
           location.reload();
   }
 
-  useEffect(()=>{
-    (async()=>{
-     try {
-       let res = await axios.get(`${import.meta.env.VITE_GET_PROFILE}`)
-             console.log(res,"profile");
-            //  setName()
-             setProfile(res?.data?.user)
-     } catch (error) {
-      console.log(error);
-      
-     }
-            
-    })()
-  },[])
+  useEffect(() => {
+    (async () => {
+      try {
+        const res = await axios.get(`${import.meta.env.VITE_GET_PROFILE}`);
+        console.log("Profile response:", res);
+  
+        // Defensive check
+        const user = res?.data?.user;
+        if (user) {
+          setProfile(user);
+        } else {
+          console.warn("User data is missing in the response.");
+          setProfile(null); 
+        }
+      } catch (error) {
+        console.error("Error fetching profile:", error);
+        setProfile(null); 
+      }
+    })();
+  }, []);
+  
 
   const updateProfile = async(e)=>{
     e.preventDefault()
