@@ -32,9 +32,9 @@ export default function Profile() {
     (async()=>{
      try {
        let res = await axios.get(`${import.meta.env.VITE_GET_PROFILE}`)
-             console.log(res.data.user ,"profile");
+             console.log(res,"profile");
             //  setName()
-             setProfile(res.data.user)
+             setProfile(res?.data?.user)
      } catch (error) {
       console.log(error);
       

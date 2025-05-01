@@ -294,12 +294,12 @@ const fetchDeliveryItems = async () => {
             {isEditingContact ? (
               <div className="space-y-2">
                 <Input
-                  value={contactInfo.email}
+                  value={contactInfo?.email}
                   onChange={(e) => setContactInfo({ ...contactInfo, email: e.target.value })}
                   placeholder="Email"
                 />
                 <Input
-                  value={contactInfo.contact}
+                  value={contactInfo?.contact}
                   onChange={(e) => setContactInfo({ ...contactInfo, contact: e.target.value })}
                   placeholder="Phone"
                 />
@@ -309,7 +309,7 @@ const fetchDeliveryItems = async () => {
               </div>
             ) : (
               <p className="text-sm text-gray-600">
-                {contactInfo.email} | +91 {contactInfo.contact}
+                {contactInfo?.email} | +91 {contactInfo?.contact}
               </p>
             )}
           </div>
