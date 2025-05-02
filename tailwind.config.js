@@ -68,7 +68,11 @@ export default {
   			'comfortaa': [
   				'Comfortaa',
   				'san-serif'
-  			]
+  			],
+			'automata':[
+				'AUTOMATA',
+				'san-serif'
+			]
   		},
   		borderRadius: {
   			lg: 'var(--radius)',
