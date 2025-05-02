@@ -141,28 +141,35 @@ import React from 'react'
 import { Card, CardContent } from "@/components/ui/card";
 import {  Link ,useNavigate} from "react-router-dom";
 import StarRating from "@/features/reuseable-component/StarRating";
-export default  function PorductCard({product}) {
+import { ShoppingCartSVG } from './CommonSVG';
+
+export default  function PorductCard({product,handleShopping}) {
 
   let navigate = useNavigate();
   const productDetailFunction = (e, product) => {
-    console.log(product._id);
-
     e.preventDefault();
+    console.log(product._id);
     navigate(`/productdetails/${product._id}`);
     // navigate(`/productdetails/${product._id}`, { replace: true })
   };
 
+ 
+
   return (
     <>
       <Link
-key={product._id}
-href={product.href}
-onClick={(e) => productDetailFunction(e, product)}
-className="group w-fit"
->
+    key={product._id}
+    href={product.href}
+    onClick={(e) => productDetailFunction(e, product)}
+    className="group w-fit"
+    >
 
 <Card className="group relative p-4 my-3 flex max-w-[242px] overflow-visible rounded-3xl border-0 shadow-lg  !text-white">
-  <div className="absolute h-[287px] w-[70%]  bg-[#9EFF00] left-[10px] bottom-0 transition-transform rounded-3xl origin-bottom-left group-hover:rotate-[-20deg] z-0"></div>
+  <div className="absolute h-[287px] w-[70%]  bg-[#9EFF00] left-[10px] bottom-0 transition-transform rounded-3xl origin-bottom-left group-hover:rotate-[-20deg] z-0">
+    <div className='absolute top-5 left-5 rotate-[20deg]' onClick={handleShopping}>
+    <ShoppingCartSVG />
+    </div>
+  </div>
 <div className="absolute h-full w-full bg-[#202020] top-0 left-0 rounded-3xl z-5"></div>
   <CardContent className="relative z-10 flex flex-col w-[210px] p-0 ">
     <div className="relative w-[212px] h-[180px] mb-3 bg-white rounded-2xl group-hover:bg-[#9EFF00] overflow-hidden">
@@ -184,7 +191,7 @@ className="group w-fit"
     />
     </div>
                     
-    <h3 className="text-xl font-bold ">
+    <h3 className="text-xl font-bold line-clamp-2">
       {product.pName}
     </h3>
 

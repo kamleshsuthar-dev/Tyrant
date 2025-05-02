@@ -1,7 +1,7 @@
 import axios from "axios";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState,useRef } from "react";
 
-import { useNavigate, Link, useLoaderData, useParams } from "react-router-dom";
+import {  useParams,useLocation } from "react-router-dom";
 
 
 // import { Star, StarHalf } from "lucide-react"
@@ -10,47 +10,48 @@ import ProductListSkeleton from "../component/skeleton/ProductListSkeleton";
 
 import { GetApi } from "@/features/reuseable-component/GetApi";
 import ProductCard from "@/features/reuseable-component/PorductCard"
+import ShoppingCartTopUp from "./shoppingCart/ShoppingCartTopUp";
+import { User } from "lucide-react";
 export default function ProductList() {
-  // const {prd,name} = useProduct()
+    const location = useLocation()
+    const {cName , cDescription} = location?.state || {cName: "Ram" , cDescription: "Shyam"}
+  
+    
 
   const discount = 20;
-  // const cId="67ab9caa61b7763a0938c690"
   const { cId } = useParams();
   const [products, setProducts] = useState([]);
-  // const [loading , setLoading] = useState(false)
+  const [cartProducts, setCartProducts] = useState([]);
+
+  const popUp = useRef(null)
 
   const [data, error, loading] = GetApi(
     `${import.meta.env.VITE_PRODUCT_BY_CATEGORY}?cId=${cId}`,
     "get product by category api "
   );
+ 
   useEffect(() => {
     if (data && data.data && data.data.products) {
       setProducts(data.data.products);
     }
   }, [data]);
-  console.log("proo", data?.data);
 
-  // useEffect(()=>{
-  //   ;(async()=>{
-  //     try {
-  //       setLoading(true)
-  //       // let res = await axios.get(`${import.meta.env.VITE_PRODUCT_BY_CATEGORY}?cId=${cId}`)
-  //       let res =await fetch(`${import.meta.env.VITE_PRODUCT_BY_CATEGORY}?cId=${cId}`)
+// function handleShopping (e) {
+//   e.stopPropagation();
 
-  //       // console.log("resss",res);
-  //       let data =await res.json()
+//   console.log("hello");
+  
+//   // popUP.current.click()
+// }
+function handleShopping (e, product){
+  e.preventDefault()
+  e.stopPropagation();
+  setCartProducts(product)
+  popUp.current.click()
+  console.log("hello ");
+  
+}
 
-  //       console.log("dataaa",data);
-  //       // console.log("product api ",res);
-  //         setMessage(data.message)
-  //         setProducts(data.products)
-  //         setLoading(false)
-  //     } catch (error) {
-  //       console.log("poductList api error ", error);
-  //       setLoading(false)
-  //     }
-  //   })()
-  // },[])
 
   
   if (loading) return <ProductListSkeleton />;
@@ -58,8 +59,8 @@ export default function ProductList() {
     return (
       <div className="bg-white ">
         <div className="relative mx-auto max-w-2xl px-4 py-16 sm:px-6 sm:py-24 lg:max-w-7xl lg:px-8">
-          <h2 className="relative text-4xl font-extrabold flex justify-center bg-slate-100 rounded-lg p-2 ">
-            Products{" "}
+          <h2 className="relative text-4xl font-extrabold flex justify-center items-center   bg-slate-100 rounded-lg p-2 ">
+          {cName} {" :"}&nbsp; <span className="text-2xl "> {cDescription}</span>
           </h2>
 
           <div className="grid grid-cols-1 gap-x-6 gap-y-10 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 justify-items-center ">
@@ -79,7 +80,11 @@ export default function ProductList() {
               </div>
             ) : products && products.length > 0 ? (
               products.map((product) => (
-                <ProductCard product={product}/>
+                <>
+                     <ProductCard key={product._id}  product={product} handleShopping={(e)=>handleShopping(e, product)} />
+                </>
+                            
+              
               ))
             ) : (
               <>
@@ -90,6 +95,9 @@ export default function ProductList() {
             )}
           </div>
         </div>
+
+        <ShoppingCartTopUp ref={popUp} product={cartProducts} />
+
       </div>
     );
 }

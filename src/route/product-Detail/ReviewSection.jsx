@@ -5,7 +5,7 @@ import { LogIn, Star } from "lucide-react";
 import { Progress } from "@/components/ui/progress";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
-import StarRating from "@/features/reuseable-component/StarRating";
+import StarRating, { StarSVG } from "@/features/reuseable-component/StarRating";
 import {
   Dialog,
   DialogContent,
@@ -21,6 +21,7 @@ import { useGoogleAuthContext } from "@/context/GoogleAuth";
 import DeleteBtn from "@/component/home/DeleteBtn.jsx";
 import { useParams } from "react-router-dom";
 import ReviewFilter from "./ReviewFilter";
+import CustomPieChart from "@/features/reuseable-component/CustomPieChart";
 export default function ReviewSection({ avgRating, onReviewChange }) {
   const { pId } = useParams();
   const { userDetails, isLoginUser } = useGoogleAuthContext();
@@ -321,56 +322,29 @@ export default function ReviewSection({ avgRating, onReviewChange }) {
         {/* Rating Overview */}
         {reviews && reviews.length > 0 ? (
           <>
-            <div className="space-y-4">
-              <div className="flex items-center gap-4">
-                <div className="relative w-32 h-32">
-                  <div className="absolute inset-0 flex items-center justify-center">
-                    <div className="text-4xl font-bold ">
-                      {ratingStats.average}
-                    </div>
-                  </div>
-                  <svg className="w-full h-full -rotate-90 ">
-                    <circle
-                      cx="64"
-                      cy="64"
-                      r="60"
-                      fill="none"
-                      stroke="currentColor"
-                      strokeWidth="8"
-                      className="text-[#9EFF00] "
-                    />
-                    <circle
-                      cx="64"
-                      cy="64"
-                      r="60"
-                      fill="none"
-                      stroke="currentColor"
-                      strokeWidth="8"
-                      className="text-[#202020] "
-                      strokeDasharray={`${(ratingStats.average / 5) * 377} 377`}
-                    />
-                  </svg>
-                </div>
-                <div className="">
-                  <div className="font-semibold">
-                    {ratingStats.totalReviews.toLocaleString()} Ratings
-                  </div>
-                  <div className="text-muted-foreground">&</div>
-                  <div className="font-semibold"> Reviews</div>
+            <div className="space-y-8 max-w-[380px] mt-12">
+              <div className="flex flex-col items-center justify-center gap-4">
+                <CustomPieChart average={ratingStats.average}/>
+                <div className="text-[24px] font-semibold text-[#202020]">
+                  <div className="font-semibold text-center">{ratingStats.totalReviews.toLocaleString()}</div>
+                  <div> Ratings & Reviews</div>
                 </div>
               </div>
 
               {/* Rating Distribution */}
               <div className="space-y-2">
                 {ratingStats.distribution.map((count, index) => (
-                  <div key={5 - index} className="flex items-center gap-2">
-                    <div className="w-12 text-sm">{5 - index} ★</div>
-                    <Progress
-                      value={(count / ratingStats.totalReviews) * 100}
-                      className="h-2"
-                    />
+                  <div key={5 - index} className="flex items-center gap-[20px]">
+                    <div className="flex justify-center items-center gap-1 bg-[#202020] rounded-full px-3 text-white p-1">
+                      <div className=" text-sm flex gap-1 w-[30px]">{5 - index} <StarSVG color="#fff"/></div>
+                      <Progress
+                        value={(count / ratingStats.totalReviews) * 100}
+                        className="h-[11px] w-[268px] "
+                        color ={(Math.max(...ratingStats.distribution) === ratingStats.distribution[index] ) ? "#9EFF00" : "#FFFFFF"}
+                      />
+                    </div>
                     {/* <Progress value={(count / Math.max(...ratingStats.distribution)) * 100} className="h-2" /> */}
-                    <div className="w-16 text-sm text-right">
+                    <div className="w-16 text-lg font-bold text-[#202020] pl-1 text-right">
                       {count.toLocaleString()}
                     </div>
                   </div>
@@ -387,34 +361,24 @@ export default function ReviewSection({ avgRating, onReviewChange }) {
         <div className="space-y-4">
           {reviews && reviews.length > 0 ? (
             reviews.map((review) => (
-              <Card key={review?._id || `review-${Math.random()}`}>
-                <CardContent className="p-4 space-y-2 relative">
+              <div key={review?._id || `review-${Math.random()}`} className="border-[2px] border-[#202020] rounded-2xl">
+                <div className="p-4 space-y-2 relative shadow-none">
                   <div className="flex items-center gap-2">
                     <div className="flex">
-                      {/* {[...Array(5)].map((_, i) => (
-                        <Star
-                          key={i}
-                          className={`w-4 h-4 ${
-                            i < review.rating
-                              ? "fill-primary text-primary"
-                              : "fill-muted text-muted-foreground"
-                          }`}
-                        />
-                      ))} */}
-                      <StarRating rating={review.rating} Pcolor="#202020" Scolor="#e6e3e0 
-" />
+                      <div className=" text-[13px] flex gap-1 bg-[#202020] text-white pt-[3px] px-2 rounded-full h-[24px]">{review.rating} <StarSVG color="#fff" scale={0.75}/></div>
+                      {/* <StarRating rating={review.rating} Pcolor="#202020" Scolor="#e6e3e0 " /> */}
                     </div>
-                    <span className="font-medium">
+                    <span className="font-bold text-2xl ">
                       {review?.user?.name || "Anonymous"}
                     </span>
                   </div>
-                  <p className="text-md font-bold">
-                    {review?.review?.title || "No Title"}
-                  </p>
-                  <p className="text-sm font-medium">
+               
+                  <p className="text-lg font-medium">
                     {review?.review?.description || "No Description"}
                   </p>
-
+                  <p className="text-2xl text-black font-bold">
+                    {review?.review?.title || "No Title"}
+                  </p>
                   {review?.user?._id === userDetails?._id && (
                     <div
                       className="absolute right-4 top-6 h-12 w-9 bg-[#FF1010] rounded-md flex justify-center items-center"
@@ -423,8 +387,8 @@ export default function ReviewSection({ avgRating, onReviewChange }) {
                       <DeleteBtn />
                     </div>
                   )}
-                </CardContent>
-              </Card>
+                </div>
+              </div>
             ))
           ) : (
             <div className="text-center p-6 text-muted-foreground ">

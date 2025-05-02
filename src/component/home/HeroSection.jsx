@@ -14,11 +14,13 @@ function HeroSection() {
       setCategories(data.data.Categories);
     }
   },[data])
-  // console.log("Categories:", data.data?.Categories);
+  console.log("Categories:", data.data?.Categories);
   
 
-  const handleProductList = (id) => {
-    navigate(`productlist/${id}`);
+  const handleProductList = (id,category) => {
+    // console.log();
+    
+    navigate(`productlist/${id}` ,{state:{cName :category.cName, cDescription : category.cDescription}});
     // Navigate(<HomeProduct path=''/>)
     // <HomeProduct/>
   };
@@ -50,7 +52,7 @@ function HeroSection() {
               <div
                 key={category._id}
                 className="col-span-4 row-span-3 bg-slate-400 rounded-xl flex justify-center items-center cursor-pointer"
-                onClick={() => handleProductList(category._id)}
+                onClick={() => handleProductList(category._id , category)}
               >
                 <div className="flex justify-center items-center z-10 w-full h-full">
                   <img

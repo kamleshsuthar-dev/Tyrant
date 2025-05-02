@@ -1,60 +1,105 @@
-import React from "react";
+// import React from "react";
 
-function StarRating({ rating, Pcolor = "#f5c518" , Scolor  }) {
+// function StarRating({ rating, Pcolor = "#f5c518", Scolor }) {
+//   const fullStars = Math.floor(rating);
+//   const hasHalfStar = rating % 1 >= 0.5;
+
+//   return (
+//     <div className="flex space-x-[2px] relative">
+//       {[...Array(5)].map((_, i) => {
+//         if (i < fullStars) {
+//           // Full star
+//           return <StarSVG color={Pcolor} />;
+//         } else if (i === fullStars && hasHalfStar) {
+//           // Half star - stack two icons
+//           return (
+//             <div key={i} className="relative w-4 h-4">
+//               <StarSVG color={Scolor} />
+//               <StarSVG color={Pcolor} />
+//             </div>
+//           );
+//         } else {
+//           // Empty star
+//           return <StarSVG color={Scolor} />;
+//         }
+//       })}
+//     </div>
+//   );
+// }
+
+// export default StarRating;
+
+// export function StarSVG({ color, scale }) {
+//   return (
+//     <>
+//       <svg
+//         xmlns="http://www.w3.org/2000/svg"
+//         width={21}
+//         height={19}
+//         viewBox="0 0 21 19"
+//         fill="none"
+//         style={{ color , transform: `scale(${scale})`}}
+//         className="w-4 h-4"
+//       >
+//         <path
+//           d="M9.54894 0.927049C9.8483 0.0057385 11.1517 0.0057404 11.4511 0.927051L13.0819 5.9463C13.2158 6.35833 13.5997 6.63729 14.033 6.63729H19.3105C20.2792 6.63729 20.682 7.8769 19.8983 8.4463L15.6287 11.5484C15.2782 11.803 15.1315 12.2544 15.2654 12.6664L16.8963 17.6857C17.1956 18.607 16.1411 19.3731 15.3574 18.8037L11.0878 15.7016C10.7373 15.447 10.2627 15.447 9.91221 15.7016L5.64258 18.8037C4.85887 19.3731 3.80439 18.607 4.10374 17.6857L5.7346 12.6664C5.86847 12.2544 5.72181 11.803 5.37132 11.5484L1.10169 8.4463C0.317977 7.8769 0.720754 6.63729 1.68948 6.63729H6.96703C7.40026 6.63729 7.78421 6.35833 7.91809 5.9463L9.54894 0.927049Z"
+//           fill={color}
+//         />
+//       </svg>
+//     </>
+//   );
+// }
+
+export default function StarRating({ rating, Pcolor = "#202020", Scolor = "#FFF" }) {
   const fullStars = Math.floor(rating);
   const hasHalfStar = rating % 1 >= 0.5;
+  console.log(hasHalfStar,"addsdsds");
+  
 
   return (
-    <div className="flex space-x-[2px] relative">
+    <div className="flex space-x-[2px]">
       {[...Array(5)].map((_, i) => {
         if (i < fullStars) {
-          // Full star
-          return (
-            <svg 
-              xmlns="http://www.w3.org/2000/svg" width="21" height="19" viewBox="0 0 21 19" fill="none"
-              key={i}
-              style={{ color: Pcolor }}
-              className="w-4 h-4"
-            >
-              <path d="M9.54894 0.927049C9.8483 0.0057385 11.1517 0.0057404 11.4511 0.927051L13.0819 5.9463C13.2158 6.35833 13.5997 6.63729 14.033 6.63729H19.3105C20.2792 6.63729 20.682 7.8769 19.8983 8.4463L15.6287 11.5484C15.2782 11.803 15.1315 12.2544 15.2654 12.6664L16.8963 17.6857C17.1956 18.607 16.1411 19.3731 15.3574 18.8037L11.0878 15.7016C10.7373 15.447 10.2627 15.447 9.91221 15.7016L5.64258 18.8037C4.85887 19.3731 3.80439 18.607 4.10374 17.6857L5.7346 12.6664C5.86847 12.2544 5.72181 11.803 5.37132 11.5484L1.10169 8.4463C0.317977 7.8769 0.720754 6.63729 1.68948 6.63729H6.96703C7.40026 6.63729 7.78421 6.35833 7.91809 5.9463L9.54894 0.927049Z" fill={Pcolor}/>
-            </svg>
-          );
+          return <StarSVG key={i} type="full" color={Pcolor} />;
         } else if (i === fullStars && hasHalfStar) {
-          // Half star - stack two icons
-          return (
-            <div key={i} className="relative w-4 h-4">
-              <svg 
-                xmlns="http://www.w3.org/2000/svg" width="21" height="19" viewBox="0 0 21 19" fill="none"
-                style={{ color: Scolor }}
-                className="absolute top-0 left-0 w-4 h-4"
-                >
-                  <path d="M9.54894 0.927049C9.8483 0.0057385 11.1517 0.0057404 11.4511 0.927051L13.0819 5.9463C13.2158 6.35833 13.5997 6.63729 14.033 6.63729H19.3105C20.2792 6.63729 20.682 7.8769 19.8983 8.4463L15.6287 11.5484C15.2782 11.803 15.1315 12.2544 15.2654 12.6664L16.8963 17.6857C17.1956 18.607 16.1411 19.3731 15.3574 18.8037L11.0878 15.7016C10.7373 15.447 10.2627 15.447 9.91221 15.7016L5.64258 18.8037C4.85887 19.3731 3.80439 18.607 4.10374 17.6857L5.7346 12.6664C5.86847 12.2544 5.72181 11.803 5.37132 11.5484L1.10169 8.4463C0.317977 7.8769 0.720754 6.63729 1.68948 6.63729H6.96703C7.40026 6.63729 7.78421 6.35833 7.91809 5.9463L9.54894 0.927049Z" fill={Scolor}/>
-                </svg>
-              <svg 
-                xmlns="http://www.w3.org/2000/svg" width="21" height="19" viewBox="0 0 21 19" fill="none"
-                style={{ color: Pcolor, clipPath: "inset(0 50% 0 0)" }}
-                className="absolute top-0 left-0 w-4 h-4"
-                >
-                  <path d="M9.54894 0.927049C9.8483 0.0057385 11.1517 0.0057404 11.4511 0.927051L13.0819 5.9463C13.2158 6.35833 13.5997 6.63729 14.033 6.63729H19.3105C20.2792 6.63729 20.682 7.8769 19.8983 8.4463L15.6287 11.5484C15.2782 11.803 15.1315 12.2544 15.2654 12.6664L16.8963 17.6857C17.1956 18.607 16.1411 19.3731 15.3574 18.8037L11.0878 15.7016C10.7373 15.447 10.2627 15.447 9.91221 15.7016L5.64258 18.8037C4.85887 19.3731 3.80439 18.607 4.10374 17.6857L5.7346 12.6664C5.86847 12.2544 5.72181 11.803 5.37132 11.5484L1.10169 8.4463C0.317977 7.8769 0.720754 6.63729 1.68948 6.63729H6.96703C7.40026 6.63729 7.78421 6.35833 7.91809 5.9463L9.54894 0.927049Z" fill={Pcolor}/>
-                </svg>
-            </div>
-          );
+          return <StarSVG key={i} type="half" color={Pcolor} />;
         } else {
-          // Empty star
-          return (
-            <svg 
-              xmlns="http://www.w3.org/2000/svg" width="21" height="19" viewBox="0 0 21 19" fill="none"
-              key={i}
-              style={{ color: Scolor }}
-              className="w-4 h-4"
-              >
-                <path d="M9.54894 0.927049C9.8483 0.0057385 11.1517 0.0057404 11.4511 0.927051L13.0819 5.9463C13.2158 6.35833 13.5997 6.63729 14.033 6.63729H19.3105C20.2792 6.63729 20.682 7.8769 19.8983 8.4463L15.6287 11.5484C15.2782 11.803 15.1315 12.2544 15.2654 12.6664L16.8963 17.6857C17.1956 18.607 16.1411 19.3731 15.3574 18.8037L11.0878 15.7016C10.7373 15.447 10.2627 15.447 9.91221 15.7016L5.64258 18.8037C4.85887 19.3731 3.80439 18.607 4.10374 17.6857L5.7346 12.6664C5.86847 12.2544 5.72181 11.803 5.37132 11.5484L1.10169 8.4463C0.317977 7.8769 0.720754 6.63729 1.68948 6.63729H6.96703C7.40026 6.63729 7.78421 6.35833 7.91809 5.9463L9.54894 0.927049Z" fill={Scolor}/>
-              </svg>
-          );
+          return <StarSVG key={i} type="empty" color={Scolor} />;
         }
       })}
     </div>
   );
 }
 
-export default StarRating;
+export function StarSVG({ type = "full", color = "#fff", scale = 1 }) {
+  let fillColor = type === "empty" ? "lightgray" : color;
+  const gradientId = `halfGradient-${Math.random().toString(36).substr(2, 9)}`; 
+  return (
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      width={21}
+      height={19}
+      viewBox="0 0 21 19"
+      fill="none"
+      style={{ transform: `scale(${scale})` }}
+      className="w-4 h-4"
+    >
+        {type === "half" && (
+        <defs>
+          <linearGradient id={gradientId}>
+            <stop offset="50%" stopColor={fillColor} />
+            <stop offset="50%" stopColor="lightgray" />
+          </linearGradient>
+        </defs>
+      )}
+      <path
+        d="M9.54894 0.927049C9.8483 0.0057385 11.1517 0.0057404 11.4511 0.927051L13.0819 5.9463C13.2158 6.35833 13.5997 6.63729 14.033 6.63729H19.3105C20.2792 6.63729 20.682 7.8769 19.8983 8.4463L15.6287 11.5484C15.2782 11.803 15.1315 12.2544 15.2654 12.6664L16.8963 17.6857C17.1956 18.607 16.1411 19.3731 15.3574 18.8037L11.0878 15.7016C10.7373 15.447 10.2627 15.447 9.91221 15.7016L5.64258 18.8037C4.85887 19.3731 3.80439 18.607 4.10374 17.6857L5.7346 12.6664C5.86847 12.2544 5.72181 11.803 5.37132 11.5484L1.10169 8.4463C0.317977 7.8769 0.720754 6.63729 1.68948 6.63729H6.96703C7.40026 6.63729 7.78421 6.35833 7.91809 5.9463L9.54894 0.927049Z"
+        fill={
+          type === "half" ? `url(#${gradientId})` : fillColor
+        }
+      />
+    </svg>
+  );
+}
+
+
