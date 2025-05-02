@@ -185,14 +185,21 @@ export default function NewHeader() {
         {/* Desktop navigation links */}
         <div className="hidden lg:flex ml-9 gap-5 items-center">
           <NavLink to="/">
-            list
+            List
           </NavLink>
-          <NavLink to={`/productlist/67ab9caa61b7763a0938c690`} className="text-sm/6 font-semibold">
-            ProductList
+          <NavLink to="/">
+            Jackets
           </NavLink>
-          <NavLink to="/wishlist" className="text-sm/6 font-semibold">
-            wishlist
+          <NavLink to="/">
+            Services
           </NavLink>
+          <NavLink to="/">
+            About
+          </NavLink>
+          <NavLink to="/">
+            Contact
+          </NavLink>
+       
         </div>
 
         {/* Search bar and user controls */}
