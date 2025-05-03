@@ -22,6 +22,9 @@ import DeleteBtn from "@/component/home/DeleteBtn.jsx";
 import { useParams } from "react-router-dom";
 import ReviewFilter from "./ReviewFilter";
 import CustomPieChart from "@/features/reuseable-component/CustomPieChart";
+
+import { Pagination } from "@/components/ui/pagination";
+import ReviewsPagination from "./ReviewsPagination";
 export default function ReviewSection({ avgRating, onReviewChange }) {
   const { pId } = useParams();
   const { userDetails, isLoginUser } = useGoogleAuthContext();
@@ -71,14 +74,14 @@ export default function ReviewSection({ avgRating, onReviewChange }) {
           {
             params: {
               page: 1,
-              limit: 10,
+              limit: 3,
               sort: sortValue,
               rating: filterValue,
             },
           }
         );
-        console.log(res.data);
-        console.log(res.data.totalReviews);
+        console.log(res.data,"dgfgdgfdgd");
+        console.log(res.data.totalReview);
         const totalReviews = res.data.totalReviews;
         const distributionRating = Object.values(
           res.data.ratingDistributionCount
@@ -368,15 +371,15 @@ export default function ReviewSection({ avgRating, onReviewChange }) {
                       <div className=" text-[13px] flex gap-1 bg-[#202020] text-white pt-[3px] px-2 rounded-full h-[24px]">{review.rating} <StarSVG color="#fff" scale={0.75}/></div>
                       {/* <StarRating rating={review.rating} Pcolor="#202020" Scolor="#e6e3e0 " /> */}
                     </div>
-                    <span className="font-bold text-2xl ">
+                    <span className="font-bold text-xl ">
                       {review?.user?.name || "Anonymous"}
                     </span>
                   </div>
                
-                  <p className="text-lg font-medium">
+                  <p className="text-lg font-medium px-4">
                     {review?.review?.description || "No Description"}
                   </p>
-                  <p className="text-2xl text-black font-bold">
+                  <p className="text-xl text-black font-bold">
                     {review?.review?.title || "No Title"}
                   </p>
                   {review?.user?._id === userDetails?._id && (
@@ -396,8 +399,10 @@ export default function ReviewSection({ avgRating, onReviewChange }) {
             </div>
           )}
         </div>
-      </div>
+        {/* <ReviewPagination pId={pId} sortValue={sortValue} filterValue={filterValue} onDataFetched={3}/> */}
+       
 
+      </div>
       {reviews && reviews.length > 5 && (
         <Button variant="outline" className="w-full">
           See More

@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate ,Navigate} from "react-router-dom";
-import { GetApi } from "@/features/reuseable-component/GetApi";
+import { GetApi } from "@/features/reuseable-component/ApiCaller";
 import HomeProduct from '@/features/reuseable-component/PorductCard'
 
 function HeroSection() {
@@ -27,20 +27,20 @@ function HeroSection() {
 
   return (
     <>
-      <div className="h-[200vh] w-full grid grid-cols-12 grid-rows-12 p-3 gap-3">
-        <div className="relative col-span-12 row-span-4 bg-slate-400 rounded-xl flex justify-center items-center">
+      <div className="h-[200vh] w-full grid grid-cols-12 [grid-template-rows:repeat(12,minmax(0,min-content))] p-3 gap-3">
+        <div className="relative col-span-12 row-span-1 overflow-hidden aspect-[4.61/1] bg-slate-400 rounded-xl flex justify-center items-center">
           <img
-            src="https://images.unsplash.com/photo-1739361133037-77be66a4ea6a?q=80&w=2071&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+            src="https://res.cloudinary.com/dzzs9yjcf/image/upload/v1746168602/Ad_Section_abm7zv.png"
             alt=""
             className="object-cover h-full w-full absolute"
           />
         </div>
-        <div className="col-span-5 row-span-3 bg-slate-400 rounded-xl flex justify-center items-center">
+        {/* <div className="col-span-5 row-span-3 bg-slate-400 rounded-xl flex justify-center items-center">
           2
         </div>
         <div className="col-span-7 row-span-3 bg-slate-400 rounded-xl flex justify-center items-center">
           3
-        </div>
+        </div> */}
         
         {loading ? (
           <div className="col-span-12 flex justify-center items-center">Loading categories...</div>
@@ -54,7 +54,7 @@ function HeroSection() {
                 className="col-span-4 row-span-3 bg-slate-400 rounded-xl flex justify-center items-center cursor-pointer"
                 onClick={() => handleProductList(category._id , category)}
               >
-                <div className="flex justify-center items-center z-10 w-full h-full">
+                <div className="flex justify-center items-center z-10 w-[50%] h-full">
                   <img
                     src={category.cImageURL}
                     alt={category.name || "Category"}

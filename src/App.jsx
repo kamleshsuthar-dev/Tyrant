@@ -35,9 +35,7 @@ const GoogleAuth = lazy(() => import("./component/Auth/GoogleAuth.jsx"));
 const ProductDetails = lazy(() =>
   import("./route/product-Detail/ProductDetails.jsx")
 );
-const ProductDetailsPopUp = lazy(() =>
-  import("./route/product-Detail/ProductDetailsPopUp.jsx")
-);
+
 // const ShoppingCart = lazy(() =>
 //   import("./route/shoppingCart/ShoppingCart.jsx")
 // );
@@ -67,6 +65,8 @@ const LoadingFallback = () => (
 
 import axios from "axios";
 
+
+
 import ProductDetailSkeleton from "./component/skeleton/ProductDetailSkeleton.jsx";
 import UserProtected from "./route/protectedRoute/UserProtected.jsx";
 import AdminProtected from "./route/protectedRoute/AdminProtected.jsx";
@@ -94,6 +94,8 @@ export const GoogleBtn = ({ text }) => {
 };
 
 function App() {
+
+
   const { isLoginUser, userDetails } = useGoogleAuthContext();
   // const [userEmail, setUserEmail] = useState(null); // Set initial state to null
 
@@ -231,15 +233,7 @@ function App() {
             }
           />
 
-          <Route
-            path="productdetailspopup"
-            element={
-              <Suspense fallback={<LoadingFallback />}>
-                <ProductDetailsPopUp />
-              </Suspense>
-            }
-          />
-
+      
           <Route
             path="/shoppingcarttopup"
             element={

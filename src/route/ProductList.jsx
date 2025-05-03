@@ -8,10 +8,12 @@ import {  useParams,useLocation } from "react-router-dom";
 
 import ProductListSkeleton from "../component/skeleton/ProductListSkeleton";
 
-import { GetApi } from "@/features/reuseable-component/GetApi";
+import { GetApi } from "@/features/reuseable-component/ApiCaller";
 import ProductCard from "@/features/reuseable-component/PorductCard"
 import ShoppingCartTopUp from "./shoppingCart/ShoppingCartTopUp";
-import { User } from "lucide-react";
+
+
+import ProductDetailsPopUp from "./product-Detail/ProductDetailTopUp";
 export default function ProductList() {
     const location = useLocation()
     const {cName , cDescription} = location?.state || {cName: "Ram" , cDescription: "Shyam"}
@@ -22,37 +24,33 @@ export default function ProductList() {
   const { cId } = useParams();
   const [products, setProducts] = useState([]);
   const [cartProducts, setCartProducts] = useState([]);
-
+  const [currentProduct, setCurrentProduct] = useState([]);
   const popUp = useRef(null)
+  const productPopUp = useRef(null)
 
-  const [data, error, loading] = GetApi(
-    `${import.meta.env.VITE_PRODUCT_BY_CATEGORY}?cId=${cId}`,
-    "get product by category api "
-  );
- 
+  const [data, error, loading] = GetApi(`${import.meta.env.VITE_PRODUCT_BY_CATEGORY}?cId=${cId}`, "get product by category api" );
   useEffect(() => {
     if (data && data.data && data.data.products) {
       setProducts(data.data.products);
     }
   }, [data]);
 
-// function handleShopping (e) {
-//   e.stopPropagation();
-
-//   console.log("hello");
-  
-//   // popUP.current.click()
-// }
 function handleShopping (e, product){
   e.preventDefault()
   e.stopPropagation();
   setCartProducts(product)
   popUp.current.click()
   console.log("hello ");
-  
 }
 
-
+function handleProductPopUp (e, product){
+  e.preventDefault()
+  e.stopPropagation();
+  setCurrentProduct(product)
+  productPopUp.current.click()
+  console.log("hello ");
+  
+}
   
   if (loading) return <ProductListSkeleton />;
   else
@@ -81,7 +79,7 @@ function handleShopping (e, product){
             ) : products && products.length > 0 ? (
               products.map((product) => (
                 <>
-                     <ProductCard key={product._id}  product={product} handleShopping={(e)=>handleShopping(e, product)} />
+                     <ProductCard key={product._id}  product={product} handleShopping={(e)=>handleShopping(e, product)} handleProductPopUp={(e)=>{handleProductPopUp(e, product)}}/>
                 </>
                             
               
@@ -97,7 +95,12 @@ function handleShopping (e, product){
         </div>
 
         <ShoppingCartTopUp ref={popUp} product={cartProducts} />
-
+        <ProductDetailsPopUp ref={productPopUp} product={currentProduct} />
+      
       </div>
     );
 }
+
+
+
+

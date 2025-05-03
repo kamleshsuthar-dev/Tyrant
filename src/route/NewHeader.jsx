@@ -115,7 +115,7 @@ export default function NewHeader() {
   return (
     <>
     <header className="bg-black text-white">
-      <div className="h-12 bg-white text-gray-400 flex justify-center items-center capitalize">
+      <div className="h-10 hidden  bg-white text-gray-400 md:flex justify-center items-center capitalize">
         Tell me something that i don't Know ,get 90% OFF{" "}
         {/* <button onClick={btnclick}>click</button> */}
       </div>
@@ -204,11 +204,11 @@ export default function NewHeader() {
 
         {/* Search bar and user controls */}
         <div className="flex md:flex  md:justify-end gap-2 lg:gap-5">
-          <div className="relative">
+          <div className="relative flex items-center">
             <input
               type="search"
               placeholder="SEARCH"
-              className="pl-8 pr-2 py-1 lg:w-96 md:w-40 w-5 bg-transparent border border-white rounded text-sm focus:outline-none focus:border-gray-400 "
+              className="pl-8 pr-2 py-1 lg:w-96 md:w-40 w-5 bg-transparent placeholder:text-white md:border border-none outline-none md:outline-2 md:outline-white  md:border-white rounded text-sm focus:outline-offset-1 focus:outline-gray-500  focus:border-gray-400 "
             />
             <svg
               xmlns="http://www.w3.org/2000/svg"

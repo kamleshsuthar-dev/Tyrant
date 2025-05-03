@@ -16,7 +16,8 @@ createRoot(document.getElementById("root")).render(
     <GoogleAuthProvider>
     <ProductContext>
       <CartProvider>
-        <App/>     
+
+        <App />     
       </CartProvider>
     </ProductContext>
     </GoogleAuthProvider>

@@ -53,7 +53,7 @@
 export default function StarRating({ rating, Pcolor = "#202020", Scolor = "#FFF" }) {
   const fullStars = Math.floor(rating);
   const hasHalfStar = rating % 1 >= 0.5;
-  console.log(hasHalfStar,"addsdsds");
+ 
   
 
   return (
