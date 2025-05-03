@@ -112,35 +112,44 @@ function UpdatePassword() {
         "Password and Password Confirm should be same";
       document.querySelector(".passwordConfirmText").classList.remove("hidden");
     } else if ((credentials.email, credentials.password, credentials.passwordConfirm)) {
-      console.log(credentials,"final step ");
+    
 
-            console.log("gfggf",import.meta.env.VITE_RESET_PASSWORD);
+        
             
-        const res=await axios.patch(`${import.meta.env.VITE_RESET_PASSWORD}`,{
-            email : credentials.email ,
-            newPassword : credentials.password
-        })
-
-        console.log("res of update pass api " , res);
+      // try {
+      //     const res=await axios.patch(`${import.meta.env.VITE_RESET_PASSWORD}`,{
+      //         email : credentials.email ,
+      //         newPassword : credentials.password
+      //     })
+  
+      //     console.log("res of update pass api " , res);
+      // } catch (error) {
+        
+      // }
         
    
 
 
-      // try {
-      //   const response = await axios.patch(`${import.meta.env.VITE_RESET_PASSWORD}`,
-      //     {
-      //       email: credentials.email,
-      //       newPassword: credentials.password,
-      //     }
-      //   );
-      //   console.log("response .......", response);
-      //   navigate("/login");
-      //   alert("Password Change Successfully")
-      // } catch (error) {
-      //   console.log("reset password error",error);
-      //     alert("something went wrong try again !!")
-      //   // navigate("/login");
-      // }
+      try {
+        const response = await axios.post(`${import.meta.env.VITE_RESET_PASSWORD}`,
+          {
+            email: credentials.email,
+            newPassword: credentials.password,
+          }
+        );
+        console.log("response .......", response);
+        navigate("/login");
+        alert("Password Change Successfully")
+      } catch (error) {
+        console.log("reset password error",error);
+        setError(`error:  ${error?.message} `)
+          setTimeout(() => {
+            setError(" ")
+          },1000);
+
+          // alert("something went wrong try again !!")
+        // navigate("/login");
+      }
 
 
 
@@ -159,6 +168,9 @@ function UpdatePassword() {
             className="h-full w-full absolute top-0 bottom-0  rounded-2xl z-[0]"
           />
           <div className="card min-w-[350px] min-h-[60%]  bg-white rounded-xl text-black grid gap-2 items-center p-[52px] font-comfortaa text-lg z-[1]">
+          {
+            error &&  <div className="text-lg col-span-1 row-span-1 font-bold text-center text-red-700 break-words "> {error}</div>
+          }
             <div className="text-3xl col-span-1 row-span-1 font-bold ">
               Set Name And Password{" "}
             </div>

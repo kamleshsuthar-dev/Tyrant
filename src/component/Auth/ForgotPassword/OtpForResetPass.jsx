@@ -8,6 +8,7 @@ import { useCallback, useEffect, useState } from "react"
 import { Button } from "@mui/material"
 import axios from "axios"
 import { useLocation,useNavigate } from "react-router-dom"
+import VerifyOTP from "@/features/reuseable-component/VerifyOTP"
 
 
   export function OtpForResetPass() {
@@ -20,7 +21,7 @@ import { useLocation,useNavigate } from "react-router-dom"
    
     useEffect(()=>{
         const otp = Math.floor(100000 + Math.random() * 900000);
-        console.log(otp)
+       
         setOTP(otp)
         const sendEmail = async()=>{
             let res = await axios.post(`${import.meta.env.VITE_SEND_EMAIL_REGISTRATION}`,{
@@ -40,7 +41,8 @@ import { useLocation,useNavigate } from "react-router-dom"
 
     },[email])
 
-    const submitBtn = ()=>{
+    const submitBtn = (value)=>{
+      
         if(value == OTP){
             console.log("register success");
             navigate('/updatepassword' ,{state:{email}})
@@ -62,23 +64,24 @@ import { useLocation,useNavigate } from "react-router-dom"
     }
     
     return (
-        <div className="bg-[#1c1b1b] text-white w-screen h-screen flex flex-col justify-center items-center gap-10">
-      <InputOTP maxLength={6} value={value} onChange={(value)=> setValue(value)} >
-        <InputOTPGroup>
-          <InputOTPSlot index={0} />
-          <InputOTPSlot index={1} />
-          <InputOTPSlot index={2} /> 
-        </InputOTPGroup>
-        <InputOTPSeparator />
-        <InputOTPGroup>
-          <InputOTPSlot index={3} />
-          <InputOTPSlot index={4} />
-          <InputOTPSlot index={5} />
-        </InputOTPGroup>
-      </InputOTP>
-      <Button onClick={ submitBtn} className="!bg-white" >Submit</Button>
-      {/* <Button onClick={submitBtn} className="!bg-white" >Submit</Button> */}
-      </div>
+      //   <div className="bg-[#1c1b1b] text-white w-screen h-screen flex flex-col justify-center items-center gap-10">
+      // <InputOTP maxLength={6} value={value} onChange={(value)=> setValue(value)} >
+      //   <InputOTPGroup>
+      //     <InputOTPSlot index={0} />
+      //     <InputOTPSlot index={1} />
+      //     <InputOTPSlot index={2} /> 
+      //   </InputOTPGroup>
+      //   <InputOTPSeparator />
+      //   <InputOTPGroup>
+      //     <InputOTPSlot index={3} />
+      //     <InputOTPSlot index={4} />
+      //     <InputOTPSlot index={5} />
+      //   </InputOTPGroup>
+      // </InputOTP>
+      // <Button onClick={ submitBtn} className="!bg-white" >Submit</Button>
+      // {/* <Button onClick={submitBtn} className="!bg-white" >Submit</Button> */}
+      // </div>
+      <VerifyOTP submitFunction={submitBtn}/>
     )
   }
   

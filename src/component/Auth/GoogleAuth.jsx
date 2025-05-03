@@ -43,11 +43,11 @@ function GoogleAuth({ text }) {
           // false
          
             
-          navigate("/password", {
-            state: {email:data.userDetails.email ,
-                    name:data.userDetails.name},
-          });
-
+          // navigate("/password", {
+          //   state: {email:data.userDetails.email ,
+          //           name:data.userDetails.name},
+          // });
+          navigate("/")
       
 
         }

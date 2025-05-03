@@ -13,7 +13,7 @@ import ProductCard from "@/features/reuseable-component/PorductCard"
 import ShoppingCartTopUp from "./shoppingCart/ShoppingCartTopUp";
 
 
-import ProductDetailsPopUp from "./product-Detail/ProductDetailTopUp";
+import ProductDetailsPopUp from "./product-Detail/ProductDetailPopUp";
 export default function ProductList() {
     const location = useLocation()
     const {cName , cDescription} = location?.state || {cName: "Ram" , cDescription: "Shyam"}
@@ -32,6 +32,8 @@ export default function ProductList() {
   useEffect(() => {
     if (data && data.data && data.data.products) {
       setProducts(data.data.products);
+      console.log(data.data.products,"sasasasadsdfd");
+      
     }
   }, [data]);
 
@@ -79,7 +81,10 @@ function handleProductPopUp (e, product){
             ) : products && products.length > 0 ? (
               products.map((product) => (
                 <>
-                     <ProductCard key={product._id}  product={product} handleShopping={(e)=>handleShopping(e, product)} handleProductPopUp={(e)=>{handleProductPopUp(e, product)}}/>
+                      <div  key={product._id}>
+
+                     <ProductCard  product={product} handleShopping={(e)=>handleShopping(e, product)} handleProductPopUp={(e)=>{handleProductPopUp(e, product)}}/>
+                      </div>
                 </>
                             
               

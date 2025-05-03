@@ -3,11 +3,10 @@ import { Card, CardContent } from "@/components/ui/card";
 import StarRating from "@/features/reuseable-component/StarRating";
 import { ShoppingCartSVG } from "./CommonSVG";
 
-export default function PorductCard({
-  product,
-  handleShopping,
-  handleProductPopUp,
-}) {
+export default function PorductCard({product,handleShopping,handleProductPopUp,}) 
+
+
+{
   return (
     <>
       <div

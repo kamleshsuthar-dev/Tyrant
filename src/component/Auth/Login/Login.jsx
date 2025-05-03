@@ -140,11 +140,10 @@ const Login = ({ text }) => {
           }
         } else {   //false
           document.querySelector(".message").classList.remove("hidden");
-          document.querySelector(".message").textContent =
-          "User Is Not Registered Yet";
+          document.querySelector(".message").textContent = "User Is Not Registered Yet";
           setTimeout(() => {
-            navigate('/register')
-          }, (1000));
+            document.querySelector(".message").classList.add("hidden");
+          }, (3000));
         }
 
      
@@ -192,9 +191,9 @@ const Login = ({ text }) => {
       <div className="bg-white h-screen sm:block hidden w-full border-2 border-solid border-black lg:p-7 p-5 ">
         <div className="relative h-full w-full grid  place-items-center   rounded-2xl  ">
           <img
-            src="./images/bgImgJaipur.png"
+            src="https://res.cloudinary.com/dzzs9yjcf/image/upload/v1746086512/SignIn_vmdpjc.png"
             alt=""
-            className="h-full w-full absolute top-0 bottom-0  rounded-2xl z-[0]"
+            className="h-full w-full absolute top-0 bottom-0  rounded-2xl z-[0] object-cover"
           />
           <div className="card min-w-[350px] min-h-[60%]  bg-white rounded-xl text-black grid gap-2 items-center p-[52px] font-comfortaa text-lg z-[1]">
             {/* <div className="invalidEP text-red-500 text-sm mt-[2px] text-center mb-6 hidden  ">

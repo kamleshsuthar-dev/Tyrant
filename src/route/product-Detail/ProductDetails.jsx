@@ -444,13 +444,7 @@ export default function ProductDetail() {
                   </Button>
                 </div>
 
-                {/* Product Description */}
-                      {/* <ProductDesciption/> */}
-                {/* Share Button */}
-                {/* <Button variant="ghost" className="w-full sm:w-auto">
-                  <Share2 className="w-4 h-4 mr-2" />
-                  Share
-                </Button> */}
+           
               </div>
             </div>
           </Card>
