@@ -6,12 +6,14 @@ import { Progress } from "@/components/ui/progress";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import StarRating, { StarSVG } from "@/features/reuseable-component/StarRating";
+
 import {
   Dialog,
+  DialogTrigger,
   DialogContent,
   DialogHeader,
   DialogTitle,
-  DialogTrigger,
+  DialogDescription,
 } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
@@ -74,7 +76,7 @@ export default function ReviewSection({ avgRating, onReviewChange }) {
           {
             params: {
               page: 1,
-              limit: 3,
+              limit: 10,
               sort: sortValue,
               rating: filterValue,
             },
@@ -254,10 +256,16 @@ export default function ReviewSection({ avgRating, onReviewChange }) {
             <span className="text-lg">+</span> Add Review
           </Button>
 
-          <DialogContent className="sm:max-w-[425px]">
+          <DialogContent className="sm:max-w-[425px]" aria-describedby="review-dialog-description">
+           
             <DialogHeader>
               <DialogTitle>Write a Review</DialogTitle>
             </DialogHeader>
+
+            <div id="review-dialog-description" className="text-sm text-muted-foreground mb-2">
+                Share your thoughts about the product.
+              </div>
+
             {errorMessage && (
               <div className="text-red-600 font-medium">{errorMessage}</div>
             )}
@@ -321,7 +329,7 @@ export default function ReviewSection({ avgRating, onReviewChange }) {
         </Dialog>
       </div>
 
-      <div className="grid md:grid-cols-2 gap-8">
+      <div className="grid md:grid-cols-2 gap-8 h-[75vh]">
         {/* Rating Overview */}
         {reviews && reviews.length > 0 ? (
           <>
@@ -361,14 +369,14 @@ export default function ReviewSection({ avgRating, onReviewChange }) {
 
 
         {/* Reviews List */}
-        <div className="space-y-4">
+        <div className="space-y-4  max-h-full overflow-scroll no-scrollbar">
           {reviews && reviews.length > 0 ? (
             reviews.map((review) => (
               <div key={review?._id || `review-${Math.random()}`} className="border-[2px] border-[#202020] rounded-2xl">
                 <div className="p-4 space-y-2 relative shadow-none">
                   <div className="flex items-center gap-2">
                     <div className="flex">
-                      <div className=" text-[13px] flex gap-1 bg-[#202020] text-white pt-[3px] px-2 rounded-full h-[24px]">{review.rating} <StarSVG color="#fff" scale={0.75}/></div>
+                      <div className=" text-[13px] flex gap-1 bg-[#202020] text-white pt-[3px] px-2 rounded-full h-[24px]">{review.rating} <StarSVG color="#fff" scale={75}/></div>
                       {/* <StarRating rating={review.rating} Pcolor="#202020" Scolor="#e6e3e0 " /> */}
                     </div>
                     <span className="font-bold text-xl ">

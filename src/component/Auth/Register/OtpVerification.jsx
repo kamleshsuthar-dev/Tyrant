@@ -57,7 +57,7 @@ import VerifyOTP from "@/features/reuseable-component/VerifyOTP"
         }else{
             console.log("OTP not Match");
             alert('OTP galat hai ')
-            setError = "OTP Galat Hai "
+            setError ( "OTP Galat Hai ")
         }
       
         // console.log(value);
