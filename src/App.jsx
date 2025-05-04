@@ -32,9 +32,10 @@ const ShoppingCartTopUp = lazy(() =>
 );
 const Password = lazy(() => import("./component/Auth/Password.jsx"));
 const GoogleAuth = lazy(() => import("./component/Auth/GoogleAuth.jsx"));
-const ProductDetails = lazy(() =>
-  import("./route/product-Detail/ProductDetails.jsx")
-);
+// const ProductDetails = lazy(() =>
+//   import("./route/product-Detail/ProductDetails.jsx")
+// );
+import ProductDetails from "./route/product-Detail/ProductDetails.jsx";
 
 // const ShoppingCart = lazy(() =>
 //   import("./route/shoppingCart/ShoppingCart.jsx")
@@ -219,9 +220,7 @@ function App() {
           <Route
             path="productdetails/:pId"
             element={
-              <Suspense fallback={<ProductDetailSkeleton />}>
                 <ProductDetails />
-              </Suspense>
             }
           />
           <Route

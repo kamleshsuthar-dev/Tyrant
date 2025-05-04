@@ -2,17 +2,18 @@ import React from "react";
 import { Card, CardContent } from "@/components/ui/card";
 import StarRating from "@/features/reuseable-component/StarRating";
 import { ShoppingCartSVG } from "./CommonSVG";
+import { Navigate,useNavigate } from "react-router-dom";
 
-export default function PorductCard({product,handleShopping,handleProductPopUp,}) 
+export default function PorductCard({product,handleShopping=null ,handleProductPopUp= null , variant = "similar", categoryP=null }) {
 
-
-{
+        
+  const  navigate = useNavigate()
   return (
     <>
       <div
         key={product._id}
         href={product.href}
-        onClick={(e) => handleProductPopUp(e, product)}
+        onClick={(e) => variant=== "nonSimilar" ?  handleProductPopUp(e, product) : navigate(`/productdetails/${product._id}` , {state:{product ,categoryP}})}
         className="group w-fit"
       >
         <Card className="group relative p-4 my-3 flex max-w-[242px] overflow-visible rounded-3xl border-0 shadow-lg  !text-white">
