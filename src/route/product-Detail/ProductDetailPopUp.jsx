@@ -47,7 +47,7 @@
       <>
         <div ref={ref} onClick={handleClick} />
         <Drawer open={open} onOpenChange={setOpen}>
-          <DrawerContent className="scrollbar-hide m-[5vh] h-[90vh] max-w-7xl overflow-y-auto rounded-xl border-none bg-transparent pb-0 outline-none sm:mx-auto [&::after]:hidden">
+          <DrawerContent className="scrollbar-hide mx-[5vh] mt-5vh h-[90vh] max-w-7xl overflow-y-auto rounded-t-xl border-none bg-transparent pb-0 outline-none sm:mx-auto [&::after]:hidden">
             <DrawerHeader>
               <VisuallyHidden>
                 <DrawerTitle>Product Details</DrawerTitle>
@@ -57,20 +57,23 @@
               </VisuallyHidden>
             </DrawerHeader>
 
-            <div className="absolute h-[165vh] w-full bg-emerald-400">
-              <div className="relative flex h-[80vh] w-full items-stretch justify-center rounded-xl bg-red-400  overflow-scroll ">
+            <div className="absolute h-auto w-full pb-[5vh]">
+              <div className="relative flex flex-col h-[80vh] w-full items-stretch justify-center rounded-3xl bg-white overflow-clip border-[3px] border-[#202020] ">
                 {/* {product.pName}
                 <Button   onClick={(e) => productDetailFunction(e, product)} className="absolute bottom-0 ">See More</Button> */}
-                <ProductDetailCard pId={product._id} />
+                <div className="pb-10">
+                <ProductDetailCard pId={product._id}/>
+                </div>
+                  
                 <Button
                   onClick={(e) => productDetailFunction(e, product)}
-                  className="absolute bottom-[-60px] "
+                  className="absolute bottom-0 inset-x-0 bg-white text-black hover:bg-gray-200 border-t-2 border-[#202020] border-dashed rounded-none py-[22px]"
                 >
                   See More
                 </Button>
               </div>
-              <div className="mt-[5vh] h-[80vh] w-full flex justify-center  rounded-xl bg-pink-400">
-                <div className="grid-cols-auto mt-4 grid gap-4 md:grid-cols-4">
+              <div className="mt-[5vh] h-auto w-full flex justify-center  rounded-3xl bg-white border-[3px] border-[#202020]">
+                <div className="grid-cols-auto m-4 grid md:grid-cols-4 w-full items-center justify-items-center">
                   {categoryP && categoryP.length > 0 ? (
                     <>
                       {categoryP.map((p) => (

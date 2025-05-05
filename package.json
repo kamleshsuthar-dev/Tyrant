@@ -7,7 +7,8 @@
     "dev": "vite",
     "build": "vite build",
     "lint": "eslint .",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "dev:all": "concurrently \"npm run dev\" \"cd ../server && npm run dev\""
   },
   "dependencies": {
     "@emotion/react": "^11.14.0",
@@ -29,6 +30,7 @@
     "axios": "^1.7.9",
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
+    "concurrently": "^9.1.2",
     "embla-carousel-react": "^8.5.2",
     "framer-motion": "^12.9.4",
     "input-otp": "^1.4.2",
