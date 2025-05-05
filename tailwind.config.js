@@ -6,8 +6,11 @@ export default {
 	mode:"jit" ,
     darkMode: ["class"],
     content: ["./index.html", "./src/**/*.{ts,tsx,js,jsx}"],
-	
-  theme: {
+	safelist: [
+		'border-accent', 'focus-visible:border-accent',
+		'border-destructive', 'focus-visible:border-destructive',
+	  ],
+	theme: {
   	extend: {
 		keyframes: {
 			"slide-up": {

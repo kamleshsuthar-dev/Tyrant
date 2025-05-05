@@ -6,7 +6,7 @@ import { useNavigate } from "react-router-dom";
 // } from "../Auth/Register/PasswordEye";
 import axios from "axios";
 import { useLocation } from "react-router-dom";
-import { PasswordCloseEye, PasswordOpenEye } from "../Register/PasswordEye";
+import { PasswordCloseEye, PasswordOpenEye } from "../../../assets/Icons";
 
 function UpdatePassword() {
   //  const {userDetails} = useGoogleAuthContext()

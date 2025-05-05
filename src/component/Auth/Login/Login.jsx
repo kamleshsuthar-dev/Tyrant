@@ -1,10 +1,10 @@
+import { Button } from "@/components/ui/button";
 import axios from "axios";
 import { useEffect, useRef, useState } from "react";
 import { Link, NavLink, useLocation, useNavigate } from "react-router-dom";
 import { GoogleBtn } from "../../../App";
-import { PasswordCloseEye, PasswordOpenEye } from "../Register/PasswordEye.jsx";
+import { PasswordCloseEye, PasswordOpenEye } from "../../../assets/Icons.jsx";
 import "./login.css";
-import { Button } from "@/components/ui/button";
 
 let emailRegex =
   /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
@@ -182,7 +182,7 @@ const Login = ({ text }) => {
       <div className="bg-secondary h-screen sm:block hidden w-full border-2 border-solid borderprimary lg:p-7 p-5 ">
         <div className="relative h-full w-full grid  place-items-center   rounded-2xl  ">
           <img
-            src="https://res.cloudinary.com/dzzs9yjcf/image/upload/v1746086512/SignIn_vmdpjc.png"
+            src="https://res.cloudinary.com/dzzs9yjcf/image/upload/v1746461505/TyrantImage-SignIn_ih3mgn.png"
             alt=""
             className="h-full w-full absolute top-0 bottom-0  rounded-2xl z-[0] object-cover"
           />
@@ -357,7 +357,6 @@ const Login = ({ text }) => {
               <div className="passwordText text-red-600 text-xs my-1 hidden"></div>
             </div>
             <div className="grid gap-1">
-              
               <Button
                 className="col-span-1 row-span-1 rounded-xl bg-[#3F3F3F]   block text-center text-secondary text-xl py-1 active:scale-[0.95] hover:bg-[#232222]"
                 onClick={handleSubmit}
