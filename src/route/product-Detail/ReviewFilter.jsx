@@ -13,7 +13,7 @@ export default function ReviewFilter({handleFilter ,handleSort }) {
       {/* Sort Button */}
       <DropdownMenu>
         <DropdownMenuTrigger asChild>
-          <Button variant="outline" className="flex items-center">
+          <Button variant="secondary" className="flex items-center">
             Sort: {selectedSort} <ChevronDown className="ml-2 h-4 w-4" />
           </Button>
         </DropdownMenuTrigger>
@@ -36,7 +36,7 @@ export default function ReviewFilter({handleFilter ,handleSort }) {
       {/* Filter Button */}
       <DropdownMenu>
         <DropdownMenuTrigger asChild>
-          <Button variant="outline" className="flex items-center">
+          <Button variant="secondary" className="flex items-center">
             Filter: {selectedFilter ? `${selectedFilter}⭐` : "All"} <ChevronDown className="ml-2 h-4 w-4" />
           </Button>
         </DropdownMenuTrigger>

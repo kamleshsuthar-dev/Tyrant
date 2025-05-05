@@ -58,7 +58,7 @@ export default function ProductDetail() {
 
   //   const {product,categoryP} = location.state || {}
 
-    // const [categoryP, setCategoryP] = useState();
+  // const [categoryP, setCategoryP] = useState();
   //  if(!product || !categoryP) {
   //   useEffect(() => {
   //     const singlePrd = async () => {
@@ -99,7 +99,8 @@ export default function ProductDetail() {
   //   },[])
   //  }
 
-  const { product: initialProduct, categoryP: initialCategoryP } =location.state || {};
+  const { product: initialProduct, categoryP: initialCategoryP } =
+    location.state || {};
 
   const [newProduct, setNewProduct] = useState(initialProduct || null);
 
@@ -123,15 +124,17 @@ export default function ProductDetail() {
       };
 
       singlePrd();
-    }else{
-        setNewProduct(initialProduct)
-        setCategoryP(initialCategoryP)
+    } else {
+      setNewProduct(initialProduct);
+      setCategoryP(initialCategoryP);
     }
   }, [pId]);
 
   // Fetch related products by category using a custom hook
-  const [categoryData, categoryError, categoryLoading] = GetApi(initialCategoryP ?
-     `${import.meta.env.VITE_PRODUCT_BY_CATEGORY}?cId=${newProduct.pCategory}`  : null,
+  const [categoryData, categoryError, categoryLoading] = GetApi(
+    initialCategoryP
+      ? `${import.meta.env.VITE_PRODUCT_BY_CATEGORY}?cId=${newProduct.pCategory}`
+      : null,
     "get product by category api",
   );
 
@@ -229,13 +232,13 @@ export default function ProductDetail() {
 
   return (
     <>
-      <div className="min-h-screen bg-white p-4" id="top">
+      <div className="min-h-screen bg-secondary p-4" id="top">
         <div className="mx-auto max-w-7xl">
           {/* Main Product Section */}
-          <Card className="overflow-hidden rounded-3xl bg-white">
+          <Card className="overflow-hidden rounded-3xl bg-secondary">
             <div className="grid gap-8 p-4 md:grid-cols-2 md:p-8">
               {/* Image Section */}
-              <div className="relative flex w-fit justify-center rounded-3xl bg-[#202020] p-4 md:justify-between">
+              <div className="relative flex w-fit justify-center rounded-3xl bg-primary p-4 md:justify-between">
                 {/* Desktop: Vertical thumbnails on the left */}
                 <div className="absolute hidden flex-col gap-2 rounded-2xl bg-[#D1D1D1] p-2 md:flex">
                   {productImages.map((image, index) => (
@@ -245,9 +248,9 @@ export default function ProductDetail() {
                       onMouseLeave={() => setHoveredImageIndex(null)}
                       onClick={() => setSelectedImageIndex(index)}
                       className={cn(
-                        "relative aspect-square w-14 overflow-hidden rounded-2xl border-2 bg-white",
+                        "relative aspect-square w-14 overflow-hidden rounded-2xl border-2 bg-secondary",
                         selectedImageIndex === index
-                          ? "border-[#202020]"
+                          ? "border-primary"
                           : "border-gray-200 hover:border-gray-300",
                       )}
                     >
@@ -261,7 +264,7 @@ export default function ProductDetail() {
                 </div>
 
                 {/* Main Image */}
-                <div className="relative ml-[5.3rem] hidden h-full overflow-hidden rounded-2xl border border-gray-100 bg-white md:flex">
+                <div className="relative ml-[5.3rem] hidden h-full overflow-hidden rounded-2xl border border-gray-100 bg-secondary md:flex">
                   <img
                     src={
                       productImages[
@@ -354,11 +357,11 @@ export default function ProductDetail() {
                     <span className="text-sm text-gray-500 line-through">
                       Rs. {newProduct.pPrice}
                     </span>
-                    <span className="rounded bg-[#72D570] px-1 py-1 text-sm font-medium text-[#202020]">
+                    <span className="rounded bg-[#72D570] px-1 py-1 text-sm font-medium text-primary">
                       {newProduct.pOffer}% Off
                     </span>
                   </div>
-                  <p className="text-sm text-[#202020]">
+                  <p className="text-sm text-primary">
                     Tax included. Shipping calculated at checkout.
                   </p>
                 </div>
@@ -422,7 +425,7 @@ export default function ProductDetail() {
                         return (
                           <Label
                             key={size}
-                            className={`px-auto flex w-[60px] cursor-pointer items-center justify-center rounded-xl border-2 bg-[#42985A] py-[1.5px] text-lg text-[#FFFFFF] ${
+                            className={`px-auto flex w-[60px] cursor-pointer items-center justify-center rounded-xl border-2 bg-[#42985A] py-[1.5px] text-lg text-secondary ${
                               selectedSize === size
                                 ? "border-[#35343A] bg-[#35343A]"
                                 : "border-[#42985A] hover:border-[#42985A]"
@@ -447,9 +450,9 @@ export default function ProductDetail() {
                       {colors.map((color) => (
                         <Label
                           key={color}
-                          className={`h-8 w-8 cursor-pointer rounded-[11px] border-[3px] ${
+                          className={`w-8 h-8 rounded-[11px] cursor-pointer border-[3px]  hover:drop-shadow-[0_4px_9.6px_rgba(0,0,0,0.15)] transition-transform duration-300 hover:translate-y-[-4px] ${
                             selectedColor === color
-                              ? "-translate-y-[2px] border-[#202020] drop-shadow-[0_4px_9.6px_rgba(0,0,0,0.25)]"
+                              ? "border-primary hover:border-primary drop-shadow-[0_4px_9.6px_rgba(0,0,0,0.20)] -translate-y-[2px] hover:translate-y-[-2px]"
                               : "border-transparent"
                           }`}
                         >
@@ -466,11 +469,11 @@ export default function ProductDetail() {
                   {/* Quantity Selector */}
                   <div>
                     <Label className="text-2xl">Quantity</Label>
-                    <div className="mt-2 flex w-fit items-center rounded-lg bg-[#202020] text-[#FFFFFF]">
+                    <div className="mt-2 flex w-fit items-center rounded-lg bg-primary text-secondary">
                       <Button
                         variant="outline"
                         size="icon"
-                        className="border-none bg-transparent hover:bg-transparent hover:text-[#FFFFFF]"
+                        className="border-none bg-transparent hover:bg-transparent hover:text-secondary"
                         onClick={() => setQuantity(Math.max(1, quantity - 1))}
                       >
                         <Minus className="h-4 w-4" />
@@ -481,7 +484,7 @@ export default function ProductDetail() {
                       <Button
                         variant="outline"
                         size="icon"
-                        className="border-none bg-transparent hover:bg-transparent hover:text-[#FFFFFF]"
+                        className="border-none bg-transparent hover:bg-transparent hover:text-secondary"
                         onClick={() => setQuantity(quantity + 1)}
                       >
                         <Plus className="h-4 w-4" />
@@ -498,15 +501,16 @@ export default function ProductDetail() {
                     </Suspense>
                   </div>
                   <Button
-                    className="flex w-full rounded-xl bg-[#202020] px-[144px] py-[24px] text-2xl text-[#FFFFFF]"
+                    variant="primary"
+                    className="flex w-full rounded-xl px-[144px] py-[24px] text-xl"
                     onClick={addtoCart}
                   >
                     Add to Cart
                   </Button>
 
                   <Button
-                    variant="secondary"
-                    className="flex w-full rounded-xl bg-[#9EFF00] px-[144px] py-[24px] text-2xl text-[#202020]"
+                    variant="accent"
+                    className="flex w-full rounded-xl  px-[144px] py-[24px] text-xl"
                     onClick={checkOut}
                   >
                     Buy Now

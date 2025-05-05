@@ -56,7 +56,7 @@ export default function ProductList() {
   if (loading) return <ProductListSkeleton />;
   else
     return (
-      <div className="bg-white">
+      <div className="bg-secondary">
         <div className="relative mx-auto max-w-2xl px-4 py-16 sm:px-6 sm:py-24 lg:max-w-7xl lg:px-8">
           <h2 className="relative flex items-center justify-center rounded-lg bg-slate-100 p-2 text-4xl font-extrabold">
             {cName} {" :"}&nbsp;{" "}
@@ -83,7 +83,7 @@ export default function ProductList() {
                 <>
                   <div key={product._id}>
                     <ProductCard
-                      variant= "nonSimilar"
+                      variant="nonSimilar"
                       product={product}
                       handleShopping={(e) => handleShopping(e, product)}
                       handleProductPopUp={(e) => {
@@ -104,7 +104,11 @@ export default function ProductList() {
         </div>
 
         <ShoppingCartTopUp ref={popUp} product={cartProducts} />
-        <ProductDetailsPopUp ref={productPopUp} product={currentProduct} cId={cId} />
+        <ProductDetailsPopUp
+          ref={productPopUp}
+          product={currentProduct}
+          cId={cId}
+        />
       </div>
     );
 }

@@ -1,17 +1,14 @@
-import React, { useState } from 'react';
-import { Trash2, X, Check, Loader } from 'lucide-react';
+import { Loader, Trash2 } from "lucide-react";
+import { useState } from "react";
 
 const DeleteIconButton = () => {
   const [isDeleting, setIsDeleting] = useState(false);
 
-
   const handleDelete = () => {
-
     setIsDeleting(true);
-   
+
     setTimeout(() => {
       setIsDeleting(false);
-     
     }, 4000);
   };
 
@@ -29,19 +26,13 @@ const DeleteIconButton = () => {
           flex
           items-center
        
-          ${isDeleting ? 'cursor-not-allowed opacity-50' : ''}
+          ${isDeleting ? "cursor-not-allowed opacity-50" : ""}
         `}
       >
-        {!isDeleting &&  (
-          <Trash2 
-            className="w-5 h-5 text-white"
-          />
-        )}
-           
+        {!isDeleting && <Trash2 className="w-5 h-5 text-secondary" />}
+
         {isDeleting && (
-          <Loader 
-            className="w-5 h-5 text-[#FFFFFF] animate-spin"
-          />
+          <Loader className="w-5 h-5 text-secondary animate-spin" />
         )}
       </button>
     </div>
@@ -85,27 +76,27 @@ export default DeleteIconButton;
 //           flex
 //           items-center
 //           justify-center
-//           ${isConfirming 
-//             ? 'bg-red-100 hover:bg-red-200' 
+//           ${isConfirming
+//             ? 'bg-red-100 hover:bg-red-200'
 //             : 'bg-gray-100 hover:bg-gray-200'
 //           }
 //           ${isDeleting ? 'cursor-not-allowed opacity-50' : ''}
 //         `}
 //       >
 //         {!isDeleting && !isConfirming && (
-//           <Trash2 
+//           <Trash2
 //             className="w-5 h-5 text-gray-600"
 //           />
 //         )}
-        
+
 //         {isConfirming && !isDeleting && (
-//           <Check 
+//           <Check
 //             className="w-5 h-5 text-red-600 animate-in"
 //           />
 //         )}
-        
+
 //         {isDeleting && (
-//           <Loader 
+//           <Loader
 //             className="w-5 h-5 text-gray-600 animate-spin"
 //           />
 //         )}

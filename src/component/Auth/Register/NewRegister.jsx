@@ -1,11 +1,10 @@
-import "../Login/login.css";
-import React, { useCallback, useEffect, useRef, useState } from "react";
 import axios from "axios";
-import { Link, useNavigate } from "react-router-dom";
-import { useGoogleLogin } from "@react-oauth/google";
+import { useEffect, useRef, useState } from "react";
+import { NavLink, useNavigate } from "react-router-dom";
 import { GoogleBtn } from "../../../App";
-import { NavLink } from "react-router-dom";
-import { PasswordOpenEye, PasswordCloseEye } from "./PasswordEye";
+import "../Login/login.css";
+import { PasswordCloseEye, PasswordOpenEye } from "./PasswordEye";
+import { Button } from "@/components/ui/button";
 
 function NewRegister({ text }) {
   const [credentials, setCredentials] = useState({
@@ -27,59 +26,55 @@ function NewRegister({ text }) {
   const emailMounted = useRef(false);
   const passMounted = useRef(false);
 
- 
-
   const handleClickShowPassword = () => {
     setShowPassword(!showPassword);
   };
 
-
-  let emailRegex = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+  let emailRegex =
+    /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
 
   useEffect(() => {
     if (emailMounted.current) {
       const isResgis = async () => {
         try {
           const response = await axios.get(
-            `${import.meta.env.VITE_ISREGISTERED}/isregistered?email=${credentials.email}`
+            `${import.meta.env.VITE_ISREGISTERED}/isregistered?email=${credentials.email}`,
           );
           const data = response.data;
           // console.log("Response data:", data);
           setIsRegistered(data.isAlreadyRegistered);
           return data.isAlreadyRegistered; // Return the value to use later
         } catch (error) {
-              if (error.response && error.response.status === 409) {
-                // Handle conflict
-                console.log("Conflict:", error.response.data);
-              } else {
-                // Handle other errors
-                console.log("Error:", error);
-              }
+          if (error.response && error.response.status === 409) {
+            // Handle conflict
+            console.log("Conflict:", error.response.data);
+          } else {
+            // Handle other errors
+            console.log("Error:", error);
+          }
         }
       };
 
       if (credentials.email) {
         const isRegistered = isResgis();
-         // Ensure you handle the result of the async function
+        // Ensure you handle the result of the async function
         isRegistered.then((isRegistered) => {
-       
-          
           if (isRegistered) {
             console.log("User is already registered.");
-            document.querySelector(".emailText").classList.remove('hidden')
-            document.querySelector(".emailText").textContent = "User is already registered please Login";
+            document.querySelector(".emailText").classList.remove("hidden");
+            document.querySelector(".emailText").textContent =
+              "User is already registered please Login";
           } else {
             if (emailRegex.test(credentials.email) === false) {
-              document.querySelector(".emailText").classList.remove('hidden')
-              document.querySelector(".emailText").textContent = "Please enter valid email";
+              document.querySelector(".emailText").classList.remove("hidden");
+              document.querySelector(".emailText").textContent =
+                "Please enter valid email";
             } else {
               document.querySelector(".emailText").classList.add("hidden");
             }
           }
         });
       }
-
- 
     } else {
       emailMounted.current = true;
     }
@@ -98,7 +93,7 @@ function NewRegister({ text }) {
   const nameBlur = () => {
     if (credentials.name.length < 1) {
       document.querySelector(".nameText").classList.remove("hidden");
-      document.querySelector(".nameText").textContent="Name is required "
+      document.querySelector(".nameText").textContent = "Name is required ";
     }
   };
 
@@ -116,8 +111,6 @@ function NewRegister({ text }) {
       document.querySelector(".passwordText").classList.remove("hidden");
     }
   };
-
- 
 
   useEffect(() => {
     if (passMounted.current) {
@@ -160,30 +153,30 @@ function NewRegister({ text }) {
           theme: "colored",
         });
         // toast.error("All fields are required", { autoClose: 500, theme: 'colored' })
-      } 
-       if (credentials.name.length < 1) {
+      }
+      if (credentials.name.length < 1) {
         document.querySelector(".nameText").classList.remove("hidden");
-        document.querySelector(".nameText").textContent="Name is required"
-      } 
-       if (emailRegex.test(credentials.email) === false) {
-        document.querySelector(".emailText").textContent ="Enter a Valid Email ";
-      document.querySelector(".emailText").classList.remove("hidden");
-      } 
+        document.querySelector(".nameText").textContent = "Name is required";
+      }
+      if (emailRegex.test(credentials.email) === false) {
+        document.querySelector(".emailText").textContent =
+          "Enter a Valid Email ";
+        document.querySelector(".emailText").classList.remove("hidden");
+      }
 
       if (credentials.password.length < 1) {
-        document.querySelector(".passwordText").textContent ="Password is required";
+        document.querySelector(".passwordText").textContent =
+          "Password is required";
+        document.querySelector(".passwordText").classList.remove("hidden");
+      } else if (credentials.password.length < 8) {
+        document.querySelector(".passwordText").textContent =
+          "Password Should Be More Then 8 letter";
         document.querySelector(".passwordText").classList.remove("hidden");
       }
-        else if (credentials.password.length < 8) {
-        document.querySelector(".passwordText").textContent =
-        "Password Should Be More Then 8 letter";
-      document.querySelector(".passwordText").classList.remove("hidden");
-      } 
-       if ( credentials.email && credentials.name && credentials.password ) {
-        if (isRegistered === false) { 
+      if (credentials.email && credentials.name && credentials.password) {
+        if (isRegistered === false) {
           // otp here
-              navigate('/otp',{state:{credentials}})
-         
+          navigate("/otp", { state: { credentials } });
         } else {
           console.log("user is already exist");
           navigate("/login");
@@ -212,7 +205,7 @@ function NewRegister({ text }) {
         </div>
         <div className="h-full w-[50%] ml-5  rounded-xl border-2 border-red">
           <div className=" h-full w-full grid  place-items-center    rounded-2xl  ">
-            <div className="card min-w-[350px] min-h-[60%]  bg-white rounded-xl text-black grid gap-2 items-center p-[52px] font-comfortaa text-lg ">
+            <div className="card min-w-[350px] min-h-[60%]  bg-secondary rounded-xl text-primary grid gap-2 items-center p-[52px] font-comfortaa text-lg ">
               <div className="text-3xl col-span-1 row-span-1 font-bold ">
                 Sign Up To Tyrant{" "}
               </div>
@@ -234,10 +227,12 @@ function NewRegister({ text }) {
                     value={credentials.name}
                     onChange={handleOnChange}
                     placeholder="Enter Name"
-                    className="border-2 border-solid border-black  block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900  placeholder:text-gray-400 sm:text-sm/6 "
+                    className="border-2 border-solid borderprimary  block w-full rounded-md bg-secondary px-3 py-1.5 text-base text-gray-900  placeholder:text-gray-400 sm:text-sm/6 "
                   />
                 </div>
-                <div className="nameText text-red-600 text-xs my-1 hidden"> </div>
+                <div className="nameText text-red-600 text-xs my-1 hidden">
+                  {" "}
+                </div>
               </div>
 
               <div className=" col-span-1 row-span-1">
@@ -258,10 +253,10 @@ function NewRegister({ text }) {
                     autoComplete="email"
                     required
                     placeholder="Enter Email"
-                    className="border-2 border-solid border-black  block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900  placeholder:text-gray-400 sm:text-sm/6"
+                    className="border-2 border-solid borderprimary  block w-full rounded-md bg-secondary px-3 py-1.5 text-base text-gray-900  placeholder:text-gray-400 sm:text-sm/6"
                   />
                 </div>
-              
+
                 <div className="emailText text-red-600 text-xs my-1 hidden"></div>
               </div>
 
@@ -274,7 +269,7 @@ function NewRegister({ text }) {
                     Password*
                   </label>
                 </div>
-                <div className="flex border-2 border-solid border-black w-full rounded-md bg-white">
+                <div className="flex border-2 border-solid borderprimary w-full rounded-md bg-secondary">
                   <input
                     type="password"
                     name="password"
@@ -287,21 +282,21 @@ function NewRegister({ text }) {
                     onChange={handleOnChange}
                     onBlur={passwordBlur}
                     placeholder="Enter Password"
-                    className=" border-none outline-none w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900   placeholder:text-gray-400   sm:text-sm/6"
+                    className=" border-none outline-none w-full rounded-md bg-secondary px-3 py-1.5 text-base text-gray-900   placeholder:text-gray-400   sm:text-sm/6"
                   />
-                  <button className="bg-white mr-2" onClick={togglePass}>
+                  <button className="bg-secondary mr-2" onClick={togglePass}>
                     {showPassword ? <PasswordOpenEye /> : <PasswordCloseEye />}
                   </button>
                 </div>
                 <div className="passwordText text-red-600 text-xs my-1 hidden"></div>
               </div>
               <div className="grid gap-1">
-                <button
-                  className="col-span-1 row-span-1 rounded-xl bg-[#3F3F3F]   block text-center text-white text-2xl py-1 active:scale-[0.95] hover:bg-[#232222] "
+                <Button
+                  className="col-span-1 row-span-1 rounded-xl  block text-center py-1 active:scale-[0.95] "
                   onClick={handleSubmit}
                 >
                   Sign Up &gt;&gt;
-                </button>
+                </Button>
 
                 <div className=" text-center leading-none  text-[#3F3F3F] ">
                   or
@@ -311,9 +306,7 @@ function NewRegister({ text }) {
               <div className="mt-2 text-sm text-center">
                 Don't have an account?{" "}
                 <NavLink to="/login" className="text-[#0F7DE3] hover:underline">
-                <button>
-                  Sign In &rarr;
-                </button>
+                  <button>Sign In &rarr;</button>
                 </NavLink>
               </div>
             </div>
@@ -330,12 +323,12 @@ function NewRegister({ text }) {
             alt=""
             className="h-full w-full absolute top-0 bottom-0  rounded-2xl z-[0]"
           />
-          <div className="text-4xl  font-bold text-white z-[1]">
+          <div className="text-4xl  font-bold text-secondary z-[1]">
             Sign Up To Tyrant
           </div>
         </div>
         <div className="h-[70%] w-full flex justify-center ">
-          <div className="card w-[450px] min-h-[60%]  bg-white rounded-xl text-black grid gap-2 items-center p-[52px] font-comfortaa text-lg ">
+          <div className="card w-[450px] min-h-[60%]  bg-secondary rounded-xl text-primary grid gap-2 items-center p-[52px] font-comfortaa text-lg ">
             <div className=" col-span-1 row-span-1">
               <label
                 htmlFor="text"
@@ -353,7 +346,7 @@ function NewRegister({ text }) {
                   value={credentials.name}
                   onChange={handleOnChange}
                   placeholder="Enter Name"
-                  className="border-2 border-solid border-black  block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline-1 -outline-offset-1 outline-solid placeholder:text-gray-400 focus:outline-1 focus:-outline-offset-2 focus:outline-gray-400 sm:text-sm/6"
+                  className="border-2 border-solid borderprimary  block w-full rounded-md bg-secondary px-3 py-1.5 text-base text-gray-900 outline-1 -outline-offset-1 outline-solid placeholder:text-gray-400 focus:outline-1 focus:-outline-offset-2 focus:outline-gray-400 sm:text-sm/6"
                 />
               </div>
               <div className="nameText text-red-600 text-xs my-1 hidden">
@@ -379,7 +372,7 @@ function NewRegister({ text }) {
                   autoComplete="email"
                   required
                   placeholder="Enter Email"
-                  className="border-2 border-solid border-black  block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline-1 -outline-offset-1 outline-solid placeholder:text-gray-400 focus:outline-1 focus:-outline-offset-2 focus:outline-gray-400 sm:text-sm/6"
+                  className="border-2 border-solid borderprimary  block w-full rounded-md bg-secondary px-3 py-1.5 text-base text-gray-900 outline-1 -outline-offset-1 outline-solid placeholder:text-gray-400 focus:outline-1 focus:-outline-offset-2 focus:outline-gray-400 sm:text-sm/6"
                 />
               </div>
               <div className="emailText text-red-600 text-xs my-1 hidden"></div>
@@ -394,7 +387,7 @@ function NewRegister({ text }) {
                   Password*
                 </label>
               </div>
-              <div className="flex border-2 border-solid border-black w-full rounded-md bg-white">
+              <div className="flex border-2 border-solid borderprimary w-full rounded-md bg-secondary">
                 <input
                   type="password"
                   name="password"
@@ -405,9 +398,9 @@ function NewRegister({ text }) {
                   value={credentials.password}
                   onChange={handleOnChange}
                   placeholder="Enter Password"
-                  className=" border-none outline-none w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900   placeholder:text-gray-400   sm:text-sm/6"
+                  className=" border-none outline-none w-full rounded-md bg-secondary px-3 py-1.5 text-base text-gray-900   placeholder:text-gray-400   sm:text-sm/6"
                 />
-                <button className="bg-white mr-2" onClick={togglePass}>
+                <button className="bg-secondary mr-2" onClick={togglePass}>
                   {showPassword ? <PasswordOpenEye /> : <PasswordCloseEye />}
                 </button>
               </div>
@@ -415,7 +408,7 @@ function NewRegister({ text }) {
             </div>
             <div className="grid gap-1">
               <button
-                className="col-span-1 row-span-1 rounded-xl bg-[#3F3F3F]   block text-center text-white text-xl py-1active:scale-[0.95] hover:bg-[#232222] "
+                className="col-span-1 row-span-1 rounded-xl bg-[#3F3F3F]   block text-center text-secondary text-xl py-1active:scale-[0.95] hover:bg-[#232222] "
                 onClick={handleSubmit}
               >
                 Sign Up &gt;&gt;
@@ -429,9 +422,7 @@ function NewRegister({ text }) {
             <div className="mt-2 text-sm text-center">
               Don't have an account?{" "}
               <NavLink to="/login" className="text-[#0F7DE3] hover:underline">
-              <button>
-                Sign In &rarr;
-              </button>
+                <button>Sign In &rarr;</button>
               </NavLink>
             </div>
           </div>
@@ -442,5 +433,3 @@ function NewRegister({ text }) {
 }
 
 export default NewRegister;
-
-

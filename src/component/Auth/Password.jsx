@@ -1,12 +1,10 @@
-import React, { useEffect } from "react";
-import { useState, useRef, useContext } from "react";
-import { useNavigate, Link, NavLink } from "react-router-dom";
+import axios from "axios";
+import { useEffect, useRef, useState } from "react";
+import { useLocation, useNavigate } from "react-router-dom";
 import {
   PasswordCloseEye,
   PasswordOpenEye,
 } from "../Auth/Register/PasswordEye";
-import axios from "axios";
-import { useLocation } from "react-router-dom";
 
 function Password() {
   //  const {userDetails} = useGoogleAuthContext()
@@ -85,7 +83,11 @@ function Password() {
     // console.log("credentials", credentials);
 
     e.preventDefault();
-    if ( !credentials.name || !credentials.password || !credentials.passwordConfirm) {
+    if (
+      !credentials.name ||
+      !credentials.password ||
+      !credentials.passwordConfirm
+    ) {
       if (credentials.name.length < 1) {
         document.querySelector(".nameText").textContent = "Name is required";
         document.querySelector(".nameText").classList.remove("hidden");
@@ -113,7 +115,9 @@ function Password() {
       document.querySelector(".passwordConfirmText").textContent =
         "Password and Password Confirm should be same";
       document.querySelector(".passwordConfirmText").classList.remove("hidden");
-    } else if ((credentials.name, credentials.password, credentials.passwordConfirm)) {
+    } else if (
+      (credentials.name, credentials.password, credentials.passwordConfirm)
+    ) {
       console.log(credentials);
 
       try {
@@ -123,14 +127,14 @@ function Password() {
             name: credentials.name,
             email: credentials.email,
             password: credentials.password,
-          }
+          },
         );
         console.log("response . ......", response);
         navigate("/");
-        alert("Login Successfully")
+        alert("Login Successfully");
       } catch (error) {
-        console.log("password error",error);
-          alert("something went wrong try again !!")
+        console.log("password error", error);
+        alert("something went wrong try again !!");
         // navigate("/login");
       }
     }
@@ -139,14 +143,14 @@ function Password() {
   return (
     <>
       {/* pc design */}
-      <div className="bg-white h-screen sm:block hidden w-full border-2 border-solid border-black lg:p-7 p-5 ">
+      <div className="bg-secondary h-screen sm:block hidden w-full border-2 border-solid borderprimary lg:p-7 p-5 ">
         <div className="relative h-full w-full grid  place-items-center   rounded-2xl  ">
           <img
             src="./images/bgImgJaipur.png"
             alt=""
             className="h-full w-full absolute top-0 bottom-0  rounded-2xl z-[0]"
           />
-          <div className="card min-w-[350px] min-h-[60%]  bg-white rounded-xl text-black grid gap-2 items-center p-[52px] font-comfortaa text-lg z-[1]">
+          <div className="card min-w-[350px] min-h-[60%]  bg-secondary rounded-xl text-primary grid gap-2 items-center p-[52px] font-comfortaa text-lg z-[1]">
             <div className="text-3xl col-span-1 row-span-1 font-bold ">
               Set Name And Password{" "}
             </div>
@@ -160,7 +164,7 @@ function Password() {
                   Name*
                 </label>
               </div>
-              <div className="flex border-2 border-solid border-black w-full rounded-md bg-white">
+              <div className="flex border-2 border-solid borderprimary w-full rounded-md bg-secondary">
                 <input
                   type="name"
                   name="name"
@@ -169,7 +173,7 @@ function Password() {
                   onChange={handleOnChange}
                   required
                   //  ref={passwordRef}
-                  className=" block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline-none placeholder:text-gray-400  sm:text-sm/6"
+                  className=" block w-full rounded-md bg-secondary px-3 py-1.5 text-base text-gray-900 outline-none placeholder:text-gray-400  sm:text-sm/6"
                 />
               </div>
               <div className="nameText text-red-600 text-xs my-1 hidden"></div>
@@ -184,7 +188,7 @@ function Password() {
                   Create Password*
                 </label>
               </div>
-              <div className="flex border-2 border-solid border-black w-full rounded-md bg-white">
+              <div className="flex border-2 border-solid borderprimary w-full rounded-md bg-secondary">
                 <input
                   type="password"
                   name="password"
@@ -196,9 +200,9 @@ function Password() {
                   {...(showPassword ? { type: "text" } : { type: "password" })}
                   onBlur={passwordBlur}
                   //  ref={passwordRef}
-                  className=" block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline-none placeholder:text-gray-400  sm:text-sm/6"
+                  className=" block w-full rounded-md bg-secondary px-3 py-1.5 text-base text-gray-900 outline-none placeholder:text-gray-400  sm:text-sm/6"
                 />
-                <button className="bg-white mr-2" onClick={togglePass}>
+                <button className="bg-secondary mr-2" onClick={togglePass}>
                   {showPassword ? <PasswordOpenEye /> : <PasswordCloseEye />}
                 </button>
               </div>
@@ -214,7 +218,7 @@ function Password() {
                   Password Confirm*
                 </label>
               </div>
-              <div className="flex border-2 border-solid border-black w-full rounded-md bg-white">
+              <div className="flex border-2 border-solid borderprimary w-full rounded-md bg-secondary">
                 <input
                   type="password"
                   name="passwordConfirm"
@@ -226,9 +230,9 @@ function Password() {
                   {...(showPassword ? { type: "text" } : { type: "password" })}
                   onBlur={passwordBlur}
                   //  ref={passwordRef}
-                  className=" block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline-none placeholder:text-gray-400  sm:text-sm/6"
+                  className=" block w-full rounded-md bg-secondary px-3 py-1.5 text-base text-gray-900 outline-none placeholder:text-gray-400  sm:text-sm/6"
                 />
-                <button className="bg-white mr-2" onClick={togglePass}>
+                <button className="bg-secondary mr-2" onClick={togglePass}>
                   {showPassword ? <PasswordOpenEye /> : <PasswordCloseEye />}
                 </button>
               </div>
@@ -236,7 +240,7 @@ function Password() {
             </div>
             <div className="grid gap-1">
               <button
-                className="col-span-1 row-span-1 rounded-xl bg-[#3F3F3F]   block text-center text-white text-2xl py-1 active:scale-[0.95] hover:bg-[#232222]"
+                className="col-span-1 row-span-1 rounded-xl bg-[#3F3F3F]   block text-center text-secondary text-2xl py-1 active:scale-[0.95] hover:bg-[#232222]"
                 onClick={handleSubmit}
               >
                 Submit &gt;&gt;
@@ -249,7 +253,7 @@ function Password() {
       {/* // mobile design  */}
       <div className="sm:hidden flex flex-col justify-between items-center h-screen ">
         <div className="h-[70%] flex justify-center items-center">
-          <div className="card w-[350px]  min-w-[286px]  bg-white rounded-xl text-black grid gap-2 items-center p-8 font-comfortaa text-md border-solid border-black ">
+          <div className="card w-[350px]  min-w-[286px]  bg-secondary rounded-xl text-primary grid gap-2 items-center p-8 font-comfortaa text-md border-solid borderprimary ">
             <div>
               <div className="text-3xl col-span-1 row-span-1 font-bold ">
                 Set Name And Password{" "}
@@ -265,7 +269,7 @@ function Password() {
                   Name*
                 </label>
               </div>
-              <div className="flex border-2 border-solid border-black w-full rounded-md bg-white">
+              <div className="flex border-2 border-solid borderprimary w-full rounded-md bg-secondary">
                 <input
                   type="name"
                   name="name"
@@ -274,7 +278,7 @@ function Password() {
                   onChange={handleOnChange}
                   required
                   //  ref={passwordRef}
-                  className=" block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline-none placeholder:text-gray-400  sm:text-sm/6"
+                  className=" block w-full rounded-md bg-secondary px-3 py-1.5 text-base text-gray-900 outline-none placeholder:text-gray-400  sm:text-sm/6"
                 />
               </div>
               <div className="nameText text-red-600 text-xs my-1 hidden"></div>
@@ -289,7 +293,7 @@ function Password() {
                   Create Password*
                 </label>
               </div>
-              <div className="flex border-2 border-solid border-black w-full rounded-md bg-white">
+              <div className="flex border-2 border-solid borderprimary w-full rounded-md bg-secondary">
                 <input
                   type="password"
                   name="password"
@@ -301,9 +305,9 @@ function Password() {
                   value={credentials.password}
                   onChange={handleOnChange}
                   // ref={passwordRef}
-                  className=" block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline-none placeholder:text-gray-400  sm:text-sm/6"
+                  className=" block w-full rounded-md bg-secondary px-3 py-1.5 text-base text-gray-900 outline-none placeholder:text-gray-400  sm:text-sm/6"
                 />
-                <button className="bg-white mr-2" onClick={togglePass}>
+                <button className="bg-secondary mr-2" onClick={togglePass}>
                   {showPassword ? <PasswordOpenEye /> : <PasswordCloseEye />}
                 </button>
               </div>
@@ -319,7 +323,7 @@ function Password() {
                   Password Confirm*
                 </label>
               </div>
-              <div className="flex border-2 border-solid border-black w-full rounded-md bg-white">
+              <div className="flex border-2 border-solid borderprimary w-full rounded-md bg-secondary">
                 <input
                   type="password"
                   name="passwordConfirm"
@@ -331,9 +335,9 @@ function Password() {
                   value={credentials.passwordConfirm}
                   onChange={handleOnChange}
                   // ref={passwordRef}
-                  className=" block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline-none placeholder:text-gray-400  sm:text-sm/6"
+                  className=" block w-full rounded-md bg-secondary px-3 py-1.5 text-base text-gray-900 outline-none placeholder:text-gray-400  sm:text-sm/6"
                 />
-                <button className="bg-white mr-2" onClick={togglePass}>
+                <button className="bg-secondary mr-2" onClick={togglePass}>
                   {showPassword ? <PasswordOpenEye /> : <PasswordCloseEye />}
                 </button>
               </div>
@@ -341,7 +345,7 @@ function Password() {
             </div>
             <div className="grid gap-1">
               <button
-                className="col-span-1 row-span-1 rounded-xl bg-[#3F3F3F]   block text-center text-white text-xl py-1 active:scale-[0.95] hover:bg-[#232222]"
+                className="col-span-1 row-span-1 rounded-xl bg-[#3F3F3F]   block text-center text-secondary text-xl py-1 active:scale-[0.95] hover:bg-[#232222]"
                 onClick={handleSubmit}
               >
                 Submit &gt;&gt;

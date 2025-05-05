@@ -1,41 +1,42 @@
-"use client"
+"use client";
 
-import { useState, useEffect } from "react"
-import { Plus, ChevronDown } from "lucide-react"
-import { Button } from "@/components/ui/button"
-import { Card } from "@/components/ui/card"
-import { Separator } from "@/components/ui/separator"
-import { Input } from "@/components/ui/input"
-import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/dropdown-menu"
-import { useLocation } from "react-router-dom"
-import axios from "axios"
+import { Button } from "@/components/ui/button";
+import { Card } from "@/components/ui/card";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
+import { Input } from "@/components/ui/input";
+import { Separator } from "@/components/ui/separator";
+import axios from "axios";
+import { ChevronDown, Plus } from "lucide-react";
+import { useEffect, useState } from "react";
+import { useLocation } from "react-router-dom";
 
-import RayzerPay from "./RayzerPay.jsx"
-import CreateOrder from "./CreateOrder.jsx"
+import CreateOrder from "./CreateOrder.jsx";
+import RayzerPay from "./RayzerPay.jsx";
 
 export default function CheckoutPage() {
-  const location = useLocation()
-      const {cartCheckItemsId} = location.state ; 
-     
-    
-      
+  const location = useLocation();
+  const { cartCheckItemsId } = location.state;
+
   // State for addresses
-  const [addresses, setAddresses] = useState([])
-  const [selectedAddresses, setSelectedAddresses] = useState([])
-  const [showAddressDropdown, setShowAddressDropdown] = useState(false)
+  const [addresses, setAddresses] = useState([]);
+  const [selectedAddresses, setSelectedAddresses] = useState([]);
+  const [showAddressDropdown, setShowAddressDropdown] = useState(false);
 
   // State for contact info
-  const [contactInfo, setContactInfo] = useState([])
-  const [isEditingContact, setIsEditingContact] = useState(false)
+  const [contactInfo, setContactInfo] = useState([]);
+  const [isEditingContact, setIsEditingContact] = useState(false);
 
   // State for delivery options
-  const [deliveryItems, setDeliveryItems] = useState([])
-  const [isEditingDelivery, setIsEditingDelivery] = useState(false)
+  const [deliveryItems, setDeliveryItems] = useState([]);
+  const [isEditingDelivery, setIsEditingDelivery] = useState(false);
 
-  const [createOrderItems , setCreateOrderItems] = useState ([])
+  const [createOrderItems, setCreateOrderItems] = useState([]);
 
-
-  
   // State for order summary
   const [orderSummary, setOrderSummary] = useState({
     subtotal: 0,
@@ -43,44 +44,46 @@ export default function CheckoutPage() {
     discount: 0,
     tax: 0,
     total: 0,
-  })
- 
-  // State for coupon
-  const [couponCode, setCouponCode] = useState("")
+  });
 
+  // State for coupon
+  const [couponCode, setCouponCode] = useState("");
 
   async function mockFetchDeliveryItems() {
-      try {
-         let res = await axios.get(`${import.meta.env.VITE_GET_CART_PRODUCT}`);
-            // console.log("check ", res.data);
-            let checkItem = res.data.filter((item)=> cartCheckItemsId.includes(item._id))
-            // console.log("includesss ", checkItem);
-            return checkItem
-      } catch (error) {
-        console.log("checkout api error",error);
-      }
+    try {
+      let res = await axios.get(`${import.meta.env.VITE_GET_CART_PRODUCT}`);
+      // console.log("check ", res.data);
+      let checkItem = res.data.filter((item) =>
+        cartCheckItemsId.includes(item._id),
+      );
+      // console.log("includesss ", checkItem);
+      return checkItem;
+    } catch (error) {
+      console.log("checkout api error", error);
+    }
   }
 
   async function mockFetchOrderSummary(deliveryItems) {
     console.log(deliveryItems, "delivery items");
-    
+
     // Calculate subtotal from delivery items
     const subtotal = deliveryItems.reduce((sum, item) => {
-      const discountedPrice = (item.productId?.pPrice * (100 - item.productId?.pOffer)) / 100;
-      return sum + (discountedPrice * item.quantity);
+      const discountedPrice =
+        (item.productId?.pPrice * (100 - item.productId?.pOffer)) / 100;
+      return sum + discountedPrice * item.quantity;
     }, 0);
-    
+
     // Apply discount (if any)
     const discount = 0.0; // Set your discount logic here
-    
+
     // Calculate tax
-    const tax = subtotal * 18/100;
-    
+    const tax = (subtotal * 18) / 100;
+
     // Calculate total
     const total = subtotal - discount + tax;
-    
+
     // console.log("Order summary calculation:", { subtotal, discount, tax, total });
-    
+
     return {
       subtotal: subtotal.toFixed(2),
       shipping: "FREE",
@@ -90,9 +93,7 @@ export default function CheckoutPage() {
     };
   }
 
-
-
-  useEffect(()=>{
+  useEffect(() => {
     const fetchOrderSummary = async () => {
       try {
         // Pass deliveryItems to the function
@@ -102,9 +103,8 @@ export default function CheckoutPage() {
         console.error("Error fetching order summary:", error);
       }
     };
-    fetchOrderSummary()
-  },[deliveryItems])
-  
+    fetchOrderSummary();
+  }, [deliveryItems]);
 
   // Fetch addresses from API
   useEffect(() => {
@@ -113,136 +113,129 @@ export default function CheckoutPage() {
         // In a real app, replace with actual API call
         // const response = await mockFetchAddresses()
 
-        let res = await axios.get(`${import.meta.env.VITE_GET_ADDRESS}`)
+        let res = await axios.get(`${import.meta.env.VITE_GET_ADDRESS}`);
 
         // console.log("all address " , res.data.address);
 
-        let address = res.data.address
+        let address = res.data.address;
 
-
-        setAddresses(res.data.address)
+        setAddresses(res.data.address);
 
         // Select first two addresses by default
         if (address.length >= 2) {
-          setSelectedAddresses([address[0], address[1]])
+          setSelectedAddresses([address[0], address[1]]);
         } else if (address.length === 1) {
-          setSelectedAddresses([address[0]])
+          setSelectedAddresses([address[0]]);
         }
       } catch (error) {
-        console.error("Error fetching addresses:", error)
+        console.error("Error fetching addresses:", error);
       }
-    }
+    };
     // console.log(selectedAddresses,"fdfsdfsdfsd");
-    
+
     const fetchContactInfo = async () => {
       try {
         const res = await axios.get(`${import.meta.env.VITE_GET_PROFILE}`);
         console.log("Profile response:", res);
-  
+
         // Defensive check
         const user = res?.data?.user;
         if (user) {
           setContactInfo(user);
         } else {
           console.warn("User data is missing in the response.");
-          setContactInfo(null); 
+          setContactInfo(null);
         }
       } catch (error) {
         console.error("Error fetching profile:", error);
-        setContactInfo(null); 
+        setContactInfo(null);
       }
-    }
+    };
     // const fetchContactInfo = async () => {
     //   try {
     //     // In a real app, replace with actual API call
     //     // const response = await mockFetchContactInfo()
     //     let res = await axios.get(`${import.meta.env.VITE_GET_PROFILE}`)
     //                console.log(res.data.user ,"");
-        
+
     //     setContactInfo(res?.data?.user)
     //   } catch (error) {
     //     console.error("Error fetching contact info:", error)
     //   }
     // }
 
-   
+    const fetchDeliveryItems = async () => {
+      try {
+        const response = await mockFetchDeliveryItems();
+        console.log("Fetched cart items:", response);
 
-const fetchDeliveryItems = async () => {
-  try {
-    const response = await mockFetchDeliveryItems();
-    console.log("Fetched cart items:", response);
+        const formattedItems = response.map((item) => {
+          const price = Number(item.productId?.pPrice);
+          const offer = Number(item.productId?.pOffer);
 
-    const formattedItems = response.map((item) => {
-      const price = Number(item.productId?.pPrice);
-      const offer = Number(item.productId?.pOffer);
+          return {
+            cartItemId: item._id,
+            amount:
+              typeof price === "number" && typeof offer === "number"
+                ? (price * (100 - offer)) / 100
+                : 0,
+          };
+        });
 
-      return {
-        cartItemId: item._id,
-        amount:
-          typeof price === "number" && typeof offer === "number"
-            ? (price * (100 - offer)) / 100
-            : 0,
-      };
-    });
+        setCreateOrderItems(formattedItems);
+        setDeliveryItems(response); // if needed elsewhere
+      } catch (error) {
+        console.error("Error fetching delivery items:", error);
+      }
+    };
 
-    setCreateOrderItems(formattedItems);
-    setDeliveryItems(response); // if needed elsewhere
-  } catch (error) {
-    console.error("Error fetching delivery items:", error);
-  }
-};
-
-
-   
-
-    fetchAddresses()
-    fetchContactInfo()
-    fetchDeliveryItems()
-   
-  }, [])
+    fetchAddresses();
+    fetchContactInfo();
+    fetchDeliveryItems();
+  }, []);
 
   // Add a new address
   const handleAddAddress = () => {
     // In a real app, this would open a modal or navigate to an address form
-    alert("Add new address functionality would open a form here")
-  }
+    alert("Add new address functionality would open a form here");
+  };
 
   // Select an address from dropdown
   const handleSelectAddress = (address, index) => {
-    const newSelectedAddresses = [...selectedAddresses]
-    newSelectedAddresses[index] = address
-    setSelectedAddresses(newSelectedAddresses)
-    setShowAddressDropdown(false)
-  }
+    const newSelectedAddresses = [...selectedAddresses];
+    newSelectedAddresses[index] = address;
+    setSelectedAddresses(newSelectedAddresses);
+    setShowAddressDropdown(false);
+  };
 
   // Toggle contact info editing
   const handleToggleContactEdit = () => {
-    setIsEditingContact(!isEditingContact)
-  }
+    setIsEditingContact(!isEditingContact);
+  };
 
   // Save contact info
   const handleSaveContactInfo = () => {
     // In a real app, this would make an API call to update the contact info
-    setIsEditingContact(false)
-  }
+    setIsEditingContact(false);
+  };
 
   // Toggle delivery options editing
   const handleToggleDeliveryEdit = () => {
-    setIsEditingDelivery(!isEditingDelivery)
-  }
+    setIsEditingDelivery(!isEditingDelivery);
+  };
 
   // Apply coupon
   const handleApplyCoupon = () => {
     // In a real app, this would make an API call to validate and apply the coupon
-    alert(`Applying coupon: ${couponCode}`)
-  }
+    alert(`Applying coupon: ${couponCode}`);
+  };
 
   // Proceed to checkout
   const handleCheckout = () => {
     // In a real app, this would proceed to payment
 
-    alert("Proceeding to payment...")
-  }
+    alert("Proceeding to payment...");
+  };
 
   return (
     <div className="container mx-auto px-4 py-8">
@@ -260,13 +253,20 @@ const fetchDeliveryItems = async () => {
           {/* Address Section */}
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             {selectedAddresses.map((address, index) => (
-              <div key={index} className="border rounded-full p-4 flex items-center justify-between">
+              <div
+                key={index}
+                className="border rounded-full p-4 flex items-center justify-between"
+              >
                 <div className="flex items-center space-x-4">
-                  <div className="bg-gray-200 rounded-full px-3 py-1 text-sm">{address.type || "Default Address"}</div>
+                  <div className="bg-gray-200 rounded-full px-3 py-1 text-sm">
+                    {address.type || "Default Address"}
+                  </div>
                   <div>
                     <p className="font-medium">{address.name}</p>
                     <p className="text-sm text-gray-600">{address.phone}</p>
-                    <p className="text-sm text-gray-600">{address.addressLine}</p>
+                    <p className="text-sm text-gray-600">
+                      {address.addressLine}
+                    </p>
                   </div>
                 </div>
 
@@ -280,7 +280,10 @@ const fetchDeliveryItems = async () => {
                     {addresses
                       .filter((a) => !selectedAddresses.includes(a))
                       .map((address) => (
-                        <DropdownMenuItem key={address._id} onClick={() => handleSelectAddress(address, index)}>
+                        <DropdownMenuItem
+                          key={address._id}
+                          onClick={() => handleSelectAddress(address, index)}
+                        >
                           {address.name} - {address.addressLine}
                         </DropdownMenuItem>
                       ))}
@@ -291,7 +294,7 @@ const fetchDeliveryItems = async () => {
 
             <Button
               onClick={handleAddAddress}
-              className="bg-lime-400 hover:bg-lime-500 text-black h-full flex items-center justify-center"
+              className="bg-lime-400 hover:bg-lime-500 text-primary h-full flex items-center justify-center"
             >
               <Plus className="h-8 w-8" />
             </Button>
@@ -303,7 +306,7 @@ const fetchDeliveryItems = async () => {
               <h2 className="font-bold uppercase">Contact Information</h2>
               <Button
                 onClick={handleToggleContactEdit}
-                className="bg-lime-400 hover:bg-lime-500 text-black text-xs px-4 py-1 h-7 rounded-full"
+                className="bg-lime-400 hover:bg-lime-500 text-primary text-xs px-4 py-1 h-7 rounded-full"
               >
                 {isEditingContact ? "Save" : "Change"}
               </Button>
@@ -313,12 +316,16 @@ const fetchDeliveryItems = async () => {
               <div className="space-y-2">
                 <Input
                   value={contactInfo?.email}
-                  onChange={(e) => setContactInfo({ ...contactInfo, email: e.target.value })}
+                  onChange={(e) =>
+                    setContactInfo({ ...contactInfo, email: e.target.value })
+                  }
                   placeholder="Email"
                 />
                 <Input
                   value={contactInfo?.contact}
-                  onChange={(e) => setContactInfo({ ...contactInfo, contact: e.target.value })}
+                  onChange={(e) =>
+                    setContactInfo({ ...contactInfo, contact: e.target.value })
+                  }
                   placeholder="Phone"
                 />
                 <Button onClick={handleSaveContactInfo} className="mt-2">
@@ -338,7 +345,7 @@ const fetchDeliveryItems = async () => {
               <h2 className="font-bold uppercase">Delivery Options</h2>
               <Button
                 onClick={handleToggleDeliveryEdit}
-                className="bg-lime-400 hover:bg-lime-500 text-black text-xs px-4 py-1 h-7 rounded-full"
+                className="bg-lime-400 hover:bg-lime-500 text-primary text-xs px-4 py-1 h-7 rounded-full"
               >
                 Change
               </Button>
@@ -349,59 +356,59 @@ const fetchDeliveryItems = async () => {
                 <div key={item._id} className="flex space-x-4">
                   <div className="w-24 h-24 bg-gray-100 flex-shrink-0">
                     <img
-                      src={item.productId.pImages[0].URL || "/placeholder.svg?height=96&width=96"}
+                      src={
+                        item.productId.pImages[0].URL ||
+                        "/placeholder.svg?height=96&width=96"
+                      }
                       alt={item.name}
                       className="w-full h-full object-cover"
                     />
                   </div>
                   <div>
                     <h3 className="font-medium">{item.productId.pName}</h3>
-                 
+
                     {/* <p className="text-xs text-gray-500">Color {item.variant.color}</p>
                     <p className="text-xs text-gray-500">Standard Delivery by {item.standardDelivery}</p> */}
                     <div className="text-sm text-muted-foreground flex gap-3">
-                        <div>
-
-                          Color:{" "}
-                          <div
-                            className={`h-3 w-3  inline-block rounded-sm`}
-                            style={{ backgroundColor: item.variant.color }}
-                            ></div>
-                            </div>
-                        <p className="text-sm text-muted-foreground">
-                          Size: {item.variant.size || "red"}
-                        </p>
-                       </div>
-                        <span className="w-12 text-center  text-sm">
-                                Quantity : {item.quantity}
-                           </span>
+                      <div>
+                        Color:{" "}
+                        <div
+                          className={`h-3 w-3  inline-block rounded-sm`}
+                          style={{ backgroundColor: item.variant.color }}
+                        ></div>
+                      </div>
+                      <p className="text-sm text-muted-foreground">
+                        Size: {item.variant.size || "red"}
+                      </p>
+                    </div>
+                    <span className="w-12 text-center  text-sm">
+                      Quantity : {item.quantity}
+                    </span>
 
                     {/* <p className="text-xs mt-1">₹{item.productId.pPrice}</p> */}
                     <div className="flex justify-between items-center gap-1.5">
-                            <div className="line-through text-gray-400 text-xs">
-                              Rs. {item.productId?.pPrice.toFixed(2)}
-                            </div>
-                            <div className="text-md">
-                              Rs.
-                              {(
-                                (item.productId?.pPrice *
-                                  (100 - item.productId?.pOffer)) /
-                                100
-                              ).toFixed(2)}
-                            </div>
-                          </div>
-
+                      <div className="line-through text-gray-400 text-xs">
+                        Rs. {item.productId?.pPrice.toFixed(2)}
+                      </div>
+                      <div className="text-md">
+                        Rs.
+                        {(
+                          (item.productId?.pPrice *
+                            (100 - item.productId?.pOffer)) /
+                          100
+                        ).toFixed(2)}
+                      </div>
+                    </div>
                   </div>
                 </div>
               ))}
             </div>
           </div>
-       
         </div>
 
         {/* Order Summary */}
         <div>
-          <Card className="bg-gray-900 text-white p-4">
+          <Card className="bg-gray-900 text-secondary p-4">
             <h2 className="font-bold mb-4 text-center">CARD TOTALS</h2>
 
             <div className="space-y-2">
@@ -429,8 +436,15 @@ const fetchDeliveryItems = async () => {
                 <span>₹{orderSummary.total}</span>
               </div>
             </div>
-              <CreateOrder profile = {contactInfo} Tamount={orderSummary.total} cartItems = {createOrderItems} addressId={addresses[0]} paymentMethod="cash on delivery" isPaid="false"/>
-              <RayzerPay  profile = {contactInfo} amount={orderSummary.total}/>
+            <CreateOrder
+              profile={contactInfo}
+              Tamount={orderSummary.total}
+              cartItems={createOrderItems}
+              addressId={addresses[0]}
+              paymentMethod="cash on delivery"
+              isPaid="false"
+            />
+            <RayzerPay profile={contactInfo} amount={orderSummary.total} />
 
             <div className="mt-6 space-y-2">
               <h3 className="text-center font-bold">COUPON CODE</h3>
@@ -438,9 +452,12 @@ const fetchDeliveryItems = async () => {
                 value={couponCode}
                 onChange={(e) => setCouponCode(e.target.value)}
                 placeholder="Enter Email Address"
-                className="bg-white text-black"
+                className="bg-secondary text-primary"
               />
-              <Button onClick={handleApplyCoupon} className="w-full bg-lime-400 hover:bg-lime-500 text-black">
+              <Button
+                onClick={handleApplyCoupon}
+                className="w-full bg-lime-400 hover:bg-lime-500 text-primary"
+              >
                 APPLY COUPON
               </Button>
             </div>
@@ -448,7 +465,7 @@ const fetchDeliveryItems = async () => {
         </div>
       </div>
     </div>
-  )
+  );
 }
 
 // Mock API functions (replace with actual API calls in a real app)
@@ -536,9 +553,6 @@ const fetchDeliveryItems = async () => {
 //         console.log("check ", res.data);
 //         let checkItem = res.data.filter((item)=> cartCheckItemsId.includes(item._id))
 //         console.log("includesss ", checkItem);
-        
+
 //         return checkItem
 // }
-
-
-

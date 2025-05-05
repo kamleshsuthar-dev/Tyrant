@@ -1,14 +1,12 @@
+import { Button } from "@/components/ui/button";
 import { useGoogleLogin } from "@react-oauth/google";
 import axios from "axios";
-import { data, useNavigate } from "react-router-dom";
-import { useEffect, useState } from "react";
-import Password from "./Password";
+import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 const url = `${import.meta.env.VITE_ISREGISTERED}/google`;
 
-import React from "react";
 
 function GoogleAuth({ text }) {
- 
   const navigate = useNavigate();
   const [userEmail, setUserEmail] = useState("");
   const [userName, setUserName] = useState("");
@@ -25,35 +23,32 @@ function GoogleAuth({ text }) {
         setUserName(data.userDetails.name);
         if (data.isRegistered) {
           // true
-          await axios.get(
+          await axios
+            .get(
               `${import.meta.env.VITE_ISREGISTERED}/google/login?email=${
                 data.userDetails.email
-              }`
+              }`,
             )
             .then(async (response) => {
-              console.log("1 google api",response);
-              console.log("1 google api",response.data.message);
+              console.log("1 google api", response);
+              console.log("1 google api", response.data.message);
               navigate("/");
-            
             })
             .catch((error) => {
               console.log(error);
             });
         } else {
           // false
-         
-            
+
           // navigate("/password", {
           //   state: {email:data.userDetails.email ,
           //           name:data.userDetails.name},
           // });
-          navigate("/")
-      
-
+          navigate("/");
         }
       }
     } catch (error) {
-      console.log("google auth error",error);
+      console.log("google auth error", error);
     }
   };
 
@@ -65,8 +60,9 @@ function GoogleAuth({ text }) {
 
   return (
     <>
-      <button
-        className="col-span-1 row-span-1 rounded-xl bg-white flex items-center justify-center gap-2 py-1 text-center sm:text-xl text-lg  text-[#3F3F3F] border-2 border-solid border-black active:scale-[0.95] hover:bg-[#dcd7d7] "
+      <Button
+        variant="secondary"
+        className="col-span-1 row-span-1 rounded-xl flex items-center justify-center gap-2 py-1 text-center sm:text-xl border-2 border-solid borderprimary active:scale-[0.95]"
         onClick={googleSubmit}
       >
         <svg
@@ -112,7 +108,7 @@ function GoogleAuth({ text }) {
         </svg>
         {/* Sign Up with Google */}
         {text}
-      </button>
+      </Button>
     </>
   );
 }

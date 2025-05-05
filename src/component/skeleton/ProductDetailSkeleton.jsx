@@ -1,14 +1,12 @@
-import { Card } from '@/components/ui/card';
-import { Button } from '@/components/ui/button';
-import { RadioGroup } from '@/components/ui/radio-group';
-import { Label } from '@/components/ui/label';
-import { Heart, Minus, Plus, Share2 } from 'lucide-react';
+import { Button } from "@/components/ui/button";
+import { Card } from "@/components/ui/card";
+import { Heart, Minus, Plus } from "lucide-react";
 
 const ProductDetailSkeleton = () => {
   return (
     <div className="min-h-screen bg-[#2020200f]  p-4">
       <div className="max-w-7xl mx-auto">
-        <Card className="bg-white rounded-3xl overflow-hidden">
+        <Card className="bg-secondary rounded-3xl overflow-hidden">
           <div className="grid md:grid-cols-2 gap-8 p-4 md:p-8">
             {/* Image Section */}
             <div className="relative">
@@ -27,7 +25,7 @@ const ProductDetailSkeleton = () => {
                 <Button
                   variant="ghost"
                   size="icon"
-                  className="absolute top-4 right-4 bg-white/80 backdrop-blur-sm rounded-full"
+                  className="absolute top-4 right-4 bg-secondary/80 backdrop-blur-sm rounded-full"
                 >
                   <Heart className="w-5 h-5" />
                 </Button>
@@ -45,7 +43,10 @@ const ProductDetailSkeleton = () => {
                 <div className="h-20 bg-gray-200 rounded animate-pulse" />
                 <div className="flex gap-1">
                   {[1, 2, 3, 4, 5].map((_, index) => (
-                    <div key={index} className="w-5 h-5 bg-gray-200 rounded animate-pulse" />
+                    <div
+                      key={index}
+                      className="w-5 h-5 bg-gray-200 rounded animate-pulse"
+                    />
                   ))}
                 </div>
               </div>
@@ -61,7 +62,10 @@ const ProductDetailSkeleton = () => {
                 <div className="h-6 bg-gray-200 rounded w-16 animate-pulse" />
                 <div className="flex gap-2">
                   {[1, 2, 3, 4].map((_, index) => (
-                    <div key={index} className="w-16 h-10 bg-gray-200 rounded-full animate-pulse" />
+                    <div
+                      key={index}
+                      className="w-16 h-10 bg-gray-200 rounded-full animate-pulse"
+                    />
                   ))}
                 </div>
               </div>
@@ -71,7 +75,10 @@ const ProductDetailSkeleton = () => {
                 <div className="h-6 bg-gray-200 rounded w-16 animate-pulse" />
                 <div className="flex gap-2">
                   {[1, 2, 3, 4].map((_, index) => (
-                    <div key={index} className="w-8 h-8 bg-gray-200 rounded-full animate-pulse" />
+                    <div
+                      key={index}
+                      className="w-8 h-8 bg-gray-200 rounded-full animate-pulse"
+                    />
                   ))}
                 </div>
               </div>

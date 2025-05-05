@@ -1,18 +1,18 @@
 import axios from "axios";
-import React, { useState } from "react";
+import { useState } from "react";
 
 function ProductDeleteAdminPanel() {
   const [productId, setProductId] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);
   const deleteProduct = async () => {
-    if(productId=== null || productId=== undefined){
-        console.log("product id is not defined");
-        return;
+    if (productId === null || productId === undefined) {
+      console.log("product id is not defined");
+      return;
     }
     setIsSubmitting(true);
     try {
       let res = await axios.delete(
-        `${import.meta.env.VITE_ADMIN_DELETE_PRODUCT}/${productId}`
+        `${import.meta.env.VITE_ADMIN_DELETE_PRODUCT}/${productId}`,
       );
       console.log("delete product admin  api ", res);
     } catch (error) {
@@ -36,7 +36,7 @@ function ProductDeleteAdminPanel() {
       <button
         onClick={deleteProduct}
         disabled={isSubmitting}
-        className={`px-6 py-3 text-white font-medium rounded-md ${
+        className={`px-6 py-3 text-secondary font-medium rounded-md ${
           isSubmitting
             ? "bg-gray-400 cursor-not-allowed"
             : "bg-green-600 hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-green-500"
