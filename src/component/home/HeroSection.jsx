@@ -27,21 +27,14 @@ function HeroSection() {
 
   return (
     <>
-      <div className="h-[200vh] w-full grid grid-cols-12 [grid-template-rows:repeat(12,minmax(0,min-content))] p-3 gap-3">
-        <div className="relative col-span-12 row-span-1 overflow-hidden aspect-[4.61/1] bg-slate-400 rounded-xl flex justify-center items-center">
+      <div className="h-auto w-full grid grid-cols-12 [grid-template-rows:repeat(14,minmax(100px,auto))] p-3 lg:py-4 lg:px-12 gap-y-6 gap-x-4">
+        <div className="min-h-[content-fit] relative col-span-12 row-span-1 overflow-hidden aspect-[4.61/1] bg-slate-400 rounded-xl flex justify-center items-center">
           <img
             src="https://res.cloudinary.com/dzzs9yjcf/image/upload/v1746168602/Ad_Section_abm7zv.png"
             alt=""
             className="object-cover h-full w-full absolute"
           />
         </div>
-        {/* <div className="col-span-5 row-span-3 bg-slate-400 rounded-xl flex justify-center items-center">
-          2
-        </div>
-        <div className="col-span-7 row-span-3 bg-slate-400 rounded-xl flex justify-center items-center">
-          3
-        </div> */}
-        
         {loading ? (
           <div className="col-span-12 flex justify-center items-center">Loading categories...</div>
         ) : error ? (
@@ -51,14 +44,14 @@ function HeroSection() {
             categories.map((category) => (
               <div
                 key={category._id}
-                className="col-span-4 row-span-3 bg-slate-400 rounded-xl flex justify-center items-center cursor-pointer"
+                className="col-span-4 row-span-1 rounded-xl flex justify-center items-center cursor-pointer "
                 onClick={() => handleProductList(category._id , category)}
               >
-                <div className="flex justify-center items-center z-10 w-[50%] h-full">
+                <div className="flex justify-center items-center z-10 w-[75%] aspect-[1.54/1] border-[5px] border-primary rounded-2xl overflow-clip">
                   <img
                     src={category.cImageURL}
                     alt={category.name || "Category"}
-                    className="object-contain h-full w-full"
+                    className="object-cover h-full w-full"
                   />
                 </div>
               </div>
@@ -68,15 +61,14 @@ function HeroSection() {
           )
         )}
 
-        <div className="col-span-4 row-span-2 bg-slate-400 rounded-xl flex justify-center items-center">
-          7
-        </div>
-        <div className="col-span-4 row-span-2 bg-slate-400 rounded-xl flex justify-center items-center">
-          8
-        </div>
-        <div className="col-span-4 row-span-2 bg-slate-400 rounded-xl flex justify-center items-center">
-          9
-        </div>
+        <div className="col-span-6 row-span-4 bg-[#696969] rounded-xl"/>
+        <div className="col-span-2 row-span-4 bg-[#b3f54a] rounded-xl"/>
+        <div className="col-span-4 row-span-2 bg-[#7d7d7d] rounded-xl"/>
+        <div className="col-span-2 row-span-2 bg-[#202020] rounded-xl "/>
+        <div className="col-span-2 row-span-4 bg-[#7ebc1b] rounded-xl"/>
+        <div className="col-span-4 row-span-2 bg-[#4a6027] rounded-xl"/>
+        <div className="col-span-6 row-span-2 bg-[#494949] rounded-xl"/>
+        <div className="col-span-12 row-span-6 bg-[#7ebc1b] rounded-xl"/>
       </div>
     </>
   );
