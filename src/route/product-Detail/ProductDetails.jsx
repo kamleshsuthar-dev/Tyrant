@@ -223,13 +223,13 @@ export default function ProductDetail() {
   const checkOut = () => {
     navigate("/checkout");
   };
-
+   
+    
   if (!newProduct) return <ProductDetailSkeleton />;
   const productImages = newProduct.pImages.map((img) => img.URL) || [];
-
   return (
     <>
-      <div className="min-h-screen bg-white p-4" id="top">
+      <div className="min-h-screen   bg-white p-4" id="top">
         <div className="mx-auto max-w-7xl">
           {/* Main Product Section */}
           <Card className="overflow-hidden rounded-3xl bg-white">
