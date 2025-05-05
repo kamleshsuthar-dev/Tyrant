@@ -1,15 +1,14 @@
+import axios from "axios";
+import { motion } from "framer-motion";
+import { useRef, useState } from "react";
+import { useLocation } from "react-router-dom";
 
-import React, { useRef, useState } from 'react';
-import axios from 'axios';
-import { useLocation } from 'react-router-dom';
-import { motion } from 'framer-motion';
-
-export  const ProductAdminPanel = () => {
+export const ProductAdminPanel = () => {
   // State for form fields
-  const location = useLocation()
-  const {cId} = location.state ;
+  const location = useLocation();
+  const { cId } = location.state;
 
-  const constraintRef = useRef(null)
+  const constraintRef = useRef(null);
   const [product, setProduct] = useState({
     pName: "",
     pDescription: "",
@@ -311,15 +310,19 @@ export  const ProductAdminPanel = () => {
             className="w-full p-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
           />
 
-          
           <div ref={constraintRef} className="flex flex-wrap gap-4 mt-4">
             {product.images.map((image, index) => (
-              <motion.div drag dragConstraints={constraintRef} key={index} className="relative border border-gray-200 rounded-md p-2">
-                <motion.img 
-                draggable={false}
-                  src={URL.createObjectURL(image)} 
-                  alt={`Preview ${index}`} 
-                  className="w-24 h-24 object-cover" 
+              <motion.div
+                drag
+                dragConstraints={constraintRef}
+                key={index}
+                className="relative border border-gray-200 rounded-md p-2"
+              >
+                <motion.img
+                  draggable={false}
+                  src={URL.createObjectURL(image)}
+                  alt={`Preview ${index}`}
+                  className="w-24 h-24 object-cover"
                 />
                 <button
                   type="button"
