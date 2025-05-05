@@ -138,10 +138,13 @@ export default function ReviewSection({ avgRating, onReviewChange }) {
       setReviewLoading(false);
     }
   };
+
+  
+
   useEffect(() => {
     setCurrPage(1); // reset page when sort/filter changes
     fetchReviews(1);
-  }, [sortValue, filterValue]);
+  }, [sortValue, filterValue,pId]);
   const reviewPagination = () => {
     const totalPages = Math.ceil(ratingStats.totalReviews / 5);
     if (currPage < totalPages) {
