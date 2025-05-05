@@ -104,7 +104,7 @@ export default function ReviewSection({ avgRating, onReviewChange }) {
       }
     };
     getReview();
-  }, [filterValue, sortValue]);
+  }, [filterValue, sortValue,pId]);
 
   const addReview = () => {
     if (!isLoginUser) {
