@@ -12,7 +12,7 @@ function Layout() {
   return (
     <>
          <Suspense fallback={<h1>loading ........</h1>}>
-         <motion.div  style={{scaleX : scrollYProgress}} className="origin-top-left top-0 left-0 fixed bg-[#ff1f1f] w-full h-[1.5px] z-50" ></motion.div>
+         <motion.div  style={{scaleX : scrollYProgress}} className="origin-top-left top-0 left-0 fixed bg-[#ff1f1f] w-full h-[1.5px] z-30" ></motion.div>
          <NewHeader/>
           <Outlet/>
          </Suspense>
