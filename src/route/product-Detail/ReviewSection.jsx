@@ -5,7 +5,6 @@ import { Progress } from "@/components/ui/progress";
 import { StarSVG } from "@/features/reuseable-component/StarRating";
 import { Star } from "lucide-react";
 import { useEffect, useState } from "react";
-
 import DeleteBtn from "@/component/home/DeleteBtn.jsx";
 import {
   Dialog,
@@ -28,7 +27,6 @@ export default function ReviewSection({ avgRating, onReviewChange }) {
 
   // console.log(userDetails._id);
 
-  const [reviews, setReviews] = useState([]);
   const [isDialogOpen, setIsDialogOpen] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
   const [isButtonDisabled, setIsButtonDisabled] = useState(false);
@@ -38,6 +36,8 @@ export default function ReviewSection({ avgRating, onReviewChange }) {
     totalReviews: 0,
     distribution: [0, 0, 0, 0, 0],
   });
+  const [reviews, setReviews] = useState([]);
+  const [currPage, setCurrPage] = useState(1);
 
   useEffect(() => {
     setRatingStats((prev) => ({ ...prev, average: avgRating }));
@@ -63,43 +63,98 @@ export default function ReviewSection({ avgRating, onReviewChange }) {
     setSortValue(sort);
   };
 
-  useEffect(() => {
-    const getReview = async () => {
-      try {
-        let res = await axios.get(
-          `${import.meta.env.VITE_GET_PRODUCT_REVIEW}/${pId}/reviews`,
-          {
-            params: {
-              page: 1,
-              limit: 10,
-              sort: sortValue,
-              rating: filterValue,
-            },
-          },
-        );
-        console.log(res.data, "dgfgdgfdgd");
-        console.log(res.data.totalReview);
-        const totalReviews = res.data.totalReviews;
-        const distributionRating = Object.values(
-          res.data.ratingDistributionCount,
-        ).reverse();
-        console.log(distributionRating);
+  // useEffect(() => {
+  //   const getReview = async () => {
+  //     try {
+  //       let res = await axios.get(
+  //         `${import.meta.env.VITE_GET_PRODUCT_REVIEW}/${pId}/reviews`,
+  //         {
+  //           params: {
+  //             page: 1,
+  //             limit: 5,
+  //             sort: sortValue,
+  //             rating: filterValue,
+  //           },
+  //         }
+  //       );
+  //       console.log(res.data,"dgfgdgfdgd");
+  //       console.log(res.data.totalReview);
+  //       const totalReviews = res.data.totalReviews;
+  //       const distributionRating = Object.values(
+  //         res.data.ratingDistributionCount
+  //       ).reverse();
+  //       console.log(distributionRating);
 
-        setReviews(res.data.reviews);
-        setRatingStats((prevReview) => ({
-          ...prevReview,
-          totalReviews: totalReviews,
-          distribution:
-            distributionRating.length === 5
-              ? distributionRating
-              : [0, 0, 0, 0, 0],
-        }));
-      } catch (error) {
-        console.log("review api error", error);
-      }
-    };
-    getReview();
-  }, [filterValue, sortValue]);
+  //       setReviews(res.data.reviews);
+  //       setRatingStats((prevReview) => ({
+  //         ...prevReview,
+  //         totalReviews: totalReviews,
+  //         distribution:
+  //           distributionRating.length === 5
+  //             ? distributionRating
+  //             : [0, 0, 0, 0, 0],
+  //       }));
+  //     } catch (error) {
+  //       console.log("review api error", error);
+  //     }
+  //   };
+  //   getReview();
+  // }, [filterValue, sortValue,pId]);
+  const [reviewLoading, setReviewLoading] = useState(false);
+  const [reviewMessage , setReviewMessage] = useState()
+  const fetchReviews = async (page = 1) => {
+    setReviewLoading(true);
+    try {
+      let res = await axios.get(
+        `${import.meta.env.VITE_GET_PRODUCT_REVIEW}/${pId}/reviews`,
+        {
+          params: {
+            page,
+            limit: 5,
+            sort: sortValue,
+            rating: filterValue,
+          },
+        },
+      );
+
+      const totalReviews = res.data.totalReviews;
+      const newReviews = res.data.reviews;
+      // console.log(res.data.reviews);
+
+      setReviews((prev) =>
+        page === 1 ? newReviews : [...prev, ...newReviews],
+      );
+      setRatingStats((prevReview) => ({
+        ...prevReview,
+        totalReviews: totalReviews,
+        distribution: Object.values(
+          res.data.ratingDistributionCount,
+        ).reverse() || [0, 0, 0, 0, 0],
+      }));
+    } catch (error) {
+      console.log("review api error", error);
+    } finally {
+      setReviewLoading(false);
+    }
+  };
+
+  
+
+  useEffect(() => {
+    setCurrPage(1); // reset page when sort/filter changes
+    fetchReviews(1);
+  }, [sortValue, filterValue,pId]);
+  const reviewPagination = () => {
+    const totalPages = Math.ceil(ratingStats.totalReviews / 5);
+    if (currPage < totalPages) {
+      const nextPage = currPage + 1;
+      setCurrPage(nextPage);
+      fetchReviews(nextPage);
+    } else {
+      console.log("No more reviews");
+      setReviewMessage("No more reviews")
+    }
+  };
 
   const addReview = () => {
     if (!isLoginUser) {
@@ -241,9 +296,9 @@ export default function ReviewSection({ avgRating, onReviewChange }) {
   };
 
   return (
-    <div className="max-w-4xl mx-auto p-4 space-y-6">
+    <div className="mx-auto relative max-w-4xl space-y-6 p-4">
       {/* review add  */}
-      <div className="flex flex-wrap justify-between items-start">
+      <div className="flex flex-wrap items-start justify-between">
         <h2 className="text-2xl font-semibold">Ratings & Reviews</h2>
         <ReviewFilter handleSort={handleSort} handleFilter={handleFilter} />
         <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
@@ -267,7 +322,7 @@ export default function ReviewSection({ avgRating, onReviewChange }) {
             </div>
 
             {errorMessage && (
-              <div className="text-red-600 font-medium">{errorMessage}</div>
+              <div className="font-medium text-red-600">{errorMessage}</div>
             )}
             <form onSubmit={handleSubmitReview} className="space-y-4">
               <div className="space-y-2">
@@ -280,10 +335,10 @@ export default function ReviewSection({ avgRating, onReviewChange }) {
                       onClick={() =>
                         setNewReview({ ...newReview, rating: star })
                       }
-                      className="hover:scale-110 transition-transform"
+                      className="transition-transform hover:scale-110"
                     >
                       <Star
-                        className={`w-6 h-6 ${
+                        className={`h-6 w-6 ${
                           star <= newReview.rating
                             ? "fill-primary text-primary"
                             : "fill-muted text-muted-foreground"
@@ -329,11 +384,11 @@ export default function ReviewSection({ avgRating, onReviewChange }) {
         </Dialog>
       </div>
 
-      <div className="grid md:grid-cols-2 gap-8 h-[75vh]">
+      <div className="grid h-[75vh] gap-8 md:grid-cols-2">
         {/* Rating Overview */}
         {reviews && reviews.length > 0 ? (
           <>
-            <div className="space-y-8 max-w-[380px] mt-12">
+            <div className="mt-12 max-w-[380px] space-y-8">
               <div className="flex flex-col items-center justify-center gap-4">
                 <CustomPieChart average={ratingStats.average} />
                 <div className="text-[24px] font-semibold text-primary">
@@ -354,7 +409,7 @@ export default function ReviewSection({ avgRating, onReviewChange }) {
                       </div>
                       <Progress
                         value={(count / ratingStats.totalReviews) * 100}
-                        className="h-[11px] w-[268px] "
+                        className="h-[11px] w-[268px]"
                         color={
                           Math.max(...ratingStats.distribution) ===
                           ratingStats.distribution[index]
@@ -377,14 +432,19 @@ export default function ReviewSection({ avgRating, onReviewChange }) {
         )}
 
         {/* Reviews List */}
-        <div className="space-y-4  max-h-full overflow-scroll no-scrollbar">
-          {reviews && reviews.length > 0 ? (
+        <div className="no-scrollbar  max-h-full space-y-4 overflow-scroll">
+        
+          {
+          reviews && reviews.length > 0 ? (
             reviews.map((review) => (
               <div
-                key={review?._id || `review-${Math.random()}`}
-                className="border-[2px] border-primary rounded-2xl"
+               
+                key={review._id || `review-${Math.random()}`}
+               
+                className="rounded-2xl border-[2px] border-primary"
+              
               >
-                <div className="p-4 space-y-2 relative shadow-none">
+                <div className="relative space-y-2 p-4 shadow-none">
                   <div className="flex items-center gap-2">
                     <div className="flex">
                       <div className=" text-[13px] flex gap-1 bg-primary text-secondary pt-[3px] px-2 rounded-full h-[24px]">
@@ -392,11 +452,11 @@ export default function ReviewSection({ avgRating, onReviewChange }) {
                       </div>
                       {/* <StarRating rating={review.rating} Pcolor="#202020" Scolor="#e6e3e0 " /> */}
                     </div>
-                    <span className="font-bold text-xl ">
+                    <span className="text-xl font-bold">
                       {review?.user?.name || "Anonymous"}
                     </span>
                   </div>
-
+               
                   <p className="text-lg font-medium px-4">
                     {review?.review?.description || "No Description"}
                   </p>
@@ -405,7 +465,7 @@ export default function ReviewSection({ avgRating, onReviewChange }) {
                   </p>
                   {review?.user?._id === userDetails?._id && (
                     <div
-                      className="absolute right-4 top-6 h-12 w-9 bg-[#FF1010] rounded-md flex justify-center items-center"
+                      className="absolute right-4 top-6 flex h-12 w-9 items-center justify-center rounded-md bg-[#FF1010]"
                       onClick={() => deleteBtn(review)}
                     >
                       <DeleteBtn />
@@ -415,16 +475,18 @@ export default function ReviewSection({ avgRating, onReviewChange }) {
               </div>
             ))
           ) : (
-            <div className="text-center p-6 text-muted-foreground ">
+            <div className="p-6 text-center text-muted-foreground">
               No reviews yet. Be the first to add one!
             </div>
           )}
+
+         
         </div>
-        {/* <ReviewPagination pId={pId} sortValue={sortValue} filterValue={filterValue} onDataFetched={3}/> */}
       </div>
-      {reviews && reviews.length > 5 && (
-        <Button variant="secondary" className="w-full">
-          See More
+     
+      {reviews && ratingStats.totalReviews && (
+        <Button variant="secondary" onClick={reviewPagination} className="w-full">
+              {reviewLoading ? "Loading..." : reviewMessage ? "No more reviews" : "See More"}
         </Button>
       )}
     </div>

@@ -128,7 +128,7 @@ export default function ProductDetail() {
       setNewProduct(initialProduct);
       setCategoryP(initialCategoryP);
     }
-  }, [pId]);
+  }, [pId,newProduct.avgRating]);
 
   // Fetch related products by category using a custom hook
   const [categoryData, categoryError, categoryLoading] = GetApi(
@@ -226,10 +226,10 @@ export default function ProductDetail() {
   const checkOut = () => {
     navigate("/checkout");
   };
-
+   
+    
   if (!newProduct) return <ProductDetailSkeleton />;
   const productImages = newProduct.pImages.map((img) => img.URL) || [];
-
   return (
     <>
       <div className="min-h-screen bg-secondary p-4" id="top">
@@ -533,7 +533,7 @@ export default function ProductDetail() {
             {categoryP && categoryP.length > 0 ? (
               <>
                 {categoryP.map((p) => (
-                  <PorductCard product={p} />
+                  <PorductCard product={p} categoryP={categoryP}/>
                 ))}
               </>
             ) : (

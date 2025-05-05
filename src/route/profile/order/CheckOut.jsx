@@ -239,7 +239,7 @@ export default function CheckoutPage() {
 
   return (
     <div className="container mx-auto px-4 py-8">
-      <div className="mb-6">
+      <div className="my-6 mx-12">
         <p className="text-sm text-gray-500">MY ACCOUNT &gt; CHECKOUT</p>
         <h1 className="text-2xl font-bold mt-2">
           ITS TIME FOR,
@@ -248,8 +248,8 @@ export default function CheckoutPage() {
         </h1>
       </div>
 
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-        <div className="lg:col-span-2 space-y-6">
+      <div className="grid grid-cols-1 mx-24 lg:[grid-template-columns:1fr_min-content] gap-6">
+        <div className="space-y-6">
           {/* Address Section */}
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             {selectedAddresses.map((address, index) => (
@@ -407,8 +407,8 @@ export default function CheckoutPage() {
         </div>
 
         {/* Order Summary */}
-        <div>
-          <Card className="bg-gray-900 text-secondary p-4">
+        <div className="max-w-xs">
+          <Card className="bg-primary text-secondary p-4 ">
             <h2 className="font-bold mb-4 text-center">CARD TOTALS</h2>
 
             <div className="space-y-2">
