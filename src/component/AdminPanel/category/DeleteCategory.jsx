@@ -1,18 +1,20 @@
 import axios from "axios";
-import React, { useState } from "react";
+import { useState } from "react";
 
 export default function DeleteCategory() {
   const [categoryId, setCategoryId] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);
   const DeleteCategory = async () => {
-    if(categoryId=== null || categoryId=== undefined){
-        console.log("product id is not defined");
-        return;
+    if (categoryId === null || categoryId === undefined) {
+      console.log("product id is not defined");
+      return;
     }
     setIsSubmitting(true);
     try {
       let res = await axios.post(
-        `${import.meta.env.VITE_ADMIN_DELETE_CATEGORY}`, {cId:categoryId} );
+        `${import.meta.env.VITE_ADMIN_DELETE_CATEGORY}`,
+        { cId: categoryId },
+      );
       console.log("delete product admin  api ", res);
     } catch (error) {
       console.log("admin product delete api ", error);
@@ -35,7 +37,7 @@ export default function DeleteCategory() {
       <button
         onClick={DeleteCategory}
         disabled={isSubmitting}
-        className={`px-6 py-3 text-white font-medium rounded-md ${
+        className={`px-6 py-3 text-secondary font-medium rounded-md ${
           isSubmitting
             ? "bg-gray-400 cursor-not-allowed"
             : "bg-green-600 hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-green-500"
@@ -46,5 +48,3 @@ export default function DeleteCategory() {
     </div>
   );
 }
-
-

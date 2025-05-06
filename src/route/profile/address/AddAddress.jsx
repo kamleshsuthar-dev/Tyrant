@@ -4,10 +4,8 @@ import axios from "axios";
 import { useEffect, useState } from "react";
 
 export default function AddAddress() {
+  const { userDetails } = useGoogleAuthContext();
 
-  const {userDetails} = useGoogleAuthContext()
-
-  
   const [formData, setFormData] = useState({
     fullName: userDetails.name,
     mobileNumber: "",
@@ -57,11 +55,12 @@ export default function AddAddress() {
   };
 
   const fetchLocationData = async () => {
-   
     if (formData.pinCode.length === 6) {
       try {
         // For India pincodes
-        const response = await fetch(`https://api.postalpincode.in/pincode/${formData.pinCode}`);
+        const response = await fetch(
+          `https://api.postalpincode.in/pincode/${formData.pinCode}`,
+        );
         const data = await response.json();
         // console.log(data[0].PostOffice[0]);
         // console.log(data[0].PostOffice[0].District);
@@ -90,7 +89,6 @@ export default function AddAddress() {
       } catch (error) {
         console.error("Error fetching location data:", error);
       } finally {
-       
       }
     }
 
@@ -134,7 +132,7 @@ export default function AddAddress() {
           headers: {
             "Content-Type": "application/json",
           },
-        }
+        },
       );
 
       console.log(res.data, "response add address");
@@ -192,7 +190,7 @@ export default function AddAddress() {
         <div className="absolute inset-0 rounded-lg overflow-hidden">
           {/* Map placeholder */}
           <div className="w-full h-full bg-green-100 relative">
-            <div className="absolute top-1/2 left-1/4 w-2 h-2 bg-black rounded-full"></div>
+            <div className="absolute top-1/2 left-1/4 w-2 h-2 bg-primary rounded-full"></div>
           </div>
         </div>
       </div>
@@ -216,7 +214,7 @@ export default function AddAddress() {
               value={formData.fullName}
               onChange={handleChange}
               placeholder="Enter First Name"
-              className={`w-full px-3 py-2 border rounded-md bg-black text-white ${
+              className={`w-full px-3 py-2 border rounded-md bg-primary text-secondary ${
                 errors.fullName ? "border-red-500" : ""
               }`}
             />
@@ -261,7 +259,7 @@ export default function AddAddress() {
               value={formData.nickName}
               onChange={handleChange}
               placeholder="Enter Address Nickname"
-              className="w-full px-3 py-2 border rounded-md bg-black text-white"
+              className="w-full px-3 py-2 border rounded-md bg-primary text-secondary"
             />
             {errors.nickName && (
               <p className="text-red-500 text-xs mt-1">{errors.nickName}</p>
@@ -278,7 +276,7 @@ export default function AddAddress() {
               value={formData.landmark}
               onChange={handleChange}
               placeholder="Enter Nearest Landmark"
-              className="w-full px-3 py-2 border rounded-md bg-black text-white"
+              className="w-full px-3 py-2 border rounded-md bg-primary text-secondary"
             />
           </div>
         </div>
@@ -294,7 +292,7 @@ export default function AddAddress() {
               value={formData.addressLine}
               onChange={handleChange}
               placeholder="Flat No./ Building/ Company/ Street"
-              className={`w-full px-3 py-2 border rounded-md bg-black text-white ${
+              className={`w-full px-3 py-2 border rounded-md bg-primary text-secondary ${
                 errors.addressLine ? "border-red-500" : ""
               }`}
             />
@@ -339,7 +337,7 @@ export default function AddAddress() {
               value={formData.locality}
               onChange={handleChange}
               placeholder="Locality/Sector/Area"
-              className="w-full px-3 py-2 border rounded-md bg-black text-white"
+              className="w-full px-3 py-2 border rounded-md bg-primary text-secondary"
             />
           </div>
 
@@ -354,7 +352,7 @@ export default function AddAddress() {
               onChange={handleChange}
               disabled
               placeholder="Eg. Baroda"
-              className={`w-full px-3 py-2 border rounded-md bg-black text-white ${
+              className={`w-full px-3 py-2 border rounded-md bg-primary text-secondary ${
                 errors.city ? "border-red-500" : ""
               }`}
             />
@@ -441,7 +439,7 @@ export default function AddAddress() {
           <button
             type="submit"
             disabled={loading}
-            className="px-6 py-2 bg-green-500 text-white font-medium rounded-md hover:bg-green-600 focus:outline-none focus:ring-2 focus:ring-green-500"
+            className="px-6 py-2 bg-green-500 text-secondary font-medium rounded-md hover:bg-green-600 focus:outline-none focus:ring-2 focus:ring-green-500"
           >
             {loading ? "Loading..." : "SAVE ADDRESS"}
           </button>

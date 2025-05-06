@@ -1,14 +1,11 @@
+import { Button } from "@/components/ui/button";
 import { useGoogleLogin } from "@react-oauth/google";
 import axios from "axios";
-import { data, useNavigate } from "react-router-dom";
-import { useEffect, useState } from "react";
-import Password from "./Password";
+import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 const url = `${import.meta.env.VITE_ISREGISTERED}/google`;
 
-import React from "react";
-
 function GoogleAuth({ text }) {
- 
   const navigate = useNavigate();
   const [userEmail, setUserEmail] = useState("");
   const [userName, setUserName] = useState("");
@@ -17,43 +14,16 @@ function GoogleAuth({ text }) {
     try {
       if (authResult["code"]) {
         const result = await axios.get(`${url}?code=${authResult["code"]}`);
-
-        const data = result.data;
-        console.log("dataisregis", data.isRegistered); //true ya falsse
-        console.log(data.userDetails.email);
-        setUserEmail(data.userDetails.email);
-        setUserName(data.userDetails.name);
-        if (data.isRegistered) {
-          // true
-          await axios.get(
-              `${import.meta.env.VITE_ISREGISTERED}/google/login?email=${
-                data.userDetails.email
-              }`
-            )
-            .then(async (response) => {
-              console.log("1 google api",response);
-              console.log("1 google api",response.data.message);
-              navigate("/");
-            
-            })
-            .catch((error) => {
-              console.log(error);
-            });
-        } else {
-          // false
-         
-            
-          // navigate("/password", {
-          //   state: {email:data.userDetails.email ,
-          //           name:data.userDetails.name},
-          // });
-          navigate("/")
-      
-
+        console.log("google auth result", result);
+        if(result.data.success){
+          navigate("/");
+        }
+        else{
+          console.error("Google authorization failed", result.data);
         }
       }
     } catch (error) {
-      console.log("google auth error",error);
+      console.log("Google authorization failed", error);
     }
   };
 
@@ -65,17 +35,18 @@ function GoogleAuth({ text }) {
 
   return (
     <>
-      <button
-        className="col-span-1 row-span-1 rounded-xl bg-white flex items-center justify-center gap-2 py-1 text-center sm:text-xl text-lg  text-[#3F3F3F] border-2 border-solid border-black active:scale-[0.95] hover:bg-[#dcd7d7] "
+      <Button
+        variant="secondary"
+        className="rounded-xl [&_svg]:size-[22px]  gap-2 py-[10px] px-0 text-center sm:text-xl "
         onClick={googleSubmit}
       >
         <svg
-          // width="22"
-          // height="22"
+          width="23"
+          height="22"
           viewBox="0 0 23 22"
           fill="none"
           xmlns="http://www.w3.org/2000/svg"
-          className="sm:w-[22px] sm:h-[22px] w-[18px] h-[18px] "
+          className="w-[18px] h-[18px] sm:w-auto sm:h-auto"
         >
           <g clipPath="url(#clip0_3107_16599)">
             <path
@@ -111,8 +82,8 @@ function GoogleAuth({ text }) {
           </defs>
         </svg>
         {/* Sign Up with Google */}
-        {text}
-      </button>
+        <p>{text}</p>
+      </Button>
     </>
   );
 }

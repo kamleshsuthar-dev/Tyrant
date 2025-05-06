@@ -5,7 +5,6 @@ import { Progress } from "@/components/ui/progress";
 import { StarSVG } from "@/features/reuseable-component/StarRating";
 import { Star } from "lucide-react";
 import { useEffect, useState } from "react";
-
 import DeleteBtn from "@/component/home/DeleteBtn.jsx";
 import {
   Dialog,
@@ -317,7 +316,7 @@ export default function ReviewSection({ avgRating, onReviewChange }) {
 
             <div
               id="review-dialog-description"
-              className="mb-2 text-sm text-muted-foreground"
+              className="text-sm text-muted-foreground mb-2"
             >
               Share your thoughts about the product.
             </div>
@@ -392,8 +391,8 @@ export default function ReviewSection({ avgRating, onReviewChange }) {
             <div className="mt-12 max-w-[380px] space-y-8">
               <div className="flex flex-col items-center justify-center gap-4">
                 <CustomPieChart average={ratingStats.average} />
-                <div className="text-[24px] font-semibold text-[#202020]">
-                  <div className="text-center font-semibold">
+                <div className="text-[24px] font-semibold text-primary">
+                  <div className="font-semibold text-center">
                     {ratingStats.totalReviews.toLocaleString()}
                   </div>
                   <div> Ratings & Reviews</div>
@@ -404,8 +403,8 @@ export default function ReviewSection({ avgRating, onReviewChange }) {
               <div className="space-y-2">
                 {ratingStats.distribution.map((count, index) => (
                   <div key={5 - index} className="flex items-center gap-[20px]">
-                    <div className="flex items-center justify-center gap-1 rounded-full bg-[#202020] p-1 px-3 text-white">
-                      <div className="flex w-[30px] gap-1 text-sm">
+                    <div className="flex justify-center items-center gap-1 bg-primary rounded-full px-3 text-secondary p-1">
+                      <div className=" text-sm flex gap-1 w-[30px]">
                         {5 - index} <StarSVG color="#fff" />
                       </div>
                       <Progress
@@ -420,7 +419,7 @@ export default function ReviewSection({ avgRating, onReviewChange }) {
                       />
                     </div>
                     {/* <Progress value={(count / Math.max(...ratingStats.distribution)) * 100} className="h-2" /> */}
-                    <div className="w-16 pl-1 text-right text-lg font-bold text-[#202020]">
+                    <div className="w-16 text-lg font-bold text-primary pl-1 text-right">
                       {count.toLocaleString()}
                     </div>
                   </div>
@@ -439,13 +438,16 @@ export default function ReviewSection({ avgRating, onReviewChange }) {
           reviews && reviews.length > 0 ? (
             reviews.map((review) => (
               <div
+               
                 key={review._id || `review-${Math.random()}`}
-                className="rounded-2xl border-[2px] border-[#202020]"
+               
+                className="rounded-2xl border-[2px] border-primary"
+              
               >
                 <div className="relative space-y-2 p-4 shadow-none">
                   <div className="flex items-center gap-2">
                     <div className="flex">
-                      <div className="flex h-[24px] gap-1 rounded-full bg-[#202020] px-2 pt-[3px] text-[13px] text-white">
+                      <div className=" text-[13px] flex gap-1 bg-primary text-secondary pt-[3px] px-2 rounded-full h-[24px]">
                         {review.rating} <StarSVG color="#fff" scale={75} />
                       </div>
                       {/* <StarRating rating={review.rating} Pcolor="#202020" Scolor="#e6e3e0 " /> */}
@@ -454,11 +456,11 @@ export default function ReviewSection({ avgRating, onReviewChange }) {
                       {review?.user?.name || "Anonymous"}
                     </span>
                   </div>
-
-                  <p className="px-4 text-lg font-medium">
+               
+                  <p className="text-lg font-medium px-4">
                     {review?.review?.description || "No Description"}
                   </p>
-                  <p className="text-xl font-bold text-black">
+                  <p className="text-xl text-primary font-bold">
                     {review?.review?.title || "No Title"}
                   </p>
                   {review?.user?._id === userDetails?._id && (
@@ -483,7 +485,7 @@ export default function ReviewSection({ avgRating, onReviewChange }) {
       </div>
      
       {reviews && ratingStats.totalReviews && (
-        <Button variant="outline" onClick={reviewPagination} className="w-full">
+        <Button variant="secondary" onClick={reviewPagination} className="w-full">
               {reviewLoading ? "Loading..." : reviewMessage ? "No more reviews" : "See More"}
         </Button>
       )}

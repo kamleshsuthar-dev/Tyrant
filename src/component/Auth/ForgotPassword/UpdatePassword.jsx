@@ -1,13 +1,12 @@
-import React, { useEffect } from "react";
-import { useState, useRef, useContext } from "react";
-import { useNavigate, Link, NavLink } from "react-router-dom";
+import { useEffect, useRef, useState } from "react";
+import { useNavigate } from "react-router-dom";
 // import {
 //   PasswordCloseEye,
 //   PasswordOpenEye,
 // } from "../Auth/Register/PasswordEye";
-import { PasswordCloseEye,PasswordOpenEye } from "../Register/PasswordEye";
 import axios from "axios";
 import { useLocation } from "react-router-dom";
+import { PasswordCloseEye, PasswordOpenEye } from "../../../assets/Icons";
 
 function UpdatePassword() {
   //  const {userDetails} = useGoogleAuthContext()
@@ -15,7 +14,6 @@ function UpdatePassword() {
   const { email } = location?.state || {};
   const navigate = useNavigate();
   const [credentials, setCredentials] = useState({
-   
     email: email || "",
     password: "",
     passwordConfirm: "",
@@ -28,12 +26,12 @@ function UpdatePassword() {
   const [isRegistered, setIsRegistered] = useState(false);
 
   //  focus
-//   const nameRef = useRef();
+  //   const nameRef = useRef();
   const emailRef = useRef();
   const passwordRef = useRef();
   const passMounted = useRef(false);
   const passConfirmMounted = useRef();
-//   const nameMounted = useRef();
+  //   const nameMounted = useRef();
 
   const handleOnChange = (e) => {
     setCredentials({ ...credentials, [e.target.name]: e.target.value });
@@ -48,11 +46,11 @@ function UpdatePassword() {
     console.log("show password", showPassword);
   };
 
-//   const nameBlur = () => {
-//     if (credentials.name.length < 1) {
-//       document.querySelector(".nameText").classList.remove("hidden");
-//     }
-//   };
+  //   const nameBlur = () => {
+  //     if (credentials.name.length < 1) {
+  //       document.querySelector(".nameText").classList.remove("hidden");
+  //     }
+  //   };
 
   const passwordBlur = () => {
     if (credentials.password.length < 1) {
@@ -86,8 +84,7 @@ function UpdatePassword() {
     // console.log("credentials", credentials);
 
     e.preventDefault();
-    if (  !credentials.password || !credentials.passwordConfirm) {
-    
+    if (!credentials.password || !credentials.passwordConfirm) {
       if (credentials.password.length < 1) {
         document.querySelector(".passwordText").textContent =
           "Password is required";
@@ -111,66 +108,61 @@ function UpdatePassword() {
       document.querySelector(".passwordConfirmText").textContent =
         "Password and Password Confirm should be same";
       document.querySelector(".passwordConfirmText").classList.remove("hidden");
-    } else if ((credentials.email, credentials.password, credentials.passwordConfirm)) {
-    
-
-        
-            
+    } else if (
+      (credentials.email, credentials.password, credentials.passwordConfirm)
+    ) {
       // try {
       //     const res=await axios.patch(`${import.meta.env.VITE_RESET_PASSWORD}`,{
       //         email : credentials.email ,
       //         newPassword : credentials.password
       //     })
-  
+
       //     console.log("res of update pass api " , res);
       // } catch (error) {
-        
-      // }
-        
-   
 
+      // }
 
       try {
-        const response = await axios.post(`${import.meta.env.VITE_RESET_PASSWORD}`,
+        const response = await axios.post(
+          `${import.meta.env.VITE_RESET_PASSWORD}`,
           {
             email: credentials.email,
             newPassword: credentials.password,
-          }
+          },
         );
         console.log("response .......", response);
         navigate("/login");
-        alert("Password Change Successfully")
+        alert("Password Change Successfully");
       } catch (error) {
-        console.log("reset password error",error);
-        setError(`error:  ${error?.message} `)
-          setTimeout(() => {
-            setError(" ")
-          },1000);
+        console.log("reset password error", error);
+        setError(`error:  ${error?.message} `);
+        setTimeout(() => {
+          setError(" ");
+        }, 1000);
 
-          // alert("something went wrong try again !!")
+        // alert("something went wrong try again !!")
         // navigate("/login");
       }
-
-
-
-
     }
   };
 
   return (
     <>
       {/* pc design */}
-      <div className="bg-white h-screen sm:block hidden w-full border-2 border-solid border-black lg:p-7 p-5 ">
+      <div className="bg-secondary h-screen sm:block hidden w-full border-2 border-solid borderprimary lg:p-7 p-5 ">
         <div className="relative h-full w-full grid  place-items-center   rounded-2xl  ">
           <img
             src="./images/bgImgJaipur.png"
             alt=""
             className="h-full w-full absolute top-0 bottom-0  rounded-2xl z-[0]"
           />
-          <div className="card min-w-[350px] min-h-[60%]  bg-white rounded-xl text-black grid gap-2 items-center p-[52px] font-comfortaa text-lg z-[1]">
-          {
-            error &&  <div className="text-lg col-span-1 row-span-1 font-bold text-center text-red-700 break-words "> {error}</div>
-          }
+          <div className="card min-w-[350px] min-h-[60%]  bg-secondary rounded-xl text-primary grid gap-2 items-center p-[52px] font-comfortaa text-lg z-[1]">
+            {error && (
+              <div className="text-lg col-span-1 row-span-1 font-bold text-center text-red-700 break-words ">
+                {" "}
+                {error}
+              </div>
+            )}
             <div className="text-3xl col-span-1 row-span-1 font-bold ">
               Set Name And Password{" "}
             </div>
@@ -184,7 +176,7 @@ function UpdatePassword() {
                   Email*
                 </label>
               </div>
-              <div className="flex border-2 border-solid border-black w-full rounded-md bg-white">
+              <div className="flex border-2 border-solid borderprimary w-full rounded-md bg-secondary">
                 <input
                   type="name"
                   name="name"
@@ -193,7 +185,7 @@ function UpdatePassword() {
                   onChange={handleOnChange}
                   required
                   //  ref={passwordRef}
-                  className=" block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline-none placeholder:text-gray-400  sm:text-sm/6"
+                  className=" block w-full rounded-md bg-secondary px-3 py-1.5 text-base text-gray-900 outline-none placeholder:text-gray-400  sm:text-sm/6"
                 />
               </div>
               <div className="nameText text-red-600 text-xs my-1 hidden"></div>
@@ -208,7 +200,7 @@ function UpdatePassword() {
                   Create Password*
                 </label>
               </div>
-              <div className="flex border-2 border-solid border-black w-full rounded-md bg-white">
+              <div className="flex border-2 border-solid borderprimary w-full rounded-md bg-secondary">
                 <input
                   type="password"
                   name="password"
@@ -220,9 +212,9 @@ function UpdatePassword() {
                   {...(showPassword ? { type: "text" } : { type: "password" })}
                   onBlur={passwordBlur}
                   //  ref={passwordRef}
-                  className=" block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline-none placeholder:text-gray-400  sm:text-sm/6"
+                  className=" block w-full rounded-md bg-secondary px-3 py-1.5 text-base text-gray-900 outline-none placeholder:text-gray-400  sm:text-sm/6"
                 />
-                <button className="bg-white mr-2" onClick={togglePass}>
+                <button className="bg-secondary mr-2" onClick={togglePass}>
                   {showPassword ? <PasswordOpenEye /> : <PasswordCloseEye />}
                 </button>
               </div>
@@ -238,7 +230,7 @@ function UpdatePassword() {
                   Password Confirm*
                 </label>
               </div>
-              <div className="flex border-2 border-solid border-black w-full rounded-md bg-white">
+              <div className="flex border-2 border-solid borderprimary w-full rounded-md bg-secondary">
                 <input
                   type="password"
                   name="passwordConfirm"
@@ -250,9 +242,9 @@ function UpdatePassword() {
                   {...(showPassword ? { type: "text" } : { type: "password" })}
                   onBlur={passwordBlur}
                   //  ref={passwordRef}
-                  className=" block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline-none placeholder:text-gray-400  sm:text-sm/6"
+                  className=" block w-full rounded-md bg-secondary px-3 py-1.5 text-base text-gray-900 outline-none placeholder:text-gray-400  sm:text-sm/6"
                 />
-                <button className="bg-white mr-2" onClick={togglePass}>
+                <button className="bg-secondary mr-2" onClick={togglePass}>
                   {showPassword ? <PasswordOpenEye /> : <PasswordCloseEye />}
                 </button>
               </div>
@@ -260,7 +252,7 @@ function UpdatePassword() {
             </div>
             <div className="grid gap-1">
               <button
-                className="col-span-1 row-span-1 rounded-xl bg-[#3F3F3F]   block text-center text-white text-2xl py-1 active:scale-[0.95] hover:bg-[#232222]"
+                className="col-span-1 row-span-1 rounded-xl bg-[#3F3F3F]   block text-center text-secondary text-2xl py-1 active:scale-[0.95] hover:bg-[#232222]"
                 onClick={handleSubmit}
               >
                 Submit &gt;&gt;
@@ -273,7 +265,7 @@ function UpdatePassword() {
       {/* // mobile design  */}
       <div className="sm:hidden flex flex-col justify-between items-center h-screen ">
         <div className="h-[70%] flex justify-center items-center">
-          <div className="card w-[350px]  min-w-[286px]  bg-white rounded-xl text-black grid gap-2 items-center p-8 font-comfortaa text-md border-solid border-black ">
+          <div className="card w-[350px]  min-w-[286px]  bg-secondary rounded-xl text-primary grid gap-2 items-center p-8 font-comfortaa text-md border-solid borderprimary ">
             <div>
               <div className="text-3xl col-span-1 row-span-1 font-bold ">
                 Set Name And Password{" "}
@@ -289,7 +281,7 @@ function UpdatePassword() {
                   Email*
                 </label>
               </div>
-              <div className="flex border-2 border-solid border-black w-full rounded-md bg-white">
+              <div className="flex border-2 border-solid borderprimary w-full rounded-md bg-secondary">
                 <input
                   type="name"
                   name="name"
@@ -298,7 +290,7 @@ function UpdatePassword() {
                   onChange={handleOnChange}
                   required
                   //  ref={passwordRef}
-                  className=" block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline-none placeholder:text-gray-400  sm:text-sm/6"
+                  className=" block w-full rounded-md bg-secondary px-3 py-1.5 text-base text-gray-900 outline-none placeholder:text-gray-400  sm:text-sm/6"
                 />
               </div>
               <div className="nameText text-red-600 text-xs my-1 hidden"></div>
@@ -313,7 +305,7 @@ function UpdatePassword() {
                   Create Password*
                 </label>
               </div>
-              <div className="flex border-2 border-solid border-black w-full rounded-md bg-white">
+              <div className="flex border-2 border-solid borderprimary w-full rounded-md bg-secondary">
                 <input
                   type="password"
                   name="password"
@@ -325,9 +317,9 @@ function UpdatePassword() {
                   value={credentials.password}
                   onChange={handleOnChange}
                   // ref={passwordRef}
-                  className=" block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline-none placeholder:text-gray-400  sm:text-sm/6"
+                  className=" block w-full rounded-md bg-secondary px-3 py-1.5 text-base text-gray-900 outline-none placeholder:text-gray-400  sm:text-sm/6"
                 />
-                <button className="bg-white mr-2" onClick={togglePass}>
+                <button className="bg-secondary mr-2" onClick={togglePass}>
                   {showPassword ? <PasswordOpenEye /> : <PasswordCloseEye />}
                 </button>
               </div>
@@ -343,7 +335,7 @@ function UpdatePassword() {
                   Password Confirm*
                 </label>
               </div>
-              <div className="flex border-2 border-solid border-black w-full rounded-md bg-white">
+              <div className="flex border-2 border-solid borderprimary w-full rounded-md bg-secondary">
                 <input
                   type="password"
                   name="passwordConfirm"
@@ -355,9 +347,9 @@ function UpdatePassword() {
                   value={credentials.passwordConfirm}
                   onChange={handleOnChange}
                   // ref={passwordRef}
-                  className=" block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline-none placeholder:text-gray-400  sm:text-sm/6"
+                  className=" block w-full rounded-md bg-secondary px-3 py-1.5 text-base text-gray-900 outline-none placeholder:text-gray-400  sm:text-sm/6"
                 />
-                <button className="bg-white mr-2" onClick={togglePass}>
+                <button className="bg-secondary mr-2" onClick={togglePass}>
                   {showPassword ? <PasswordOpenEye /> : <PasswordCloseEye />}
                 </button>
               </div>
@@ -365,7 +357,7 @@ function UpdatePassword() {
             </div>
             <div className="grid gap-1">
               <button
-                className="col-span-1 row-span-1 rounded-xl bg-[#3F3F3F]   block text-center text-white text-xl py-1 active:scale-[0.95] hover:bg-[#232222]"
+                className="col-span-1 row-span-1 rounded-xl bg-[#3F3F3F]   block text-center text-secondary text-xl py-1 active:scale-[0.95] hover:bg-[#232222]"
                 onClick={handleSubmit}
               >
                 Submit &gt;&gt;
