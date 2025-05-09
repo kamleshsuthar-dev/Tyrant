@@ -7,12 +7,15 @@ import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle }
 import { InputOTP, InputOTPGroup, InputOTPSeparator, InputOTPSlot } from "@/components/ui/input-otp"
 import { useToast } from "@/hooks/use-toast"
 
-export default function VerifyOTP({submitFunction }) {
+
+export default function VerifyOTP({submitFunction ,worngPassMessage}) {
+  // console.log("worngPassMessage",worngPassMessage);
+
   const [otp, setOtp] = useState("")
   const [isSubmitting, setIsSubmitting] = useState(false)
   // const router = useRouter()
   const { toast } = useToast()
-
+  const [showInvalid, setShowInvalid] = useState(true);
   
   const handleSubmit = async (e) => {
     e.preventDefault()
@@ -29,12 +32,7 @@ export default function VerifyOTP({submitFunction }) {
     setIsSubmitting(true)
 
     try {
-      // Here you would verify the OTP with your backend
-      // For example:
-      // const response = await verifyOTP(otp)
-
-      // Simulate API call
-      // await new Promise((resolve) => setTimeout(resolve, 1000))
+   
       submitFunction(otp)
       
       toast({
@@ -55,6 +53,20 @@ export default function VerifyOTP({submitFunction }) {
     }
   }
 
+  useEffect(() => {
+    if (worngPassMessage?.response?.data?.success === false) {
+      setShowInvalid(true)
+      const timer = setTimeout(() => {
+        setShowInvalid(false)
+      }, 1000)
+  
+      return () => clearTimeout(timer)
+    }
+  }, [worngPassMessage])
+  
+
+  
+
   const handleResend = async () => {
     // Here you would call your API to resend the OTP
     // For example:
@@ -71,6 +83,8 @@ export default function VerifyOTP({submitFunction }) {
     <div className="flex min-h-screen items-center justify-center bg-gray-50 p-4">
       <Card className="w-full max-w-md">
         <CardHeader className="space-y-1">
+       {worngPassMessage?.response?.data?.success === false && showInvalid&& <div className="text-destructive text-center OTP">Invalid OTP</div> }
+      
           <CardTitle className="text-2xl font-bold text-center">Verify Your Account</CardTitle>
           <CardDescription className="text-center">Enter the 6-digit code we sent to your email</CardDescription>
         </CardHeader>
@@ -108,37 +122,71 @@ export default function VerifyOTP({submitFunction }) {
 }
 
 // Timer component defined here
+
+
 export function Timer({ initialSeconds, onExpire }) {
-  const [seconds, setSeconds] = useState(initialSeconds)
-  const [isActive, setIsActive] = useState(true)
+  const [seconds, setSeconds] = useState(0);
+  const [isActive, setIsActive] = useState(true);
 
   useEffect(() => {
-    let interval  
+    const storedExpiry = localStorage.getItem("timerExpiry");
+    const now = Date.now();
+        // console.log(now);
+        
+    if (storedExpiry) {
+      const remaining = Math.floor((parseInt(storedExpiry) - now) / 1000);
+      if (remaining > 0) {
+        setSeconds(remaining);
+        setIsActive(true);
+      } else {
+        setSeconds(0);
+        setIsActive(false);
+        onExpire();
+      }
+    } else {
+      const expiryTime = now + initialSeconds * 1000;
+      localStorage.setItem("timerExpiry", expiryTime.toString());
+      setSeconds(initialSeconds);
+      setIsActive(true);
+    }
+  }, [initialSeconds, onExpire]);
+
+  useEffect(() => {
+    let interval;
 
     if (isActive && seconds > 0) {
       interval = setInterval(() => {
-        setSeconds((prevSeconds) => prevSeconds - 1)
-      }, 1000)
-    } else if (seconds === 0) {
-      setIsActive(false)
-      onExpire()
-      if (interval) clearInterval(interval)
+        setSeconds((prevSeconds) => {
+          const newSeconds = prevSeconds - 1;
+          if (newSeconds <= 0) {
+            setIsActive(false);
+            onExpire();
+            localStorage.removeItem("timerExpiry");
+            clearInterval(interval);
+          }
+          return newSeconds;
+        });
+      }, 1000);
     }
 
     return () => {
-      if (interval) clearInterval(interval)
-    }
-  }, [isActive, seconds, onExpire])
+      if (interval) clearInterval(interval);
+    };
+  }, [isActive, seconds, onExpire]);
 
   const formatTime = () => {
-    const minutes = Math.floor(seconds / 60)
-    const remainingSeconds = seconds % 60
-    return `${minutes}:${remainingSeconds < 10 ? "0" : ""}${remainingSeconds}`
-  }
+    const minutes = Math.floor(seconds / 60);
+    const remainingSeconds = seconds % 60;
+    return `${minutes}:${remainingSeconds < 10 ? "0" : ""}${remainingSeconds}`;
+  };
 
   return (
     <div className="text-sm text-muted-foreground">
-      {isActive ? <span>Resend code in {formatTime()}</span> : <span>You can now resend the code</span>}
+      {isActive ? (
+        <span>Resend code in {formatTime()}</span>
+      ) : (
+        <span>You can now resend the code</span>
+      )}
     </div>
-  )
+  );
 }
