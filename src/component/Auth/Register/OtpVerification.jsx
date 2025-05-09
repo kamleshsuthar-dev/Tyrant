@@ -27,6 +27,7 @@ export function OtpVerification() {
   return (
     <>
       <VerifyOTP submitFunction={submitBtn} worngPassMessage={error} />
+      
     </>
   );
 }
