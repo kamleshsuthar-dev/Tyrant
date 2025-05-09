@@ -72,7 +72,7 @@ export default function VerifyOTP({submitFunction }) {
       <Card className="w-full max-w-md">
         <CardHeader className="space-y-1">
           <CardTitle className="text-2xl font-bold text-center">Verify Your Account</CardTitle>
-          <CardDescription className="text-center">Enter the 6-digit code we sent to your email/phone</CardDescription>
+          <CardDescription className="text-center">Enter the 6-digit code we sent to your email</CardDescription>
         </CardHeader>
         <form onSubmit={handleSubmit}>
           <CardContent className="space-y-4">

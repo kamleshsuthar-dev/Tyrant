@@ -435,7 +435,7 @@ export default function ProductDetailCard({ pId }) {
                   </div>
                   <Button
                     variant="primary"
-                    className="flex w-full py-5 px-[144px] rounded-xl"
+                    className="flex w-full py-0 rounded-xl"
                     onClick={addtoCart}
                   >
                     Add to Cart
@@ -443,7 +443,7 @@ export default function ProductDetailCard({ pId }) {
 
                   <Button
                     variant="accent"
-                    className="flex w-full py-5 px-[144px] rounded-xl"
+                    className="flex w-full py-0 rounded-xl"
                     onClick={checkOut}
                   >
                     Buy Now

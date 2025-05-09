@@ -96,19 +96,28 @@ function NewRegister({ text }) {
         return { status: '', message: '' };
     }
   };
+
   const handleChange = async (e) => {
     try {
       const { name, value } = e.target;
-      const validation = await validateField(name, value);
+
       setFormData((prev) => ({
         ...prev,
         [name]: {
           ...prev[name],
-          value,
-          ...validation,
+          value, // update value immediately
         },
       }));
-      return validation;
+
+      validateField(name, value).then((validation) => {
+    setFormData((prev) => ({
+      ...prev,
+      [name]: {
+        ...prev[name],
+        ...validation,
+      },
+    }));
+  });
     } catch (error) {
       console.error("Error in handleChange:", error);
       return{}

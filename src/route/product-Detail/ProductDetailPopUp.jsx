@@ -70,12 +70,12 @@ const ProductDetailsPopUp = forwardRef(({ product, cId }, ref) => {
 
               <Button
                 onClick={(e) => productDetailFunction(e, product)}
-                className="absolute bottom-0 inset-x-0 bg-secondary text-primary hover:bg-gray-200 border-t-2 border-primary border-dashed rounded-none py-[22px]"
+                className="absolute bottom-0 inset-x-0 max-h-10 bg-secondary text-primary hover:bg-gray-200 border-t-2 border-primary border-dashed rounded-none "
               >
                 See More
               </Button>
             </div>
-            <div className="mt-[5vh] h-auto w-full flex justify-center  rounded-3xl bg-secondary border-[3px] border-primary">
+            <div id="similarProductSection" className="mt-[5vh] h-auto w-full flex justify-center  rounded-3xl bg-secondary border-[3px] border-primary">
               <div className="grid-cols-auto m-4 grid md:grid-cols-4 w-full items-center justify-items-center">
                 {categoryP && categoryP.length > 0 ? (
                   <>

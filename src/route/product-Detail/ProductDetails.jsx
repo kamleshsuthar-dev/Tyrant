@@ -316,7 +316,7 @@ export default function ProductDetail() {
               {/* Product Details Section */}
               <div className="space-y-6">
                 <div>
-                  <h1 className="text-3xl font-bold">{newProduct.pName}</h1>
+                  <h1 className="text-2xl font-bold">{newProduct.pName}</h1>
                   <p>{newProduct.pDescription}</p>
                   <div className="mt-2 flex items-center gap-2 text-xs text-gray-600">
                     <span className="">{newProduct.avgRating}</span>
@@ -415,7 +415,7 @@ export default function ProductDetail() {
                     </button>
                   </div>
                   <div className="!mt-0">
-                    <Label className="text-2xl">Size</Label>
+                    <Label className="text-xl">Size</Label>
                     <RadioGroup
                       defaultValue={selectedSize}
                       onValueChange={setSelectedSize}
@@ -441,7 +441,7 @@ export default function ProductDetail() {
 
                   {/* Color Selector */}
                   <div>
-                    <Label className="text-2xl">Color</Label>
+                    <Label className="text-xl">Color</Label>
                     <RadioGroup
                       defaultValue={selectedColor}
                       onValueChange={setSelectedColor}
@@ -468,7 +468,7 @@ export default function ProductDetail() {
 
                   {/* Quantity Selector */}
                   <div>
-                    <Label className="text-2xl">Quantity</Label>
+                    <Label className="text-xl">Quantity</Label>
                     <div className="mt-2 flex w-fit items-center rounded-lg bg-primary text-secondary">
                       <Button
                         variant="outline"
@@ -494,7 +494,7 @@ export default function ProductDetail() {
                 </div>
 
                 {/* Action Buttons */}
-                <div className="flex max-w-[460px] flex-row flex-wrap gap-4">
+                <div className="flex max-w-[460px] lg:max-w-full flex-row flex-wrap gap-4">
                   <div>
                     <Suspense fallback={<div>Loading...</div>}>
                       <ShoppingCartTopUp ref={popUp} product={newProduct} />
@@ -502,7 +502,7 @@ export default function ProductDetail() {
                   </div>
                   <Button
                     variant="primary"
-                    className="flex w-full rounded-xl px-[144px] py-[24px] text-xl"
+                    className="flex w-full rounded-xl  text-xl"
                     onClick={addtoCart}
                   >
                     Add to Cart
@@ -510,7 +510,7 @@ export default function ProductDetail() {
 
                   <Button
                     variant="accent"
-                    className="flex w-full rounded-xl  px-[144px] py-[24px] text-xl"
+                    className="flex w-full rounded-xl   text-xl"
                     onClick={checkOut}
                   >
                     Buy Now
