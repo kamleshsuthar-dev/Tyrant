@@ -10,9 +10,9 @@ import axios from "axios"
 import { throttle } from "lodash"
 
 
-export default function VerifyOTP({submitFunction ,worngPassMessage ,credentials}) {
+export default function VerifyOTP({submitFunction ,worngPassMessage ,credentials ,type}) {
   // console.log("worngPassMessage",worngPassMessage);
-  // console.log("ccsc",credentials);/
+  console.log("ccsc",credentials);
   
 
   const [otp, setOtp] = useState("")
@@ -73,15 +73,23 @@ export default function VerifyOTP({submitFunction ,worngPassMessage ,credentials
 
   const handleResendOTP = throttle( async () => {
       try {
-        const res = await axios.post(`${import.meta.env.VITE_ISREGISTERED}/register`, credentials);
-        console.log(res);
+        if(type === "authVerification") {
+          console.log("authVerification");
+          
+          let res = await axios.post(`${import.meta.env.VITE_ISREGISTERED}/register`, credentials);
+          console.log(res);
+        }else if (type === "resetPassword"){
+          console.log("resetPassword");
+         let res = await axios.post(`${import.meta.env.VITE_RESET_PASSWORD}`, credentials); 
+         console.log(res);
+        }
         
       } catch (error) {
         console.log(error);
         
       }
   
-  },3000)
+  },10000)
 
   
   
@@ -112,7 +120,7 @@ export default function VerifyOTP({submitFunction ,worngPassMessage ,credentials
               </InputOTP>
             </div>
             <div className="flex items-center justify-center">
-              <Timer initialSeconds={10} onExpire={()=>{localStorage.removeItem("timerExpiry")}}  handleResendOTP={handleResendOTP}/>
+              <Timer initialSeconds={30} onExpire={()=>{}}  handleResendOTP={handleResendOTP}/>
             </div>
           </CardContent>
           <CardFooter className="flex flex-col space-y-2">

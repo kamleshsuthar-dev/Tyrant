@@ -27,7 +27,7 @@ export function OtpVerification() {
 
   return (
     <>
-      <VerifyOTP submitFunction={submitBtn} worngPassMessage={error}  credentials={credentials}/>
+      <VerifyOTP submitFunction={submitBtn} worngPassMessage={error}  credentials={credentials} type="authVerification"/>
     </>
   );
 }

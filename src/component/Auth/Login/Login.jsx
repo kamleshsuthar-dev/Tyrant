@@ -33,9 +33,7 @@ const Login = () => {
 
   const checkIsRegistered = useCallback(async (email) => {
     try {
-      const response = await axios.get(
-        `${import.meta.env.VITE_ISREGISTERED}/isregistered?email=${email}`
-      );
+      const response = await axios.get(`${import.meta.env.VITE_ISREGISTERED}/isregistered?email=${email}`,{withCredentials:true});
       console.log(response);
       
       const isRegistered = response.data.isAlreadyRegistered;

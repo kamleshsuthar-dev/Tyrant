@@ -105,7 +105,7 @@ function App() {
       <>
         <Route path="/" element={<Layout />}>
           <Route path="" element={<Home />} />
-          <Route path="*" element={<Home />} />
+          {/* <Route path="*" element={<Home />} /> */}
           <Route path="deletebtn" element={<DeleteBtn />} />
           <Route path="review" element={<ReviewSection />} />
           <Route path="description" element={<ProductDesciption />} />

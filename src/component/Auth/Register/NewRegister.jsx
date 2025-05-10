@@ -56,7 +56,7 @@ function NewRegister({ text }) {
         }
         try {
           const res = await axios.get(
-            `${import.meta.env.VITE_ISREGISTERED}/isregistered?email=${value}`,
+            `${import.meta.env.VITE_ISREGISTERED}/isregistered?email=${value}`, { withCredentials: true }
           );
           if (res.data.isAlreadyRegistered) {
             return {
@@ -142,7 +142,7 @@ function NewRegister({ text }) {
         password: password.value,
       };
       try {
-        const res = await axios.post(`${import.meta.env.VITE_ISREGISTERED}/register`, credentials);
+        const res = await axios.post(`${import.meta.env.VITE_ISREGISTERED}/register`, credentials , { withCredentials: true });
         console.log(res.data);
         if (res.data.success) {
           navigate("/otp", { state: { credentials } });

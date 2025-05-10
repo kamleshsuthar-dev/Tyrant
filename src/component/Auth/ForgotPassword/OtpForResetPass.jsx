@@ -17,7 +17,7 @@ export function OtpForResetPass() {
           let res = await axios.post(`${import.meta.env.VITE_RESET_PASSWORD}` , {email})
           console.log("sending email",res.data.success);
         
-            navigate('/updatepassword' ,{state : {email}})
+          
         
       } catch (error) {
         console.log("reset password api error (email)" , error);
@@ -33,7 +33,9 @@ export function OtpForResetPass() {
         email,
         otp : value
       })
-
+      if(res.data.success){
+        navigate('/updatepassword' ,{state : {email}})  
+      }
       console.log("sending email,otp",res);
       
       } catch (error) {
@@ -44,6 +46,6 @@ export function OtpForResetPass() {
 
   return (
   
-    <VerifyOTP submitFunction={submitBtn} worngPassMessage={error} />
+    <VerifyOTP submitFunction={submitBtn} worngPassMessage={error} credentials={email} type="resetPassword" />
   );
 }
