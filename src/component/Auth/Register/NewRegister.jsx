@@ -103,10 +103,8 @@ function NewRegister({ text }) {
 
       setFormData((prev) => ({
         ...prev,
-        [name]: {
-          ...prev[name],
-          value, // update value immediately
-        },
+        [name]: {...prev[name], value} // update value immediately
+          
       }));
 
       validateField(name, value).then((validation) => {

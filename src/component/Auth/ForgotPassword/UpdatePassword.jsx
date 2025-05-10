@@ -108,23 +108,9 @@ function UpdatePassword() {
       document.querySelector(".passwordConfirmText").textContent =
         "Password and Password Confirm should be same";
       document.querySelector(".passwordConfirmText").classList.remove("hidden");
-    } else if (
-      (credentials.email, credentials.password, credentials.passwordConfirm)
-    ) {
-      // try {
-      //     const res=await axios.patch(`${import.meta.env.VITE_RESET_PASSWORD}`,{
-      //         email : credentials.email ,
-      //         newPassword : credentials.password
-      //     })
-
-      //     console.log("res of update pass api " , res);
-      // } catch (error) {
-
-      // }
-
+    } else if ( credentials.email, credentials.password, credentials.passwordConfirm ) {
       try {
-        const response = await axios.post(
-          `${import.meta.env.VITE_RESET_PASSWORD}`,
+        const response = await axios.post(`${import.meta.env.VITE_RESET_PASSWORD}`,
           {
             email: credentials.email,
             newPassword: credentials.password,

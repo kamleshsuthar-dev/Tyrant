@@ -9,6 +9,7 @@ export function OtpVerification() {
   const credentials = location?.state.credentials;
   console.log(credentials);
   const navigate = useNavigate();
+
   const submitBtn = async (value) => {  
     try {
       const res = await axios.post(`${import.meta.env.VITE_ISREGISTERED}/register`, {email: credentials.email, otp: value});
@@ -26,7 +27,7 @@ export function OtpVerification() {
 
   return (
     <>
-      <VerifyOTP submitFunction={submitBtn} worngPassMessage={error} />
+      <VerifyOTP submitFunction={submitBtn} worngPassMessage={error} credentials={credentials} />
     </>
   );
 }

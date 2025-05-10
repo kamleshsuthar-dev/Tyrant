@@ -6,10 +6,14 @@ import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card"
 import { InputOTP, InputOTPGroup, InputOTPSeparator, InputOTPSlot } from "@/components/ui/input-otp"
 import { useToast } from "@/hooks/use-toast"
+import axios from "axios"
+import { throttle } from "lodash"
 
 
-export default function VerifyOTP({submitFunction ,worngPassMessage}) {
+export default function VerifyOTP({submitFunction ,worngPassMessage ,credentials}) {
   // console.log("worngPassMessage",worngPassMessage);
+  // console.log("ccsc",credentials);/
+  
 
   const [otp, setOtp] = useState("")
   const [isSubmitting, setIsSubmitting] = useState(false)
@@ -67,17 +71,21 @@ export default function VerifyOTP({submitFunction ,worngPassMessage}) {
 
   
 
-  const handleResend = async () => {
-    // Here you would call your API to resend the OTP
-    // For example:
-    // await resendOTP()
-    console.log("hii");
-    
-    toast({
-      title: "Code resent",
-      description: "A new verification code has been sent to your email/phone.",
-    })
-  }
+  const handleResendOTP = throttle( async () => {
+      try {
+        const res = await axios.post(`${import.meta.env.VITE_ISREGISTERED}/register`, credentials);
+        console.log(res);
+        
+      } catch (error) {
+        console.log(error);
+        
+      }
+  
+  },3000)
+
+  
+  
+ 
 
   return (
     <div className="flex min-h-screen items-center justify-center bg-gray-50 p-4">
@@ -104,16 +112,16 @@ export default function VerifyOTP({submitFunction ,worngPassMessage}) {
               </InputOTP>
             </div>
             <div className="flex items-center justify-center">
-              <Timer initialSeconds={60} onExpire={() => {}} />
+              <Timer initialSeconds={10} onExpire={()=>{localStorage.removeItem("timerExpiry")}}  handleResendOTP={handleResendOTP}/>
             </div>
           </CardContent>
           <CardFooter className="flex flex-col space-y-2">
             <Button type="submit" className="w-full" disabled={otp.length !== 6 || isSubmitting}>
               {isSubmitting ? "Verifying..." : "Verify Account"}
             </Button>
-            <Button type="button" variant="ghost" className="text-sm" onClick={handleResend}>
+            {/* <Button type="button" variant="ghost" className="text-sm" onClick={handleResend}>
               Didn't receive a code? Resend
-            </Button>
+            </Button> */}
           </CardFooter>
         </form>
       </Card>
@@ -124,7 +132,7 @@ export default function VerifyOTP({submitFunction ,worngPassMessage}) {
 // Timer component defined here
 
 
-export function Timer({ initialSeconds, onExpire }) {
+export function Timer({ initialSeconds, onExpire ,handleResendOTP }) {
   const [seconds, setSeconds] = useState(0);
   const [isActive, setIsActive] = useState(true);
 
@@ -161,7 +169,6 @@ export function Timer({ initialSeconds, onExpire }) {
           if (newSeconds <= 0) {
             setIsActive(false);
             onExpire();
-            localStorage.removeItem("timerExpiry");
             clearInterval(interval);
           }
           return newSeconds;
@@ -183,9 +190,9 @@ export function Timer({ initialSeconds, onExpire }) {
   return (
     <div className="text-sm text-muted-foreground">
       {isActive ? (
-        <span>Resend code in {formatTime()}</span>
+        <Button variant="secondary">Re-send OTP &gt; &gt; {formatTime()}</Button>
       ) : (
-        <span>You can now resend the code</span>
+        <Button variant="primary" onClick={handleResendOTP}>Re-send OTP &gt; &gt;</Button>
       )}
     </div>
   );

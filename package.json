@@ -34,6 +34,7 @@
     "embla-carousel-react": "^8.5.2",
     "framer-motion": "^12.9.4",
     "input-otp": "^1.4.2",
+    "lodash": "^4.17.21",
     "lucide-react": "^0.474.0",
     "mdb-react-ui-kit": "^9.0.0",
     "motion": "^12.9.4",

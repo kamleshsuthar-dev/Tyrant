@@ -8,71 +8,42 @@ export function OtpForResetPass() {
   const email = location?.state.email;
   console.log(email, "resettttt");
   const navigate = useNavigate();
-  const [value, setValue] = useState();
-  const [OTP, setOTP] = useState();
+  // const [value, setValue] = useState();
+  const[error,setError]= useState()
 
-  useEffect(() => {
-    const otp = Math.floor(100000 + Math.random() * 900000);
+    useEffect(()=>{
+      (async()=>{
+      try {
+          let res = await axios.post(`${import.meta.env.VITE_RESET_PASSWORD}` , {email})
+          console.log("sending email",res.data.success);
+        
+            navigate('/updatepassword' ,{state : {email}})
+        
+      } catch (error) {
+        console.log("reset password api error (email)" , error);
+         setError(error)
+      }
+        
+      })()
+    },[email])
 
-    setOTP(otp);
-    const sendEmail = async () => {
-      let res = await axios.post(
-        `${import.meta.env.VITE_SEND_EMAIL_REGISTRATION}`,
-        {
-          email: `${email}`,
-          from: "Tyrant <tyrant.co.in@gmail.com>",
-          subject: "Email Verification Code ",
-          content: `<div>
-                            <h1>Hello ${email.substr(0, 10)} Welcome To Tyrant</h1>
-                            <p>Your OTP is ${otp}</p>   
-                          </div>`,
-        },
-      );
+  const submitBtn = async(value) => {
+      try {
+       let res = await axios.post(`${import.meta.env.VITE_RESET_PASSWORD}` , {
+        email,
+        otp : value
+      })
 
-      console.log("otp api ", res);
-    };
-    sendEmail();
-  }, [email]);
-
-  const submitBtn = (value) => {
-    if (value == OTP) {
-      console.log("register success");
-      navigate("/updatepassword", { state: { email } });
-      //   axios.post(`${import.meta.env.VITE_ISREGISTERED}/register`, credentials )
-      //       .then((response) => {
-      //         console.log(response);
-      //         navigate("/");
-
-      //       })
-      //       .catch((error) => {
-      //         console.log("error is occur in register api ", error);
-      //       });
-    } else {
-      console.log("OTP not Match");
-      alert("OTP galat hai Janab!");
-    }
-
-    // console.log(value);
+      console.log("sending email,otp",res);
+      
+      } catch (error) {
+         console.log("reset password api error (email,otp)" , error);
+         setError(error)
+      }
   };
 
   return (
-    //   <div className="bg-[#1c1b1b] text-secondary w-screen h-screen flex flex-col justify-center items-center gap-10">
-    // <InputOTP maxLength={6} value={value} onChange={(value)=> setValue(value)} >
-    //   <InputOTPGroup>
-    //     <InputOTPSlot index={0} />
-    //     <InputOTPSlot index={1} />
-    //     <InputOTPSlot index={2} />
-    //   </InputOTPGroup>
-    //   <InputOTPSeparator />
-    //   <InputOTPGroup>
-    //     <InputOTPSlot index={3} />
-    //     <InputOTPSlot index={4} />
-    //     <InputOTPSlot index={5} />
-    //   </InputOTPGroup>
-    // </InputOTP>
-    // <Button onClick={ submitBtn} className="!bg-secondary" >Submit</Button>
-    // {/* <Button onClick={submitBtn} className="!bg-secondary" >Submit</Button> */}
-    // </div>
-    <VerifyOTP submitFunction={submitBtn} />
+  
+    <VerifyOTP submitFunction={submitBtn} worngPassMessage={error} />
   );
 }

@@ -23,7 +23,6 @@ export function GetApi(api,konsiApi) {
   useEffect(()=>{
       const fetchData = async () => {
           if(!api)  return ;
-
           try {
             setLoading(true);
             setError(false);

@@ -32,7 +32,6 @@ const ForgotPasswordForm = () => {
   useEffect(() => {
     if (emailMounted.current) {
       if (email.length > 1) {
-        checkIsRegistered(email);
 
         if (emailRegex.test(email) === false) {
           document.querySelector(".emailText").textContent =
@@ -40,12 +39,11 @@ const ForgotPasswordForm = () => {
           document.querySelector(".emailText").classList.remove("hidden");
         } else {
           document.querySelector(".emailText").classList.add("hidden");
-
+            //  checkIsRegistered(email);
           checkIsRegistered(email).then((isRegistered) => {
             if (isRegistered === false) {
               console.log("not registered");
-              document.querySelector(".emailText").textContent =
-                "User Is NotRegistered Yet";
+              document.querySelector(".emailText").textContent = "User Is NotRegistered Yet";
               document.querySelector(".emailText").classList.remove("hidden");
             } else {
               console.log("registered");
@@ -62,7 +60,6 @@ const ForgotPasswordForm = () => {
 
   const handleOnChange = (e) => {
     setEmail(e.target.value);
-    // console.log(e.target.value);
   };
 
   const sendOtp = () => {
