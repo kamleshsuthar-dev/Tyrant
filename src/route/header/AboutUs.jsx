@@ -1,11 +1,11 @@
 import React from 'react'
-import { useProductContext } from "@/context/ProductContext";
+
 import { useGoogleAuthContext } from '@/context/GoogleAuth';
 
 
 
 function AboutUs() {
-  const {prd} = useProductContext()
+
   const {googleData} = useGoogleAuthContext()
   return (
     <>

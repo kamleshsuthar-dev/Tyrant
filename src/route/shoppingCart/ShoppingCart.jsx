@@ -8,7 +8,7 @@ import { useCallback, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import DeleteBtn from "../../components/home/DeleteBtn.jsx";
 export default function ShoppingCart() {
-  // const {cart}= useCartContext()
+ 
   const { isLoginUser, setCartQuantity } = useGoogleAuthContext();
 
   const navigate = useNavigate();

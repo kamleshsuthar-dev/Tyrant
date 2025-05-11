@@ -3,7 +3,7 @@
 import { Minus, Plus } from "lucide-react";
 import { Suspense, lazy, useEffect, useRef, useState } from "react";
 
-import ProductDetailSkeleton from "@/component/skeleton/ProductDetailSkeleton";
+import ProductDetailSkeleton from "@/components/skeleton/ProductDetailSkeleton";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import {
@@ -20,6 +20,7 @@ import { useNavigate } from "react-router-dom";
 // import ReviewSection from "./ReviewSection";
 // import ProductDesciption from "./ProductDescription";
 import StarRating from "@/features/reuseable-component/StarRating";
+import { useShoppingPOpUp } from "@/context/ShoppingPopUpContext";
 const ShoppingCartTopUp = lazy(
   () => import("@/route/shoppingCart/ShoppingCartTopUp"),
 );
@@ -31,6 +32,7 @@ function cn(...classes) {
 
 export default function ProductDetailCard({ pId }) {
   const { isLoginUser } = useGoogleAuthContext();
+  const {showCartPopup}=  useShoppingPOpUp()
   //   const {pId} = useParams()
 
   const [quantity, setQuantity] = useState(1);
@@ -54,7 +56,7 @@ export default function ProductDetailCard({ pId }) {
   const navigate = useNavigate();
   const popUp = useRef(null);
 
-  //  Simlar Products
+
 
   useEffect(() => {
     const singlePrd = async () => {
@@ -125,30 +127,9 @@ export default function ProductDetailCard({ pId }) {
     }
   };
 
-  const addtoCart = async () => {
-    if (!isLoginUser) {
-      alert("Please login to add items in cart");
-      return;
-    }
-
-    try {
-      popUp.current.click();
-      axios
-        .post(`${import.meta.env.VITE_ADD_CART_PRODUCT}`, {
-          productId: pId,
-          quantity: quantity,
-          color: selectedColor,
-          size: selectedSize,
-        })
-        .then((res) => {
-          console.log(res.data.message);
-        })
-        .catch((error) => {
-          console.log("Add to cart API error:", error);
-        });
-    } catch (error) {
-      console.log("Add to cart error:", error);
-    }
+  const addtoCart = async (e,product) => {
+    showCartPopup(product)
+  
   };
 
   const checkOut = () => {
@@ -428,15 +409,15 @@ export default function ProductDetailCard({ pId }) {
 
                 {/* Action Buttons */}
                 <div className="flex flex-row gap-4 w-full flex-wrap ">
-                  <div>
+                  {/* <div>
                     <Suspense fallback={<div>Loading...</div>}>
                       <ShoppingCartTopUp ref={popUp} product={product} />
                     </Suspense>
-                  </div>
+                  </div> */}
                   <Button
                     variant="primary"
                     className="flex w-full py-0 rounded-xl"
-                    onClick={addtoCart}
+                    onClick={(e)=>addtoCart(e,)}
                   >
                     Add to Cart
                   </Button>

@@ -1,5 +1,5 @@
 import axios from "axios";
-import { useEffect, useState } from "react";
+import { useEffect, useState ,useRef} from "react";
 import React from 'react'
 
 
@@ -13,37 +13,43 @@ import React from 'react'
 //   },[data])
 //   console.log("Categories:", data.data?.Categories);
 
-export function GetApi(api,konsiApi) {
+export function GetApi(api, konsiApi) {
   const [items, setItems] = useState([]);
   const [error, setError] = useState();
   const [loading, setLoading] = useState(false);
 
-  // console.log(api);
-  
-  useEffect(()=>{
-      const fetchData = async () => {
-          if(!api)  return ;
-          try {
-            setLoading(true);
-            setError(false);
-            const res = await axios.get(`${api}` );
-            console.log(res);
-            setItems(res);
-            setLoading(false);
-          } catch (error) {
-            console.log(konsiApi, error);
-            setLoading(false);
-            setError(error);
-          }
+  // Store previous response
+  const prevDataRef = useRef(null);
+
+  useEffect(() => {
+    if (!api) return;
+
+    const fetchData = async () => {
+      try {
+        setLoading(true);
+        setError(false);
+        const res = await axios.get(api);
+
+        // Only update if data changed
+        const newData = res?.data;
+
+        if (JSON.stringify(newData) !== JSON.stringify(prevDataRef.current)) {
+          prevDataRef.current = newData;
+          setItems(res);
         }
 
-        if(api){
-          fetchData()
-        }
-  },[api])
+        setLoading(false);
+      } catch (error) {
+        console.error(konsiApi, error);
+        setError(error);
+        setLoading(false);
+      }
+    };
 
-  return [items,error,loading]
-  
+    fetchData();
+  }, [api, konsiApi]);
+
+  return [items, error, loading];
 }
 
 export function PostApi (api , sendData, konsiApi){

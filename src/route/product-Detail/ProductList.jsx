@@ -4,13 +4,15 @@ import { useLocation, useParams } from "react-router-dom";
 
 // import { Star, StarHalf } from "lucide-react"
 
-import ProductListSkeleton from "../component/skeleton/ProductListSkeleton";
+import ProductListSkeleton from "@/components/skeleton/ProductListSkeleton";
 
 import { GetApi } from "@/features/reuseable-component/ApiCaller";
 import ProductCard from "@/features/reuseable-component/PorductCard";
-import ShoppingCartTopUp from "./shoppingCart/ShoppingCartTopUp";
 
-import ProductDetailsPopUp from "./product-Detail/ProductDetailPopUp";
+import { useShoppingPOpUp } from "@/context/ShoppingPopUpContext";
+import ProductDetailsPopUp from "../product-Detail/ProductDetailPopUp";
+import { useMemo } from "react";
+
 export default function ProductList() {
   const location = useLocation();
   const { cName, cDescription } = location?.state || {
@@ -21,26 +23,33 @@ export default function ProductList() {
   const discount = 20;
   const { cId } = useParams();
   const [products, setProducts] = useState([]);
-  const [cartProducts, setCartProducts] = useState([]);
   const [currentProduct, setCurrentProduct] = useState([]);
   const popUp = useRef(null);
   const productPopUp = useRef(null);
+  const { showCartPopup } = useShoppingPOpUp();
 
-  const [data, error, loading] = GetApi(
-    `${import.meta.env.VITE_PRODUCT_BY_CATEGORY}?cId=${cId}`,
-    "get product by category api",
-  );
+  const apiUrl = useMemo(() => {
+  return `${import.meta.env.VITE_PRODUCT_BY_CATEGORY}?cId=${cId}`;
+}, [cId]);
+  const [data, error, loading] = GetApi(apiUrl, "get product by category api");
+
+
   useEffect(() => {
-    if (data && data.data && data.data.products) {
-      setProducts(data.data.products);
-      console.log(data.data.products, "sasasasadsdfd");
-    }
-  }, [data]);
+  if (
+    data &&
+    data.data &&
+    data.data.products &&
+    JSON.stringify(data.data.products) !== JSON.stringify(products)
+  ) {
+    setProducts(data.data.products);
+  }
+}, [data]);
 
   function handleShopping(e, product) {
     e.preventDefault();
     e.stopPropagation();
-    setCartProducts(product);
+
+    showCartPopup(product);
     popUp.current.click();
     console.log("hello ");
   }
@@ -80,18 +89,16 @@ export default function ProductList() {
               </div>
             ) : products && products.length > 0 ? (
               products.map((product) => (
-                <>
-                  <div key={product._id}>
-                    <ProductCard
-                      variant="nonSimilar"
-                      product={product}
-                      handleShopping={(e) => handleShopping(e, product)}
-                      handleProductPopUp={(e) => {
-                        handleProductPopUp(e, product);
-                      }}
-                    />
-                  </div>
-                </>
+                <div key={product._id}>
+                  <ProductCard
+                    variant="nonSimilar"
+                    product={product}
+                    handleShopping={(e) => handleShopping(e, product)}
+                    handleProductPopUp={(e) => {
+                      handleProductPopUp(e, product);
+                    }}
+                  />
+                </div>
               ))
             ) : (
               <>
@@ -103,7 +110,6 @@ export default function ProductList() {
           </div>
         </div>
 
-        <ShoppingCartTopUp ref={popUp} product={cartProducts} />
         <ProductDetailsPopUp
           ref={productPopUp}
           product={currentProduct}

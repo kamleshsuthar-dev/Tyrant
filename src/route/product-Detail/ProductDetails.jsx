@@ -128,7 +128,7 @@ export default function ProductDetail() {
       setNewProduct(initialProduct);
       setCategoryP(initialCategoryP);
     }
-  }, [pId,newProduct.avgRating]);
+  }, [pId,newProduct?.avgRating]);
 
   // Fetch related products by category using a custom hook
   const [categoryData, categoryError, categoryLoading] = GetApi(

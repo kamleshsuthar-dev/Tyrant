@@ -4,29 +4,29 @@ import { Button } from "@/components/ui/button";
 import axios from "axios";
 import { forwardRef, useState } from "react";
 import { NavLink } from "react-router-dom";
-import DeleteBtn from "../../component/home/DeleteBtn.jsx";
+import DeleteBtn from "../../components/home/DeleteBtn.jsx";
 
 const SkeletonCartItem = () => {
   return (
-    <div className="flex items-center p-4 border-b animate-pulse">
-      <div className="bg-gray-200 h-15 w-15 mr-4"></div>
+    <div className="flex animate-pulse items-center border-b p-4">
+      <div className="h-15 w-15 mr-4 bg-gray-200"></div>
       <div className="flex-1">
-        <div className="h-3 bg-gray-200 rounded w-3/4 mb-2"></div>
-        <div className="h-2 bg-gray-200 rounded w-1/4 mb-2"></div>
-        <div className="h-2 bg-gray-200 rounded w-1/2"></div>
+        <div className="mb-2 h-3 w-3/4 rounded bg-gray-200"></div>
+        <div className="mb-2 h-2 w-1/4 rounded bg-gray-200"></div>
+        <div className="h-2 w-1/2 rounded bg-gray-200"></div>
       </div>
       <div className="mx-4">
-        <div className="h-2 bg-gray-200 rounded w-16"></div>
+        <div className="h-2 w-16 rounded bg-gray-200"></div>
       </div>
       <div>
-        <div className="h-2 bg-gray-200 rounded w-20"></div>
+        <div className="h-2 w-20 rounded bg-gray-200"></div>
       </div>
     </div>
   );
 };
 
-const ShoppingCartTopUp = forwardRef(({ product }, ref) => {
-  // console.log(product,"shoppingcart");
+const ShoppingCartTopUp = forwardRef(({  }, ref) => {
+  // console.log(product, "shoppingcartttttt");
 
   const [isOpen, setIsOpen] = useState(false);
   const [cartItems, setCartItems] = useState([]);
@@ -55,9 +55,11 @@ const ShoppingCartTopUp = forwardRef(({ product }, ref) => {
 
     try {
       let res = await axios.get(`${import.meta.env.VITE_GET_CART_PRODUCT}`);
-      console.log("shop popupp  ", res);
+      // console.log("shop popupp  ", res);
       // let reversedData = res.data.reverse();
-      setCartItems(res.data.reverse());
+      let reverseData = res.data.reverse()
+      console.log("showCartPopup", reverseData);
+      setCartItems(reverseData);
       setShoppingPopupLoadeer(false);
       setCartMessage(true);
       cartText.textContent = "Item Has Been Added Successfully";
@@ -103,7 +105,7 @@ const ShoppingCartTopUp = forwardRef(({ product }, ref) => {
   };
 
   return (
-    <div>
+    <div className="z-50">
       <Button onClick={addToCart} ref={ref} className="hidden">
         Add to Cart
       </Button>
@@ -111,21 +113,21 @@ const ShoppingCartTopUp = forwardRef(({ product }, ref) => {
       {isOpen && (
         <>
           <div
-            className="main-box fixed inset-0 bg-primary/20 z-50 transition-opacity"
+            className="main-box fixed inset-0 z-50 bg-primary/20 transition-opacity"
             onClick={() => setIsOpen(false)}
           />
-          <div className="fixed bottom-0 right-4 z-50 w-full max-w-[380px] animate-slide-up ">
-            <div className="bg-background rounded-t-3xl shadow-lg overflow-hidden max-w-[380px]">
+          <div className="fixed bottom-0 right-4 z-50 w-full max-w-[380px] animate-slide-up">
+            <div className="max-w-[380px] overflow-hidden rounded-t-3xl bg-background shadow-lg">
               <div
-                className="p-6 max-w-[380px]"
+                className="max-w-[380px] p-6"
                 onMouseEnter={enter}
                 onMouseLeave={leave}
               >
-                <div className="flex  justify-center relative items-center mb-4">
-                  <h2 className="text-2xl text-center  font-bold">Cart</h2>
+                <div className="relative mb-4 flex items-center justify-center">
+                  <h2 className="text-center text-2xl font-bold">Cart</h2>
                   <button
                     onClick={() => setIsOpen(false)}
-                    className="text-muted-foreground absolute top-2 right-2 hover:text-foreground"
+                    className="absolute right-2 top-2 text-muted-foreground hover:text-foreground"
                   >
                     X
                   </button>
@@ -133,12 +135,12 @@ const ShoppingCartTopUp = forwardRef(({ product }, ref) => {
 
                 <div className="space-y-4">
                   <div
-                    className={`cartMessage bg-accent text-primary px-4 py-0.5 rounded-md text-sm text-extrabold text-center ${cartMessage === true ? " " : "hidden"}`}
+                    className={`cartMessage text-extrabold rounded-md bg-accent px-4 py-0.5 text-center text-sm text-primary ${cartMessage === true ? " " : "hidden"}`}
                   >
                     Item Has Been Added Successfully
                   </div>
 
-                  <div className="space-y-4 h-[150px] overflow-y-auto scrollbar-hide">
+                  <div className="scrollbar-hide h-[150px] space-y-4 overflow-y-auto">
                     {shoppingPopupLoader ? (
                       <>
                         <SkeletonCartItem />
@@ -148,26 +150,28 @@ const ShoppingCartTopUp = forwardRef(({ product }, ref) => {
                     ) : (
                       cartItems.map((cartItem) => (
                         <div key={cartItem._id} className="flex gap-4">
-                          <div className="h-16 w-16 bg-muted rounded-md overflow-hidden">
+                          <div className="h-16 w-16 overflow-hidden rounded-md bg-muted">
                             <img
                               src={
-                                cartItem.productId.pImages[0].URL ||
-                                "/placeholder.svg"
+                                Array.isArray(cartItem.productId?.pImages) &&
+                                cartItem.productId.pImages.length > 0
+                                  ? cartItem.productId.pImages[0].URL
+                                  : "/placeholder.svg"
                               }
-                              alt={cartItem.name}
+                              alt={cartItem?.productId?.pName}
                               className="h-full w-full object-cover"
                             />
                           </div>
                           <div className="flex-1 items-center">
-                            <h3 className="font-medium text-sm">
-                              {cartItem.productId.pName}
+                            <h3 className="text-sm font-medium">
+                              {cartItem?.productId?.pName}
                             </h3>
-                            <div className="text-sm text-muted-foreground mt-1">
-                              Rs.{cartItem.productId.pPrice.toFixed(2)}
+                            <div className="mt-1 text-sm text-muted-foreground">
+                              Rs.{(cartItem?.productId?.pPrice * (100 - cartItem?.productId?.pOffer)) / 100}
                             </div>
                           </div>
                           <div
-                            className="h-12 w-9 bg-[#FF1010] rounded-md flex justify-center items-center"
+                            className="flex h-12 w-9 items-center justify-center rounded-md bg-[#FF1010]"
                             onClick={() => deleteCartBtn(cartItem._id)}
                           >
                             <DeleteBtn />
@@ -177,21 +181,21 @@ const ShoppingCartTopUp = forwardRef(({ product }, ref) => {
                     )}
                   </div>
 
-                  <div className="flex justify-between pt-4 border-t">
+                  <div className="flex justify-between border-t pt-4">
                     <div className="font-medium">SUBTOTAL</div>
                     {/* <div className="font-medium">${subtotal.toFixed(2)}</div> */}
                   </div>
 
-                  <div className="space-y-2 ">
+                  <div className="space-y-2">
                     <NavLink to="/checkout">
-                      <Button className="w-full rounded-full h-[1.75rem]">
+                      <Button className="h-[1.75rem] w-full rounded-full">
                         CHECK OUT
                       </Button>
                     </NavLink>
                     <NavLink to="/shoppingcart">
                       <Button
                         variant="secondary"
-                        className="w-full rounded-full h-[1.75rem] mt-2 text-bold "
+                        className="text-bold mt-2 h-[1.75rem] w-full rounded-full"
                       >
                         View Cart
                       </Button>
