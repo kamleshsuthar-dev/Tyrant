@@ -3,7 +3,7 @@
 import { Minus, Plus } from "lucide-react";
 import { Suspense, lazy, useEffect, useRef, useState } from "react";
 
-import ProductDetailSkeleton from "@/component/skeleton/ProductDetailSkeleton";
+import ProductDetailSkeleton from "@/components/skeleton/ProductDetailSkeleton";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import {

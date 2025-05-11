@@ -6,7 +6,7 @@ import axios from "axios";
 import { Minus, Plus } from "lucide-react";
 import { useCallback, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import DeleteBtn from "../../component/home/DeleteBtn.jsx";
+import DeleteBtn from "../../components/home/DeleteBtn.jsx";
 export default function ShoppingCart() {
   // const {cart}= useCartContext()
   const { isLoginUser, setCartQuantity } = useGoogleAuthContext();

@@ -2,7 +2,7 @@ import React, { Suspense } from 'react'
 // import Header from './src/route/Header.jsx'
 import Footer from './src/route/header/Footer.jsx'
 import { Outlet } from 'react-router-dom'
-import NewHeader from './src/route/NewHeader.jsx'
+import NewHeader from './src/route/header/NewHeader.jsx'
 import { motion ,useScroll} from "framer-motion";
 
 

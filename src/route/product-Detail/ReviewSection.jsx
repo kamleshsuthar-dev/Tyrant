@@ -5,7 +5,7 @@ import { Progress } from "@/components/ui/progress";
 import { StarSVG } from "@/features/reuseable-component/StarRating";
 import { Star } from "lucide-react";
 import { useEffect, useState } from "react";
-import DeleteBtn from "@/component/home/DeleteBtn.jsx";
+import DeleteBtn from "@/components/home/DeleteBtn.jsx";
 import {
   Dialog,
   DialogContent,

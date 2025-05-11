@@ -16,38 +16,36 @@ import AboutUs from "./route/header/AboutUs.jsx";
 import ReviewSection from "./route/product-Detail/ReviewSection.jsx";
 import ReviewFilter from "./route/product-Detail/ReviewFilter.jsx";
 import ProductDesciption from "./route/product-Detail/ProductDescription.jsx";
-import ProductListSkeleton from "./component/skeleton/ProductListSkeleton.jsx";
-import DeleteBtn from "./component/home/DeleteBtn.jsx";
-import ShoppingCartSkeleton from "./component/skeleton/ShoppingCartSkeleton.jsx";
-import { OtpVerification } from "./component/Auth/Register/OtpVerification.jsx";
+import ProductListSkeleton from "@/components/skeleton/ProductListSkeleton.jsx";
+import DeleteBtn from "./components/home/DeleteBtn.jsx";
+import ShoppingCartSkeleton from "./components/skeleton/ShoppingCartSkeleton.jsx";
+import { OtpVerification } from "./components/Auth/Register/OtpVerification.jsx";
 import { useGoogleAuthContext } from "./context/GoogleAuth.jsx";
-import { ProductAdminPanel } from "./component/AdminPanel/product/ProductAdminPanel.jsx";
-import ProductDeleteAdminPanel from "./component/AdminPanel/product/ProductDeleteAdminPanel.jsx";
+import { ProductAdminPanel } from "./components/AdminPanel/product/ProductAdminPanel.jsx";
+import ProductDeleteAdminPanel from "./components/AdminPanel/product/ProductDeleteAdminPanel.jsx";
 import AuthRedirect from "./route/protectedRoute/AuthRedirect.jsx";
 // Lazy loaded components
-const ProductList = lazy(() => import("./route/ProductList.jsx"));
-const Login = lazy(() => import("./component/Auth/Login/Login.jsx"));
+const ProductList = lazy(() => import("./route/product-Detail/ProductList.jsx"));
+const Login = lazy(() => import("./components/Auth/Login/Login.jsx"));
 const ShoppingCartTopUp = lazy(() =>
   import("./route/shoppingCart/ShoppingCartTopUp.jsx")
 );
-const Password = lazy(() => import("./component/Auth/Password.jsx"));
-const GoogleAuth = lazy(() => import("./component/Auth/GoogleAuth.jsx"));
+const Password = lazy(() => import("./components/Auth/SetPassword.jsx"));
+const GoogleAuth = lazy(() => import("./components/Auth/GoogleAuth.jsx"));
 // const ProductDetails = lazy(() =>
 //   import("./route/product-Detail/ProductDetails.jsx")
 // );
 import ProductDetails from "./route/product-Detail/ProductDetails.jsx";
 
-// const ShoppingCart = lazy(() =>
-//   import("./route/shoppingCart/ShoppingCart.jsx")
-// );
+
 import ShoppingCart from "./route/shoppingCart/ShoppingCart.jsx";
 const WishList = lazy(() => import("./route/wishlist/WishList.jsx"));
 const CheckOut = lazy(() => import("./route/profile/order/CheckOut.jsx"));
 const ForgotPasswordForm = lazy(() =>
-  import("./component/Auth/ForgotPassword/ForgotPasswordForm.jsx")
+  import("./components/Auth/ForgotPassword/ForgotPasswordForm.jsx")
 );
 const NewRegister = lazy(() =>
-  import("./component/Auth/Register/NewRegister.jsx")
+  import("./components/Auth/Register/NewRegister.jsx")
 );
 const Profile = lazy(() => import("./route/profile/ProfileHome.jsx"));
 const EditProfile = lazy(() => import("./route/profile/user-profile/Profile.jsx"));
@@ -68,18 +66,19 @@ import axios from "axios";
 
 
 
-import ProductDetailSkeleton from "./component/skeleton/ProductDetailSkeleton.jsx";
+import ProductDetailSkeleton from "./components/skeleton/ProductDetailSkeleton.jsx";
 import UserProtected from "./route/protectedRoute/UserProtected.jsx";
 import AdminProtected from "./route/protectedRoute/AdminProtected.jsx";
-import AddCategory from "./component/AdminPanel/category/AddCategory.jsx";
-import DeleteCategory from "./component/AdminPanel/category/DeleteCategory.jsx";
-import GetCategory from "./component/AdminPanel/category/GetCategory.jsx";
-import GetProductByCategory from "./component/AdminPanel/product/GetProductByCategory.jsx";
-import EditCategory from "./component/AdminPanel/category/EditCategory.jsx";
-import { EditProduct } from "./component/AdminPanel/product/EditProduct.jsx";
-import { OtpForResetPass } from "./component/Auth/ForgotPassword/OtpForResetPass.jsx";
-import UpdatePassword from "./component/Auth/ForgotPassword/UpdatePassword.jsx";
+import AddCategory from "./components/AdminPanel/category/AddCategory.jsx";
+import DeleteCategory from "./components/AdminPanel/category/DeleteCategory.jsx";
+import GetCategory from "./components/AdminPanel/category/GetCategory.jsx";
+import GetProductByCategory from "./components/AdminPanel/product/GetProductByCategory.jsx";
+import EditCategory from "./components/AdminPanel/category/EditCategory.jsx";
+import { EditProduct } from "./components/AdminPanel/product/EditProduct.jsx";
+import { OtpForResetPass } from "./components/Auth/ForgotPassword/OtpForResetPass.jsx";
+import UpdatePassword from "./components/Auth/ForgotPassword/UpdatePassword.jsx";
 import EditAddress from "./route/profile/address/EditAddress.jsx";
+import SetPassword from "./components/Auth/SetPassword.jsx";
 // import GetCategory from "./component/AdminPanel/category/GetCategory.jsx";
 
 axios.defaults.withCredentials = true;
@@ -277,7 +276,7 @@ function App() {
           path="password"
           element={
             <Suspense fallback={<LoadingFallback />}>
-              <Password />
+              <SetPassword/>
             </Suspense>
           }
         />
