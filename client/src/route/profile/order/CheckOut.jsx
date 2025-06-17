@@ -15,13 +15,14 @@ import { ChevronDown, Plus } from "lucide-react";
 import { useEffect, useState } from "react";
 import { useLocation } from "react-router-dom";
 
-import CreateOrder from "./CreateOrder.jsx";
+import COD from "./COD.jsx";
 import RayzerPay from "./RayzerPay.jsx";
 
 export default function CheckoutPage() {
   const location = useLocation();
-  const { cartCheckItemsId } = location.state;
-
+  const { cartCheckItemsId ,pId } = location.state;
+      console.log("cartCheckItemsId :",cartCheckItemsId , "pId:",pId);
+      
   // State for addresses
   const [addresses, setAddresses] = useState([]);
   const [selectedAddresses, setSelectedAddresses] = useState([]);
@@ -151,18 +152,7 @@ export default function CheckoutPage() {
         setContactInfo(null);
       }
     };
-    // const fetchContactInfo = async () => {
-    //   try {
-    //     // In a real app, replace with actual API call
-    //     // const response = await mockFetchContactInfo()
-    //     let res = await axios.get(`${import.meta.env.VITE_GET_PROFILE}`)
-    //                console.log(res.data.user ,"");
-
-    //     setContactInfo(res?.data?.user)
-    //   } catch (error) {
-    //     console.error("Error fetching contact info:", error)
-    //   }
-    // }
+  
 
     const fetchDeliveryItems = async () => {
       try {
@@ -436,7 +426,7 @@ export default function CheckoutPage() {
                 <span>₹{orderSummary.total}</span>
               </div>
             </div>
-            <CreateOrder
+            <COD
               profile={contactInfo}
               Tamount={orderSummary.total}
               cartItems={createOrderItems}
@@ -468,91 +458,3 @@ export default function CheckoutPage() {
   );
 }
 
-// Mock API functions (replace with actual API calls in a real app)
-// async function mockFetchAddresses() {
-//   // Simulate API delay
-//   await new Promise((resolve) => setTimeout(resolve, 500))
-
-//   return [
-//     {
-//       id: "1",
-//       name: "Manus Limbachiya",
-//       phone: "+91 8758403944",
-//       addressLine: "5, Rajpur, UMA PG, Mahesana, Gujarat - 382715",
-//       city: "Mahesana",
-//       state: "Gujarat",
-//       pincode: "382715",
-//       type: "PG",
-//       isDefault: true,
-//     },
-//     {
-//       id: "2",
-//       name: "Manus Limbachiya",
-//       phone: "+91 8758403944",
-//       addressLine: "5, Rajpur, UMA PG, Mahesana, Gujarat - 382715",
-//       city: "Mahesana",
-//       state: "Gujarat",
-//       pincode: "382715",
-//       type: "Home",
-//     },
-//     {
-//       id: "3",
-//       name: "Manus Limbachiya",
-//       phone: "+91 8758403944",
-//       addressLine: "10, Main Street, Ahmedabad, Gujarat - 380001",
-//       city: "Ahmedabad",
-//       state: "Gujarat",
-//       pincode: "380001",
-//       type: "Office",
-//     },
-//     {
-//       id: "4",
-//       name: "Manus Limbachiya",
-//       phone: "+91 8758403944",
-//       addressLine: "15, Park Avenue, Surat, Gujarat - 395007",
-//       city: "Surat",
-//       state: "Gujarat",
-//       pincode: "395007",
-//       type: "Other",
-//     },
-//   ]
-// }
-
-// async function mockFetchContactInfo(){
-//   // Simulate API delay
-//   await new Promise((resolve) => setTimeout(resolve, 300))
-
-//   return {
-//     email: "infochrysan4v75@gmail.com",
-//     phone: "+91 8758403944",
-//   }
-// }
-
-// async function mockFetchDeliveryItems() {
-//   // Simulate API delay
-//   // await new Promise((resolve) => setTimeout(resolve, 400))
-
-//   // return [
-//   //   {
-//   //     id: "1",
-//   //     name: "Adaa Jaipur Comfort Floral Printed Casual Shirt",
-//   //     image: "/placeholder.svg?height=96&width=96",
-//   //     standardDelivery: "today",
-//   //     price: 199,
-//   //   },
-//   //   {
-//   //     id: "2",
-//   //     name: "Adaa Jaipur Comfort Floral Printed Casual Shirt",
-//   //     image: "/placeholder.svg?height=96&width=96",
-//   //     standardDelivery: "today",
-//   //     price: 199,
-//   //   },
-//   // ]
-
-//   let res = await axios.get(`${import.meta.env.VITE_GET_CART_PRODUCT}`);
-//         console.log("check ", res.data);
-//         let checkItem = res.data.filter((item)=> cartCheckItemsId.includes(item._id))
-//         console.log("includesss ", checkItem);
-
-//         return checkItem
-// }

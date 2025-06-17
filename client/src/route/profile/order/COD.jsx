@@ -1,7 +1,7 @@
 import { Button } from "@/components/ui/button";
 import axios from "axios";
 
-function CreateOrder({
+function COD({
   profile,
   Tamount,
   cartItems,
@@ -48,4 +48,4 @@ function CreateOrder({
   );
 }
 
-export default CreateOrder;
+export default COD;

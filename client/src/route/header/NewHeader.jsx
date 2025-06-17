@@ -37,13 +37,9 @@ const products = [
   // { name: 'Integrations', description: 'Connect with third-party tools', href: '#', icon: SquaresPlusIcon },
   // { name: 'Automations', description: 'Build strategic funnels that will convert', href: '#', icon: ArrowPathIcon },
 ];
-const callsToAction = [
-  { name: "Watch demo", href: "#", icon: PlayCircleIcon },
-  { name: "Contact sales", href: "#", icon: PhoneIcon },
-];
 
 export default function NewHeader() {
-  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  // const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const {
     setIsLoginUser,
     setUserDetails,
@@ -51,7 +47,7 @@ export default function NewHeader() {
   } = useGoogleAuthContext();
   //  console.log(cartQuantity,"fgfdgdfg");
 
-  let navigate = useNavigate();
+  // let navigate = useNavigate();
   const [isLogin, setIsLogin] = useState(false);
 
   useEffect(() => {

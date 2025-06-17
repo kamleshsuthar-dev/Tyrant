@@ -1,12 +1,12 @@
-import React from 'react'
+
 import { Navigate , Outlet,useLocation } from 'react-router-dom'
-import { useNavigate } from 'react-router-dom'
+// import { useNavigate } from 'react-router-dom'
 import { useGoogleAuthContext } from '@/context/GoogleAuth'
 function UserProtected() {
-  const navigate = useNavigate()
+  // const navigate = useNavigate()
   
   const location = useLocation();
-    const {userDetails,isLoginUser} = useGoogleAuthContext()
+    const {isLoginUser} = useGoogleAuthContext()
                 console.log("userProtected...",isLoginUser);
 
                 if (isLoginUser === undefined || isLoginUser === null) {

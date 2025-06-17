@@ -127,13 +127,13 @@ export default function ShoppingCart() {
       .map((item) => item._id);
   };
 
-  const handleCheckout = (e) => {
+  const handleCheckout = () => {
+   
     const cartCheckItemsId = getCheckedItemIds();
-
-    // console.log(cartCheckItemsId);
-
+    console.log("1234",cartCheckItemsId);
     navigate("/checkout", { state: { cartCheckItemsId } });
   };
+
   return (
     <div className="w-full max-w-[1300px] mx-auto p-4">
       <h1

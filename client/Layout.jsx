@@ -1,6 +1,6 @@
-import React, { Suspense } from 'react'
+import  { Suspense } from 'react'
 // import Header from './src/route/Header.jsx'
-import Footer from './src/route/header/Footer.jsx'
+
 import { Outlet } from 'react-router-dom'
 import NewHeader from './src/route/header/NewHeader.jsx'
 import { motion ,useScroll} from "framer-motion";
@@ -10,7 +10,7 @@ import { useShoppingPOpUp } from '@/context/ShoppingPopUpContext.jsx';
 
 function Layout() {
   const {scrollYProgress} = useScroll()
-    const {popupRef,product}=useShoppingPOpUp()
+    const {popupRef}=useShoppingPOpUp()
 
   return (
     <>
