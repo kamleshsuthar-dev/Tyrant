@@ -11,6 +11,7 @@ const EditProfile = lazy(() => import("@/route/profile/user-profile/Profile"));
 const EditAddress = lazy(() => import("@/route/profile/address/EditAddress"));
 const WishList = lazy(() => import("@/route/wishlist/WishList"));
 const Profile = lazy(() => import("@/route/profile/ProfileHome"));
+
 const UserRoutes = (
   <>
     <Route path="/profile"

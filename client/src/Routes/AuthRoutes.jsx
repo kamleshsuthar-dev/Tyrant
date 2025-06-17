@@ -12,3 +12,4 @@ export const AuthRoutes = (
 );
 
 export default AuthRoutes;
+
