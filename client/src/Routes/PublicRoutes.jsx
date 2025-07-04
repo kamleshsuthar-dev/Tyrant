@@ -2,13 +2,13 @@ import Home from "@/route/header/Home";
 import { lazy, Suspense } from "react";
 import { Route } from "react-router-dom";
 
-// const ProductDesciption = lazy(() => import("@/route/product-Detail/ProductDescription"));
+const ProductDesciption = lazy(() => import("@/route/product-Detail/ProductDescription"));
 const ShoppingCartTopUp = lazy(() => import("@/route/shoppingCart/ShoppingCartTopUp"));
 const ShoppingCart = lazy(() => import("@/route/shoppingCart/ShoppingCart"));
-const ReviewSection = lazy(() => import("@/route/product-detail/ReviewSection"));
-const ReviewFilter = lazy(() => import("@/route/product-detail/ReviewFilter"));
-const ProductList = lazy(() => import("@/route/product-detail/ProductList"));
-const ProductDetails = lazy(() => import("@/route/product-detail/ProductDetails"));
+const ReviewSection = lazy(() => import("@/route/product-Detail/ReviewSection"));
+const ReviewFilter = lazy(() => import("@/route/product-Detail/ReviewFilter"));
+const ProductList = lazy(() => import("@/route/product-Detail/ProductList"));
+const ProductDetails = lazy(() => import("@/route/product-Detail/ProductDetails"));
 const OtpForResetPass = lazy(() => import("@/components/Auth/ForgotPassword/OtpForResetPass"));
 const ForgotPasswordForm = lazy(() => import("@/components/Auth/ForgotPassword/ForgotPasswordForm"));
 const SetPassword = lazy(() => import("@/components/Auth/SetPassword"));
@@ -41,13 +41,13 @@ export const PublicRoutes = (
         </Suspense>
       }/>
 
-    {/* <Route
+    <Route
       path="description"
       element={
         <Suspense>
           <ProductDesciption />
         </Suspense>
-      }/> */}
+      }/>
 
     <Route
       path="filter"
