@@ -50,7 +50,7 @@ const ProductDetailsPopUp = forwardRef(({ product, cId }, ref) => {
     <>
       <div ref={ref} onClick={handleClick} />
       <Drawer open={open} onOpenChange={setOpen}>
-        <DrawerContent className="scrollbar-hide mx-[5vh] mt-5vh h-[90vh] max-w-7xl overflow-y-auto rounded-t-xl border-none bg-transparent pb-0 outline-none sm:mx-auto [&::after]:hidden">
+        <DrawerContent className="scrollbar-hide mt-5vh mx-[5vh] h-[90vh] max-w-7xl overflow-y-auto rounded-t-xl border-none bg-transparent pb-0 outline-none sm:mx-auto [&::after]:hidden">
           <DrawerHeader>
             <VisuallyHidden>
               <DrawerTitle>Product Details</DrawerTitle>
@@ -61,7 +61,7 @@ const ProductDetailsPopUp = forwardRef(({ product, cId }, ref) => {
           </DrawerHeader>
 
           <div className="absolute h-auto w-full pb-[5vh]">
-            <div className="relative flex flex-col h-[80vh] w-full items-stretch justify-center rounded-3xl bg-secondary overflow-clip border-[3px] border-primary ">
+            <div className="relative flex h-[80vh] w-full flex-col items-stretch justify-center overflow-clip rounded-3xl border-[3px] border-primary bg-secondary">
               {/* {product.pName}
                 <Button   onClick={(e) => productDetailFunction(e, product)} className="absolute bottom-0 ">See More</Button> */}
               <div className="pb-10">
@@ -70,13 +70,16 @@ const ProductDetailsPopUp = forwardRef(({ product, cId }, ref) => {
 
               <Button
                 onClick={(e) => productDetailFunction(e, product)}
-                className="absolute bottom-0 inset-x-0 max-h-10 bg-secondary text-primary hover:bg-gray-200 border-t-2 border-primary border-dashed rounded-none "
+                className="absolute inset-x-0 bottom-0 max-h-10 rounded-none border-t-2 border-dashed border-primary bg-secondary text-primary hover:bg-gray-200"
               >
                 See More
               </Button>
             </div>
-            <div id="similarProductSection" className="mt-[5vh] h-auto w-full flex justify-center  rounded-3xl bg-secondary border-[3px] border-primary">
-              <div className="grid-cols-auto m-4 grid md:grid-cols-4 w-full items-center justify-items-center">
+            <div
+              id="similarProductSection"
+              className="mt-[5vh] flex h-auto w-full justify-center rounded-3xl border-[3px] border-primary bg-secondary"
+            >
+              <div className="grid-cols-auto m-4 grid w-full items-center justify-items-center md:grid-cols-4">
                 {categoryP && categoryP.length > 0 ? (
                   <>
                     {categoryP.map((p) => (

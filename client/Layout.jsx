@@ -2,9 +2,9 @@ import  { Suspense } from 'react'
 // import Header from './src/route/Header.jsx'
 
 import { Outlet } from 'react-router-dom'
-import NewHeader from './src/route/header/NewHeader.jsx'
+import NewHeader from './src/pages/header/NewHeader.jsx'
 import { motion ,useScroll} from "framer-motion";
-import ShoppingCartTopUp from '@/route/shoppingCart/ShoppingCartTopUp.jsx';
+import ShoppingCartTopUp from '@/pages/shoppingCart/ShoppingCartTopUp.jsx';
 import { useShoppingPOpUp } from '@/context/ShoppingPopUpContext.jsx';
 
 

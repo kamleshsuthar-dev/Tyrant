@@ -2,44 +2,22 @@
 
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 import { useGoogleAuthContext } from "@/context/GoogleAuth";
-import { PhoneIcon, PlayCircleIcon } from "@heroicons/react/20/solid";
-import {
-  ChartPieIcon,
-  CursorArrowRaysIcon,
-  FingerPrintIcon,
-} from "@heroicons/react/24/outline";
+
+
 import axios from "axios";
 import { Heart, Home, List, ShoppingCart, User } from "lucide-react";
 import { useEffect, useState } from "react";
 import { NavLink, useNavigate } from "react-router-dom";
 
 import { Button } from "@mui/material";
+import AdminProtected from "@/Routes/protectedRoute/AdminProtected";
+import { useIsAdmin } from "@/hooks/useIsAdmin";
 
-const products = [
-  {
-    name: "Analytics",
-    description: "Get a better understanding of your traffic",
-    href: "#",
-    icon: ChartPieIcon,
-  },
-  {
-    name: "Engagement",
-    description: "Speak directly to your customers",
-    href: "#",
-    icon: CursorArrowRaysIcon,
-  },
-  {
-    name: "Security",
-    description: "Your customers’ data will be safe and secure",
-    href: "#",
-    icon: FingerPrintIcon,
-  },
-  // { name: 'Integrations', description: 'Connect with third-party tools', href: '#', icon: SquaresPlusIcon },
-  // { name: 'Automations', description: 'Build strategic funnels that will convert', href: '#', icon: ArrowPathIcon },
-];
 
+ 
 export default function NewHeader() {
   // const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const isAdmin = useIsAdmin()
   const {
     setIsLoginUser,
     setUserDetails,
@@ -152,12 +130,13 @@ export default function NewHeader() {
           </div>
 
           {/* Desktop navigation links */}
-          <div className="hidden lg:flex ml-9 gap-5 items-center">
+          <div className="hidden lg:flex ml-9 gap-10 items-center">
             <NavLink to="/">List</NavLink>
-            <NavLink to="/">Jackets</NavLink>
-            <NavLink to="/">Services</NavLink>
             <NavLink to="/">About</NavLink>
             <NavLink to="/">Contact</NavLink>
+
+            { isAdmin ?  <NavLink to="/admin/category/all">Admin Dashboard</NavLink> : null }
+           
           </div>
 
           {/* Search bar and user controls */}

@@ -3,14 +3,14 @@ import { lazy, Suspense } from "react";
 // import ShoppingCart from "@/route/shoppingCart/ShoppingCart";
 // import ShoppingCartTopUp from "./../route/shoppingCart/ShoppingCartTopUp";
 
-const Orders = lazy(() => import("@/route/profile/order/Order"));
-const CheckoutPage = lazy(() => import("@/route/profile/order/CheckOut"));
-const Address = lazy(() => import("@/route/profile/address/Address"));
-const AddAddress = lazy(() => import("@/route/profile/address/AddAddress"));
-const EditProfile = lazy(() => import("@/route/profile/user-profile/Profile"));
-const EditAddress = lazy(() => import("@/route/profile/address/EditAddress"));
-const WishList = lazy(() => import("@/route/wishlist/WishList"));
-const Profile = lazy(() => import("@/route/profile/ProfileHome"));
+const Orders = lazy(() => import("@/pages/profile/order/Order"));
+const CheckoutPage = lazy(() => import("@/pages/profile/order/CheckOut"));
+const Address = lazy(() => import("@/pages/profile/address/Address"));
+const AddAddress = lazy(() => import("@/pages/profile/address/AddAddress"));
+const EditProfile = lazy(() => import("@/pages/profile/user-profile/Profile"));
+const EditAddress = lazy(() => import("@/pages/profile/address/EditAddress"));
+const WishList = lazy(() => import("@/pages/wishlist/WishList"));
+const Profile = lazy(() => import("@/pages/profile/ProfileHome"));
 
 const UserRoutes = (
   <>

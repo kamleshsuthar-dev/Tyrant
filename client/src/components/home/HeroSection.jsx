@@ -30,20 +30,20 @@ function HeroSection() {
 
   return (
     <>
-      <div className="h-auto w-full grid grid-cols-12 [grid-template-rows:repeat(14,minmax(100px,auto))] p-3 lg:py-4 lg:px-12 gap-y-6 gap-x-4">
-        <div className="min-h-[content-fit] relative col-span-12 row-span-1 overflow-hidden aspect-[4.61/1] bg-slate-400 rounded-xl flex justify-center items-center">
+      <div className="grid h-auto w-full grid-cols-12 gap-x-4 gap-y-6 p-3 [grid-template-rows:repeat(14,minmax(100px,auto))] lg:px-12 lg:py-4">
+        <div className="relative col-span-12 row-span-1 flex aspect-[4.61/1] min-h-[content-fit] items-center justify-center overflow-hidden rounded-xl bg-slate-400">
           <img
             src="https://res.cloudinary.com/dzzs9yjcf/image/upload/v1746168602/Ad_Section_abm7zv.png"
             alt=""
-            className="object-cover h-full w-full absolute"
+            className="absolute h-full w-full object-cover"
           />
         </div>
         {loading ? (
-          <div className="col-span-12 flex justify-center items-center">
+          <div className="col-span-12 flex items-center justify-center">
             Loading categories...
           </div>
         ) : error ? (
-          <div className="col-span-12 flex justify-center items-center ">
+          <div className="col-span-12 flex items-center justify-center">
             {" "}
             loading categories,{" "}
             <span className="text-red-500"> {error.message}</span>
@@ -52,32 +52,32 @@ function HeroSection() {
           categories.map((category) => (
             <div
               key={category._id}
-              className="col-span-4 row-span-1 rounded-xl flex justify-center items-center cursor-pointer "
+              className="col-span-4 row-span-1 flex cursor-pointer items-center justify-center rounded-xl"
               onClick={() => handleProductList(category._id, category)}
             >
-              <div className="flex justify-center items-center z-10 w-[75%] aspect-[1.54/1] border-[5px] border-primary rounded-2xl overflow-clip">
+              <div className="z-10 flex aspect-[1.54/1] w-[75%] items-center justify-center overflow-clip rounded-2xl border-[5px] border-primary">
                 <img
                   src={category.cImageURL}
                   alt={category.name || "Category"}
-                  className="object-cover h-full w-full"
+                  className="h-full w-full object-cover"
                 />
               </div>
             </div>
           ))
         ) : (
-          <div className="col-span-12 flex justify-center items-center">
+          <div className="col-span-12 flex items-center justify-center">
             No categories found
           </div>
         )}
 
-        <div className="col-span-6 row-span-4 bg-[#696969] rounded-xl" />
-        <div className="col-span-2 row-span-4 bg-[#b3f54a] rounded-xl" />
-        <div className="col-span-4 row-span-2 bg-[#7d7d7d] rounded-xl" />
-        <div className="col-span-2 row-span-2 bg-[#202020] rounded-xl " />
-        <div className="col-span-2 row-span-4 bg-[#7ebc1b] rounded-xl" />
-        <div className="col-span-4 row-span-2 bg-[#4a6027] rounded-xl" />
-        <div className="col-span-6 row-span-2 bg-[#494949] rounded-xl" />
-        <div className="col-span-12 row-span-6 bg-[#7ebc1b] rounded-xl" />
+        <div className="col-span-6 row-span-4 rounded-xl bg-[#696969]" />
+        <div className="col-span-2 row-span-4 rounded-xl bg-[#b3f54a]" />
+        <div className="col-span-4 row-span-2 rounded-xl bg-[#7d7d7d]" />
+        <div className="col-span-2 row-span-2 rounded-xl bg-[#202020]" />
+        <div className="col-span-2 row-span-4 rounded-xl bg-[#7ebc1b]" />
+        <div className="col-span-4 row-span-2 rounded-xl bg-[#4a6027]" />
+        <div className="col-span-6 row-span-2 rounded-xl bg-[#494949]" />
+        <div className="col-span-12 row-span-6 rounded-xl bg-[#7ebc1b]" />
       </div>
     </>
   );

@@ -9,18 +9,18 @@ import StarRating from "@/features/reuseable-component/StarRating";
 
 const SkeletonCartItem = () => {
   return (
-    <div className="flex items-center p-4 border-b animate-pulse">
-      <div className="bg-gray-200 h-20 w-20 mr-4"></div>
+    <div className="flex animate-pulse items-center border-b p-4">
+      <div className="mr-4 h-20 w-20 bg-gray-200"></div>
       <div className="flex-1">
-        <div className="h-4 bg-gray-200 rounded w-3/4 mb-2"></div>
-        <div className="h-3 bg-gray-200 rounded w-1/4 mb-2"></div>
-        <div className="h-3 bg-gray-200 rounded w-1/2"></div>
+        <div className="mb-2 h-4 w-3/4 rounded bg-gray-200"></div>
+        <div className="mb-2 h-3 w-1/4 rounded bg-gray-200"></div>
+        <div className="h-3 w-1/2 rounded bg-gray-200"></div>
       </div>
       <div className="mx-4">
-        <div className="h-4 bg-gray-200 rounded w-16"></div>
+        <div className="h-4 w-16 rounded bg-gray-200"></div>
       </div>
       <div>
-        <div className="h-4 bg-gray-200 rounded w-20"></div>
+        <div className="h-4 w-20 rounded bg-gray-200"></div>
       </div>
     </div>
   );
@@ -108,16 +108,16 @@ export default function WishList() {
 
   return (
     <div className="main-container mx-auto px-4 py-8">
-      <div className="text-sm breadcrumbs mb-6">
+      <div className="breadcrumbs mb-6 text-sm">
         <span className="text-muted-foreground">MY ACCOUNT &gt; WISHLIST</span>
       </div>
 
       <div className="mb-8">
         <h1 className="text-2xl font-semibold">WELCOME TO,</h1>
-        <h2 className="text-3xl font-bold ml-36">{userName}</h2>
+        <h2 className="ml-36 text-3xl font-bold">{userName}</h2>
       </div>
 
-      <div className="space-y-6 overflow-y-auto ">
+      <div className="space-y-6 overflow-y-auto">
         {isLoading === true ? (
           <>
             <SkeletonCartItem />
@@ -125,14 +125,14 @@ export default function WishList() {
             <SkeletonCartItem />
           </>
         ) : wishlistItems.length < 1 ? (
-          <h1 className=" text-4xl text-center flex-grow h-40 border rounded-xl flex justify-center items-center">
+          <h1 className="flex h-40 flex-grow items-center justify-center rounded-xl border text-center text-4xl">
             No items in Wishlist{" "}
           </h1>
         ) : (
           wishlistItems.map((wishlist) => (
             <div
               key={wishlist?._id}
-              className="flex items-center gap-6 border rounded-xl p-4"
+              className="flex items-center gap-6 rounded-xl border p-4"
             >
               <div
                 className="shrink-0"
@@ -155,8 +155,8 @@ export default function WishList() {
                   productDetailFunction(wishlist?._id, wishlistItems)
                 }
               >
-                <h3 className="font-medium mb-2">{wishlist?.pName}</h3>
-                <div className="flex items-center gap-1 mb-1">
+                <h3 className="mb-2 font-medium">{wishlist?.pName}</h3>
+                <div className="mb-1 flex items-center gap-1">
                   <StarRating
                     rating={wishlist.avgRating}
                     Pcolor="#FFC224"
@@ -166,7 +166,7 @@ export default function WishList() {
                 <p className="text-sm text-muted-foreground">
                   Status: {wishlist?.pStatus}
                 </p>
-                <div className="flex items-center gap-2 mt-1">
+                <div className="mt-1 flex items-center gap-2">
                   <span className="font-bold">
                     Rs.{(wishlist?.pPrice * (100 - wishlist?.pOffer)) / 100}
                   </span>
@@ -178,7 +178,7 @@ export default function WishList() {
 
               <div className="flex flex-col gap-2">
                 <Button
-                  className="bg-green-500 hover:bg-green-600 text-secondary"
+                  className="bg-green-500 text-secondary hover:bg-green-600"
                   onClick={() =>
                     productDetailFunction(wishlist?._id, wishlistItems)
                   }

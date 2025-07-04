@@ -25,23 +25,23 @@ export default function PorductCard({
         }
         className="group w-fit"
       >
-        <Card className="group relative p-4 my-3 flex max-w-[242px] overflow-visible rounded-3xl border-0 shadow-lg  !text-secondary">
-          <div className="absolute h-[287px] w-[70%]  bg-accent left-[10px] bottom-0 transition-transform rounded-3xl origin-bottom-left group-hover:rotate-[-20deg] z-0">
+        <Card className="group relative my-3 flex max-w-[242px] overflow-visible rounded-3xl border-0 p-4 !text-secondary shadow-lg">
+          <div className="absolute bottom-0 left-[10px] z-0 h-[287px] w-[70%] origin-bottom-left rounded-3xl bg-accent transition-transform group-hover:rotate-[-20deg]">
             <div
-              className="absolute top-5 left-5 rotate-[20deg]"
+              className="absolute left-5 top-5 rotate-[20deg]"
               onClick={handleShopping}
             >
               <ShoppingCartSVG />
             </div>
           </div>
-          <div className="absolute h-full w-full bg-primary top-0 left-0 rounded-3xl z-5"></div>
-          <CardContent className="relative z-10 flex flex-col w-[210px] p-0 ">
-            <div className="relative w-[212px] h-[180px] mb-3 bg-secondary rounded-2xl group-hover:bg-accent overflow-hidden">
-              <div className="absolute w-[1000px] h-[1000px] rounded-lg flex flex-col overflow-clip z-0 translate-x-[-50%] translate-y-[-50%] top-[50%] left-[50%]">
+          <div className="z-5 absolute left-0 top-0 h-full w-full rounded-3xl bg-primary"></div>
+          <CardContent className="relative z-10 flex w-[210px] flex-col p-0">
+            <div className="relative mb-3 h-[180px] w-[212px] overflow-hidden rounded-2xl bg-secondary group-hover:bg-accent">
+              <div className="absolute left-[50%] top-[50%] z-0 flex h-[1000px] w-[1000px] translate-x-[-50%] translate-y-[-50%] flex-col overflow-clip rounded-lg">
                 {[...Array(20)].map((_, i) => (
                   <div
                     key={i}
-                    className="h-[200%] w-[1.5px] bg-[#3d3d3d6c] rotate-[31deg]"
+                    className="h-[200%] w-[1.5px] rotate-[31deg] bg-[#3d3d3d6c]"
                     style={{ marginLeft: `${i * 20}px`, position: "absolute" }}
                   ></div>
                 ))}
@@ -50,11 +50,11 @@ export default function PorductCard({
               <img
                 alt={product.imageAlt}
                 src={product.pImages[0].URL}
-                className="z-10 absolute aspect-square mb-[12px] group-hover:scale-[85%] transition-transform scale-75 self-center w-[212px] h-[180px] rounded-lg  object-contain  xl:aspect-[7/8] translate-x-[-50%] translate-y-[-50%] top-[50%] left-[50%]"
+                className="absolute left-[50%] top-[50%] z-10 mb-[12px] aspect-square h-[180px] w-[212px] translate-x-[-50%] translate-y-[-50%] scale-75 self-center rounded-lg object-contain transition-transform group-hover:scale-[85%] xl:aspect-[7/8]"
               />
             </div>
 
-            <h3 className="text-xl font-bold line-clamp-2">{product.pName}</h3>
+            <h3 className="line-clamp-2 text-xl font-bold">{product.pName}</h3>
 
             <div className="mt-1 flex items-center gap-1">
               <StarRating
@@ -63,7 +63,7 @@ export default function PorductCard({
                 Scolor="#fff"
               />
               <span
-                className={`text-sm  ${
+                className={`text-sm ${
                   product.reviewCount == 0 ? "hidden" : " "
                 }`}
               >
@@ -80,7 +80,7 @@ export default function PorductCard({
               </div>
 
               <div className="flex items-center gap-2">
-                <div className="rounded-md w-[57px] text-center bg-[#FFB524] inline-block px-1 pt-1 pb-[1px] text-xs text-primary">
+                <div className="inline-block w-[57px] rounded-md bg-[#FFB524] px-1 pb-[1px] pt-1 text-center text-xs text-primary">
                   {product.pOffer}% Off
                 </div>
                 <span className="text-xl font-semibold">

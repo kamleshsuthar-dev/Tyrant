@@ -1,6 +1,6 @@
-import AdminProtected from "@/route/protectedRoute/AdminProtected";
-import AuthRedirect from "@/route/protectedRoute/AuthRedirect";
-import UserProtected from "@/route/protectedRoute/UserProtected";
+import AdminProtected from "@/Routes/protectedRoute/AdminProtected";
+import AuthRedirect from "@/Routes/protectedRoute/AuthRedirect";
+import UserProtected from "@/Routes/protectedRoute/UserProtected";
 import { Route, Routes } from "react-router-dom";
 import Layout from "./../../Layout";
 import AdminRoutes from "./AdminRoutes";

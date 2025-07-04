@@ -9,13 +9,7 @@ const AdminProtected = () => {
 
   // Show a loading state until userDetails is available
 
-if(isLoginUser === false){
-  // setTimeout(() => {
-  //   Navigate( to='/')
-  // }, 3000);
-
-  return <h1 className="text-center h-[90%] capitalize text-2xl  top-[50%]">user is not login </h1>
-}
+  if(isLoginUser === false) return <h1 className="text-center h-[90%] capitalize text-2xl  top-[50%]">user is not login </h1>
   
   if (userDetails === undefined || userDetails === null) {
   

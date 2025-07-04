@@ -1,11 +1,7 @@
 "use client";
 
-import { Button } from "@/components/ui/button";
-import { Progress } from "@/components/ui/progress";
-import { StarSVG } from "@/features/reuseable-component/StarRating";
-import { Star } from "lucide-react";
-import { useEffect, useState } from "react";
 import DeleteBtn from "@/components/home/DeleteBtn.jsx";
+import { Button } from "@/components/ui/button";
 import {
   Dialog,
   DialogContent,
@@ -14,10 +10,14 @@ import {
 } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import { Progress } from "@/components/ui/progress";
 import { Textarea } from "@/components/ui/textarea";
 import { useGoogleAuthContext } from "@/context/GoogleAuth";
 import CustomPieChart from "@/features/reuseable-component/CustomPieChart";
+import { StarSVG } from "@/features/reuseable-component/StarRating";
 import axios from "axios";
+import { Star } from "lucide-react";
+import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import ReviewFilter from "./ReviewFilter";
 
@@ -101,7 +101,7 @@ export default function ReviewSection({ avgRating, onReviewChange }) {
   //   getReview();
   // }, [filterValue, sortValue,pId]);
   const [reviewLoading, setReviewLoading] = useState(false);
-  const [reviewMessage , setReviewMessage] = useState()
+  const [reviewMessage, setReviewMessage] = useState();
   const fetchReviews = async (page = 1) => {
     setReviewLoading(true);
     try {
@@ -138,12 +138,11 @@ export default function ReviewSection({ avgRating, onReviewChange }) {
     }
   };
 
-  
-
   useEffect(() => {
     setCurrPage(1); // reset page when sort/filter changes
     fetchReviews(1);
-  }, [sortValue, filterValue,pId]);
+  }, [sortValue, filterValue, pId]);
+  
   const reviewPagination = () => {
     const totalPages = Math.ceil(ratingStats.totalReviews / 5);
     if (currPage < totalPages) {
@@ -152,7 +151,7 @@ export default function ReviewSection({ avgRating, onReviewChange }) {
       fetchReviews(nextPage);
     } else {
       console.log("No more reviews");
-      setReviewMessage("No more reviews")
+      setReviewMessage("No more reviews");
     }
   };
 
@@ -296,7 +295,7 @@ export default function ReviewSection({ avgRating, onReviewChange }) {
   };
 
   return (
-    <div className="mx-auto relative max-w-4xl space-y-6 p-4">
+    <div className="relative mx-auto max-w-4xl space-y-6 p-4">
       {/* review add  */}
       <div className="flex flex-wrap items-start justify-between">
         <h2 className="text-2xl font-semibold">Ratings & Reviews</h2>
@@ -316,7 +315,7 @@ export default function ReviewSection({ avgRating, onReviewChange }) {
 
             <div
               id="review-dialog-description"
-              className="text-sm text-muted-foreground mb-2"
+              className="mb-2 text-sm text-muted-foreground"
             >
               Share your thoughts about the product.
             </div>
@@ -392,7 +391,7 @@ export default function ReviewSection({ avgRating, onReviewChange }) {
               <div className="flex flex-col items-center justify-center gap-4">
                 <CustomPieChart average={ratingStats.average} />
                 <div className="text-[24px] font-semibold text-primary">
-                  <div className="font-semibold text-center">
+                  <div className="text-center font-semibold">
                     {ratingStats.totalReviews.toLocaleString()}
                   </div>
                   <div> Ratings & Reviews</div>
@@ -403,8 +402,8 @@ export default function ReviewSection({ avgRating, onReviewChange }) {
               <div className="space-y-2">
                 {ratingStats.distribution.map((count, index) => (
                   <div key={5 - index} className="flex items-center gap-[20px]">
-                    <div className="flex justify-center items-center gap-1 bg-primary rounded-full px-3 text-secondary p-1">
-                      <div className=" text-sm flex gap-1 w-[30px]">
+                    <div className="flex items-center justify-center gap-1 rounded-full bg-primary p-1 px-3 text-secondary">
+                      <div className="flex w-[30px] gap-1 text-sm">
                         {5 - index} <StarSVG color="#fff" />
                       </div>
                       <Progress
@@ -419,7 +418,7 @@ export default function ReviewSection({ avgRating, onReviewChange }) {
                       />
                     </div>
                     {/* <Progress value={(count / Math.max(...ratingStats.distribution)) * 100} className="h-2" /> */}
-                    <div className="w-16 text-lg font-bold text-primary pl-1 text-right">
+                    <div className="w-16 pl-1 text-right text-lg font-bold text-primary">
                       {count.toLocaleString()}
                     </div>
                   </div>
@@ -432,22 +431,17 @@ export default function ReviewSection({ avgRating, onReviewChange }) {
         )}
 
         {/* Reviews List */}
-        <div className="no-scrollbar  max-h-full space-y-4 overflow-scroll">
-        
-          {
-          reviews && reviews.length > 0 ? (
+        <div className="no-scrollbar max-h-full space-y-4 overflow-scroll">
+          {reviews && reviews.length > 0 ? (
             reviews.map((review) => (
               <div
-               
                 key={review._id || `review-${Math.random()}`}
-               
                 className="rounded-2xl border-[2px] border-primary"
-              
               >
                 <div className="relative space-y-2 p-4 shadow-none">
                   <div className="flex items-center gap-2">
                     <div className="flex">
-                      <div className=" text-[13px] flex gap-1 bg-primary text-secondary pt-[3px] px-2 rounded-full h-[24px]">
+                      <div className="flex h-[24px] gap-1 rounded-full bg-primary px-2 pt-[3px] text-[13px] text-secondary">
                         {review.rating} <StarSVG color="#fff" scale={75} />
                       </div>
                       {/* <StarRating rating={review.rating} Pcolor="#202020" Scolor="#e6e3e0 " /> */}
@@ -456,11 +450,11 @@ export default function ReviewSection({ avgRating, onReviewChange }) {
                       {review?.user?.name || "Anonymous"}
                     </span>
                   </div>
-               
-                  <p className="text-lg font-medium px-4">
+
+                  <p className="px-4 text-lg font-medium">
                     {review?.review?.description || "No Description"}
                   </p>
-                  <p className="text-xl text-primary font-bold">
+                  <p className="text-xl font-bold text-primary">
                     {review?.review?.title || "No Title"}
                   </p>
                   {review?.user?._id === userDetails?._id && (
@@ -479,14 +473,20 @@ export default function ReviewSection({ avgRating, onReviewChange }) {
               No reviews yet. Be the first to add one!
             </div>
           )}
-
-         
         </div>
       </div>
-     
+
       {reviews && ratingStats.totalReviews && (
-        <Button variant="secondary" onClick={reviewPagination} className="w-full">
-              {reviewLoading ? "Loading..." : reviewMessage ? "No more reviews" : "See More"}
+        <Button
+          variant="secondary"
+          onClick={reviewPagination}
+          className="w-full"
+        >
+          {reviewLoading
+            ? "Loading..."
+            : reviewMessage
+              ? "No more reviews"
+              : "See More"}
         </Button>
       )}
     </div>

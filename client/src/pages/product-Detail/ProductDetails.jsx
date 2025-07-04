@@ -1,7 +1,8 @@
+
 "use client";
 
 import { Minus, Plus } from "lucide-react";
-import { lazy, useEffect, useRef, useState } from "react";
+import { Suspense, lazy, useEffect, useRef, useState } from "react";
 
 import ProductDetailSkeleton from "@/components/skeleton/ProductDetailSkeleton";
 import { Button } from "@/components/ui/button";
@@ -14,24 +15,24 @@ import {
 import { Label } from "@/components/ui/label";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { useGoogleAuthContext } from "@/context/GoogleAuth";
-import axios from "axios";
-import { useNavigate } from "react-router-dom";
-// import WishList from "../wishlist/WishList";
-// import ReviewSection from "./ReviewSection";
-// import ProductDesciption from "./ProductDescription";
-import { useShoppingPOpUp } from "@/context/ShoppingPopUpContext";
+import { GetApi } from "@/features/reuseable-component/ApiCaller";
+import PorductCard from "@/features/reuseable-component/PorductCard";
 import StarRating from "@/features/reuseable-component/StarRating";
-const ShoppingCartTopUp = lazy(() => import("@/pages/shoppingCart/ShoppingCartTopUp"));
+import axios from "axios";
+import { useLocation, useNavigate, useParams } from "react-router-dom";
+import ReviewSection from "./ReviewSection";
+const ShoppingCartTopUp = lazy(
+  () => import("../shoppingCart/ShoppingCartTopUp"),
+);
 
 // import { cn } from "@/lib/utils"
 function cn(...classes) {
   return classes.filter(Boolean).join(" ");
 }
 
-export default function ProductDetailCard({ pId }) {
+export default function ProductDetail() {
   const { isLoginUser } = useGoogleAuthContext();
-  const { showCartPopup } = useShoppingPOpUp();
-  //   const {pId} = useParams()
+  const { pId } = useParams();
 
   const [quantity, setQuantity] = useState(1);
 
@@ -47,37 +48,63 @@ export default function ProductDetailCard({ pId }) {
   const [count, setCount] = useState(0);
   const [hoveredImageIndex, setHoveredImageIndex] = useState(null);
   const [activeIndex, setActiveIndex] = useState(0);
-  const [product, setProduct] = useState(null);
   const [wishlist, setWishlist] = useState(false);
   const [reviewsUpdated, setReviewsUpdated] = useState(0);
 
   const navigate = useNavigate();
   const popUp = useRef(null);
 
-  useEffect(() => {
-    const singlePrd = async () => {
-      try {
-        let res = await axios.get(
-          `${import.meta.env.VITE_PRODUCT_SINGLE_PRODUCT}?pId=${pId}`,
-        );
+  const location = useLocation();
 
-        console.log("detail", res.data.product);
-        if (res.data.product.isInWishlist) {
-          setWishlist(true);
-        } else {
-          setWishlist(false);
+  const { product: initialProduct, categoryP: initialCategoryP } =
+    location.state || {};
+
+  const [newProduct, setNewProduct] = useState(initialProduct || null);
+
+  const [categoryP, setCategoryP] = useState(initialCategoryP || null);
+
+  // Fetch product from API if not passed via location.state
+  useEffect(() => {
+    if (!initialProduct) {
+      const singlePrd = async () => {
+        try {
+          const res = await axios.get(
+            `${import.meta.env.VITE_PRODUCT_SINGLE_PRODUCT}?pId=${pId}`,
+          );
+          const fetchedProduct = res.data.product;
+
+          setWishlist(fetchedProduct.isInWishlist);
+          setNewProduct(fetchedProduct);
+        } catch (error) {
+          console.log(error);
         }
-        setProduct(res.data.product);
-      } catch (error) {
-        return <ProductDetailSkeleton />;
-      }
-    };
-    singlePrd();
-  }, [pId]);
+      };
+
+      singlePrd();
+    } else {
+      setNewProduct(initialProduct);
+      setCategoryP(initialCategoryP);
+    }
+  }, [pId, newProduct?.avgRating]);
+
+  // Fetch related products by category using a custom hook
+  const [categoryData, categoryError, categoryLoading] = GetApi(
+    initialCategoryP
+      ? `${import.meta.env.VITE_PRODUCT_BY_CATEGORY}?cId=${newProduct.pCategory}`
+      : null,
+    "get product by category api",
+  );
+
+  // When category data arrives, update state
+  useEffect(() => {
+    if (categoryData?.data?.products) {
+      setCategoryP(categoryData.data.products);
+    }
+  }, [categoryData]);
 
   useEffect(() => {
     window.scrollTo(0, 0);
-    setProduct(null);
+    // setNewProduct(null)
   }, [pId]);
 
   useEffect(() => {
@@ -103,49 +130,68 @@ export default function ProductDetailCard({ pId }) {
 
   const [wishlistLoading, setWishlistLoading] = useState(false);
 
-  const addToWishList = async () => {
-    if (isLoginUser === true) {
-      try {
-        setWishlistLoading(true);
-        const res = await axios.post(
-          `${import.meta.env.VITE_PRODUCT_TOGGLE_WISHLIST}`,
-          { productId: pId },
-          { withCredentials: true },
-        );
-        console.log(res.data);
-        setWishlist((prev) => !prev);
-        setWishlistLoading(false);
-      } catch (error) {
-        console.log("whishlist api error", error);
+  const addToWishList = () => {
+    const wishlistfun = async () => {
+      if (isLoginUser === true) {
+        try {
+          setWishlistLoading(true);
+          const res = await axios.post(
+            `${import.meta.env.VITE_PRODUCT_TOGGLE_WISHLIST}`,
+            { productId: pId },
+            { withCredentials: true },
+          );
+          console.log(res.data);
+          setWishlist((prev) => !prev);
+          setWishlistLoading(false);
+        } catch (error) {
+          console.log("whishlist api error", error);
+        }
+      } else {
+        alert("login toh kar pahle ");
       }
-    } else {
-      alert("login toh kar pahle ");
+    };
+
+    wishlistfun();
+  };
+
+  const addtoCart = async () => {
+    if (!isLoginUser) {
+      alert("Please login to add items in cart");
+      return;
+    }
+
+    try {
+      popUp.current.click();
+      axios
+        .post(`${import.meta.env.VITE_ADD_CART_PRODUCT}`, {
+          productId: pId,
+          quantity: quantity,
+          color: selectedColor,
+          size: selectedSize,
+        })
+        .then((res) => {
+          console.log(res.data.message);
+        })
+        .catch((error) => {
+          console.log("Add to cart API error:", error);
+        });
+    } catch (error) {
+      console.log("Add to cart error:", error);
     }
   };
 
-  const addtoCart = async (e, product) => {
-    showCartPopup(product);
-  };
-
   const checkOut = () => {
-    navigate("/checkout");
+    navigate("/checkout", { state: { pId } });
   };
 
-  if (!product)
-    return (
-      <>
-        <ProductDetailSkeleton />
-      </>
-    );
-
-  const productImages = product.pImages.map((img) => img.URL) || [];
-
+  if (!newProduct) return <ProductDetailSkeleton />;
+  const productImages = newProduct.pImages.map((img) => img.URL) || [];
   return (
     <>
-      <div className="bg-secondary" id="top">
+      <div className="min-h-screen bg-secondary p-4" id="top">
         <div className="mx-auto max-w-7xl">
           {/* Main Product Section */}
-          <div className="overflow-hidden rounded-3xl bg-secondary">
+          <Card className="overflow-hidden rounded-3xl bg-secondary">
             <div className="grid gap-8 p-4 md:grid-cols-2 md:p-8">
               {/* Image Section */}
               <div className="relative flex w-fit justify-center rounded-3xl bg-primary p-4 md:justify-between">
@@ -224,19 +270,19 @@ export default function ProductDetailCard({ pId }) {
               </div>
 
               {/* Product Details Section */}
-              <div className="space-y-2">
-                <div>
-                  <h1 className="text-2xl font-bold">{product.pName}</h1>
-                  <p>{product.pDescription}</p>
+              <div className="space-y-6">
+                <div className="flex flex-col items-start">
+                  <h1 className="text-2xl font-bold">{newProduct.pName}</h1>
+                  <p>{newProduct.pDescription}</p>
                   <div className="mt-2 flex items-center gap-2 text-xs text-gray-600">
-                    <span className="">{product.avgRating}</span>
+                    <span className="">{newProduct.avgRating}</span>
                     <StarRating
-                      rating={product.avgRating}
+                      rating={newProduct.avgRating}
                       Pcolor="#FFC224"
                       Scolor="#202020"
                     />
                     <span
-                      className={`flex items-center justify-center gap-1 ${product.reviewCount == 0 ? "hidden" : " "}`}
+                      className={`flex items-center justify-center gap-1 ${newProduct.reviewCount == 0 ? "hidden" : " "}`}
                     >
                       <svg
                         xmlns="http://www.w3.org/2000/svg"
@@ -253,7 +299,7 @@ export default function ProductDetailCard({ pId }) {
                           strokeLinejoin="round"
                         />
                       </svg>
-                      {product.reviewCount}
+                      {newProduct.reviewCount}
                     </span>
                   </div>
                 </div>
@@ -261,25 +307,26 @@ export default function ProductDetailCard({ pId }) {
                 <div className="space-y-1 border-b-2 border-dashed border-[#2020202c] pb-4">
                   <div className="flex items-center gap-2">
                     <span className="text-2xl font-bold">
-                      Rs. {(product.pPrice * (100 - product.pOffer)) / 100}
+                      Rs.{" "}
+                      {(newProduct.pPrice * (100 - newProduct.pOffer)) / 100}
                     </span>
                     <span className="text-sm text-gray-500 line-through">
-                      Rs. {product.pPrice}
+                      Rs. {newProduct.pPrice}
                     </span>
                     <span className="rounded bg-[#72D570] px-1 py-1 text-sm font-medium text-primary">
-                      {product.pOffer}% Off
+                      {newProduct.pOffer}% Off
                     </span>
                   </div>
-                  <p className="text-xs text-primary">
+                  <p className="text-start text-sm text-primary">
                     Tax included. Shipping calculated at checkout.
                   </p>
                 </div>
 
                 {/* Size Selector */}
-                <div className="relative !mt-2 space-y-2">
-                  <div className="absolute right-8 flex gap-2">
+                <div className="relative !mt-4 space-y-4">
+                  <div className="absolute right-10 flex gap-5">
                     <button
-                      className={`scale-[0.85] bg-none ${
+                      className={`bg-none ${
                         wishlistLoading ? "cursor-wait" : ""
                       } `}
                       onClick={addToWishList}
@@ -306,7 +353,7 @@ export default function ProductDetailCard({ pId }) {
                         />
                       </svg>
                     </button>
-                    <button className="scale-[0.8] bg-none">
+                    <button className="bg-none">
                       <svg
                         xmlns="http://www.w3.org/2000/svg"
                         width="23"
@@ -323,7 +370,7 @@ export default function ProductDetailCard({ pId }) {
                       </svg>
                     </button>
                   </div>
-                  <div className="!mt-0">
+                  <div className="!mt-0 text-start">
                     <Label className="text-xl">Size</Label>
                     <RadioGroup
                       defaultValue={selectedSize}
@@ -334,7 +381,7 @@ export default function ProductDetailCard({ pId }) {
                         return (
                           <Label
                             key={size}
-                            className={`flex w-[60px] cursor-pointer items-center justify-center rounded-xl border-2 bg-[#42985A] py-[3px] text-sm text-secondary ${
+                            className={`px-auto flex w-[60px] cursor-pointer items-center justify-center rounded-xl border-2 bg-[#42985A] py-[1.5px] text-lg text-secondary ${
                               selectedSize === size
                                 ? "border-[#35343A] bg-[#35343A]"
                                 : "border-[#42985A] hover:border-[#42985A]"
@@ -349,7 +396,7 @@ export default function ProductDetailCard({ pId }) {
                   </div>
 
                   {/* Color Selector */}
-                  <div>
+                  <div className="text-start">
                     <Label className="text-xl">Color</Label>
                     <RadioGroup
                       defaultValue={selectedColor}
@@ -376,24 +423,24 @@ export default function ProductDetailCard({ pId }) {
                   </div>
 
                   {/* Quantity Selector */}
-                  <div>
+                  <div className="text-start">
                     <Label className="text-xl">Quantity</Label>
                     <div className="mt-2 flex w-fit items-center rounded-lg bg-primary text-secondary">
                       <Button
-                        variant="primary"
+                        variant="outline"
                         size="icon"
-                        className="h-8 w-7 border-none bg-transparent hover:bg-transparent hover:text-secondary"
+                        className="border-none bg-transparent hover:bg-transparent hover:text-secondary"
                         onClick={() => setQuantity(Math.max(1, quantity - 1))}
                       >
-                        <Minus className="h-2 w-2" />
+                        <Minus className="h-4 w-4" />
                       </Button>
-                      <span className="w-10 border-l-2 border-r-2 text-center text-sm">
+                      <span className="w-12 border-l-2 border-r-2 text-center text-lg">
                         {quantity}
                       </span>
                       <Button
-                        variant="primary"
+                        variant="outline"
                         size="icon"
-                        className="h-8 w-7 border-none bg-transparent hover:bg-transparent hover:text-secondary"
+                        className="border-none bg-transparent hover:bg-transparent hover:text-secondary"
                         onClick={() => setQuantity(quantity + 1)}
                       >
                         <Plus className="h-4 w-4" />
@@ -403,23 +450,23 @@ export default function ProductDetailCard({ pId }) {
                 </div>
 
                 {/* Action Buttons */}
-                <div className="flex w-full flex-row flex-wrap gap-4">
-                  {/* <div>
+                <div className="flex max-w-[460px] flex-row flex-wrap gap-4 lg:max-w-full">
+                  <div>
                     <Suspense fallback={<div>Loading...</div>}>
-                      <ShoppingCartTopUp ref={popUp} product={product} />
+                      <ShoppingCartTopUp ref={popUp} product={newProduct} />
                     </Suspense>
-                  </div> */}
+                  </div>
                   <Button
                     variant="primary"
-                    className="flex w-full rounded-xl py-0"
-                    onClick={(e) => addtoCart(e)}
+                    className="flex w-full rounded-xl text-xl"
+                    onClick={addtoCart}
                   >
                     Add to Cart
                   </Button>
 
                   <Button
                     variant="accent"
-                    className="flex w-full rounded-xl py-0"
+                    className="flex w-full rounded-xl text-xl"
                     onClick={checkOut}
                   >
                     Buy Now
@@ -427,6 +474,27 @@ export default function ProductDetailCard({ pId }) {
                 </div>
               </div>
             </div>
+          </Card>
+
+          {/* review  */}
+          <div className="mt-4">
+            <ReviewSection
+              avgRating={newProduct.avgRating}
+              onReviewChange={() => setReviewsUpdated(Date.now())}
+            />
+          </div>
+
+          {/* Similar newProducts */}
+          <div className="grid-cols-auto mt-8 grid gap-4 md:grid-cols-4">
+            {categoryP && categoryP.length > 0 ? (
+              <>
+                {categoryP.map((p) => (
+                  <PorductCard product={p} categoryP={categoryP} />
+                ))}
+              </>
+            ) : (
+              <></>
+            )}
           </div>
         </div>
       </div>

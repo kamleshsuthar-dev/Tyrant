@@ -10,8 +10,8 @@ import { GetApi } from "@/features/reuseable-component/ApiCaller";
 import ProductCard from "@/features/reuseable-component/PorductCard";
 
 import { useShoppingPOpUp } from "@/context/ShoppingPopUpContext";
-import ProductDetailsPopUp from "./ProductDetailPopUp";
 import { useMemo } from "react";
+import ProductDetailsPopUp from "./ProductDetailPopUp";
 
 export default function ProductList() {
   const location = useLocation();
@@ -29,21 +29,20 @@ export default function ProductList() {
   const { showCartPopup } = useShoppingPOpUp();
 
   const apiUrl = useMemo(() => {
-  return `${import.meta.env.VITE_PRODUCT_BY_CATEGORY}?cId=${cId}`;
-}, [cId]);
+    return `${import.meta.env.VITE_PRODUCT_BY_CATEGORY}?cId=${cId}`;
+  }, [cId]);
   const [data, error, loading] = GetApi(apiUrl, "get product by category api");
 
-
   useEffect(() => {
-  if (
-    data &&
-    data.data &&
-    data.data.products &&
-    JSON.stringify(data.data.products) !== JSON.stringify(products)
-  ) {
-    setProducts(data.data.products);
-  }
-}, [data]);
+    if (
+      data &&
+      data.data &&
+      data.data.products &&
+      JSON.stringify(data.data.products) !== JSON.stringify(products)
+    ) {
+      setProducts(data.data.products);
+    }
+  }, [data]);
 
   function handleShopping(e, product) {
     e.preventDefault();
