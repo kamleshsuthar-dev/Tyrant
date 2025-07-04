@@ -2,7 +2,7 @@ import Home from "@/route/header/Home";
 import { lazy, Suspense } from "react";
 import { Route } from "react-router-dom";
 
-const ProductDesciption = lazy(() => import("@/route/product-Detail/ProductDescription"));
+// const ProductDesciption = lazy(() => import("@/route/product-Detail/ProductDescription"));
 const ShoppingCartTopUp = lazy(() => import("@/route/shoppingCart/ShoppingCartTopUp"));
 const ShoppingCart = lazy(() => import("@/route/shoppingCart/ShoppingCart"));
 const ReviewSection = lazy(() => import("@/route/product-detail/ReviewSection"));
@@ -41,13 +41,13 @@ export const PublicRoutes = (
         </Suspense>
       }/>
 
-    <Route
+    {/* <Route
       path="description"
       element={
         <Suspense>
           <ProductDesciption />
         </Suspense>
-      }/>
+      }/> */}
 
     <Route
       path="filter"
