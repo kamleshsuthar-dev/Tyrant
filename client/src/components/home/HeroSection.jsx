@@ -11,21 +11,16 @@ function HeroSection() {
     import.meta.env.VITE_ADMIN_GET_ALL_CATEGORY,
     "get category api ",
   );
+
   useEffect(() => {
     if (data && data.data && data.data.Categories) {
       setCategories(data.data.Categories);
     }
   }, [data]);
-  console.log("Categories:", data.data?.Categories);
+  // console.log("Categories:", data.data?.Categories);
 
   const handleProductList = (id, category) => {
-    // console.log();
-
-    navigate(`productlist/${id}`, {
-      state: { cName: category.cName, cDescription: category.cDescription },
-    });
-    // Navigate(<HomeProduct path=''/>)
-    // <HomeProduct/>
+    navigate(`productlist/${id}`, { state: { cName: category.cName, cDescription: category.cDescription }});
   };
 
   return (

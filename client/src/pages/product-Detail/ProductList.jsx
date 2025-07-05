@@ -1,17 +1,11 @@
-import { useEffect, useRef, useState } from "react";
-
+import { useEffect, useRef, useState,useMemo } from "react";
 import { useLocation, useParams } from "react-router-dom";
-
-// import { Star, StarHalf } from "lucide-react"
-
 import ProductListSkeleton from "@/components/skeleton/ProductListSkeleton";
-
 import { GetApi } from "@/features/reuseable-component/ApiCaller";
 import ProductCard from "@/features/reuseable-component/PorductCard";
-
 import { useShoppingPOpUp } from "@/context/ShoppingPopUpContext";
-import { useMemo } from "react";
 import ProductDetailsPopUp from "./ProductDetailPopUp";
+
 
 export default function ProductList() {
   const location = useLocation();
@@ -20,7 +14,7 @@ export default function ProductList() {
     cDescription: "Shyam",
   };
 
-  const discount = 20;
+ 
   const { cId } = useParams();
   const [products, setProducts] = useState([]);
   const [currentProduct, setCurrentProduct] = useState([]);
@@ -31,15 +25,11 @@ export default function ProductList() {
   const apiUrl = useMemo(() => {
     return `${import.meta.env.VITE_PRODUCT_BY_CATEGORY}?cId=${cId}`;
   }, [cId]);
+  
   const [data, error, loading] = GetApi(apiUrl, "get product by category api");
 
   useEffect(() => {
-    if (
-      data &&
-      data.data &&
-      data.data.products &&
-      JSON.stringify(data.data.products) !== JSON.stringify(products)
-    ) {
+    if (data && data.data &&data.data.products &&JSON.stringify(data.data.products) !== JSON.stringify(products)) {
       setProducts(data.data.products);
     }
   }, [data]);
@@ -47,10 +37,8 @@ export default function ProductList() {
   function handleShopping(e, product) {
     e.preventDefault();
     e.stopPropagation();
-
     showCartPopup(product);
     popUp.current.click();
-    console.log("hello ");
   }
 
   function handleProductPopUp(e, product) {
@@ -58,7 +46,6 @@ export default function ProductList() {
     e.stopPropagation();
     setCurrentProduct(product);
     productPopUp.current.click();
-    console.log("hello ");
   }
 
   if (loading) return <ProductListSkeleton />;
@@ -79,7 +66,7 @@ export default function ProductList() {
             ) : error ? (
               <div className="col-span-12 flex items-center justify-center">
                 {" "}
-                loading Products,
+                Something wrong in Products,
                 <span className="text-red-500">
                   {" "}
                   {error?.response?.data?.message}

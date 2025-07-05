@@ -7,11 +7,7 @@ import { Suspense, lazy, useEffect, useRef, useState } from "react";
 import ProductDetailSkeleton from "@/components/skeleton/ProductDetailSkeleton";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
-import {
-  Carousel,
-  CarouselContent,
-  CarouselItem,
-} from "@/components/ui/carousel";
+import {Carousel,CarouselContent,CarouselItem} from "@/components/ui/carousel";
 import { Label } from "@/components/ui/label";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { useGoogleAuthContext } from "@/context/GoogleAuth";
@@ -21,14 +17,11 @@ import StarRating from "@/features/reuseable-component/StarRating";
 import axios from "axios";
 import { useLocation, useNavigate, useParams } from "react-router-dom";
 import ReviewSection from "./ReviewSection";
-const ShoppingCartTopUp = lazy(
-  () => import("../shoppingCart/ShoppingCartTopUp"),
-);
-
-// import { cn } from "@/lib/utils"
+const ShoppingCartTopUp = lazy(() => import("../shoppingCart/ShoppingCartTopUp"));
 function cn(...classes) {
   return classes.filter(Boolean).join(" ");
 }
+
 
 export default function ProductDetail() {
   const { isLoginUser } = useGoogleAuthContext();
