@@ -1,7 +1,7 @@
 import axios from "axios";
 import { useEffect, useRef, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
-import { PasswordCloseEye, PasswordOpenEye } from "../../assets/Icons";
+import { PasswordCloseEye, PasswordOpenEye } from "@/assets/Icons";
 
 function SetPassword() {
   //  const {userDetails} = useGoogleAuthContext()
