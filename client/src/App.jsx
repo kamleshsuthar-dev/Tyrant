@@ -2,8 +2,7 @@
 import axios from "axios";
 import MainRoutes from "./Routes/MainRoutes.jsx";
 import { GoogleOAuthProvider } from "@react-oauth/google";
-
-import GoogleAuth from "./components/Auth/GoogleAuth.jsx";
+import {GoogleAuth} from "./features/auth";
 
 
 

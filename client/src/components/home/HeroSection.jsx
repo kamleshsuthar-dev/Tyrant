@@ -1,4 +1,4 @@
-import { GetApi } from "@/features/reuseable-component/ApiCaller";
+import { GetApi } from "@/components/components";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 

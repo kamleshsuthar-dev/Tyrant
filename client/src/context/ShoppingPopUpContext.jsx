@@ -60,6 +60,6 @@ export default function ShoppingPopUpProvider({ children }) {
   );
 }
 
-export const useShoppingPOpUp = () => {
+export const useShoppingPopUp = () => {
   return useContext(shoppingPopUpContext);
 };
