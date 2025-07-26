@@ -1,28 +1,92 @@
 import { Card, CardContent, CardHeader } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import { Package, MapPin, Heart, LogOut, User } from "lucide-react"
-import { useState } from "react"
-import { useGoogleAuthContext } from "@/context/GoogleAuth"
+import { useEffect, useState } from "react"
 import { useNavigate } from "react-router-dom"
-import axios from "axios"
-
+import { useDispatch, useSelector } from "react-redux"
+import {logout as logoutUser } from "@/store/action/authAction"
+import { persistor } from '@/store/store';
+import { resetAuthState } from "@/store/reducer/authSlice"
 
 export default function Profile({  expectedDelivery = "TOMORROW" }) {
-  const {userDetails} = useGoogleAuthContext()
-  const userName = userDetails?.name || " "
-  const userEmail = userDetails?.email || " "
+   const dispatch =useDispatch()
+   const {userData , logout : {response ,error}} = useSelector(state=>state?.auth?.data) || {}
+   const userName = userData?.name || " "
+   const userEmail = userData?.email || " "
+  //  const error = logout?.error
+  //  const response = logout?.response
+
   const [hasOrder , setHasOrder] = useState(true)
   const navigate = useNavigate()
 
-  const logout = async()=>{
-    let res = await axios.post(`${import.meta.env.VITE_LOGOUT}`)
-          console.log(res);
-          navigate('/')
-          location.reload();
+
+   
+        
+
+  // const handleLogout = async()=>{
+  //    localStorage.clear();
+  //   sessionStorage.clear();
+  //   await dispatch(logoutUser())
+  //     await persistor.purge();
+   
+  //   await persistor.flush();
+  // }
+
+const handleLogout = async () => {
+  try {
+    console.log("Starting logout process...");
+    
+    // 1. Clear all storage first
+    localStorage.clear();
+    sessionStorage.clear();
+    
+    // 2. Purge and flush persistor
+    await persistor.purge();
+    await persistor.flush();
+    
+    // 3. Wait a bit for persistence operations to complete
+    await new Promise(resolve => setTimeout(resolve, 100));
+    
+    // 4. Dispatch logout action
+    await dispatch(logoutUser());
+    await dispatch(resetAuthState());
+    
+    // 5. Navigate immediately
+    navigate('/', { replace: true });
+    
+    // 6. Force reload to ensure clean state
+    window.location.reload();
+    
+  } catch (error) {
+    console.error("Logout error:", error);
+    // Fallback: force cleanup
+    localStorage.clear();
+    sessionStorage.clear();
+    window.location.href = '/';
   }
+};
+
+
+// const handleLogout = async ()=>{
+//    let res = await dispatch(logoutUser())
+//    console.log(res);
+   
+// }
+
+
+  useEffect(()=>{
+    console.log("useefect");
+    
+    if(response?.success){
+      
+       navigate('/' ,{replace: true})
+      location.reload();
+    }
+  },[response])
 
   return (
     <div className="w-full max-w-2xl mx-auto p-4">
+      {error && <p className="text-xs text-red-500">{error?.error}</p>}
       <Card className="w-full">
         <CardHeader className="border-b">
           <h1 className="text-xl font-semibold">
@@ -95,7 +159,7 @@ export default function Profile({  expectedDelivery = "TOMORROW" }) {
               <Heart className="mr-2 h-4 w-4" />
               WISHLIST
             </Button>
-            <Button variant="destructive" className="justify-start mt-auto" onClick={logout}>
+            <Button variant="destructive" className="justify-start mt-auto" onClick={handleLogout}>
               <LogOut className="mr-2 h-4 w-4"   />
               LOG OUT
              </Button>

@@ -2,78 +2,85 @@ import { Button } from "@/components/ui/button";
 import axios from "axios";
 import { useEffect, useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import Background from "../../components/Background";
+import PasswordForgotForm from "../../components/PasswordForgotForm"
 const ForgotPasswordForm = () => {
-  const [email, setEmail] = useState("");
-  const [isSentMail, setIsSentMail] = useState(false);
-  const [message, setMessage] = useState("");
-  const [isAlreadyRegistered, setIsAlreadyRegistered] = useState();
-  let emailRegex =
-    /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+  // const [email, setEmail] = useState("");
+
+  // const [message, setMessage] = useState("");
+  // const [isAlreadyRegistered, setIsAlreadyRegistered] = useState();
+  // let emailRegex =/^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+
   const navigate = useNavigate();
 
-  const checkIsRegistered = async (email) => {
-    try {
-      const response = await axios.get(
-        `${import.meta.env.VITE_ISREGISTERED}/isregistered?email=${email}`,
-      );
-      const data = response.data;
-      console.log(response);
+  // const checkIsRegistered = async (email) => {
+  //   try {
+  //     const response = await axios.get(
+  //       `${import.meta.env.VITE_ISREGISTERED}/isregistered?email=${email}`,
+  //     );
+  //     const data = response.data;
+  //     console.log(response);
 
-      console.log(data.isAlreadyRegistered, "loginnn page");
-      setIsAlreadyRegistered(data.isAlreadyRegistered);
-      return data.isAlreadyRegistered;
-    } catch (error) {
-      console.error("Error:", error);
-      setIsAlreadyRegistered(false);
-      return false;
-    }
-  };
+  //     console.log(data.isAlreadyRegistered, "loginnn page");
+  //     setIsAlreadyRegistered(data.isAlreadyRegistered);
+  //     return data.isAlreadyRegistered;
+  //   } catch (error) {
+  //     console.error("Error:", error);
+  //     setIsAlreadyRegistered(false);
+  //     return false;
+  //   }
+  // };
 
-  useEffect(() => {
-    if (emailMounted.current) {
-      if (email.length > 1) {
+  // useEffect(() => {
+  //   if (emailMounted.current) {
+  //     if (email.length > 1) {
 
-        if (emailRegex.test(email) === false) {
-          document.querySelector(".emailText").textContent =
-            "Please enter a valid email";
-          document.querySelector(".emailText").classList.remove("hidden");
-        } else {
-          document.querySelector(".emailText").classList.add("hidden");
-            //  checkIsRegistered(email);
-          checkIsRegistered(email).then((isRegistered) => {
-            if (isRegistered === false) {
-              console.log("not registered");
-              document.querySelector(".emailText").textContent = "User Is NotRegistered Yet";
-              document.querySelector(".emailText").classList.remove("hidden");
-            } else {
-              console.log("registered");
-            }
-          });
-        }
-      }
-    } else {
-      emailMounted.current = true;
-    }
-  }, [email]);
+  //       if (emailRegex.test(email) === false) {
+  //         document.querySelector(".emailText").textContent =
+  //           "Please enter a valid email";
+  //         document.querySelector(".emailText").classList.remove("hidden");
+  //       } else {
+  //         document.querySelector(".emailText").classList.add("hidden");
+  //           //  checkIsRegistered(email);
+  //         checkIsRegistered(email).then((isRegistered) => {
+  //           if (isRegistered === false) {
+  //             console.log("not registered");
+  //             document.querySelector(".emailText").textContent = "User Is NotRegistered Yet";
+  //             document.querySelector(".emailText").classList.remove("hidden");
+  //           } else {
+  //             console.log("registered");
+  //           }
+  //         });
+  //       }
+  //     }
+  //   } else {
+  //     emailMounted.current = true;
+  //   }
+  // }, [email]);
 
-  const emailMounted = useRef(false);
+  // const emailMounted = useRef(false);
 
-  const handleOnChange = (e) => {
-    setEmail(e.target.value);
-  };
+  // const handleOnChange = (e) => {
+  //   setEmail(e.target.value);
+  // };
 
-  const sendOtp = () => {
-    if (isAlreadyRegistered === false) {
-      navigate("/register");
-    } else {
-      console.log("otp");
-      navigate("/otpforresetpass", { state: { email } });
-    }
-  };
+  // const sendOtp = () => {
+  //   if (isAlreadyRegistered === false) {
+  //     navigate("/register");
+  //   } else {
+  //     console.log("otp");
+  //     navigate("/otpforresetpass", { state: { email } });
+  //   }
+  // };
 
   return (
     <>
-      <div className="w-screen h-screen  text-secondary flex flex-col justify-center items-center gap-5">
+
+      <Background> 
+        <div>Reset Youre Password</div>
+       <PasswordForgotForm/>
+      </Background>
+      {/* <div className="w-screen h-screen  text-secondary flex flex-col justify-center items-center gap-5">
         <h1 className=""> hello Mother fucker</h1>
         <div className=" col-span-1 row-span-1">
           <label htmlFor="email" className="block  font-medium text-gray-900">
@@ -98,7 +105,9 @@ const ForgotPasswordForm = () => {
         </div>
 
         <Button onClick={sendOtp}>Send OTP</Button>
-      </div>
+      </div> */}
+
+    
     </>
   );
 };

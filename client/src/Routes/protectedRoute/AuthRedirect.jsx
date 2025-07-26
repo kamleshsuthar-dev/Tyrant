@@ -1,16 +1,15 @@
 // AuthRedirect.jsx
 
 import { Navigate, Outlet } from 'react-router-dom';
-import { useGoogleAuthContext } from '@/context/GoogleAuth';
+import { useSelector } from 'react-redux';
 
 function AuthRedirect() {
 
-  const { isLoginUser } = useGoogleAuthContext();
-        console.log("auth Redirect ",isLoginUser);
+const {isLogin} = useSelector(state=>state?.auth?.data)
         
 
 
-if (isLoginUser) {
+if (isLogin) {
     return <Navigate to="/profile" replace />;
   }
   return <Outlet/>

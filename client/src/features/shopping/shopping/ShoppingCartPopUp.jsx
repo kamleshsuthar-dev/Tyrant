@@ -5,6 +5,8 @@ import axios from "axios";
 import { forwardRef, useState } from "react";
 import { NavLink } from "react-router-dom";
 import DeleteBtn from "../../../components/home/DeleteBtn.jsx";
+import { useDispatch } from "react-redux";
+import { fetchCartProduct } from "@/store/action/shoppingCartAction.js";
 
 const SkeletonCartItem = () => {
   return (
@@ -27,12 +29,13 @@ const SkeletonCartItem = () => {
 
 const ShoppingCartPopUp = forwardRef(({  }, ref) => {
   // console.log(product, "shoppingcartttttt");
-
+  const dispatch = useDispatch()
   const [isOpen, setIsOpen] = useState(false);
   const [cartItems, setCartItems] = useState([]);
   const [shoppingPopupLoader, setShoppingPopupLoadeer] = useState(true);
 
   const [cursorEnter, setCursorEnter] = useState(false);
+
   const enter = () => {
     setCursorEnter(true);
   };
@@ -49,60 +52,67 @@ const ShoppingCartPopUp = forwardRef(({  }, ref) => {
   };
 
   const [cartMessage, setCartMessage] = useState(false);
-  const addToCart = async () => {
-    setIsOpen(true);
-    let cartText = document.getElementsByClassName("cartMessage");
 
-    try {
-      let res = await axios.get(`${import.meta.env.VITE_GET_CART_PRODUCT}`);
-      // console.log("shop popupp  ", res);
-      // let reversedData = res.data.reverse();
-      let reverseData = res.data.reverse()
-      console.log("showCartPopup", reverseData);
-      setCartItems(reverseData);
-      setShoppingPopupLoadeer(false);
-      setCartMessage(true);
-      cartText.textContent = "Item Has Been Added Successfully";
-    } catch (error) {
-      console.log("pop up shopping cart get prd error", error);
-      setShoppingPopupLoadeer(false);
-      setCartMessage(true);
-      cartText.textContent = "Something went wrong try Again";
-    }
+  const addToCart = async()=>{
+    setIsOpen(true)
+    dispatch(fetchCartProduct())
+  }
 
-    setTimeout(() => {
-      setCartMessage(false);
-    }, 1000);
+  // const addToCart = async () => {
+  //   setIsOpen(true);
+  //   let cartText = document.getElementsByClassName("cartMessage");
 
-    setTimeout(() => {
-      setCursorEnter((prevCursorEnter) => {
-        if (!prevCursorEnter) {
-          setIsOpen(false);
-        }
-        return prevCursorEnter; // Ensure state consistency
-      });
-    }, 2000);
-  };
+  //   try {
+  //     let res = await axios.get(`${import.meta.env.VITE_GET_CART_PRODUCT}`);
+  //     // console.log("shop popupp  ", res);
+  //     // let reversedData = res.data.reverse();
+  //     let reverseData = res.data.reverse()
+  //     console.log("showCartPopup", reverseData);
+  //     setCartItems(reverseData);
+  //     setShoppingPopupLoadeer(false);
+  //     setCartMessage(true);
+  //     cartText.textContent = "Item Has Been Added Successfully";
+  //   } catch (error) {
+  //     console.log("pop up shopping cart get prd error", error);
+  //     setShoppingPopupLoadeer(false);
+  //     setCartMessage(true);
+  //     cartText.textContent = "Something went wrong try Again";
+  //   }
 
-  const deleteCartBtn = async (productCartID) => {
-    try {
-      const res = await axios.delete(
-        `${import.meta.env.VITE_DELETE_CART_PRODUCT}/${productCartID}`,
-      );
-      console.log(res);
-      setCartItems((prevProducts) =>
-        prevProducts.filter((product) => product._id !== productCartID),
-      );
-      setCartMessage(true);
-      document.querySelector(".cartMessage").textContent =
-        "Item Has Been Deleted Successfully";
-      setTimeout(() => {
-        setCartMessage(false);
-      }, 1000);
-    } catch (error) {
-      console.log("delete cart btn error :", error);
-    }
-  };
+  //   setTimeout(() => {
+  //     setCartMessage(false);
+  //   }, 1000);
+
+  //   setTimeout(() => {
+  //     setCursorEnter((prevCursorEnter) => {
+  //       if (!prevCursorEnter) {
+  //         setIsOpen(false);
+  //       }
+  //       return prevCursorEnter; // Ensure state consistency
+  //     });
+  //   }, 2000);
+  // };
+
+
+  // const deleteCartBtn = async (productCartID) => {
+  //   try {
+  //     const res = await axios.delete(
+  //       `${import.meta.env.VITE_DELETE_CART_PRODUCT}/${productCartID}`,
+  //     );
+  //     console.log(res);
+  //     setCartItems((prevProducts) =>
+  //       prevProducts.filter((product) => product._id !== productCartID),
+  //     );
+  //     setCartMessage(true);
+  //     document.querySelector(".cartMessage").textContent =
+  //       "Item Has Been Deleted Successfully";
+  //     setTimeout(() => {
+  //       setCartMessage(false);
+  //     }, 1000);
+  //   } catch (error) {
+  //     console.log("delete cart btn error :", error);
+  //   }
+  // };
 
   return (
     <div className="z-50">

@@ -4,7 +4,8 @@ import { VisuallyHidden } from "@radix-ui/react-visually-hidden";
 import { forwardRef, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 
-import {GetApi,ProductDetailCard,PorductCard}from "@/components/components"
+import {GetApi}from "@/components/components"
+import { ProductDetailCard ,ProductCard}from "@/features/products"
 
 const ProductDetailPopUp = forwardRef(({ product, cId }, ref) => {
   console.log("ProductDetailsPopUp", product, cId);
@@ -76,7 +77,7 @@ const ProductDetailPopUp = forwardRef(({ product, cId }, ref) => {
                 {categoryP && categoryP.length > 0 ? (
                   <>
                     {categoryP.map((p) => (
-                      <PorductCard
+                      <ProductCard
                         product={p}
                         categoryP={categoryP}
                         variant="similar"

@@ -5,38 +5,46 @@ import ProductListSkeleton from "@/components/skeleton/ProductListSkeleton";
 
 
 import {GetApi } from "@/components/components/index"
-import ProductCard from "@/components/components/component/PorductCard";
-import {ProductDetailPopUp} from "@/features/products"
+import {ProductDetailPopUp , ProductCard} from "@/features/products"
+import { useDispatch, useSelector } from "react-redux";
+import { fetchCategoryProduct } from "@/store/action/productAction";
 
 
 
 export default function ProductList() {
   const location = useLocation();
+  const dispatch =useDispatch()
+  const {productItems : products , fetchCPStatus :{loading , error}} = useSelector(state=>state?.product)
   const { cName, cDescription } = location?.state || {
     cName: "Ram",
     cDescription: "Shyam",
   };
 
+ console.log(products,"fffdfdf");
  
   const { cId } = useParams();
-  const [products, setProducts] = useState([]);
   const [currentProduct, setCurrentProduct] = useState([]);
   const popUp = useRef(null);
   const productPopUp = useRef(null);
   const { showCartPopup } = useShoppingPopUp();
-
-  const apiUrl = useMemo(() => {
-    return `${import.meta.env.VITE_PRODUCT_BY_CATEGORY}?cId=${cId}`;
-  }, [cId]);
   
-  const [data, error, loading] = GetApi(apiUrl, "get product by category api");
+  // const [products, setProducts] = useState([]);
+  // const apiUrl = useMemo(() => {
+  //   return `${import.meta.env.VITE_PRODUCT_BY_CATEGORY}?cId=${cId}`;
+  // }, [cId]);
 
-  useEffect(() => {
-    if (data && data.data &&data.data.products &&JSON.stringify(data.data.products) !== JSON.stringify(products)) {
-      setProducts(data.data.products);
-    }
-  }, [data]);
-
+  // const [data, error, loading] = GetApi(apiUrl, "get product by category api");
+  
+  // useEffect(() => {
+    //   if (data && data.data &&data.data.products &&JSON.stringify(data.data.products) !== JSON.stringify(products)) {
+      //     setProducts(data.data.products);
+      //   }
+      // }, [data]);
+      
+  useEffect(()=>{
+    dispatch(fetchCategoryProduct(cId))
+  },[])
+      
   function handleShopping(e, product) {
     e.preventDefault();
     e.stopPropagation();
@@ -67,14 +75,11 @@ export default function ProductList() {
                 Loading Products...
               </div>
             ) : error ? (
-              <div className="col-span-12 flex items-center justify-center">
+              <div className="col-span-12 flex text-red-500 items-center justify-center my-auto h-96 text-3xl">
                 {" "}
-                Something wrong in Products,
-                <span className="text-red-500">
-                  {" "}
-                  {error?.response?.data?.message}
-                </span>
-                <span className="text-red-500">, {error?.message}</span>
+                  {error} 
+               
+              
               </div>
             ) : products && products.length > 0 ? (
               products.map((product) => (
@@ -92,7 +97,7 @@ export default function ProductList() {
             ) : (
               <>
                 <h1 className="absolute my-32 w-full text-center text-2xl">
-                  {error?.response?.data?.message}
+                  || There is no products in category
                 </h1>
               </>
             )}

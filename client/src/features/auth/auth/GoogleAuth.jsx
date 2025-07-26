@@ -1,22 +1,29 @@
 import { Button } from "@/components/ui/button";
+import { checkIsLogin } from "@/store/action/authAction";
+import { loadLogin } from "@/store/reducer/authSlice";
 import { useGoogleLogin } from "@react-oauth/google";
-import axios from "axios";
+import axios from "@/Utils/axios";
 import { useState } from "react";
+import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
-const url = `${import.meta.env.VITE_ISREGISTERED}/google`;
+// const url = `${import.meta.env.VITE_ISREGISTERED}/google`;
+const url = `/auth/google`;
 
 function GoogleAuth({ text }) {
   const navigate = useNavigate();
   const [userEmail, setUserEmail] = useState("");
   const [userName, setUserName] = useState("");
-
+  const dispatch = useDispatch()
   const responseGoogle = async (authResult) => {
     try {
       if (authResult["code"]) {
         const result = await axios.get(`${url}?code=${authResult["code"]}`);
         console.log("google auth result", result);
         if(result.data.success){
-          navigate("/");
+          // dispatch(loadLogin(result.data));
+          dispatch(checkIsLogin())
+          
+          navigate("/"); 
         }
         else{
           console.error("Google authorization failed", result.data);

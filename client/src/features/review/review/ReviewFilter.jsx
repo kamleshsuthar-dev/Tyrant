@@ -9,7 +9,7 @@ export default function ReviewFilter({handleFilter ,handleSort }) {
 
    
   return (
-    <div className="flex gap-2">
+    <div className="flex gap-5">
       {/* Sort Button */}
       <DropdownMenu>
         <DropdownMenuTrigger asChild>

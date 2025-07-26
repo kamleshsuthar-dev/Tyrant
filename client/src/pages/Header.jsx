@@ -1,7 +1,6 @@
 "use client";
 
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
-import { useGoogleAuthContext } from "@/context/GoogleAuth";
 
 
 import axios from "axios";
@@ -11,53 +10,49 @@ import { NavLink, useNavigate } from "react-router-dom";
 
 import { Button } from "@mui/material";
 import { useIsAdmin } from "@/hooks/useIsAdmin";
+import { useDispatch, useSelector } from "react-redux";
+import { fetchCartProduct } from "@/store/action/shoppingCartAction";
 
 
  
 export default function Header() {
-  // const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const {isLogin} = useSelector(state=>state?.auth?.data)
+  const  cartLength = useSelector(state=>state?.shoppingCart.cartItems).length
+  const dispatch = useDispatch()
+  console.log(cartLength);
+
+  useEffect(()=>{
+    dispatch(fetchCartProduct())
+  },[])
+  
   const isAdmin = useIsAdmin()
-  const {
-    setIsLoginUser,
-    setUserDetails,
-    cartQuantity = 0,
-  } = useGoogleAuthContext();
-  //  console.log(cartQuantity,"fgfdgdfg");
+  
 
-  // let navigate = useNavigate();
-  const [isLogin, setIsLogin] = useState(false);
+  // useEffect(() => {
+  //   (async () => {
+  //     try {
+  //       // console.log("Document cookies before request:", document.cookie);
 
-  useEffect(() => {
-    (async () => {
-      try {
-        // console.log("Document cookies before request:", document.cookie);
+  //       let response = await axios.get(
+  //         `${import.meta.env.VITE_ISREGISTERED}/me`,
+  //         { withCredentials: true },
+  //       );
 
-        let response = await axios.get(
-          `${import.meta.env.VITE_ISREGISTERED}/me`,
-          { withCredentials: true },
-        );
-
-        // console.log("Response:", response.data);
-        setIsLogin(response.data.success);
-        setIsLoginUser(response.data.success);
-        setUserDetails(response.data.user);
-      } catch (error) {
-        console.error("Error object:", error);
-        if (error.response) {
-          console.error("Error response:", error.response.data);
-          console.error("Error response:", error.response.data.message);
-          console.error("Error response:", error.response.data.success);
-          setIsLoginUser(error.response.data.success);
-        } // console.error("Status:", error.response.status);
-        // console.error("Headers:", error.response.headers);
-        // } else if (error.request) {
-        //   console.error("No response received:", error.request);
-        // } else {
-        //   console.error("Error message:", error.message);
-        // }
-      }
-    })();
-  }, []);
+  //       console.log("Response:", response.data);
+  //       setIsLogin(response.data.success);
+  //       setIsLoginUser(response.data.success);
+  //       setUserDetails(response.data.user);
+  //     } catch (error) {
+  //       console.error("Error object:", error);
+  //       if (error.response) {
+  //         console.error("Error response:", error.response.data);
+  //         console.error("Error response:", error.response.data.message);
+  //         console.error("Error response:", error.response.data.success);
+  //         setIsLoginUser(error.response.data.success);
+  //       } 
+  //     }
+  //   })();
+  // }, []);
 
   return (
     <>
@@ -176,7 +171,7 @@ export default function Header() {
                 <div className="relative">
                   <ShoppingCart className="h-6 w-6 text-gray-700" />
                   <span className="absolute -top-2 -right-2 bg-green-500 text-secondary text-xs rounded-full h-5 w-5 flex items-center justify-center">
-                    {cartQuantity}
+                    {cartLength}
                   </span>
                 </div>
               </button>

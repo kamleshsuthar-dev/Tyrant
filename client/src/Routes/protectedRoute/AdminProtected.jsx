@@ -1,17 +1,15 @@
 import { Navigate, Outlet } from "react-router-dom";
-import { useGoogleAuthContext } from "../../context/GoogleAuth";
+import { useSelector } from "react-redux";
+import { useIsAdmin } from "@/hooks/useIsAdmin";
 
 const AdminProtected = () => {
-  const { userDetails,isLoginUser } = useGoogleAuthContext();
-  const adminEmail = "bantysaini28072005@gmail.com"; // Admin Email
-  const adminEmailOne = "kamleshsuthar240725@gmail.com"; // Admin Email
-  const adminEmailTwo = "limbachiyapinky95@gmail.com"; // Admin Email
-
+const {isLogin ,userData} = useSelector(state=>state?.auth?.data)
+  const isAdmin = useIsAdmin()
   // Show a loading state until userDetails is available
 
-  if(isLoginUser === false) return <h1 className="text-center h-[90%] capitalize text-2xl  top-[50%]">user is not login </h1>
+  if(isLogin === false) return <h1 className="text-center h-[90%] capitalize text-2xl  top-[50%]">user is not login </h1>
   
-  if (userDetails === undefined || userDetails === null) {
+  if (userData === undefined || userData === null) {
   
     return (
       <div className=" flex items-center justify-center  h-screen">
@@ -28,7 +26,7 @@ const AdminProtected = () => {
   }
 
   // Redirect if user is not admin
-  if (userDetails.email !== adminEmail && userDetails.email !== adminEmailOne &&userDetails.email !== adminEmailTwo) {
+  if (!isAdmin ) {
     return <Navigate to="/"  />;
   }
 

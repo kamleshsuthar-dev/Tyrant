@@ -1,4 +1,8 @@
-import { useState } from "react";
+import { addCategory, fetchCategory } from "@/store/action/categoryAction";
+import { clearAddStatus } from "@/store/reducer/categorySlice";
+import { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
 
 const AddCategory = () => {
   const [formData, setFormData] = useState({
@@ -8,8 +12,12 @@ const AddCategory = () => {
     cImage: null,
   });
   const [preview, setPreview] = useState(null);
-  const [loading, setLoading] = useState(false);
+  // const [loading, setLoading] = useState(false);
   const [message, setMessage] = useState({ text: "", type: "" });
+  const navigate= useNavigate()
+  const dispatch = useDispatch()
+  const {addStatus: {loading , error ,success}} = useSelector(state=>state?.category)
+console.log(success);
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
@@ -48,9 +56,6 @@ const AddCategory = () => {
       setMessage({ text: "Please upload a PNG image", type: "error" });
       return;
     }
-
-    setLoading(true);
-
     try {
       // Create FormData object for sending multi-part request
       const data = new FormData();
@@ -58,50 +63,102 @@ const AddCategory = () => {
       data.append("cDescription", formData.cDescription);
       data.append("cStatus", formData.cStatus);
       data.append("cImage", formData.cImage);
+    
+    await dispatch(addCategory(data)).unwrap();
 
-      // Example API call (you would replace URL with your endpoint)
-      const response = await fetch(
-        `${import.meta.env.VITE_ADMIN_ADD_CATEGORY}`,
-        {
-          method: "POST",
-          body: data,
-        },
-      );
-
-      if (response.ok) {
-        const result = await response.json();
-        setMessage({ text: "Category added successfully!", type: "success" });
-        // Reset form
-        setFormData({
-          cName: "",
-          cDescription: "",
-          cStatus: "active",
-          cImage: null,
-        });
-        setPreview(null);
-      } else {
-        const error = await response.json();
-        setMessage({
-          text: error.message || "Failed to add category",
-          type: "error",
-        });
-      }
-    } catch (error) {
-      setMessage({ text: "Error: " + error.message, type: "error" });
-    } finally {
-      setLoading(false);
+      dispatch(fetchCategory())
+    } catch{
+      console.log("something went wrong in add category");
     }
   };
+
+  useEffect(()=>{
+    if(success != null){
+      setTimeout(() => {
+        setFormData({
+        cName: "",
+        cDescription: "",
+        cStatus: "active",
+        cImage: null,
+      });
+      setPreview(null);
+      navigate(-1)
+      dispatch(clearAddStatus())
+      }, 1500);
+    }
+  },[success])
+
+  
+  // const handleSubmit = async (e) => {
+  //   e.preventDefault();
+
+  //   if (!formData.cName.trim()) {
+  //     setMessage({ text: "Category name is required", type: "error" });
+  //     return;
+  //   }
+
+  //   if (!formData.cImage) {
+  //     setMessage({ text: "Please upload a PNG image", type: "error" });
+  //     return;
+  //   }
+
+  //   setLoading(true);
+
+  //   try {
+  //     // Create FormData object for sending multi-part request
+  //     const data = new FormData();
+  //     data.append("cName", formData.cName);
+  //     data.append("cDescription", formData.cDescription);
+  //     data.append("cStatus", formData.cStatus);
+  //     data.append("cImage", formData.cImage);
+  //     const objdata = {
+  //       "cName": formData.cName
+  //     }
+
+  //     // Example API call (you would replace URL with your endpoint)
+  //     const response = await axios.post(`${import.meta.env.VITE_ADMIN_ADD_CATEGORY} `,data);
+  //           console.log(response);
+            
+  //     if (response.status==200) {
+
+  //       setMessage({ text: "Category added successfully!", type: "success" });
+  //       // Reset form
+  //       setFormData({
+  //         cName: "",
+  //         cDescription: "",
+  //         cStatus: "active",
+  //         cImage: null,
+  //       });
+  //       setPreview(null);
+  //     } else {
+  //       const error = await response.json();
+  //       setMessage({
+  //         text: error.message || "Failed to add category",
+  //         type: "error",
+  //       });
+  //     }
+  //     navigate(-1)
+  //   } catch (error) {
+  //     setMessage({ text: "Error: " + error.message, type: "error" });
+  //   } finally {
+  //     setLoading(false);
+  //   }
+  // };
 
   return (
     <div className="max-w-4xl mx-auto p-6 bg-secondary rounded-lg shadow-md">
       <h1 className="text-2xl font-bold mb-6">Add New Category</h1>
 
-      {message.text && (
-        <div
-          className={`p-4 mb-4 rounded ${message.type === "success" ? "bg-green-100 text-green-800" : "bg-red-100 text-red-800"}`}
-        >
-          {message.text}
+    
+      {success && (
+        <div className={`p-4 mb-4 rounded bg-green-100 text-green-800`}>
+          Succes:{success}
+        </div>
+      )}
+
+      {error && (
+        <div className={`p-4 mb-4 rounded bg-red-100 text-red-800`}>
+          Error:{error}
         </div>
       )}
 
@@ -198,6 +255,7 @@ const AddCategory = () => {
             {loading ? "Adding..." : "Add Category"}
           </button>
         </div>
+
       </form>
     </div>
   );

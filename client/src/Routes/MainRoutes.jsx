@@ -7,20 +7,21 @@ import AdminRoutes from "./AdminRoutes";
 import AuthRoutes from "./AuthRoutes";
 import PublicRoutes from "./PublicRoutes";
 import UserRoutes from "./UserRoutes";
-
+import {PageNotFound} from "@/pages"
 
 
 function MainRoutes() {
   return (
     <Routes>
       <Route element={<AuthRedirect />}>{AuthRoutes}</Route>
-      <Route path="/" element={<Layout />}>
         {PublicRoutes}
+      <Route path="/" element={<Layout />}>
 
         <Route element={<UserProtected />}>{UserRoutes}</Route>
 
         <Route element={<AdminProtected />}>{AdminRoutes}</Route>
       </Route>
+      <Route path="*" element={<PageNotFound/>}/>
     </Routes>
   );
 }

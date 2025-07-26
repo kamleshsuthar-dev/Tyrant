@@ -1,15 +1,15 @@
-// Create a new hook (e.g., useIsAdmin.js)
-import { useGoogleAuthContext } from "@/context/GoogleAuth";
+import { useSelector } from "react-redux";
 
 export const useIsAdmin = () => {
-  const { userDetails, isLoginUser } = useGoogleAuthContext();
+  const {isLogin ,userData} = useSelector(state=>state?.auth?.data)
+
   const adminEmails = [
     "bantysaini28072005@gmail.com",
     "kamleshsuthar240725@gmail.com", 
     "limbachiyapinky95@gmail.com"
   ];
 
-  if (!isLoginUser || !userDetails) return false;
+  if (!isLogin || !userData) return false;
   
-  return adminEmails.includes(userDetails.email);
+  return adminEmails.includes(userData.email);
 };

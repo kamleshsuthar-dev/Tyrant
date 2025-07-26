@@ -4,7 +4,7 @@ import { useLocation, useNavigate } from "react-router-dom";
 import { PasswordCloseEye, PasswordOpenEye } from "@/assets/Icons";
 
 function SetPassword() {
-  //  const {userDetails} = useGoogleAuthContext()
+
   const location = useLocation();
   const { email, name } = location?.state || {};
   const navigate = useNavigate();

@@ -4,13 +4,14 @@ import axios from "axios";
 import { useRef } from "react";
 import { useState } from "react";
 import { createContext, useContext } from "react";
-import { useGoogleAuthContext } from "./GoogleAuth";
+import { useSelector } from "react-redux";
+
 
 const shoppingPopUpContext = createContext();
 
 export default function ShoppingPopUpProvider({ children }) {
-  const {isLoginUser} = useGoogleAuthContext();
-  console.log("abcdddd",isLoginUser);
+const {isLogin} = useSelector(state=>state?.auth?.data)
+  
   
     const popupRef = useRef(null);
   const [product, setProduct] = useState(null);
@@ -26,7 +27,7 @@ export default function ShoppingPopUpProvider({ children }) {
   };
 
    const addtoCart = async () => {
-      if (!isLoginUser) {
+      if (!isLogin) {
         alert("Please login to add items in cart");
         return;
       }

@@ -1,13 +1,14 @@
-import { useGoogleAuthContext } from "@/context/GoogleAuth";
 import axios from "axios";
 
 import { useEffect, useState } from "react";
+import { useSelector } from "react-redux";
 
 export default function AddAddress() {
-  const { userDetails } = useGoogleAuthContext();
+  const {userData} = useSelector(state=>state?.auth?.data)
+
 
   const [formData, setFormData] = useState({
-    fullName: userDetails.name,
+    fullName: userData.name,
     mobileNumber: "",
     nickName: "",
     landmark: "",

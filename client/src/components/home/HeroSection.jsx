@@ -1,24 +1,21 @@
-import { GetApi } from "@/components/components";
-import { useEffect, useState } from "react";
+import { fetchCategory } from "@/store/action/categoryAction";
+import { useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 
 function HeroSection() {
   const navigate = useNavigate();
-  const [categories, setCategories] = useState();
-  // Properly use the API URL
+  const dispatch = useDispatch()
+  const {categoryItems : categories , fetchStatus:{error ,loading}} = useSelector(state=>state?.category)
+ 
 
-  const [data, error, loading] = GetApi(
-    import.meta.env.VITE_ADMIN_GET_ALL_CATEGORY,
-    "get category api ",
-  );
+useEffect(()=>{
+  dispatch(fetchCategory())
+},[])
 
-  useEffect(() => {
-    if (data && data.data && data.data.Categories) {
-      setCategories(data.data.Categories);
-    }
-  }, [data]);
-  // console.log("Categories:", data.data?.Categories);
 
+ 
+ 
   const handleProductList = (id, category) => {
     navigate(`productlist/${id}`, { state: { cName: category.cName, cDescription: category.cDescription }});
   };
@@ -38,10 +35,10 @@ function HeroSection() {
             Loading categories...
           </div>
         ) : error ? (
-          <div className="col-span-12 flex items-center justify-center">
+          <div className="col-span-12 flex items-center justify-center capitalize">
             {" "}
-            loading categories,{" "}
-            <span className="text-red-500"> {error.message}</span>
+            Something went wrong categories,{" "}
+            <span className="text-red-500"> {error}</span>
           </div>
         ) : categories && categories.length > 0 ? (
           categories.map((category) => (

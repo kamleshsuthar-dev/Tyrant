@@ -1,7 +1,6 @@
 "use client"
 
 import { useState, useEffect } from "react"
-// import { useRouter } from "next/navigation"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card"
 import { InputOTP, InputOTPGroup, InputOTPSeparator, InputOTPSlot } from "@/components/ui/input-otp"
@@ -11,19 +10,18 @@ import { throttle } from "lodash"
 
 
 export default function VerifyOTP({submitFunction ,worngPassMessage ,credentials ,type}) {
-  // console.log("worngPassMessage",worngPassMessage);
+  console.log("worngPassMessage",worngPassMessage);
   console.log("ccsc",credentials);
   
-
+  const [error,setError]= useState("")
   const [otp, setOtp] = useState("")
   const [isSubmitting, setIsSubmitting] = useState(false)
   // const router = useRouter()
   const { toast } = useToast()
-  const [showInvalid, setShowInvalid] = useState(true);
   
   const handleSubmit = async (e) => {
     e.preventDefault()
-
+    setIsSubmitting(true)
     if (otp.length !== 6) {
       toast({
         title: "Invalid code",
@@ -33,40 +31,29 @@ export default function VerifyOTP({submitFunction ,worngPassMessage ,credentials
       return
     }
 
-    setIsSubmitting(true)
-
     try {
    
-      submitFunction(otp)
-      
-      toast({
-        title: "Verification successful",
-        description: "Your account has been verified successfully.",
-      })
-
-      // Redirect to dashboard or home page
-      // router.push("/dashboard")
+     await submitFunction(otp)
+   
     } catch (error) {
-      toast({
-        title: "Verification failed",
-        description: "The code you entered is incorrect or has expired.",
-        variant: "destructive",
-      })
+        console.log(error);
+        
     } finally {
       setIsSubmitting(false)
     }
   }
 
   useEffect(() => {
-    if (worngPassMessage?.response?.data?.success === false) {
-      setShowInvalid(true)
-      const timer = setTimeout(() => {
-        setShowInvalid(false)
-      }, 1000)
-  
-      return () => clearTimeout(timer)
-    }
-  }, [worngPassMessage])
+    if (worngPassMessage?.message) {
+    setError(worngPassMessage.message);
+
+    const timer = setTimeout(() => {
+      setError("");
+    }, 3000);
+
+    return () => clearTimeout(timer);
+  }
+  }, [worngPassMessage?.key])
   
 
   
@@ -96,10 +83,11 @@ export default function VerifyOTP({submitFunction ,worngPassMessage ,credentials
  
 
   return (
-    <div className="flex min-h-screen items-center justify-center bg-gray-50 p-4">
+    <div className="flex  items-center justify-center bg-gray-50 ">
       <Card className="w-full max-w-md">
         <CardHeader className="space-y-1">
-       {worngPassMessage?.response?.data?.success === false && showInvalid&& <div className="text-destructive text-center OTP">Invalid OTP</div> }
+       {/* {worngPassMessage?.response?.data?.success === false && showInvalid&& <div className="text-destructive text-center OTP">Invalid OTP</div> } */}
+       {error && <div className="text-destructive text-sm text-center OTP capitalize">{error}</div> }
       
           <CardTitle className="text-2xl font-bold text-center">Verify Your Account</CardTitle>
           <CardDescription className="text-center">Enter the 6-digit code we sent to your email</CardDescription>
@@ -124,12 +112,9 @@ export default function VerifyOTP({submitFunction ,worngPassMessage ,credentials
             </div>
           </CardContent>
           <CardFooter className="flex flex-col space-y-2">
-            <Button type="submit" className="w-full" disabled={otp.length !== 6 || isSubmitting}>
-              {isSubmitting ? "Verifying..." : "Verify Account"}
+            <Button type="submit" className="w-full" disabled={isSubmitting || otp.length !== 6 }>
+              {isSubmitting== true ? "Verifying..." : "Verify Account"}
             </Button>
-            {/* <Button type="button" variant="ghost" className="text-sm" onClick={handleResend}>
-              Didn't receive a code? Resend
-            </Button> */}
           </CardFooter>
         </form>
       </Card>
@@ -166,6 +151,7 @@ export function Timer({ initialSeconds, onExpire ,handleResendOTP }) {
       setIsActive(true);
     }
   }, [initialSeconds, onExpire]);
+  
 
   useEffect(() => {
     let interval;

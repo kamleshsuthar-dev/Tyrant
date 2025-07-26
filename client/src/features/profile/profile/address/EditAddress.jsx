@@ -1,18 +1,18 @@
-import { useGoogleAuthContext } from "@/context/GoogleAuth";
 import axios from "axios";
 
 import { useEffect, useState } from "react";
+import { useSelector } from "react-redux";
 import { useLocation, useParams } from "react-router-dom";
 
 export default function EditAddress() {
-  const { userDetails } = useGoogleAuthContext();
+  const {userData} = useSelector(state=>state?.auth?.data)
   const { AddressId } = useParams();
   const location = useLocation();
   const { currAddress } = location?.state;
   console.log(currAddress, "dfdfdsd");
 
   const [formData, setFormData] = useState({
-    fullName: userDetails.name,
+    fullName: userData.name,
     mobileNumber: "",
     nickName: currAddress.nickName || "",
     landmark: currAddress.landmark || "",

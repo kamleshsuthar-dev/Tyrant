@@ -1,9 +1,9 @@
 import { Card, CardContent } from "@/components/ui/card";
 import {StarRating} from "@/components/components/";
 import { useNavigate } from "react-router-dom";
-import { ShoppingCartSVG } from "./CommonSVG";
+import { ShoppingCartSVG } from "@/components/components/component/CommonSVG";
 
-export default function PorductCard({
+export default function ProductCard({
   product,
   handleShopping = null,
   handleProductPopUp = null,

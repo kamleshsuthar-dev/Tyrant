@@ -1,5 +1,5 @@
 {
-  "name": "adaa-jaipur",
+  "name": "Tyrant",
   "private": true,
   "version": "0.0.0",
   "type": "module",
@@ -14,6 +14,7 @@
     "@emotion/react": "^11.14.0",
     "@emotion/styled": "^11.14.0",
     "@headlessui/react": "^2.2.0",
+    "@hookform/resolvers": "^5.1.1",
     "@mui/material": "^6.4.0",
     "@radix-ui/react-checkbox": "^1.1.4",
     "@radix-ui/react-dialog": "^1.1.6",
@@ -41,16 +42,19 @@
     "next-themes": "^0.4.4",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
+    "react-hook-form": "^7.60.0",
     "react-infinite-scroll-component": "^6.1.0",
     "react-redux": "^9.2.0",
     "react-router-dom": "^7.2.0",
     "react-toastify": "^11.0.3",
     "recharts": "^2.15.3",
+    "redux-persist": "^6.0.0",
     "sonner": "^1.7.4",
     "tailwind-merge": "^3.2.0",
     "tailwindcss-animate": "^1.0.7",
     "validator": "^13.15.0",
-    "vaul": "^1.1.2"
+    "vaul": "^1.1.2",
+    "zod": "^4.0.5"
   },
   "devDependencies": {
     "@eslint/js": "^9.17.0",
