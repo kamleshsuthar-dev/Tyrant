@@ -56,15 +56,14 @@ export default function Header() {
 
   return (
     <>
-      <header className="bg-primary text-secondary">
-        <div className="h-10 hidden  bg-secondary text-gray-400 md:flex justify-center items-center capitalize">
+      <header className=" text-secondary">
+        <div className="h-8 text-[14px] mb-1 hidden  bg-primary text-primary-foreground  md:flex justify-center items-center capitalize">
           Tell me something that i don't Know ,get 90% OFF{" "}
           {/* <button onClick={btnclick}>click</button> */}
         </div>
-
         <nav
           aria-label="Global"
-          className="flex max-w-8xl items-center justify-between  px-6 py-3 lg:px-8 bg-primary text-secondary"
+          className="flex max-w-8xl items-center justify-between  px-6  lg:px-8 bg-secondary text-secondary-foreground border-2 border-red-500 border-dashed"
         >
           {/* Mobile menu button - now positioned on the left */}
           <div className="flex lg:hidden">
@@ -119,42 +118,32 @@ export default function Header() {
           <div className=" flex justify-self-start md:justify-center lg:justify-start">
             <NavLink to="/" className="-m-1.5 p-1.5">
               <span className="sr-only">Your Company</span>
-              <img alt="fuck off" src="/Nemesis.svg" className="h-auto w-16" />
+              <img alt="fuck off" src="/Tyrant.svg" className="h-full w-full  " />
             </NavLink>
           </div>
 
           {/* Desktop navigation links */}
-          <div className="hidden lg:flex ml-9 gap-10 items-center">
-            <NavLink to="/">List</NavLink>
-            <NavLink to="/">About</NavLink>
-            <NavLink to="/">Contact</NavLink>
+          <div className="hidden lg:flex ml-9 gap-10 items-center text-lg font-medium font-['Quicksand']">
+            <NavLink to="/">Trends</NavLink>
+            <NavLink to="/">Collection</NavLink>
+            <NavLink to="/">Color</NavLink>
+            <NavLink to="/">Showcase</NavLink>
+            <NavLink to="/" className="wrap-none text-nowrap">About Us</NavLink>
 
             { isAdmin ?  <NavLink to="/admin/category/all">Admin Dashboard</NavLink> : null }
            
           </div>
 
           {/* Search bar and user controls */}
-          <div className="flex md:flex  md:justify-end gap-2 lg:gap-5">
-            <div className="relative flex items-center">
+          <div className="flex md:flex  md:justify-end gap-x-2 lg:gap-5">
+            
+            <div className="relative flex items-center px-2 md:border border-none outline-none md:outline-2 md:outlinesecondary  md:bordersecondary rounded-xl text-sm outline-offset-1 outline-secondary-foreground  border-secondary-foreground ">
+              <img src="./Search Icon.svg" alt="" className="" />
               <input
                 type="search"
-                placeholder="SEARCH"
-                className="pl-8 pr-2 py-1 lg:w-96 md:w-40 w-5 bg-transparent placeholder:text-secondary md:border border-none outline-none md:outline-2 md:outlinesecondary  md:bordersecondary rounded text-sm focus:outline-offset-1 focus:outline-gray-500  focus:border-gray-400 "
+                placeholder="Search For Jacks And Condoms"
+                className="px-2  lg:w-96 md:w-40 w-5 bg-transparent placeholder:text-primary outline-none"
               />
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                className="h-4 w-4 absolute left-2 top-1/2 transform -translate-y-1/2 text-secondary"
-                fill="none"
-                viewBox="0 0 24 24"
-                stroke="currentColor"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth={2}
-                  d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"
-                />
-              </svg>
             </div>
 
             <NavLink to={isLogin ? "./profile" : "./login"}>
@@ -167,12 +156,10 @@ export default function Header() {
             </NavLink>
 
             <NavLink to="/shoppingcart">
-              <button className="px-4 py-1 bg-secondary border text-primary border-gray-300 rounded-md hover:bg-gray-100 flex items-center">
-                <div className="relative">
-                  <ShoppingCart className="h-6 w-6 text-gray-700" />
-                  <span className="absolute -top-2 -right-2 bg-green-500 text-secondary text-xs rounded-full h-5 w-5 flex items-center justify-center">
-                    {cartLength}
-                  </span>
+             <button className="h-12 px-2 py-1 bg-accent text-primary border-primary border-4 rounded-2xl flex items-center justify-center gap-2">
+                <img src="./ShoppingCartIcon.svg" alt="" className="h-full pt-2 object-contain" />
+                <div className="h-full flex items-center text-neutral-800 text-2xl font-normal font-['AUTOMATA']">
+                  {cartLength}
                 </div>
               </button>
             </NavLink>

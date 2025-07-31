@@ -2,7 +2,7 @@ import  { Suspense } from 'react'
 // import Header from './src/route/Header.jsx'
 
 import { Outlet } from 'react-router-dom'
-import Header from './src/pages/Header.jsx'
+import Header from '@/pages/Header.jsx'
 import { motion ,useScroll} from "framer-motion";
 import ShoppingCartTopUp from '@/features/shopping/shopping/ShoppingCartPopUp.jsx';
 import { useShoppingPopUp } from '@/context/ShoppingPopUpContext.jsx';

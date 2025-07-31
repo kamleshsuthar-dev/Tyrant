@@ -3,7 +3,7 @@ import tailwindcssAnimate from 'tailwindcss-animate';
 
 
 export default {
-	mode:"jit" ,
+	// mode:"jit" ,
     darkMode: ["class"],
     content: ["./index.html", "./src/**/*.{ts,tsx,js,jsx}"],
 	safelist: [
@@ -33,25 +33,26 @@ export default {
 			ring: "hsl(var(--ring))",
 			background: "hsl(var(--background))",
 			foreground: "hsl(var(--foreground))",
-			primary: {
-			  DEFAULT: "hsl(var(--primary))",
-			  foreground: "hsl(var(--primary-foreground))",
+		
+			 primary: {
+				DEFAULT: "#212121",         // hsl(0 0% 13%)
+				foreground: "#ffffff",      // hsl(0 0% 100%)
 			},
 			secondary: {
-			  DEFAULT: "hsl(var(--secondary))",
-			  foreground: "hsl(var(--secondary-foreground))",
+				DEFAULT: "#ffffff",         // hsl(0 0% 100%)
+				foreground: "#212121",      // hsl(0 0% 13%)
 			},
 			accent: {
-			  DEFAULT: "hsl(var(--accent))",
-			  foreground: "hsl(var(--accent-foreground))",
-			},
-			destructive: {
-			  DEFAULT: "hsl(var(--destructive))",
-			  foreground: "hsl(var(--destructive-foreground))",
+				DEFAULT: "#a3ff00",         // hsl(83 100% 50%)
+				foreground: "#212121",      // hsl(0 0% 13%)
 			},
 			muted: {
-			  DEFAULT: "hsl(var(--muted))",
-			  foreground: "hsl(var(--muted-foreground))",
+				DEFAULT: "#f1f5f9",         // hsl(210 40% 96.1%)
+				foreground: "#697586",      // hsl(215.4 16.3% 46.9%)
+			},
+			destructive: {
+				DEFAULT: "#ff1a1a",         // hsl(0 100% 53%)
+				foreground: "#ffffff",
 			},
 			popover: {
 			  DEFAULT: "hsl(var(--popover))",
