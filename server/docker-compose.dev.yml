@@ -1,0 +1,22 @@
+version: '3.8'
+
+services:
+  backend:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    volumes:
+      - .:/app             # Mount current dir to container
+      - /app/node_modules  # Prevent overwrite of node_modules
+    ports:
+      - "3000:3000"
+    command: bash -c "service redis-server start && sleep 3 && npm run dev"
+    environment:
+      - NODE_ENV=development
+    depends_on:
+      - redis
+      
+  redis:
+    image: redis:latest
+    ports:
+      - "6379:6379"
