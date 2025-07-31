@@ -35,23 +35,23 @@ export default {
 			foreground: "hsl(var(--foreground))",
 		
 			 primary: {
-				DEFAULT: "#212121",         // hsl(0 0% 13%)
+				DEFAULT: "#202020",         // hsl(0 0% 13%)
 				foreground: "#ffffff",      // hsl(0 0% 100%)
 			},
 			secondary: {
 				DEFAULT: "#ffffff",         // hsl(0 0% 100%)
-				foreground: "#212121",      // hsl(0 0% 13%)
+				foreground: "#202020",      // hsl(0 0% 13%)
 			},
 			accent: {
-				DEFAULT: "#a3ff00",         // hsl(83 100% 50%)
-				foreground: "#212121",      // hsl(0 0% 13%)
+				DEFAULT: "#9eff00",         // hsl(83 100% 50%)
+				foreground: "#202020",      // hsl(0 0% 13%)
 			},
 			muted: {
 				DEFAULT: "#f1f5f9",         // hsl(210 40% 96.1%)
 				foreground: "#697586",      // hsl(215.4 16.3% 46.9%)
 			},
 			destructive: {
-				DEFAULT: "#ff1a1a",         // hsl(0 100% 53%)
+				DEFAULT: "#ff1010",         // hsl(0 100% 53%)
 				foreground: "#ffffff",
 			},
 			popover: {
@@ -82,6 +82,10 @@ export default {
   			],
 			'automata':[
 				'AUTOMATA',
+				'san-serif'
+			],
+			'quicksand':[
+				'Quicksand',
 				'san-serif'
 			]
   		},

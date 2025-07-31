@@ -22,7 +22,7 @@ useEffect(()=>{
 
   return (
     <>
-      <div className="grid h-auto w-full grid-cols-12 gap-x-4 gap-y-6 p-3 [grid-template-rows:repeat(14,minmax(100px,auto))] lg:px-12 lg:py-4">
+      <div className="bg-primary grid h-auto w-full grid-cols-12 gap-x-4 gap-y-6 p-3 [grid-template-rows:repeat(14,minmax(100px,auto))] lg:px-12 lg:py-4">
         <div className="relative col-span-12 row-span-1 flex aspect-[4.61/1] min-h-[content-fit] items-center justify-center overflow-hidden rounded-xl bg-slate-400">
           <img
             src="https://res.cloudinary.com/dzzs9yjcf/image/upload/v1746168602/Ad_Section_abm7zv.png"

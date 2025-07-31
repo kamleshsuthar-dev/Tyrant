@@ -10,7 +10,7 @@ function Background({children}) {
             className="h-full w-full absolute hidden md:flex top-0 bottom-0 rounded-2xl  object-cover"
           />
          
-          <div className="md:min-w-[350px] bg-secondary border-3  rounded-xl text-primary flex flex-col  gap-2  md:p-9 p-4  font-comfortaa text-lg z-10 ">
+          <div className="md:min-w-[350px] bg-secondary border-3  rounded-xl text-primary flex flex-col  gap-2  md:p-9 p-4   text-lg z-10 ">
 
             {children}
             

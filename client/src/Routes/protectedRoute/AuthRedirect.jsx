@@ -7,7 +7,6 @@ function AuthRedirect() {
 
 const {isLogin} = useSelector(state=>state?.auth)
         
- if(isLogin === false) return <div className="h-[90vh] w-screen flex justify-center items-center"><h1 className="text-center  capitalize text-2xl ">user is not login </h1></div>
 
 if (isLogin) {
     return <Navigate to="/profile" replace />;

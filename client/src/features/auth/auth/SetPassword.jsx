@@ -147,7 +147,7 @@ function SetPassword() {
             alt=""
             className="h-full w-full absolute top-0 bottom-0  rounded-2xl z-[0]"
           />
-          <div className="card min-w-[350px] min-h-[60%]  bg-secondary rounded-xl text-primary grid gap-2 items-center p-[52px] font-comfortaa text-lg z-[1]">
+          <div className="card min-w-[350px] min-h-[60%]  bg-secondary rounded-xl text-primary grid gap-2 items-center p-[52px]  text-lg z-[1]">
             <div className="text-3xl col-span-1 row-span-1 font-bold ">
               Set Name And Password{" "}
             </div>
@@ -250,7 +250,7 @@ function SetPassword() {
       {/* // mobile design  */}
       <div className="sm:hidden flex flex-col justify-between items-center h-screen ">
         <div className="h-[70%] flex justify-center items-center">
-          <div className="card w-[350px]  min-w-[286px]  bg-secondary rounded-xl text-primary grid gap-2 items-center p-8 font-comfortaa text-md border-solid borderprimary ">
+          <div className="card w-[350px]  min-w-[286px]  bg-secondary rounded-xl text-primary grid gap-2 items-center p-8  text-md border-solid borderprimary ">
             <div>
               <div className="text-3xl col-span-1 row-span-1 font-bold ">
                 Set Name And Password{" "}

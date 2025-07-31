@@ -8,7 +8,7 @@ import { MobileDesignAuthSVG } from "@/components/components/component/CommonSVG
 function Register({ text }) {
   return (
     <>
-      {/* <div className="h-screen w-screen flex font-comfortaa">
+      {/* <div className="h-screen w-screen flex ">
         <div className="h-full hidden md:flex  w-[50%]">
           <img
             src="https://res.cloudinary.com/dzzs9yjcf/image/upload/v1752208362/Image_fz562j.png"
@@ -44,7 +44,7 @@ function Register({ text }) {
 
       </div> */}
 
-      <div className="h-screen w-screen flex  font-comfortaa">
+      <div className="h-screen w-screen flex  ">
         <div className="h-full w-[50%] hidden md:flex">
           <img
             src="https://res.cloudinary.com/dzzs9yjcf/image/upload/v1752208362/Image_fz562j.png"
