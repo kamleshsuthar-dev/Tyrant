@@ -1,45 +1,27 @@
 
+import { deleteAddress, fetchAddress } from "@/store/action/profileAction";
 import axios from "axios";
 import { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 
 export default function Address() {
-  const [addresses, setAddresses] = useState([]);
+  // const [addresses, setAddresses] = useState([]);
   const navigate = useNavigate();
-
+  const dispatch = useDispatch()
+  const {address : addresses , fetchStatus:{loading , error} ,deleteStatus:{loading:deleteLoading}} = useSelector(state=> state?.profile)
+  console.log(addresses);
+  
   useEffect(() => {
-    (async () => {
-      try {
-        let res = await axios.get(`${import.meta.env.VITE_GET_ADDRESS}`);
-
-        console.log("all address ", res.data.address);
-
-        setAddresses(res.data.address);
-      } catch (error) {}
-    })();
+    dispatch(fetchAddress())
   }, []);
 
-  const handleMakeDefault = (id) => {
-    setAddresses(
-      addresses.map((address) => ({
-        ...address,
-        isDefault: address.id === id,
-      })),
-    );
-  };
 
+  
+  const [deleteId , setdeleteId] = useState()
   const handleDelete = async (id) => {
-    console.log("gfgfgf", id);
-    try {
-      let res = await axios.delete(
-        `${import.meta.env.VITE_DELETE_ADDRESS}/${id}`,
-      );
-    } catch (error) {
-      console.log("get address api error", error);
-    }
-    setAddresses((prevAddresses) =>
-      prevAddresses.filter((address) => address._id !== id),
-    );
+    setdeleteId(id)
+    dispatch(deleteAddress(id))
   };
 
   const handleEdit = (id, currAddress) => {
@@ -72,7 +54,10 @@ export default function Address() {
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-        {addresses.map((address) => (
+       
+        {loading ? <>
+        <div className="font-bold text-2xl text-center">Loading...</div>
+        </> :( addresses.map((address) => (
           <div
             key={address._id}
             className="border border-gray-300 rounded-lg p-6 relative"
@@ -98,12 +83,15 @@ export default function Address() {
               <div className="text-gray-600">{address.phone}</div>
             </div> */}
 
-            <div className="mb-6">
+            <div className="mb-3 flex flex-col">
               <div>
-                {address.addressLine} {address.landmark}
+                {address.addressLine} <br /> 
+                {/* {address.landmark} */}
               </div>
               <div>
-                {address.locality}, {address.state} - {address.pincode}
+                {address.locality}
+                 <br />
+                 {address.city},{address.state} - {address.pincode}
               </div>
             </div>
 
@@ -116,7 +104,7 @@ export default function Address() {
                 onClick={() => handleDelete(address._id)}
                 className="flex-1 bg-red-500 text-secondary py-2 rounded"
               >
-                Delete
+                {deleteLoading && address._id=== deleteId ? "Loading..." : "Delete"}
               </button>
               <button
                 className="flex-1 bg-green-400 text-primary py-2 rounded"
@@ -126,7 +114,7 @@ export default function Address() {
               </button>
             </div>
           </div>
-        ))}
+        )))}
       </div>
     </div>
   );

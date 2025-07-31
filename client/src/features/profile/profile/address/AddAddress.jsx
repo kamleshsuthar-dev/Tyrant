@@ -1,12 +1,16 @@
+import { addAddress } from "@/store/action/profileAction";
+import { clearAddAddress } from "@/store/reducer/profileSlice";
 import axios from "axios";
 
 import { useEffect, useState } from "react";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
 
 export default function AddAddress() {
-  const {userData} = useSelector(state=>state?.auth?.data)
-
-
+  const {userData} = useSelector(state=>state?.auth)
+  const dispatch = useDispatch()
+  const {addStatus :{loading  ,success}} = useSelector(state=>state?.profile)
+  const navigate = useNavigate()
   const [formData, setFormData] = useState({
     fullName: userData.name,
     mobileNumber: "",
@@ -21,9 +25,29 @@ export default function AddAddress() {
     isDefault: false,
   });
 
-  const [success, setSuccess] = useState("");
+  useEffect(()=>{
+    if(success == "Address added successfully"){
+          setFormData({
+          fullName: "",
+          mobileNumber: "",
+          nickName: "",
+          landmark: "",
+          addressLine: "",
+          locality: "",
+          pinCode: "",
+          state: "Gujarat",
+          city: "",
+          type: "Home",
+          isDefault: false,
+        });
+        navigate(-1)
+    dispatch(clearAddAddress())
+    }
+  },[success])
+
+  // const [success, setSuccess] = useState("");
   const [errors, setErrors] = useState({});
-  const [loading, setLoading] = useState(false);
+  // const [loading, setLoading] = useState(false);
   const handleChange = (e) => {
     const { name, value, type, checked } = e.target;
     setFormData({
@@ -106,14 +130,82 @@ export default function AddAddress() {
     fetchLocationData();
   }, [formData.pinCode]);
 
-  const handleSubmit = async (e, formData) => {
+  // const handleSubmit = async (e, formData) => {
+  //   e.preventDefault();
+  //   console.log(errors);
+
+  //   if (!validate()) return;
+  //   setLoading(true);
+
+  //   const payload = {
+  //     nickName: formData.nickName,
+  //     landmark: formData.landmark,
+  //     addressLine: formData.addressLine,
+  //     locality: formData.locality,
+  //     pincode: formData.pinCode,
+  //     city: formData.city,
+  //     state: formData.state,
+  //     type: formData.type.toLowerCase(),
+  //     isDefault: formData.isDefault,
+  //   };
+
+  //   try {
+  //     const res = await axios.post(
+  //       `${import.meta.env.VITE_ADD_ADDRESS}`,
+  //       payload,
+  //       {
+  //         headers: {
+  //           "Content-Type": "application/json",
+  //         },
+  //       },
+  //     );
+
+  //     console.log(res.data, "response add address");
+
+  //     if (res.status === 200 || res.status === 201) {
+  //       console.log(chalk.green("Address saved successfully!"));
+  //       setSuccess("Address saved successfully!");
+
+  //       setFormData({
+  //         fullName: "",
+  //         mobileNumber: "",
+  //         nickName: "",
+  //         landmark: "",
+  //         addressLine: "",
+  //         locality: "",
+  //         pinCode: "",
+  //         state: "Gujarat",
+  //         city: "",
+  //         type: "Home",
+  //         isDefault: false,
+  //       });
+  //       // Reset form or redirect as needed
+  //     } else {
+  //       console.log(chalk.red("Failed to save address. Please try again."));
+  //     }
+  //     setLoading(false);
+  //   } catch (error) {
+  //     console.error("Error saving address:", error);
+  //     console.log(error.response.data.message);
+  //     const newErrors = {};
+
+  //     if (
+  //       error?.response?.data?.message ===
+  //       "address with same nickname already exists"
+  //     ) {
+  //       newErrors.nickName = error.response.data.message;
+  //     }
+  //     setErrors(newErrors);
+  //     console.log(chalk.red("An error occurred. Please try again later."));
+  //   } finally {
+  //     setLoading(false);
+  //   }
+  // };
+
+  const handleSubmit = async(e,formData)=>{
     e.preventDefault();
-    console.log(errors);
-
-    if (!validate()) return;
-    setLoading(true);
-
-    const payload = {
+    if (!validate()) return; 
+      const payload = {
       nickName: formData.nickName,
       landmark: formData.landmark,
       addressLine: formData.addressLine,
@@ -124,59 +216,8 @@ export default function AddAddress() {
       type: formData.type.toLowerCase(),
       isDefault: formData.isDefault,
     };
-
-    try {
-      const res = await axios.post(
-        `${import.meta.env.VITE_ADD_ADDRESS}`,
-        payload,
-        {
-          headers: {
-            "Content-Type": "application/json",
-          },
-        },
-      );
-
-      console.log(res.data, "response add address");
-
-      if (res.status === 200 || res.status === 201) {
-        console.log(chalk.green("Address saved successfully!"));
-        setSuccess("Address saved successfully!");
-
-        setFormData({
-          fullName: "",
-          mobileNumber: "",
-          nickName: "",
-          landmark: "",
-          addressLine: "",
-          locality: "",
-          pinCode: "",
-          state: "Gujarat",
-          city: "",
-          type: "Home",
-          isDefault: false,
-        });
-        // Reset form or redirect as needed
-      } else {
-        console.log(chalk.red("Failed to save address. Please try again."));
-      }
-      setLoading(false);
-    } catch (error) {
-      console.error("Error saving address:", error);
-      console.log(error.response.data.message);
-      const newErrors = {};
-
-      if (
-        error?.response?.data?.message ===
-        "address with same nickname already exists"
-      ) {
-        newErrors.nickName = error.response.data.message;
-      }
-      setErrors(newErrors);
-      console.log(chalk.red("An error occurred. Please try again later."));
-    } finally {
-      setLoading(false);
-    }
-  };
+    dispatch(addAddress(payload))
+  }
 
   return (
     <div className="max-w-3xl mx-auto p-4 border rounded-lg shadow-md">
@@ -330,7 +371,7 @@ export default function AddAddress() {
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           <div>
             <label className="block text-sm font-medium mb-1">
-              LOCALITY<span className="text-red-500">*</span>
+              Area, Street, Sector, Village<span className="text-red-500">*</span>
             </label>
             <input
               type="text"

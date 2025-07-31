@@ -7,9 +7,14 @@ import { NavLink } from 'react-router-dom'
 function Login() {
   return (
     <Background>
-        <div className="text-3xl col-span-1 row-span-1 font-bold">
+        {/* <div className="text-3xl col-span-1 row-span-1 font-bold">
             Sign In To Tyrant    
-        </div>
+        </div> */}
+      <div className=" justify-start text-Pure-White text-3xl  font-['Quicksand'] capitalize  md:hidden">Welcome Back!! <br/>You haven’t been missed </div>
+      
+         <div className="self-stretch px-7 inline-flex flex-col justify-start items-start mb-3">
+                <div className="self-stretch justify-start text-Pure-White md:text-3xl text-2xl font-normal font-['AUTOMATA']">Sign In to <span className="md:text-4xl text-3xl bg-gradient-to-r from-black via-green-800 to-lime-400 bg-clip-text text-transparent">Tyrant</span></div>
+            </div>  
 
         <LoginForm/>
 

@@ -6,12 +6,19 @@ import { Button } from "@/components/ui/button";
 import axios from "axios";
 import { useCallback, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { checkIsRegistered } from "@/store/action/authAction";
 import { email } from "zod";
 
 
+
 export default function PasswordForgotForm() {
-    const [isRegistered ,setIsRegistered] = useState()
-    const [error ,setError] = useState("")
+    const dispatch = useDispatch()
+    const {isRegistered , checkRegistration: {loading ,error}} = useSelector(state=> state?.auth) 
+    console.log(isRegistered,"fuckkk");
+    
+    // const [isRegistered ,setIsRegistered] = useState()
+    // const [error ,setError] = useState("")
     const navigate = useNavigate()
   const {
     register,
@@ -30,23 +37,27 @@ export default function PasswordForgotForm() {
 
   const Watchemail = watch("email")
 
-   const checkIsRegistered = useCallback(async (email) => {
-    try {
-      const response = await axios.get(`${import.meta.env.VITE_ISREGISTERED}/isregistered?email=${email}`,{withCredentials:true});
-      const isRegistered = response.data.isAlreadyRegistered;
+  // useEffect(()=>{
+  //   dispatch(checkIsRegistered(Watchemail))
+  // },[Watchemail])
 
-      return isRegistered;
-    } catch (error) {
-      console.error("Error checking registration:", error);
-      return false;
-    }
-  }, []);
+  //  const checkIsRegistered = useCallback(async (email) => {
+  //   try {
+  //     const response = await axios.get(`${import.meta.env.VITE_ISREGISTERED}/isregistered?email=${email}`,{withCredentials:true});
+  //     const isRegistered = response.data.isAlreadyRegistered;
+
+  //     return isRegistered;
+  //   } catch (error) {
+  //     console.error("Error checking registration:", error);
+  //     return false;
+  //   }
+  // }, []);
 
   const sentOtp = (data) => {
     console.log(data);
     
      if (isRegistered === false) {
-      navigate("/register");
+      // navigate("/register");
     } else {
       console.log("otp");
       navigate("/otpforresetpass", { state: {email:data.email} });
@@ -83,15 +94,13 @@ export default function PasswordForgotForm() {
     return null;
   };
 
-   useEffect(() => {
-  const validEmail = getFieldStatus("email");
+  useEffect(() => {
+   const validEmail = getFieldStatus("email");
   
   if (validEmail === "success") { // Check for "success" status specifically
     const checkEmail = async () => {
       try {
-        const result = await checkIsRegistered(Watchemail);
-        console.log("Is registered:", result);
-        setIsRegistered(result)
+         dispatch(checkIsRegistered(Watchemail))
       } catch (error) {
         console.error("Error checking email:", error);
       }
@@ -99,7 +108,7 @@ export default function PasswordForgotForm() {
     
     checkEmail();
   }
-}, [Watchemail, checkIsRegistered,getFieldStatus("email")]);
+}, [Watchemail,getFieldStatus("email")]);
 
   return (
 
@@ -120,7 +129,7 @@ export default function PasswordForgotForm() {
       <Button 
         type="submit"
         className="rounded-xl text-center py-[8px] px-0 active:scale-[0.99] font-medium "
-        disabled={isSubmitting}
+        disabled={isSubmitting }
       >
         {isSubmitting ? <p>Loading... &gt;&gt;</p> :<p>Send OTP &gt;&gt;</p> }
       </Button>

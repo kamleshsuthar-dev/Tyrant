@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import axios from "axios";
+import axios from '@/Utils/axios';
 
 export function useReviews(pId, sortValue, filterValue, onReviewChange) {
   const [reviews, setReviews] = useState([]);
@@ -17,7 +17,7 @@ export function useReviews(pId, sortValue, filterValue, onReviewChange) {
   const fetchReviews = async (page = 1) => {
     setReviewLoading(true);
     try {
-      let res = await axios.get(`${import.meta.env.VITE_GET_PRODUCT_REVIEW}/${pId}/reviews`,
+      let res = await axios.get(`/product/single-product/${pId}/reviews`,
         {
           params: {
             page,
@@ -27,7 +27,8 @@ export function useReviews(pId, sortValue, filterValue, onReviewChange) {
           },
         },
       );
-
+            // console.log(res.data);
+            
       const totalReviews = res.data.totalReviews;
       const newReviews = res.data.reviews;
 
@@ -59,9 +60,11 @@ export function useReviews(pId, sortValue, filterValue, onReviewChange) {
       setReviewMessage("No more reviews");
     }
   };
+  
 
   const addReview = async (productId, reviewData) => {
-    const res = await axios.post(`${import.meta.env.VITE_ADD_PRODUCT_REVIEW}`,
+    try {
+        const res = await axios.post(`/product/add-product`,
       {
         productId,
         rating: reviewData.rating,
@@ -98,11 +101,16 @@ export function useReviews(pId, sortValue, filterValue, onReviewChange) {
     }
 
     return res;
+    } catch (error) {
+      console.log(error);
+      
+    }
+  
   };
 
   const deleteReview = async (reviewId) => {
     const res = await axios.delete(
-      `${import.meta.env.VITE_DELETE_PRODUCT_REVIEW}/${reviewId}`,
+      `/product/delete-product/${reviewId}`,
     );
 
     if (res.status === 200 || res.status === 201) {

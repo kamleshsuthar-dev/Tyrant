@@ -1,7 +1,7 @@
 import { useSelector } from "react-redux";
 
 export const useIsAdmin = () => {
-  const {isLogin ,userData} = useSelector(state=>state?.auth?.data)
+  const {isLogin ,userData} = useSelector(state=>state?.auth)
 
   const adminEmails = [
     "bantysaini28072005@gmail.com",

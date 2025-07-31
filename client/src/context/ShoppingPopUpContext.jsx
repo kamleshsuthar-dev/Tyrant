@@ -10,7 +10,7 @@ import { useSelector } from "react-redux";
 const shoppingPopUpContext = createContext();
 
 export default function ShoppingPopUpProvider({ children }) {
-const {isLogin} = useSelector(state=>state?.auth?.data)
+const {isLogin} = useSelector(state=>state?.auth)
   
   
     const popupRef = useRef(null);

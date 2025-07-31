@@ -13,7 +13,7 @@ export default function RegisterForm() {
   const navigate = useNavigate()
   const dispatch =useDispatch()
   const [data,setData]=useState()
- const {registers , isRegistered} = useSelector(state=>state?.auth?.data)
+ const {registers , isRegistered} = useSelector(state=>state?.auth)
  const error = registers?.error
  const response = registers?.response
  

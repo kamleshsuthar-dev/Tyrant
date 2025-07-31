@@ -129,7 +129,7 @@ export default ProductDetailCard;
 // }
 
 export function ProductDetailCards({ pId }) {
-  const { isLogin } = useSelector((state) => state?.auth?.data);
+  const { isLogin } = useSelector((state) => state?.auth);
   const { showCartPopup } = useShoppingPopUp();
   //   const {pId} = useParams()
 

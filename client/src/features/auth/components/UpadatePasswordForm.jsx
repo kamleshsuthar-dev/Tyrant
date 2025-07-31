@@ -5,13 +5,17 @@ import {  UpdatePasswordSchema } from "@/validations/authSchema";
 import { Button } from "@/components/ui/button";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { resetPassword } from "@/store/action/authAction";
+import { useEffect } from "react";
 
 
 
 
 export default function UpdatePasswordForm({email}) {
  const navigate= useNavigate()
-
+ const dispatch = useDispatch()
+ const {response ,error} = useSelector(state=>state?.auth?.resetPassword)
   const {
     register,
     handleSubmit,
@@ -28,26 +32,38 @@ export default function UpdatePasswordForm({email}) {
   const watchedValues = watch();
 
   const onSubmit = async(data) => {
-        console.log(data);
-           try {
-        const response = await axios.post(`${import.meta.env.VITE_RESET_PASSWORD}`,
-          {
-            email:email ,
-            newPassword: data.password,
-          },
-        );
-        console.log("response .......", response);
-        navigate("/login");
-        alert("Password Change Successfully");
-      } catch (error) {
-        console.log("reset password error", error);
-        setError(`error:  ${error?.message} `);
-        setTimeout(() => {
-          setError(" ");
-        }, 1000);
-
-      }
+       dispatch(resetPassword({email:email , newPassword : data.password}))
   };
+
+  useEffect(()=>{
+      if(response?.message =="Password reset successful"){
+        setTimeout(() => {
+          navigate("/login");
+        }, 2000);
+      }
+  },[response])
+
+  // const onSubmit = async(data) => {
+  //       console.log(data);
+  //          try {
+  //       const response = await axios.post(`${import.meta.env.VITE_RESET_PASSWORD}`,
+  //         {
+  //           email:email ,
+  //           newPassword: data.password,
+  //         },
+  //       );
+  //       console.log("response .......", response);
+  //       navigate("/login");
+  //       alert("Password Change Successfully");
+  //     } catch (error) {
+  //       console.log("reset password error", error);
+  //       setError(`error:  ${error?.message} `);
+  //       setTimeout(() => {
+  //         setError(" ");
+  //       }, 1000);
+
+  //     }
+  // };
 
   
   const getFieldStatus = (fieldName) => {
@@ -80,7 +96,8 @@ export default function UpdatePasswordForm({email}) {
   return (
 
     <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-4 w-full  ">
-        {/* {error && <p className="text-xs text-red-500 text-center">{error}</p>} */}
+        {error && <p className="text-xs text-red-500 text-center">Error:{error}</p>}
+        {response && <p className="text-xs text-green-500 text-center">{response?.message}</p>}
      
       <CustomInput 
         label="Password"

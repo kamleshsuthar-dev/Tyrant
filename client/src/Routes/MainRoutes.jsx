@@ -8,10 +8,12 @@ import AuthRoutes from "./AuthRoutes";
 import PublicRoutes from "./PublicRoutes";
 import UserRoutes from "./UserRoutes";
 import {PageNotFound} from "@/pages"
+import { Suspense } from "react";
 
 
 function MainRoutes() {
   return (
+    <Suspense>
     <Routes>
       <Route element={<AuthRedirect />}>{AuthRoutes}</Route>
         {PublicRoutes}
@@ -23,6 +25,7 @@ function MainRoutes() {
       </Route>
       <Route path="*" element={<PageNotFound/>}/>
     </Routes>
+    </Suspense>
   );
 }
 

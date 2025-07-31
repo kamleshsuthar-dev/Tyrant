@@ -3,11 +3,11 @@ import { useSelector } from "react-redux";
 import { useIsAdmin } from "@/hooks/useIsAdmin";
 
 const AdminProtected = () => {
-const {isLogin ,userData} = useSelector(state=>state?.auth?.data)
+const {isLogin ,userData} = useSelector(state=>state?.auth)
   const isAdmin = useIsAdmin()
   // Show a loading state until userDetails is available
 
-  if(isLogin === false) return <h1 className="text-center h-[90%] capitalize text-2xl  top-[50%]">user is not login </h1>
+  if(isLogin === false) return <div className="h-[90vh] w-screen flex justify-center items-center"><h1 className="text-center  capitalize text-2xl ">user is not login </h1></div>
   
   if (userData === undefined || userData === null) {
   

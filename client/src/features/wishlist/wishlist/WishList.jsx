@@ -11,7 +11,7 @@ import {  selectWishlistItems, selectWishlistLoading, selectWishlistError, clear
 export default function WishList() {
     const dispatch = useDispatch();
    
-    const { isLogin, userData } = useSelector(state => state?.auth?.data);
+    const { isLogin, userData } = useSelector(state => state?.auth);
     const [deletingId, setDeletingId] = useState(null);
 
 

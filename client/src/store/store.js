@@ -16,6 +16,8 @@ import wishlistSlice from './reducer/wishlistSlice'
 import shoppingCartSlice from "./reducer/shoppingCartSlice"
 import categorySlice from "./reducer/categorySlice"
 import productSlice from "./reducer/productSlice"
+import reviewSlice from "./reducer/reviewSlice"
+import profileSlice from "./reducer/profileSlice"
 
 const authPersistConfig = {
   key: 'auth',
@@ -32,8 +34,9 @@ export const store = configureStore({
     wishlist: wishlistSlice,
     shoppingCart : shoppingCartSlice,
     category: categorySlice,
-    product: productSlice
-
+    product: productSlice,
+    reviews : reviewSlice,
+    profile: profileSlice
    
   },
   middleware: (getDefaultMiddleware) =>

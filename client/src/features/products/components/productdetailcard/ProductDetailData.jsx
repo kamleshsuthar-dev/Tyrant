@@ -16,7 +16,7 @@ import { addToCart, fetchCartProduct } from "@/store/action/shoppingCartAction";
   const sizes = ["XS", "S", "M", "L", "XL"];  
 
 function ProductDetailData({ product }) {
-  const { isLogin } = useSelector((state) => state?.auth?.data);
+  const { isLogin } = useSelector((state) => state?.auth);
   const dispatch =useDispatch()
   const navigate = useNavigate();
   

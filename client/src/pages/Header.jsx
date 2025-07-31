@@ -16,7 +16,7 @@ import { fetchCartProduct } from "@/store/action/shoppingCartAction";
 
  
 export default function Header() {
-  const {isLogin} = useSelector(state=>state?.auth?.data)
+  const {isLogin} = useSelector(state=>state?.auth)
   const  cartLength = useSelector(state=>state?.shoppingCart.cartItems).length
   const dispatch = useDispatch()
   console.log(cartLength);

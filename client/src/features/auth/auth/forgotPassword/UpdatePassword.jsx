@@ -1,6 +1,4 @@
-import { useEffect, useRef, useState } from "react";
-import { useLocation, useNavigate } from "react-router-dom";
-import axios from "axios";
+import { useLocation } from "react-router-dom";
 import UpdatePasswordForm from "../../components/UpadatePasswordForm";
 import Background from "../../components/Background";
 
@@ -9,7 +7,7 @@ function UpdatePassword() {
   const  email  = location?.state.email || {};
   console.log(email);
  
-  const navigate = useNavigate();
+
 
   // const handleSubmit = async (e, email) => {
    

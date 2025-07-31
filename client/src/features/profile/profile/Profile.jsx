@@ -10,7 +10,7 @@ import { resetAuthState } from "@/store/reducer/authSlice"
 
 export default function Profile({  expectedDelivery = "TOMORROW" }) {
    const dispatch =useDispatch()
-   const {userData , logout : {response ,error}} = useSelector(state=>state?.auth?.data) || {}
+   const {userData , logout : {response ,error}} = useSelector(state=>state?.auth) || {}
    const userName = userData?.name || " "
    const userEmail = userData?.email || " "
   //  const error = logout?.error

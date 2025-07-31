@@ -5,7 +5,7 @@ import { GoogleOAuthProvider } from "@react-oauth/google";
 import {GoogleAuth} from "./features/auth";
 import React, { useEffect } from "react";
 import { checkIsLogin } from "./store/action/authAction.js";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 
 
 
@@ -28,6 +28,7 @@ function App() {
     useEffect(()=>{
       dispatch(checkIsLogin())
     },[])
+
   
   return (
     <>

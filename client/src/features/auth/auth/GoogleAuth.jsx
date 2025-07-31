@@ -1,6 +1,5 @@
 import { Button } from "@/components/ui/button";
 import { checkIsLogin } from "@/store/action/authAction";
-import { loadLogin } from "@/store/reducer/authSlice";
 import { useGoogleLogin } from "@react-oauth/google";
 import axios from "@/Utils/axios";
 import { useState } from "react";

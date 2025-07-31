@@ -7,13 +7,17 @@ import { InputOTP, InputOTPGroup, InputOTPSeparator, InputOTPSlot } from "@/comp
 import { useToast } from "@/hooks/use-toast"
 import axios from "axios"
 import { throttle } from "lodash"
+import { useDispatch, useSelector } from "react-redux"
+import { clearResetPassword } from "@/store/reducer/authSlice"
 
 
-export default function VerifyOTP({submitFunction ,worngPassMessage ,credentials ,type}) {
-  console.log("worngPassMessage",worngPassMessage);
+export default function VerifyOTP({submitFunction  ,credentials ,type}) {
+  const dispatch = useDispatch()
+   const {response ,error} = useSelector(state=>state?.auth?.resetPassword)
+  // console.log("worngPassMessage",worngPassMessage);
   console.log("ccsc",credentials);
   
-  const [error,setError]= useState("")
+  // const [error,setError]= useState("")
   const [otp, setOtp] = useState("")
   const [isSubmitting, setIsSubmitting] = useState(false)
   // const router = useRouter()
@@ -43,17 +47,12 @@ export default function VerifyOTP({submitFunction ,worngPassMessage ,credentials
     }
   }
 
-  useEffect(() => {
-    if (worngPassMessage?.message) {
-    setError(worngPassMessage.message);
-
-    const timer = setTimeout(() => {
-      setError("");
+ useEffect(()=>{
+    setTimeout(() => {
+      dispatch(clearResetPassword())
     }, 3000);
+ },[error ,response])
 
-    return () => clearTimeout(timer);
-  }
-  }, [worngPassMessage?.key])
   
 
   
@@ -88,6 +87,7 @@ export default function VerifyOTP({submitFunction ,worngPassMessage ,credentials
         <CardHeader className="space-y-1">
        {/* {worngPassMessage?.response?.data?.success === false && showInvalid&& <div className="text-destructive text-center OTP">Invalid OTP</div> } */}
        {error && <div className="text-destructive text-sm text-center OTP capitalize">{error}</div> }
+       {response?.success && <div className="text-secondary-foreground text-sm text-center OTP capitalize">{response?.message}</div> }
       
           <CardTitle className="text-2xl font-bold text-center">Verify Your Account</CardTitle>
           <CardDescription className="text-center">Enter the 6-digit code we sent to your email</CardDescription>

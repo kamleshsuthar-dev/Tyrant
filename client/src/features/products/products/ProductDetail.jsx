@@ -2,7 +2,7 @@
 "use client";
 import ProductDetailCard from "../components/ProductDetailCard";
 
-import React from 'react'
+import React, { useState } from 'react'
 import ProductCard from "../components/ProductCard";
 import {ReviewSection} from "@/features/review";
 import { useLocation, useParams } from "react-router-dom";
@@ -13,6 +13,7 @@ function ProductDetail() {
   const { pId } = useParams();
     const location = useLocation();
   const {product,categoryP} = location.state || {}
+  const [reviewsUpdated,setReviewsUpdated]=useState()
   
   return (
      <div className="min-h-screen bg-secondary p-4" id="top">

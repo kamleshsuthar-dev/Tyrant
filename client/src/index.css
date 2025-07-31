@@ -6,9 +6,16 @@
 
 /* ... */
 
+
+
+
 @font-face {
   font-family: "AUTOMATA";
   src: url(/fonts/AUTOMATA.ttf);
+}
+@font-face {
+  font-family: "Quicksand";
+  src: url(/fonts/Quicksand-SemiBold.ttf);
 }
 
 @layer utilities {

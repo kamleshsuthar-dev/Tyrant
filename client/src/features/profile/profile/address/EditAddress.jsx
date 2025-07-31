@@ -1,12 +1,16 @@
-import axios from "axios";
-
+import { updateAddress } from "@/store/action/profileAction";
 import { useEffect, useState } from "react";
-import { useSelector } from "react-redux";
-import { useLocation, useParams } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { useLocation, useNavigate, useParams } from "react-router-dom";
 
 export default function EditAddress() {
-  const {userData} = useSelector(state=>state?.auth?.data)
+  const {userData} = useSelector(state=>state?.auth)
+  const {updateStatus:{loading , error ,success}} = useSelector(state=>state?.profile)
+  const dispatch = useDispatch()
+  const navigate = useNavigate()
   const { AddressId } = useParams();
+ 
+  
   const location = useLocation();
   const { currAddress } = location?.state;
   console.log(currAddress, "dfdfdsd");
@@ -25,9 +29,9 @@ export default function EditAddress() {
     isDefault: currAddress.isDefault || false,
   });
 
-  const [success, setSuccess] = useState("");
+  // const [success, setSuccess] = useState("");
   const [errors, setErrors] = useState({});
-  const [loading, setLoading] = useState(false);
+  // const [loading, setLoading] = useState(false);
 
   const handleChange = (e) => {
     const { name, value, type, checked } = e.target;
@@ -127,7 +131,7 @@ export default function EditAddress() {
     console.log(errors);
 
     if (!validate()) return;
-    setLoading(true);
+    // setLoading(true);
 
     const payload = {
       nickName: formData.nickName,
@@ -141,24 +145,64 @@ export default function EditAddress() {
       isDefault: formData.isDefault,
     };
 
-    try {
-      const res = await axios.post(
-        `${import.meta.env.VITE_EDIT_ADDRESS}/${AddressId}`,
-        payload,
-        {
-          headers: {
-            "Content-Type": "application/json",
-          },
-        },
-      );
+    dispatch(updateAddress({AddressId ,data:payload}))
+    // try {
+    //   const res = await axios.post(
+    //     `${import.meta.env.VITE_EDIT_ADDRESS}/${AddressId}`,
+    //     payload,
+    //     {
+    //       headers: {
+    //         "Content-Type": "application/json",
+    //       },
+    //     },
+    //   );
 
-      console.log(res.data, "response add address");
+    //   console.log(res.data, "response add address");
 
-      if (res.status === 200 || res.status === 201) {
-        console.log("Address saved successfully!");
-        setSuccess("Address saved successfully!");
+    //   if (res.status === 200 || res.status === 201) {
+    //     console.log("Address saved successfully!");
+    //     setSuccess("Address saved successfully!");
 
-        setFormData({
+    //     setFormData({
+    //       fullName: "",
+    //       mobileNumber: "",
+    //       nickName: "",
+    //       landmark: "",
+    //       addressLine: "",
+    //       locality: "",
+    //       pinCode: "",
+    //       state: "Gujarat",
+    //       city: "",
+    //       type: "Home",
+    //       isDefault: false,
+    //     });
+    //     // Reset form or redirect as needed
+    //   } else {
+    //     console.log("Failed to save address. Please try again.");
+    //   }
+    // } catch (error) {
+    //   console.error("Error saving address:", error);
+    //   if (error.response?.data?.message) {
+    //     console.log(error.response.data.message);
+    //     const newErrors = {};
+
+    //     if (
+    //       error.response.data.message ===
+    //       "address with same nickname already exists"
+    //     ) {
+    //       newErrors.nickName = error.response.data.message;
+    //     }
+    //     setErrors(newErrors);
+    //   }
+    //   console.log("An error occurred. Please try again later.");
+    // } finally {
+    //   setLoading(false);
+    // }
+  };
+
+  useEffect(()=>{
+    if(success?.success== true){
+       setFormData({
           fullName: "",
           mobileNumber: "",
           nickName: "",
@@ -171,32 +215,10 @@ export default function EditAddress() {
           type: "Home",
           isDefault: false,
         });
-        // Reset form or redirect as needed
-      } else {
-        console.log("Failed to save address. Please try again.");
-      }
-    } catch (error) {
-      console.error("Error saving address:", error);
-      if (error.response?.data?.message) {
-        console.log(error.response.data.message);
-        const newErrors = {};
-
-        if (
-          error.response.data.message ===
-          "address with same nickname already exists"
-        ) {
-          newErrors.nickName = error.response.data.message;
-        }
-        setErrors(newErrors);
-      }
-      console.log("An error occurred. Please try again later.");
-    } finally {
-      setLoading(false);
+      navigate(-1)
     }
-  };
+  },[success])
 
-  // Add your JSX return statement here
-  // ...
 
   return (
     <div className="max-w-3xl mx-auto p-4 border rounded-lg shadow-md">
@@ -216,9 +238,9 @@ export default function EditAddress() {
         </div>
       </div>
 
-      {success && (
+      {success?.success && (
         <div className="p-4 mb-6 bg-green-50 text-green-700 rounded-md">
-          {success}
+          {success?.message}
         </div>
       )}
 
@@ -338,7 +360,7 @@ export default function EditAddress() {
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           <div>
             <label className="block text-sm font-medium mb-1">
-              LOCALITY<span className="text-red-500">*</span>
+              Area, Street, Sector, Village<span className="text-red-500">*</span>
             </label>
             <input
               type="text"

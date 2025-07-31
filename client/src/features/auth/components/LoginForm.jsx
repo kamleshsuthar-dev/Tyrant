@@ -10,15 +10,13 @@ import {  checkIsRegistered, loginUser } from "@/store/action/authAction";
 
 export default function LoginForm() {
  
-    // const [error ,setError] = useState("")
+   
     const navigate= useNavigate()
 
    const dispatch = useDispatch()
-  // const isRegistered = useSelector(state => state?.auth?.data?.isRegistered)
-  // const error = useSelector(state => state?.auth?.data?.login?.error)
-  // const response = useSelector(state => state?.auth?.data?.login?.response)
+ 
 
-  const {isRegistered ,login} = useSelector(state=>state?.auth?.data) || {} 
+  const {isRegistered ,login} = useSelector(state=>state?.auth) || {} 
     const error = login?.error
     const response = login?.response
   
@@ -82,8 +80,9 @@ export default function LoginForm() {
 
    useEffect(() => {
       const validEmail = getFieldStatus("email");
-
+      
       if (validEmail === "success") { 
+        console.log(Watchemail);
             dispatch(checkIsRegistered(Watchemail))
         };
     }, [Watchemail, checkIsRegistered,getFieldStatus("email")]);

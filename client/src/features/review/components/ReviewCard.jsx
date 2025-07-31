@@ -7,7 +7,7 @@ export default function ReviewCard({ review, currentUserId, onDelete, isDeleting
   return (
     <div
       key={review._id || `review-${Math.random()}`}
-      className="rounded-2xl border-[2px] border-primary"
+      className="rounded-2xl border-[2px] border-primary mt-1"
     >
       <div className="relative space-y-2 p-4 shadow-none">
         <div className="flex items-center gap-2">
