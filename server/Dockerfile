@@ -9,9 +9,11 @@ RUN apt-get update && \
 
 WORKDIR /app
 COPY package*.json ./
+COPY tsconfig.json ./
 RUN npm install
 COPY . .
 
+RUN npm run build 
 EXPOSE 3000 6379
 CMD ["bash", "-c", "service redis-server start && sleep 3 && npm run start"]
 
