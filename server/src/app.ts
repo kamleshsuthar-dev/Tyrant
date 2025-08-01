@@ -6,7 +6,7 @@ import cors from 'cors';
 import { Request, Response } from "express";
 import { connectDB } from "config/db";
 import { env } from "config/env";
-import router from "routes/index";
+import router from "routes/index.route";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);

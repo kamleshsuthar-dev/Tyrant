@@ -7,4 +7,4 @@ export function generateToken(user: {email: string, _id: string | unknown}): str
     }
     let token = jwt.sign({email: user.email, id: user._id}, env.JWT_SECRET);
     return token;
-}
+};

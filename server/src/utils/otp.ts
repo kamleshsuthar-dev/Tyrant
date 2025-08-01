@@ -22,8 +22,14 @@ export const sendOtp = async (email: string, userData?:Record<string, any>): Pro
   const value = JSON.stringify({ hashedOtp, userData });
   await redis.set(otpKey, value, { EX: OTP_EXPIRY_MS/1000 } );
   
-  const subject = "Your OTP Code";
-  const message = `<h1>Your OTP code is ${otp}</h1>`;
+  const subject = "OTP from Tyrant";
+  const message = `<h2>Your OTP for Tyrant is ${otp}</h2>
+  <p>Please note, this password is valid for 5 minutes.</p>
+  <p>It should be kept private. Tyrant will never contact you via phone or email to share this code.</p>
+  <p>Best Regards,</p>
+  <p>Team Tyrant</p>
+  `;
+                   
   
   const emailResponse = await sendEmail(email, subject, message);
   if (emailResponse.success) {

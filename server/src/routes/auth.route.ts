@@ -9,7 +9,7 @@ import {
     loginUserSchema, 
     registerUserSchema, 
     resetPasswordSchema 
-} from 'validations/authSchemas.js';
+} from 'validations/zod/auth.schema.js';
 
 export default (router: Router)=> {
     router.post('/auth/register', validateRequest(registerUserSchema),AuthController.registerUser);

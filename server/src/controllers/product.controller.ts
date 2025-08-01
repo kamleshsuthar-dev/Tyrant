@@ -20,22 +20,22 @@ const generateUniqueSlug = async (title: string): Promise<string> => {
 
 export default class ProductController {
     
-    static async getAllProduct(req: Request, res: Response) {
+    static async getProducts(req: Request, res: Response) {
         try {
             const {
-            page = "1",
-            limit = "10",
+            page,
+            limit,
             category,
             brand,
             isFeatured,
             isActive,
             seller,
             search,
-            sortBy = "createdAt",
-            sortOrder = -1,
+            sortBy,
+            sortOrder,
             minPrice,
             maxPrice,
-            inStock
+            inStock,
             } = req.query;
 
             const filter: any = {};
@@ -51,11 +51,12 @@ export default class ProductController {
             if (maxPrice) filter["variants.finalPrice"].$lte = Number(maxPrice);
             }
             if (search) filter.name = { $regex: search.toString(), $options: "i" };
-
             const sort: Record<string, 1 | -1> = { [sortBy as string]: sortOrder === "1" ? 1 : -1 };
-            const limitNum = parseInt(limit as string);
-            const pageNum = parseInt(page as string);
-            const products = await productServices.getProducts(filter, sort, pageNum, limitNum);
+            if(typeof page !== "number" || typeof limit !== "number") {
+                res.status(400).json({ success: false, message: "Invalid query parameters" });
+                return;
+            }
+            const products = await productServices.getProducts(filter, sort, page, limit);
 
             res.status(200).json({
             success: true,
@@ -63,7 +64,7 @@ export default class ProductController {
             pagination: {
                 total: products.total,
                 page: products.page,
-                limit: limitNum,
+                limit: limit,
                 totalPages: products.totalPages,
             },
             });
@@ -91,7 +92,6 @@ export default class ProductController {
                 const slug = await generateUniqueSlug(productData.name);
                 productData.slug = slug;    
             }
-            console.log(productData)
             const product = await productServices.createProduct(productData);
             res.status(201).json({ success: true, data: product });
         } catch (err: any) {
@@ -152,14 +152,14 @@ export default class ProductController {
     };
     static async addProductVariant(req: Request, res: Response) {
         try {
-            const { productId } = req.params;
+            const { id } = req.params;
             const variantData = req.body;
             const sellerId = req.user?._id;
-            if (!Types.ObjectId.isValid(productId)) {
+            if (!Types.ObjectId.isValid(id)) {
                 res.status(400).json({ success: false, message: "Invalid product ID." });
                 return 
             }
-            const product = productServices.addVariant(productId, variantData, sellerId)
+            const product = productServices.addVariant(id, variantData, sellerId)
             if(!product){
                 res.status(403).json({success:false, message:"Unauthorised or not found"})
             }

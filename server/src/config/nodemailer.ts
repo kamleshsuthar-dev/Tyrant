@@ -20,7 +20,7 @@ const transporter = nodemailer.createTransport({
 export const sendEmail = async (email: string,sub: string,msg: string): Promise<EmailResponse> =>{
  try {
     const info = await transporter.sendMail({
-        from: env.SMTP_USER,
+        from: `"Tyrant" ${env.SMTP_USER}`,
         to: email,
         subject: sub,
         html: msg,

@@ -3,8 +3,8 @@ import bcrypt from "bcrypt";
 import { Request, Response } from "express";
 import userModel from "models/user.model";
 import { sendOtp, verifyOtp } from "utils/otp";
-import { generateToken } from "utils/generateToken";
-import { oauth2client } from "utils/googleConfig";
+import { generateToken } from "utils/generateJWT.util";
+import { oauth2client } from "config/googleOAuth";
 import { COOKIE_OPTIONS, SALT_ROUNDS } from "config/constants";
 
 

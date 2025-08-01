@@ -18,9 +18,9 @@ const storage = new CloudinaryStorage({
 const upload = multer({ storage: storage });
 
 // Get APIs for products
-productsRouter.get("/all-product", productController.getAllProduct);
-productsRouter.get("/product-by-category", productController.getProductByCategory,);
-productsRouter.get("/product-by-price", productController.getProductByPrice);
+// productsRouter.get("/all-product", productController.getAllProduct);
+// productsRouter.get("/product-by-category", productController.getProductByCategory,);
+// productsRouter.get("/product-by-price", productController.getProductByPrice);
 
 //Product Detail APIs
 productsRouter.get( "/single-product", ifLoggedIn, productController.getProductById);
