@@ -192,7 +192,7 @@ export default class ProductController {
             const productId = req.params.id;
             const variantId = req.params.variantId;
             const sellerId = req.user?._id;
-            if (!Types.ObjectId.isValid(productId)) {
+            if (!Types.ObjectId.isValid(variantId)) {
                 res.status(400).json({ success: false, message: "Invalid product ID." });
                 return 
             }

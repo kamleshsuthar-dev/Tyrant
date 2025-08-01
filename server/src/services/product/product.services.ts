@@ -40,7 +40,7 @@ export default class productServices{
         return product;
     };
     static async updateProductById (
-        productId: Types.ObjectId,
+        productId: String,
         updates: UpdateQuery<IProduct>,
         sellerId: Types.ObjectId 
     ){
@@ -50,15 +50,15 @@ export default class productServices{
         return product.save();
     };
     static async deleteProductById(
-        productId: Types.ObjectId, 
+        productId: String, 
         sellerId: Types.ObjectId ) {
         const product = await ProductModel.findOneAndDelete({ _id:productId, seller: sellerId });
         return product;
     };
     static async addVariant(
-        productId: Types.ObjectId, 
+        productId: String, 
         variantData: any, 
-        sellerId: Types.ObjectId) 
+        sellerId: Types.ObjectId | undefined,) 
     {
         const product = await ProductModel.findOne({ _id:productId, seller:sellerId });
         if (!product) return null;
@@ -67,10 +67,10 @@ export default class productServices{
         return product;
     }
     static async updateVariant(
-        productId: Types.ObjectId, 
-        variantId: Types.ObjectId, 
+        productId: String, 
+        variantId: String, 
         variantData: any,
-        sellerId: Types.ObjectId, ) 
+        sellerId: Types.ObjectId | undefined, ) 
     {
         const product = await ProductModel.findOne({ _id:productId, seller:sellerId });
         if (!product) return null;
@@ -81,9 +81,9 @@ export default class productServices{
         return product;
     }
     static async deleteVariant(
-        productId: Types.ObjectId, 
-        variantId: Types.ObjectId, 
-        sellerId: Types.ObjectId, ) 
+        productId: String, 
+        variantId: String, 
+        sellerId: Types.ObjectId | undefined, ) 
     {
         const product = await ProductModel.findOne({ _id:productId, seller:sellerId });
         if (!product) return null;
