@@ -15,7 +15,7 @@
 }
 @font-face {
   font-family: "Quicksand";
-  src: url(/fonts/Quicksand-SemiBold.ttf);
+  src: url(/fonts/Quicksand.ttf);
 }
 
 @layer utilities {

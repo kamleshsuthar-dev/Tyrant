@@ -62,7 +62,7 @@ export default function ProductList() {
   if (loading) return <ProductListSkeleton />;
   else
     return (
-      <div className="bg-secondary">
+      <div className="bg-primary">
         <div className="relative mx-auto max-w-2xl px-4 py-16 sm:px-6 sm:py-24 lg:max-w-7xl lg:px-8">
           <h2 className="relative flex items-center justify-center rounded-lg bg-slate-100 p-2 text-4xl font-extrabold">
             {cName} {" :"}&nbsp;{" "}

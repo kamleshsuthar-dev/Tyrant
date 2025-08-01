@@ -3,12 +3,11 @@
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 
 
-import axios from "axios";
 import { Heart, Home, List, ShoppingCart, User } from "lucide-react";
 import { useEffect, useState } from "react";
 import { NavLink, useNavigate } from "react-router-dom";
 
-import { Button } from "@mui/material";
+import { Button } from "@/components/ui/button";
 import { useIsAdmin } from "@/hooks/useIsAdmin";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchCartProduct } from "@/store/action/shoppingCartAction";
@@ -56,14 +55,15 @@ export default function Header() {
 
   return (
     <>
-      <header className=" text-secondary">
-        <div className="h-8 text-[14px] mb-1 hidden  bg-primary text-primary-foreground  md:flex justify-center items-center capitalize">
+      <header className=" text-secondary ">
+        <div className="h-8 text-[14px]  hidden  bg-primary text-primary-foreground  md:flex justify-center items-center capitalize">
           Tell me something that i don't Know ,get 90% OFF{" "}
-          {/* <button onClick={btnclick}>click</button> */}
+         
+        
         </div>
         <nav
           aria-label="Global"
-          className="flex max-w-8xl items-center justify-between  px-6  lg:px-8 bg-secondary text-secondary-foreground border-2 border-red-500 border-dashed"
+          className="h-15 w-screen  flex max-w-8xl  items-center justify-between  px-6 lg:py-[10px]  lg:px-8 bg-secondary text-secondary-foreground "
         >
           {/* Mobile menu button - now positioned on the left */}
           <div className="flex lg:hidden">
@@ -123,41 +123,45 @@ export default function Header() {
           </div>
 
           {/* Desktop navigation links */}
-          <div className="hidden lg:flex ml-9 gap-10 items-center text-lg font-medium font-['Quicksand']">
-            <NavLink to="/">Trends</NavLink>
+          <div className="hidden lg:flex ml-9 gap-10 items-center text-xl  ">
+            <NavLink to="/" className="flex items-center gap-x-1 justify-center" >Trends <img src="./Svg/TrendIcon.svg" alt=""  /></NavLink>
             <NavLink to="/">Collection</NavLink>
             <NavLink to="/">Color</NavLink>
             <NavLink to="/">Showcase</NavLink>
-            <NavLink to="/" className="wrap-none text-nowrap">About Us</NavLink>
+           
 
-            { isAdmin ?  <NavLink to="/admin/category/all">Admin Dashboard</NavLink> : null }
+            { isAdmin ?  <NavLink to="/admin/category/all">Admin Dashboard</NavLink> :  <NavLink to="/" className="wrap-none text-nowrap">About Us</NavLink> }
            
           </div>
 
           {/* Search bar and user controls */}
-          <div className="flex md:flex  md:justify-end gap-x-2 lg:gap-5">
+          <div className="flex md:flex md:items-center md:justify-end gap-x-2 lg:gap-x-5">
             
-            <div className="relative flex items-center px-2 md:border border-none outline-none md:outline-2 md:outlinesecondary  md:bordersecondary rounded-xl text-sm outline-offset-1 outline-secondary-foreground  border-secondary-foreground ">
+            <div className=" h-fit flex items-center px-2 md:border border-none outline-none md:outline-2 md:outlinesecondary   rounded-xl text-sm outline-offset-1 outline-secondary-foreground  border-secondary-foreground ">
               <img src="./Search Icon.svg" alt="" className="" />
               <input
                 type="search"
                 placeholder="Search For Jacks And Condoms"
-                className="px-2  lg:w-96 md:w-40 w-5 bg-transparent placeholder:text-primary outline-none"
+                className="px-3 py-2  lg:w-96 md:w-40 w-5 bg-transparent placeholder:text-primary outline-none"
               />
             </div>
 
             <NavLink to={isLogin ? "./profile" : "./login"}>
-              <button className="p-2 lg:px-4 lg:py-1 bg-secondary border text-primary border-gray-300 rounded-full lg:rounded-md hover:bg-gray-100 flex items-center h-full">
-                <User className="h-4 w-4 lg:mr-2" />
+              <Button 
+                className="py-1"
+                // className="p-2 lg:px-4 lg:py-1 bg-primary border text-primary-foreground border-gray-300 rounded-full lg:rounded-md flex items-center h-full"  
+                >
+
+                {/* <User className="h-4 w-4 lg:mr-2" /> */}
                 <span className="hidden lg:inline">
-                  {isLogin ? "PROFILE" : "LOGIN"}
+                  {isLogin ? "PROFILE" : "Login"}
                 </span>
-              </button>
+              </Button>
             </NavLink>
 
             <NavLink to="/shoppingcart">
-             <button className="h-12 px-2 py-1 bg-accent text-primary border-primary border-4 rounded-2xl flex items-center justify-center gap-2">
-                <img src="./ShoppingCartIcon.svg" alt="" className="h-full pt-2 object-contain" />
+             <button className="h-9 p-2  bg-accent text-primary border-primary border-4 rounded-xl flex items-center justify-center gap-2">
+                <img src="./Svg/shoppingCartIcon.svg" alt="" className="" />
                 <div className="h-full flex items-center text-neutral-800 text-2xl font-normal font-['AUTOMATA']">
                   {cartLength}
                 </div>

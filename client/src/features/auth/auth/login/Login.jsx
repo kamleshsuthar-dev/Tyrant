@@ -191,7 +191,7 @@ export default Login
 //             alt="Login background"
 //             className="h-full w-full absolute top-0 bottom-0 rounded-2xl  object-cover"
 //           />
-//           <div className="card min-w-[350px] min-h-[60%] bg-secondary rounded-xl text-primary grid gap-2 items-center p-[52px] font-comfortaa text-lg z-10">
+//           <div className="card min-w-[350px] min-h-[60%] bg-secondary rounded-xl text-primary grid gap-2 items-center p-[52px]  text-lg z-10">
 //             {/* {message.general && <div className="text-red-500 text-sm mt-2 text-center mb-6">{message.general}</div>} */}
 
 //             <div className="text-3xl col-span-1 row-span-1 font-bold">
@@ -287,7 +287,7 @@ export default Login
 //       {/* Mobile Design */}
 //       {/* <div className="sm:hidden flex flex-col justify-between items-center h-screen">
 //         <div className="h-[70%] flex justify-center items-center">
-//           <div className="card w-[350px] min-w-[286px] bg-secondary rounded-xl text-primary grid gap-2 items-center p-8 font-comfortaa text-md border-solid borderprimary">
+//           <div className="card w-[350px] min-w-[286px] bg-secondary rounded-xl text-primary grid gap-2 items-center p-8  text-md border-solid borderprimary">
 //             {message.general && <div className="text-red-500 text-sm mt-2 text-center mb-6">{message.general}</div>}
             
 //             <div>
