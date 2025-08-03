@@ -21,7 +21,7 @@ export const PublicRoutes = (
 
     <Route path="review" element={<ReviewSection />} />
 
-    <Route path="description" element={<ProductDesciption />} />
+    <Route path="product-description" element={<ProductDesciption />} />
 
     <Route path="filter" element={<ReviewFilter />} />
 

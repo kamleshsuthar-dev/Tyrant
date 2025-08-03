@@ -103,7 +103,8 @@ export const addReview = createAsyncThunk(
   async (data, { rejectWithValue }) => {
     try {
       const res = await axios.post('/product/add-review', data);
-      
+        console.log("addddd",res.data);
+        
       return {
         message: res.data.success || "Review added successfully",
         productId : data.productId,

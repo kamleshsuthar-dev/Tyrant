@@ -2,13 +2,14 @@
 
 import { StarSVG, CustomPieChart } from "@/components/components";
 import { Progress } from "@/components/ui/progress";
+import { twMerge } from "tailwind-merge";
 
 export default function RatingOverview({ ratingStats }) {
   return (
     <div className="mt-12 max-w-[380px] space-y-8 flex flex-col justify-center item-center">
       <div className="flex flex-col items-center justify-center gap-4">
         <CustomPieChart average={ratingStats.average} />
-        <div className="text-[24px] font-semibold text-primary">
+        <div className="text-[24px] font-semibold text-secondary">
           <div className="text-center font-semibold">
             {ratingStats.totalReviews.toLocaleString()}
           </div>
@@ -17,10 +18,10 @@ export default function RatingOverview({ ratingStats }) {
       </div>
 
       {/* Rating Distribution */}
-      <div className="space-y-2 ">
+      <div className="space-y-2 p-2 ">
         {ratingStats.distribution.map((count, index) => (
-          <div key={5 - index} className="flex items-center gap-[20px]">
-            <div className="flex items-center justify-center gap-1 rounded-full bg-primary p-1 px-3 text-secondary">
+          <div key={5 - index} className="flex items-center lg:gap-[20px] gap-1 scale-75 md:scale-90 lg:scale-100 ">
+            <div className="flex items-center justify-center gap-1 rounded-full bg-primary-contrast p-1 px-3 text-secondary">
               <div className="flex w-[30px] gap-1 text-sm">
                 {5 - index} <StarSVG color="#fff" />
               </div>
@@ -30,13 +31,14 @@ export default function RatingOverview({ ratingStats }) {
                 color={
                   Math.max(...ratingStats.distribution) ===
                   ratingStats.distribution[index]
-                    ? "#9EFF00"
-                    : "#FFFFFF"
+                    ? "#9eff00"
+                    : "#fff"
                 }
               />
+           
             </div>
-            <div className="w-16 pl-1 text-right text-lg font-bold text-primary">
-              {count.toLocaleString()}
+            <div className="lg:w-16 w-12 pl-1 text-right text-lg font-bold text-secondary">
+              { count }
             </div>
           </div>
         ))}

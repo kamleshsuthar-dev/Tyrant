@@ -46,60 +46,6 @@ function ProductDetailData({ product }) {
       console.log(error);
     }
   }
-
-
-
-  // const addToWishList = async () => {
-  //   if (!isLogin) {
-  //     alert("Please login first to add items to wishlist");
-  //     return;
-  //   }
-
-  //   if (!product?._id) {
-  //     console.error("Product ID is missing");
-  //     return;
-  //   }
-
-  //   try {
-  //     setWishlistLoading(true);
-      
-  //     const res = await axios.post(
-  //       `${import.meta.env.VITE_PRODUCT_TOGGLE_WISHLIST}`,
-  //       { productId: product._idf },
-  //       { 
-  //         withCredentials: true,
-  //         headers: {
-  //           'Content-Type': 'application/json'
-  //         }
-  //       }
-  //     );
-
-  //     console.log("Wishlist response:", res.data);
-      
-  //     // Toggle wishlist state based on response
-  //     if (res.status === 200 || res.status === 201) {
-  //       setWishlist((prev) => !prev);
-  //     }
-      
-  //   } catch (error) {
-  //     console.error("Wishlist API error:", error);
-      
-  //     // Check if it's a network error or server error
-  //     if (error.response) {
-  //       console.error("Server responded with:", error.response.status, error.response.data);
-  //       alert(`Error: ${error.response.data?.message || 'Server error'}`);
-  //     } else if (error.request) {
-  //       console.error("Network error:", error.request);
-  //       alert("Network error. Please check your connection.");
-  //     } else {
-  //       console.error("Error:", error.message);
-  //       alert("Something went wrong. Please try again.");
-  //     }
-  //   } finally {
-  //     setWishlistLoading(false);
-  //   }
-  // };
-
   const addtoCart = async (e) => {
     let data = {
       productId : product._id,
@@ -122,12 +68,15 @@ function ProductDetailData({ product }) {
   };
 
   return (
-    <div className="space-y-2">
-      <Data product={product} />
-      <Size
+    <div className="space-y-[18px]">
+      <Data 
+      product={product}
         addToWishList={addToWishList}
         wishlistLoading={wishlistLoading}
         wishlist={wishlist}
+      />
+      <Size
+      
         selectedSize={selectedSize}
         setSelectedSize={setSelectedSize}
         sizes={sizes}

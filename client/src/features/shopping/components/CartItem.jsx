@@ -3,6 +3,7 @@ import { Checkbox } from "@/components/ui/checkbox.jsx";
 import DeleteBtn from "../../../components/home/DeleteBtn.jsx";
 import QuantitySelector from "./QuantitySelector.jsx"
 import { useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
 export function CartItem({ 
   cartItem, 
   isChecked, 
@@ -12,7 +13,12 @@ export function CartItem({
   isMobile = false ,
  
 }) {
-
+  const navigate = useNavigate()
+  const handleGoToDetail = (id)=>{
+    console.log("hello");
+    
+      navigate(`/productdetails/${id}`)
+  }
   
 
   if (isMobile) {
@@ -32,6 +38,7 @@ export function CartItem({
               width={80}
               height={80}
               className="object-cover"
+              onClick={()=>handleGoToDetail(cartItem.productId?._id)}
             />
             <div className="flex-1">
               <h3 className="text-lg font-semibold">
@@ -92,13 +99,16 @@ export function CartItem({
             onCheckedChange={() => onCheckboxChange(cartItem._id)}
           />
         </div>
+       
         <img
           src={cartItem.productId?.pImages[0].URL || "/placeholder.svg"}
           alt={cartItem.name}
           width={80}
           height={80}
-          className="object-cover"
+          className="object-cover "
+          onClick={()=>handleGoToDetail(cartItem.productId?._id)}
         />
+       
         <div>
           <h3 className="text-lg font-semibold">
             {cartItem.productId?.pName}
