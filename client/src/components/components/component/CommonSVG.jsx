@@ -88,3 +88,22 @@ export  function MobileDesignAuthSVG() {
 
 
 
+export function ArrowSVG({color="#202020" , rotate= false}) {
+
+    if(rotate == false){
+  return  <svg xmlns="http://www.w3.org/2000/svg" width="9" height="6" viewBox="0 0 9 6" fill="none">
+            <path d="M8.24393 5.57666H0.757046C0.0838556 5.57666 -0.252739 4.80144 0.222269 4.34948L3.96571 0.787675C4.26141 0.506322 4.73956 0.506322 5.03212 0.787675L8.77556 4.34948C9.25371 4.80144 8.91712 5.57666 8.24393 5.57666Z" fill={color}/>
+        </svg>
+
+    }else{
+  return  <svg xmlns="http://www.w3.org/2000/svg" width="9" height="6" viewBox="0 0 9 6" fill="none">
+          <path d="M0.756073 0.57666L8.24295 0.57666C8.91614 0.57666 9.25274 1.35188 8.77773 1.80384L5.03429 5.36565C4.73859 5.647 4.26044 5.647 3.96788 5.36565L0.224442 1.80384C-0.253712 1.35188 0.0828829 0.57666 0.756073 0.57666Z" fill={color}/>
+          </svg>
+    }
+
+ 
+}
+
+
+
+

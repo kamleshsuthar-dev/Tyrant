@@ -6,22 +6,23 @@ function Quantity({ setQuantity,quantity }) {
   return (
     <div>
       <Label className="text-xl">Quantity</Label>
-      <div className="mt-2 flex w-fit items-center rounded-lg bg-primary text-secondary">
+
+      <div className="mt-2 flex  w-24 h-9 items-center rounded-lg bg-secondary text-primary font-medium">
         <Button
           variant="primary"
-          size="icon"
-          className="h-8 w-7 border-none bg-transparent hover:bg-transparent hover:text-secondary"
+          // size="icon"
+          className="h-8 w-7 border-none bg-transparent hover:bg-transparent hover:text-secondary rounded-lg"
           onClick={() => setQuantity(Math.max(1, quantity - 1))}
         >
-          <Minus className="h-2 w-2" />
+          <Minus className="h-2 w-2 font-medium" />
         </Button>
-        <span className="w-10 border-l-2 border-r-2 text-center text-sm">
+        <span className="w-10 px-3 border-l-2 border-r-2 border-primary text-center text-sm font-medium">
           {quantity}
         </span>
         <Button
           variant="primary"
-          size="icon"
-          className="h-8 w-7 border-none bg-transparent hover:bg-transparent hover:text-secondary"
+          // size="icon"
+          className="h-8 w-7 border-none bg-transparent hover:bg-transparent hover:text-secondary rounded-lg"
           onClick={() => setQuantity(quantity + 1)}
         >
           <Plus className="h-4 w-4" />

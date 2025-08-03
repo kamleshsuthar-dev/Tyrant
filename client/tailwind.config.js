@@ -35,8 +35,10 @@ export default {
 			foreground: "hsl(var(--foreground))",
 		
 			 primary: {
-				DEFAULT: "#202020",         // hsl(0 0% 13%)
-				foreground: "#ffffff",      // hsl(0 0% 100%)
+				DEFAULT: "#202020",         
+				foreground: "#ffffff",
+				 muted : "#858585"  ,      //light
+				contrast:"#3F3F3F"       // dark
 			},
 			secondary: {
 				DEFAULT: "#ffffff",         // hsl(0 0% 100%)
@@ -47,12 +49,15 @@ export default {
 				foreground: "#202020",      // hsl(0 0% 13%)
 			},
 			muted: {
-				DEFAULT: "#f1f5f9",         // hsl(210 40% 96.1%)
-				foreground: "#697586",      // hsl(215.4 16.3% 46.9%)
+				DEFAULT: "#858585",         
+				foreground: "#697586",     
 			},
 			destructive: {
 				DEFAULT: "#ff1010",         // hsl(0 100% 53%)
 				foreground: "#ffffff",
+			},
+			yellowish: {
+				DEFAULT: "#FFB524",         // hsl(0 100% 53%)
 			},
 			popover: {
 			  DEFAULT: "hsl(var(--popover))",

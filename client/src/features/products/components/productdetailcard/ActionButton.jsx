@@ -1,16 +1,37 @@
 import { Button } from "@/components/ui/button";
 
+// function ActionButton({checkOut,addtoCart}) {
+//   return (
+//     <div className="flex w-full  flex-wrap gap-4">
+      
+//       <Button
+//         variant="primary"
+//         className="flex w-1/2 rounded-xl py-0"
+//         onClick={(e) => addtoCart(e )}
+//       >
+//         Add to Cart
+//       </Button>
+
+//       <Button
+//         variant="accent"
+//         className="flex w-1/2 rounded-xl py-0"
+//         onClick={checkOut}
+//       >
+//         Buy Now
+//       </Button>
+//     </div>
+//   );
+// }
+
+// export default ActionButton;
 function ActionButton({checkOut,addtoCart}) {
   return (
-    <div className="flex w-full flex-row flex-wrap gap-4">
-      {/* <div>
-                       <Suspense fallback={<div>Loading...</div>}>
-                         <ShoppingCartTopUp ref={popUp} product={product} />
-                       </Suspense>
-                     </div> */}
+    <div className="flex gap-4 ">
+      
       <Button
-        variant="primary"
-        className="flex w-full rounded-xl py-0"
+        variant="secondary"
+        size = "xl"
+        className="flex w-1/2  "
         onClick={(e) => addtoCart(e )}
       >
         Add to Cart
@@ -18,7 +39,8 @@ function ActionButton({checkOut,addtoCart}) {
 
       <Button
         variant="accent"
-        className="flex w-full rounded-xl py-0"
+        size="xl"
+        className="flex w-1/2"
         onClick={checkOut}
       >
         Buy Now

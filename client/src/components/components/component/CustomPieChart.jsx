@@ -14,7 +14,7 @@ export default function CustomPieChart({ average }){
     { name: "Remaining", value: 100 - percentage },
   ];
 
-  const COLORS = ["#202020", "#9EFF00"];
+  const COLORS = [ "#9EFF00","#202020"];
 
   return (
     <div className="relative w-[180px] h-[180px] ">
@@ -25,7 +25,7 @@ export default function CustomPieChart({ average }){
             dataKey="value"
             innerRadius="0%"
             outerRadius="100%"
-            fill="#9EFF00"
+            fill="#202020"
             stroke="none"
             className="z-0"
             isAnimationActive={false}

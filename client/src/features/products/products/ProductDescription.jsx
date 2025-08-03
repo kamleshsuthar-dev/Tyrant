@@ -31,9 +31,10 @@ export default function ProductDesciption() {
   const [openIndex, setOpenIndex] = useState(0)
 
   return (
-    <div className="w-full max-w-2xl mx-auto space-y-4">
+    <div className="flex items-end justify-end">
+    <div className="max-w-xl   space-y-4  ">
       {items.map((item, index) => (
-        <div key={index} className="border-b border-dashed border-gray-200">
+        <div key={index} className="w-full border-b border-dashed border-primary-muted">
           <button
             onClick={() => setOpenIndex(openIndex === index ? -1 : index)}
             className="flex justify-between items-center w-full py-4 text-left"
@@ -54,11 +55,12 @@ export default function ProductDesciption() {
             )}
           >
             <div className="overflow-hidden">
-              <p className="pb-4 text-gray-600">{item.content}</p>
+              <p className="pb-4 text-secondary">{item.content}</p>
             </div>
           </div>
         </div>
       ))}
+    </div>
     </div>
   )
 }

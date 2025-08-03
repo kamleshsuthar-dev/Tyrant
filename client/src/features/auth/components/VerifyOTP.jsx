@@ -184,7 +184,7 @@ export function Timer({ initialSeconds, onExpire ,handleResendOTP }) {
   return (
     <div className="text-sm text-muted-foreground">
       {isActive ? (
-        <Button variant="secondary">Re-send OTP &gt; &gt; {formatTime()}</Button>
+        <Button variant="outline">Re-send OTP &gt; &gt; {formatTime()}</Button>
       ) : (
         <Button variant="primary" onClick={handleResendOTP}>Re-send OTP &gt; &gt;</Button>
       )}
