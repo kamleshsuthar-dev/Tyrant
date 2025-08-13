@@ -8,10 +8,13 @@ function Color({colors,selectedColor ,setSelectedColor}) {
   return (
      <div className="flex flex-col gap-1">
         <Label className="text-xl font-medium  ">Color</Label>
-        <RadioGroup
+        <div className="overflow-x-auto whitespace-nowrap px-2">
+
+       
+              <RadioGroup
           defaultValue={selectedColor}
           onValueChange={setSelectedColor}
-          className=" flex gap-2"
+          className="min-w-80 flex gap-2 overflow-x-auto whitespace-nowrap"
         >
           {/* {colors.map((color) => (
             <Label
@@ -39,10 +42,12 @@ function Color({colors,selectedColor ,setSelectedColor}) {
           <div className="w-20 h-24 relative bg-primary-contrast rounded-xl   overflow-hidden">
             <img className="w-full h-full p-1 absolute rounded-xl z-20" src="https://placehold.co/87x94" />
           </div>
-          <div className="w-20 h-24 relative bg-primary-contrast rounded-xl   overflow-hidden">
-            <img className="w-full h-full p-1 absolute rounded-xl z-20" src="https://placehold.co/87x94" />
-          </div>
+       
+       
+       
+        
         </RadioGroup>
+         </div>
      </div>
   )
 }

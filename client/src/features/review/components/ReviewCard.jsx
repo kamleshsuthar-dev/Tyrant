@@ -14,8 +14,9 @@ function ReviewCard({ review, currentUserId, onDelete, isDeleting }) {
              data-property-1="Default"
              className="h-full w-full mb-2 p-6 bg-primary text-primary-foreground rounded-3xl border-primary-muted border-[0.5px]  inline-flex flex-col justify-start items-start gap-4"
            >
-             <div className="self-stretch inline-flex justify-between items-center">
-               <div className="self-stretch flex justify-start items-center gap-2">
+             <div className="self-stretch flex justify-between items-center flex-wrap">
+
+               <div className="self-stretch flex justify-start items-center gap-2 flex-wrap">
                  <div className="self-stretch px-2 py-1  rounded-xl flex justify-center items-center">
                    
                      <div className={`self-stretch px-3  py-[2px] text-primary  rounded-xl inline-flex justify-center items-center`}
@@ -28,16 +29,18 @@ function ReviewCard({ review, currentUserId, onDelete, isDeleting }) {
                        </div>
                  </div>
                
-                 <div className="justify-start text-Pure-White text-sm font-medium ">
+                 <div className="justify-start text-Pure-White text-sm font-medium flex-wrap">
                    {review?.user?.name || "Anonymous"} <span> {review?.user?._id === currentUserId && (<><span className="text-xs font-semibold text-primary-muted"> - You</span></>)}</span>
                  </div>
                </div>
-               <div className="flex justify-start items-center gap-1">
+
+            
                  <div className="justify-start text-muted text-xs font-medium  lowercase">
                    28 days ago
                  </div>
-               </div>
+              
              </div>
+
              <div className="self-stretch px-2 inline-flex justify-center items-center gap-2.5">
                <div className="flex-1 justify-start text-Pure-White text-base font-medium ">
                   {review?.review?.title || 'Over all great product{" "}'} 
@@ -50,14 +53,14 @@ function ReviewCard({ review, currentUserId, onDelete, isDeleting }) {
                  be more better. ` }
                 
                </div>
-                <div className="w-24 h-24 relative ">
+                <div className="w-24 h-24 relative flex flex-wrap">
                     <DottedBorder  dashLength={6} gapLength={5} color="#fff"  size={1} borderRadius={12} className='w-full h-full' >
                       <div className="w-9 h-9 left-[27px] top-[27px] absolute overflow-hidden">
                           <img src="/svg/Media.svg" alt="" className=''/>
                       </div>
                     </DottedBorder>
                 </div>      
-                <div className="w-1/2 h-24 relative ">
+                <div className="w-1/2 h-24 relative flex flex-wrap">
                     <DottedBorder  dashLength={6} gapLength={5} color="#fff"  size={1} borderRadius={12} className='w-full h-full' >
                       <div className="w-9 h-9 left-[27px] top-[27px] absolute overflow-hidden">
                           <img src="/svg/Media.svg" alt="" className=''/>
@@ -68,8 +71,9 @@ function ReviewCard({ review, currentUserId, onDelete, isDeleting }) {
 
              </div>
 
-             <div className="self-stretch inline-flex justify-start items-center gap-4">
-               <div className="flex justify-center items-center gap-3">
+             <div className="self-stretch inline-flex justify-start items-center gap-4 flex-wrap">
+
+               <div className="flex justify-center items-center gap-3 flex-wrap">
                  <div className="px-2.5 py-0.5 bg-secondary rounded-xl flex justify-center items-center gap-1.5">
                    <div className="flex min-w-6 text-center gap-x-1 items-center justify-start text-primary  text-xs font-medium  capitalize">
                    <ArrowSVG  color={"#202020"}/>
@@ -88,6 +92,7 @@ function ReviewCard({ review, currentUserId, onDelete, isDeleting }) {
                      Reply
                    </div>
                  </div>
+
                  <div className="w-5 h-5 relative bg-primary rounded-xl">
                      <div className="w-0.5 h-0.5 left-[9px] top-[9px] absolute bg-secondary rounded-[31px]" />
                      <div className="w-0.5 h-0.5 left-[5px] top-[9px] absolute bg-secondary rounded-[31px]" />
@@ -97,15 +102,12 @@ function ReviewCard({ review, currentUserId, onDelete, isDeleting }) {
                   <>
                       <Button
                         variant="accent" size="sm" className="rounded-xl  h-6 !my-0 "
-                          // className="text-muted text-sm place-content-end"
-                          // onClick={() => !isDeleting && onDelete(review)}
                         >
                         <img src="/svg/editIcon.svg" alt="" className="h-5" />
                           Edit
                       </Button>
                       <Button
                        variant="destructive" size="sm" className="rounded-xl h-6 !my-0  text-xs font-medium"
-                        // className="text-muted text-sm place-content-end"
                         onClick={() => !isDeleting && onDelete(review)}
                       >
                         <img src="/svg/deleteIcon.svg" alt="" className="h-5"/>

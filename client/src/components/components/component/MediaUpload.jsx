@@ -233,7 +233,8 @@ const MediaUpload = ({ className = "" }) => {
             <input
               ref={fileInputRef}
               type="file"
-              accept="image/*,video/*"
+              // accept="image/*,video/*"
+               accept="image/png, image/jpeg, image/jpg ,video/mp4,"
               multiple
               onChange={handleFileChange}
               className="hidden"

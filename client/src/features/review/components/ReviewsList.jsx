@@ -27,7 +27,7 @@ export default function ReviewsList({
 
   return (
     <div
-      className="no-scrollbar max-h-[75vh] space-y-4 overflow-scroll mx-2 md:mx-5 "
+      className="no-scrollbar max-h-[75vh] space-y-4 overflow-scroll "
       id="scrollableDiv"
     >
       <InfiniteScroll
