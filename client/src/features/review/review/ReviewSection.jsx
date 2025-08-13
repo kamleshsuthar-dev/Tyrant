@@ -197,7 +197,7 @@ export default function ReviewSection({ avgRating, onReviewChange }) {
   // }
 
   return (
-    <div  className="w-full text-secondary bg-primary px-2">
+    <div  className="w-full text-secondary bg-primary ">
     <div className="relative mx-auto max-w-8xl space-y-6 ">
        
       <div className="flex flex-wrap items-start justify-between">
@@ -247,6 +247,7 @@ export default function ReviewSection({ avgRating, onReviewChange }) {
           <RatingOverview ratingStats={ratingStats} />
         )}
         </div>
+
         <div className="col-span-2 ">
         <ReviewsList
           pId={pId}

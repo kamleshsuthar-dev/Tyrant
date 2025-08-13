@@ -11,7 +11,7 @@ function Quantity({ setQuantity,quantity }) {
         <Button
           variant="primary"
           // size="icon"
-          className="h-8 w-7 border-none bg-transparent hover:bg-transparent hover:text-secondary rounded-lg"
+          className="h-8 w-7 border-none bg-transparent hover:bg-transparent hover:text-primary-muted rounded-lg text-primary "
           onClick={() => setQuantity(Math.max(1, quantity - 1))}
         >
           <Minus className="h-2 w-2 font-medium" />
@@ -22,7 +22,7 @@ function Quantity({ setQuantity,quantity }) {
         <Button
           variant="primary"
           // size="icon"
-          className="h-8 w-7 border-none bg-transparent hover:bg-transparent hover:text-secondary rounded-lg"
+          className="h-8 w-7 border-none bg-transparent hover:bg-transparent hover:text-primary-muted rounded-lg text-primary "
           onClick={() => setQuantity(quantity + 1)}
         >
           <Plus className="h-4 w-4" />

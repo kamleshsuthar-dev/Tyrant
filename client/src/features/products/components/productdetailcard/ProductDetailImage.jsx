@@ -123,35 +123,9 @@
 
 import React, { useState, useEffect } from 'react';
 import { cn } from '@/lib/utils';
-
-// Mock Carousel components for demo
-const Carousel = ({ children, setApi, className }) => (
-  <div className={className}>{children}</div>
-);
-
-const CarouselContent = ({ children }) => (
-  <div className="flex overflow-x-auto snap-x snap-mandatory scrollbar-hide">
-    {children}
-  </div>
-);
-
-const CarouselItem = ({ children }) => (
-  <div className="flex-none w-full snap-center">
-    {children}
-  </div>
-);
-
-const Card = ({ children }) => (
-  <div className="bg-white rounded-lg shadow-sm border">
-    {children}
-  </div>
-);
-
-const CardContent = ({ children, className }) => (
-  <div className={className}>
-    {children}
-  </div>
-);
+import { Card, CardContent } from '@/components/ui/card';
+import { Carousel, CarouselContent, CarouselItem } from '@/components/ui/carousel';
+import { MobileCarousel } from './MoblieCarousel';
 
 const ResponsiveProductGallery = ({productImages}) => {
   const [selectedImageIndex, setSelectedImageIndex] = useState(0);
@@ -236,67 +210,11 @@ const ResponsiveProductGallery = ({productImages}) => {
           </div>
         </div>
 
-        {/* Mobile: Carousel with dots - Only visible on mobile */}
+    
         <div className="flex md:hidden w-full flex-col">
-          <div className="w-full">
-            <Carousel setApi={setApi} className="w-full">
-              <CarouselContent>
-                {productImages.map((image, index) => (
-                  <CarouselItem key={index}>
-                    <Card>
-                      <CardContent className="flex aspect-square items-center justify-center p-2">
-                        <img 
-                          src={image} 
-                          alt={`Product ${index + 1}`}
-                          className="w-full h-full object-contain rounded-lg"
-                        />
-                      </CardContent>
-                    </Card>
-                  </CarouselItem>
-                ))}
-              </CarouselContent>
-            </Carousel>
-          </div>
-          
-          {/* Mobile: Dots Navigation */}
-          <div className="mt-4 flex justify-center gap-2">
-            {productImages.map((_, index) => (
-              <button
-                key={index}
-                onClick={() => setActiveIndex(index)}
-                className={cn(
-                  "h-2 w-2 rounded-full transition-all duration-300",
-                  activeIndex === index
-                    ? "scale-125 bg-blue-500 w-6"
-                    : "bg-gray-300 hover:bg-gray-400"
-                )}
-                aria-label={`Go to image ${index + 1}`}
-              />
-            ))}
-          </div>
-
-          {/* Mobile: Thumbnail strip */}
-          <div className="mt-4 flex gap-2 justify-center overflow-x-auto pb-2 scrollbar-hide">
-            {productImages.map((image, index) => (
-              <button
-                key={index}
-                onClick={() => setActiveIndex(index)}
-                className={cn(
-                  "flex-shrink-0 w-12 h-12 rounded-lg overflow-hidden border-2 transition-all duration-200",
-                  activeIndex === index
-                    ? "border-blue-500 shadow-md"
-                    : "border-gray-300 hover:border-blue-400"
-                )}
-              >
-                <img
-                  src={image}
-                  alt={`Thumbnail ${index + 1}`}
-                  className="w-full h-full object-cover"
-                />
-              </button>
-            ))}
-          </div>
+            <MobileCarousel productImages={productImages}/>
         </div>
+
       </div>
     </div>
   );

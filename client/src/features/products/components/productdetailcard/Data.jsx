@@ -47,19 +47,21 @@ function Data({product ,addToWishList,wishlistLoading,wishlist}) {
       </div>
 
       <div className="space-y-1  pb-4  ">
-        <div className="relative flex items-center gap-[14px]">
-          <span className="text-2xl font-medium">
+        <div className="relative flex items-center gap-[14px] flex-wrap">
+          <div className="text-2xl font-medium">
             Rs.{(product.pPrice * (100 - product.pOffer)) / 100}
-          </span>
-          <span className="text-base line-through">
+          </div>
+          <div className="text-base line-through">
             Rs. {product.pPrice}
-          </span>
+          </div>
+
+          
         
           <div className="px-1 py-0.5 bg-[#72D570]  rounded-md inline-flex justify-center items-center gap-2">
           <div className="justify-start text-primary text-xs font-medium  capitalize">%{product.pOffer} Off</div>
           </div>
 
-            <div className="absolute right-8 flex gap-2">
+            <div className="absolute right-8 flex gap-2 flex-wrap">
             <button
               className={`scale-[0.85] bg-none transition-opacity ${
                 wishlistLoading ? "cursor-wait opacity-50" : "cursor-pointer"
@@ -90,6 +92,7 @@ function Data({product ,addToWishList,wishlistLoading,wishlist}) {
                 />
               </svg>
             </button>
+
             <button className="scale-[0.8] bg-none" aria-label="Share product">
               <svg
                 xmlns="http://www.w3.org/2000/svg"
@@ -107,6 +110,7 @@ function Data({product ,addToWishList,wishlistLoading,wishlist}) {
               </svg>
             </button>
             </div>
+
         </div>
         <p className="text-xs text-primary-muted">
           Tax included. Shipping calculated at checkout.

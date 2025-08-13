@@ -46,7 +46,7 @@ function ProductDetail() {
 };
 
   return (
-     <div className="min-h-screen bg-primary text-secondary !pt-5" id="top">
+     <div className="min-h-screen bg-primary text-secondary !pt-5 px-3"  id="top">
         <div className="mx-auto max-w-7xl">
             <ProductDetailCard isSticky={isSticky} imgRef={stickyRef} pId={pId}/>
            
@@ -58,7 +58,6 @@ function ProductDetail() {
           <ProductDesciption />
         </div>
 
-<div ref={sentinelRef} className="h-1 w-full"></div>
 
           <div className="space-y-9 my-9">
             <img src="/png/img1.png" alt="" className="h-full w-full rounded-3xl object-cover" />
@@ -70,7 +69,7 @@ function ProductDetail() {
                 <DottedLine dashLength={23} color="#fff" size="1" />
           </div>
                 {/* review  */}
-          <div className="my-4 relative ">
+          <div className="my-4  ">
           
             <ReviewSection
               avgRating={product?.avgRating}
@@ -78,8 +77,12 @@ function ProductDetail() {
             />
           </div>
 
+
+
+
+
           {/* Similar newProducts */}
-          <div className="grid-cols-auto mt-8 grid gap-4 md:grid-cols-4">
+          {/* <div className="grid-cols-auto mt-8 grid gap-4 md:grid-cols-4">
             {categoryP && categoryP.length > 0 ? (
               <>
                 {categoryP.map((p) => (
@@ -91,7 +94,7 @@ function ProductDetail() {
               No Similar Products...
               </>
             )}
-          </div>
+          </div> */}
         </div>
     </div>
   )
