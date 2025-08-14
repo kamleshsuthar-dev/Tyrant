@@ -1,15 +1,13 @@
 import cookieParser from "cookie-parser";
 import express, { Application } from "express";
-import path from "path";
-import { fileURLToPath } from "url";
+import os from "os";
 import cors from 'cors';
 import { Request, Response } from "express";
-import { connectDB } from "config/db";
-import { env } from "config/env";
-import router from "routes/index.route";
+import { connectDB } from "./config/db";
+import { env } from "./config/env";
+import router from "./routes/index.route";
+import logger from "./config/logger";
 
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = path.dirname(__filename);
 const app: Application = express();
 
 app.use(express.json());
@@ -34,12 +32,11 @@ app.use(
     },
     // origin: "http://localhost:5173",
     credentials: true,
-    methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
+    methods: ["GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"],
   }),
 );
 
 app.use(express.urlencoded({ extended: true }));
-app.use(express.static(path.join(__dirname, "public")));
 
 app.use("/api", router());
     // app.use("/api/product", productsRouter);
@@ -57,5 +54,6 @@ connectDB();
 
 
 app.listen(env.PORT, () => {
-  console.log(`✅ Server started listening on port ${env.PORT}`);
+  logger.info(`up and running in ${env.NODE_ENV || 'development'} @: ${os.hostname()} on port ${env.PORT}`)
 });
+

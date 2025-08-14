@@ -1,3 +1,6 @@
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.isSeller = exports.isAdmin = void 0;
 const authorizeRole = (...roles) => {
     return (req, res, next) => {
         const user = req.user;
@@ -11,6 +14,5 @@ const authorizeRole = (...roles) => {
         next();
     };
 };
-export const isAdmin = authorizeRole("admin");
-export const isSeller = authorizeRole("seller");
-//# sourceMappingURL=authorize.js.map
+exports.isAdmin = authorizeRole("admin");
+exports.isSeller = authorizeRole("seller");

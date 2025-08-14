@@ -1,5 +1,7 @@
-import { Schema, model } from "mongoose";
-const variantSchema = new Schema({
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+const mongoose_1 = require("mongoose");
+const variantSchema = new mongoose_1.Schema({
     attributes: { type: Map, of: String, default: {} },
     basePrice: { type: Number, required: true },
     discount: { type: Number, default: 0, min: 0, max: 100 },
@@ -17,13 +19,13 @@ variantSchema.virtual("finalPrice").get(function () {
     const discount = this.discount || 0;
     return this.basePrice * (1 - discount / 100);
 });
-const productSchema = new Schema({
+const productSchema = new mongoose_1.Schema({
     name: { type: String, required: true, },
     slug: { type: String, required: true, unique: true, lowercase: true },
     description: { type: String },
     brand: { type: String, required: true },
-    category: { type: Schema.Types.ObjectId, ref: "Category", index: true, required: true },
-    seller: { type: Schema.Types.ObjectId, ref: "User", required: true },
+    category: { type: mongoose_1.Schema.Types.ObjectId, ref: "Category", index: true, required: true },
+    seller: { type: mongoose_1.Schema.Types.ObjectId, ref: "User", required: true },
     avgRating: { type: Number, default: 0 },
     reviewCount: { type: Number, default: 0 },
     variants: [variantSchema],
@@ -33,5 +35,4 @@ const productSchema = new Schema({
 }, { timestamps: true });
 productSchema.set("toObject", { virtuals: true });
 productSchema.set("toJSON", { virtuals: true });
-export default model("Product", productSchema);
-//# sourceMappingURL=product.model.js.map
+exports.default = (0, mongoose_1.model)("Product", productSchema);

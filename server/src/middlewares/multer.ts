@@ -1,6 +1,6 @@
 import multer, { Multer, FileFilterCallback } from "multer";
 import { CloudinaryStorage } from "multer-storage-cloudinary";
-import cloudinary from "config/cloudinary";
+import cloudinary from "../config/cloudinary";
 import { Request } from "express";
 
 export function createUploader(folder: string, type: "image" | "video"): Multer {

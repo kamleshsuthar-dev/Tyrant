@@ -1,4 +1,4 @@
-import CategoryModel from "models/category.model";
+import CategoryModel from "../../models/category.model";
 import { Types, SortOrder } from "mongoose";
 
 // 🔍 Get all categories (with optional filters or sorting)

@@ -1,9 +1,11 @@
-import { Schema, model } from "mongoose";
-const orderSchema = new Schema({
-    user: { type: Schema.Types.ObjectId, ref: "User", required: true },
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+const mongoose_1 = require("mongoose");
+const orderSchema = new mongoose_1.Schema({
+    user: { type: mongoose_1.Schema.Types.ObjectId, ref: "User", required: true },
     items: [
         {
-            variant: { type: Schema.Types.ObjectId, ref: "ProductVariant", required: true },
+            variant: { type: mongoose_1.Schema.Types.ObjectId, ref: "ProductVariant", required: true },
             productSnapshot: {
                 name: String,
                 brand: String,
@@ -29,5 +31,4 @@ const orderSchema = new Schema({
         default: "pending",
     },
 }, { timestamps: true });
-export default model("Order", orderSchema);
-//# sourceMappingURL=order.model.js.map
+exports.default = (0, mongoose_1.model)("Order", orderSchema);

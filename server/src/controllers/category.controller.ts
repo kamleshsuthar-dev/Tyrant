@@ -1,9 +1,9 @@
 import slugify from "slugify";
 import { Types } from "mongoose";
 import { Request, Response } from "express";
-import CategoryModel, { ICategory } from "models/category.model";
-import categoryServices from "services/category/category.services";
-import { deleteMedia } from "services/multer/multer.services";
+import CategoryModel, { ICategory } from "../models/category.model";
+import categoryServices from "../services/category/category.services";
+import { deleteMedia } from "../services/multer/multer.services";
 
 export default class CategoryController {
     static async createCategory (req: Request, res: Response) {

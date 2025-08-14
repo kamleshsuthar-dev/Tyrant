@@ -1,7 +1,7 @@
-import userModels from "models/user.model";
+import userModels from "../../models/user.model";
 import jwt from "jsonwebtoken"; 
 import { Request, Response, NextFunction } from "express";
-import { env } from "config/env"
+import { env } from "../../config/env"
 
 async function decodeSession(req: Request): Promise<any | null> {
     const token = req.cookies.sessionId;

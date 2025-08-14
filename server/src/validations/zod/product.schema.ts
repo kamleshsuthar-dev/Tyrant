@@ -1,6 +1,6 @@
 import { z } from "zod";
 import { objectId, idOrSlug } from "./index.schema"; // Assuming objectId is defined in index.schema
-import { toNumber, toBoolean } from "utils/zodTransformers";
+import { toNumber, toBoolean } from "../../utils/zodTransformers";
 
 export const getProducts = z.object({
   query: z.object({
@@ -75,4 +75,5 @@ export const deleteProductVariantSchema = z.object({
   id: z.string({ required_error: "Product ID is required" }),
   variantId: z.string({ required_error: "Variant ID is required" }),
 });
+
 

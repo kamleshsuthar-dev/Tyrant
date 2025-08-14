@@ -1,22 +1,27 @@
 {
   "compilerOptions": {
-    "target": "es2022",                                 
-    "module": "es2022",                                
-    "moduleResolution": "node",                     
-    "baseUrl": "./src",                                 
-    "typeRoots": ["./types", "./node_modules/@types"],
-    // "allowImportingTsExtensions": true,               
-    // // "noEmit": true,                                  
-    "resolveJsonModule": true,                      
-    "sourceMap": true,                               
-    "outDir": "./dist",                                   
-    "allowSyntheticDefaultImports": true,             
-    "esModuleInterop": true,                            
-    "forceConsistentCasingInFileNames": true,          
-    "strict": true,                                     
-    "noImplicitAny": true,                           
-    "skipLibCheck": true                               
+    "target": "ES6",
+    "module": "commonjs",
+    "outDir": "./dist",
+    "moduleResolution": "node",
+    "esModuleInterop": true,
+    "forceConsistentCasingInFileNames": true,
+    
+    // "target": "es2022",                                 
+    // "module": "es2022",                                
+    // "moduleResolution": "node",                     
+    // "baseUrl": "./src",                                 
+    "typeRoots": ["./src/types", "./node_modules/@types"],
+    // // "allowImportingTsExtensions": true,               
+    // // // "noEmit": true,                                  
+    // "resolveJsonModule": true,                      
+    // "sourceMap": true,                               
+    // "strict": true,                                     
+    // "noImplicitAny": true,                           
+    // "skipLibCheck": true                               
   },
-  "include": ["."],
-  "exclude": ["node_modules", "dist"]
+  // "include": ["."],
+  // "exclude": ["node_modules", "dist"]
 }
+
+

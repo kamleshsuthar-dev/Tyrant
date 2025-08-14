@@ -1,8 +1,14 @@
-import dotenv from "dotenv";
-dotenv.config();
-export const env = {
+"use strict";
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.env = void 0;
+const dotenv_1 = __importDefault(require("dotenv"));
+dotenv_1.default.config();
+exports.env = {
     PORT: process.env.PORT || 5000,
-    MONGO_URI: process.env.MONGO_URI || "",
+    MONGODB_URI: process.env.MONGODB_URI || "",
     JWT_SECRET: process.env.JWT_SECRET || "secret",
     GOOGLE_CLIENT_ID: process.env.GOOGLE_CLIENT_ID || "",
     GOOGLE_CLIENT_SECRET: process.env.GOOGLE_CLIENT_SECRET || "",
@@ -14,4 +20,3 @@ export const env = {
     SMTP_USER: process.env.SMTP_USER || "",
     SMTP_PASSWORD: process.env.SMTP_PASSWORD || "",
 };
-//# sourceMappingURL=env.js.map

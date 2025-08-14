@@ -1,8 +1,8 @@
 import slugify from "slugify";
 import { Request, Response } from "express";
-import { IProduct } from "models/product.model";
-import productServices from "services/product/product.services";
-import { deleteMedia } from "services/multer/multer.services";
+import { IProduct } from "../models/product.model";
+import productServices from "../services/product/product.services";
+import { deleteMedia } from "../services/multer/multer.services";
 import { Types } from "mongoose";
 
 
@@ -37,7 +37,7 @@ export default class ProductController {
             maxPrice,
             inStock,
             } = req.query;
-
+            
             const filter: any = {};
             if (category) filter.category = category;
             if (brand) filter.brand = brand;

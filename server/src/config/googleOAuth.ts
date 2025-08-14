@@ -1,5 +1,5 @@
 import {google} from "googleapis";
-import { env } from "config/env";
+import { env } from "../config/env";
 
 const GOOGLE_CLIENT_ID = env.GOOGLE_CLIENT_ID;
 const GOOGLE_CLIENT_SECRET = env.GOOGLE_CLIENT_SECRET;

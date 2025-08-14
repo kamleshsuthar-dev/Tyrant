@@ -1,4 +1,4 @@
-import ProductModel, {IProduct} from "models/product.model";
+import ProductModel, {IProduct} from "../../models/product.model";
 import { FilterQuery, Types, UpdateQuery } from "mongoose";
 
 export default class productServices{

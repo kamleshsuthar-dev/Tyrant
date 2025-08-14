@@ -1,11 +1,11 @@
 import axios from "axios";
 import bcrypt from "bcrypt";
 import { Request, Response } from "express";
-import userModel from "models/user.model";
-import { sendOtp, verifyOtp } from "utils/otp";
-import { generateToken } from "utils/generateJWT.util";
-import { oauth2client } from "config/googleOAuth";
-import { COOKIE_OPTIONS, SALT_ROUNDS } from "config/constants";
+import userModel from "../models/user.model";
+import { sendOtp, verifyOtp } from "../utils/otp";
+import { generateToken } from "../utils/generateJWT.util";
+import { oauth2client } from "../config/googleOAuth";
+import { COOKIE_OPTIONS, SALT_ROUNDS } from "../config/constants";
 
 
 export default class AuthController {

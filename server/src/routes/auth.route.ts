@@ -1,7 +1,7 @@
 import { Router } from 'express';
-import { verifyToken } from 'middlewares/auth/authenticate';
-import AuthController from 'controllers/auth.controller.js';
-import validateRequest from 'middlewares/validateRequest';
+import { verifyToken } from '../middlewares/auth/authenticate';
+import AuthController from '../controllers/auth.controller';
+import validateRequest from '../middlewares/validateRequest';
 
 import { 
     googleAuthSchema, 
@@ -9,7 +9,7 @@ import {
     loginUserSchema, 
     registerUserSchema, 
     resetPasswordSchema 
-} from 'validations/zod/auth.schema.js';
+} from '../validations/zod/auth.schema';
 
 export default (router: Router)=> {
     router.post('/auth/register', validateRequest(registerUserSchema),AuthController.registerUser);

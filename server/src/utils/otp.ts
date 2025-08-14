@@ -1,15 +1,15 @@
 import crypto from "crypto";
 import bcrypt from "bcrypt";
-import { sendEmail } from "config/nodemailer"; 
-import { OTP_COOLDOWN_MS, OTP_EXPIRY_MS, SALT_ROUNDS } from "config/constants";
-import { redis } from "config/redis"; 
+import { sendEmail } from "../config/nodemailer"; 
+import { OTP_COOLDOWN_MS, OTP_EXPIRY_MS, SALT_ROUNDS } from "../config/constants";
+import { redis } from "../config/redis"; 
 
 
 export const sendOtp = async (email: string, userData?:Record<string, any>): Promise<{ success: boolean; message: string }> => {
   const otpKey = `otp:${email}`;
   const existing = await redis.ttl(otpKey);
 
-  if (existing > 0 && existing > (OTP_EXPIRY_MS - OTP_COOLDOWN_MS)/1000) {
+  if (typeof existing === "number" && existing > 0 && existing > (OTP_EXPIRY_MS - OTP_COOLDOWN_MS)/1000) {
     const secondsLeft = (existing - (OTP_EXPIRY_MS - OTP_COOLDOWN_MS)/1000);
     return {
       success: false,
@@ -41,10 +41,11 @@ export const sendOtp = async (email: string, userData?:Record<string, any>): Pro
 };
 export const verifyOtp = async (email: string, otp: string): Promise<{ success: boolean; userData?: any; error?: string }> => {
   const otpKey = `otp:${email}`;
-  const recordStr = await redis.get(otpKey);
+  let recordStr = await redis.get(otpKey);
   if (!recordStr) {
     return { success: false, error: "Invalid or expired OTP" };
   }
+  recordStr = typeof recordStr === "string" ? recordStr : JSON.stringify(recordStr);
   const { hashedOtp, userData } = JSON.parse(recordStr);
   
   const isValid = await bcrypt.compare(otp, hashedOtp);

@@ -1,13 +1,17 @@
-import CategoryController from "controllers/category.controller";
-import { verifyToken } from "middlewares/auth/authenticate";
-import { isAdmin } from "middlewares/auth/authorize";
-import { singleImageUpload } from "middlewares/multer";
-export default (router) => {
-    router.post("/categories", verifyToken, isAdmin, singleImageUpload, CategoryController.createCategory);
-    router.get("/categories", CategoryController.getAllCategories);
-    router.get("/categories/:id", CategoryController.getCategoryById);
-    router.put("/categories/:id", verifyToken, isAdmin, singleImageUpload, CategoryController.updateCategory);
-    router.delete("/categories/:id", verifyToken, isAdmin, CategoryController.deleteCategory);
-    router.patch("/categories/:id/toggle", verifyToken, isAdmin, CategoryController.toggleCategoryActiveStatus);
+"use strict";
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
 };
-//# sourceMappingURL=category.route.js.map
+Object.defineProperty(exports, "__esModule", { value: true });
+const category_controller_1 = __importDefault(require("../controllers/category.controller"));
+const authenticate_1 = require("../middlewares/auth/authenticate");
+const authorize_1 = require("../middlewares/auth/authorize");
+const multer_1 = require("../middlewares/multer");
+exports.default = (router) => {
+    router.post("/categories", authenticate_1.verifyToken, authorize_1.isAdmin, multer_1.singleImageUpload, category_controller_1.default.createCategory);
+    router.get("/categories", category_controller_1.default.getAllCategories);
+    router.get("/categories/:id", category_controller_1.default.getCategoryById);
+    router.put("/categories/:id", authenticate_1.verifyToken, authorize_1.isAdmin, multer_1.singleImageUpload, category_controller_1.default.updateCategory);
+    router.delete("/categories/:id", authenticate_1.verifyToken, authorize_1.isAdmin, category_controller_1.default.deleteCategory);
+    router.patch("/categories/:id/toggle", authenticate_1.verifyToken, authorize_1.isAdmin, category_controller_1.default.toggleCategoryActiveStatus);
+};

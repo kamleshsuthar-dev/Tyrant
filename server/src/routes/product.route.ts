@@ -1,9 +1,9 @@
-import ProductController from 'controllers/product.controller';
+import ProductController from '../controllers/product.controller';
 import { Router } from 'express';
-import { verifyToken, attachUserIfExists } from 'middlewares/auth/authenticate';
-import { isSeller } from 'middlewares/auth/authorize';
-import { createProductSchema, getProductByIdOrSlug, getProducts, updateProductSchema } from 'validations/zod/product.schema';
-import validateRequest from 'middlewares/validateRequest';
+import { verifyToken, attachUserIfExists } from '../middlewares/auth/authenticate';
+import { isSeller } from '../middlewares/auth/authorize';
+import { createProductSchema, getProductByIdOrSlug, getProducts, updateProductSchema } from '../validations/zod/product.schema';
+import validateRequest from '../middlewares/validateRequest';
 
 export default (router: Router)=>{
     router.get("/products", attachUserIfExists, validateRequest(getProducts),ProductController.getProducts);

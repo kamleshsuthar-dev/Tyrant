@@ -1,15 +1,33 @@
-import multer from "multer";
-import { CloudinaryStorage } from "multer-storage-cloudinary";
-import cloudinary from "config/cloudinary";
-export function createUploader(folder, type) {
-    const storage = new CloudinaryStorage({
-        cloudinary,
-        params: async (req, file) => ({
-            folder,
-            resource_type: type,
-            allowed_formats: type === "image"
-                ? ["jpg", "jpeg", "png", "webp", "gif"]
-                : ["mp4", "avi", "mov", "mkv"],
+"use strict";
+var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
+    function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
+    return new (P || (P = Promise))(function (resolve, reject) {
+        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
+        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
+        function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }
+        step((generator = generator.apply(thisArg, _arguments || [])).next());
+    });
+};
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.mixedUpload = exports.videoUpload = exports.imageUpload = exports.singleImageUpload = void 0;
+exports.createUploader = createUploader;
+const multer_1 = __importDefault(require("multer"));
+const multer_storage_cloudinary_1 = require("multer-storage-cloudinary");
+const cloudinary_1 = __importDefault(require("../config/cloudinary"));
+function createUploader(folder, type) {
+    const storage = new multer_storage_cloudinary_1.CloudinaryStorage({
+        cloudinary: cloudinary_1.default,
+        params: (req, file) => __awaiter(this, void 0, void 0, function* () {
+            return ({
+                folder,
+                resource_type: type,
+                allowed_formats: type === "image"
+                    ? ["jpg", "jpeg", "png", "webp", "gif"]
+                    : ["mp4", "avi", "mov", "mkv"],
+            });
         }),
     });
     const fileFilter = (req, file, cb) => {
@@ -21,20 +39,19 @@ export function createUploader(folder, type) {
         }
         cb(null, true);
     };
-    return multer({
+    return (0, multer_1.default)({
         storage,
         fileFilter,
         limits: { fileSize: type === "image" ? 2 * 1024 * 1024 : 50 * 1024 * 1024 }, // 2MB img / 50MB video
     });
 }
 // category
-export const singleImageUpload = createUploader("categories", "image").single("image");
+exports.singleImageUpload = createUploader("categories", "image").single("image");
 // product
-export const imageUpload = createUploader("products", "image").array("images", 5);
-export const videoUpload = createUploader("product-videos", "video").array("videos", 2);
-export const mixedUpload = [
+exports.imageUpload = createUploader("products", "image").array("images", 5);
+exports.videoUpload = createUploader("product-videos", "video").array("videos", 2);
+exports.mixedUpload = [
     createUploader("products", "image").array("images", 5),
     createUploader("product-videos", "video").array("videos", 2),
 ];
 // review
-//# sourceMappingURL=multer.js.map
