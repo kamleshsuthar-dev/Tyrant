@@ -1,38 +1,22 @@
 "use client";
 
 import { Button } from "@/components/ui/button";
-import axios from "axios";
 import { forwardRef, useState } from "react";
 import { NavLink } from "react-router-dom";
 import DeleteBtn from "../../../components/home/DeleteBtn.jsx";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { fetchCartProduct } from "@/store/action/shoppingCartAction.js";
+import ShoppingPopUpSkeleton from "../components/ShoppingPopUpSkeleton.jsx";
 
-const SkeletonCartItem = () => {
-  return (
-    <div className="flex animate-pulse items-center border-b p-4">
-      <div className="h-15 w-15 mr-4 bg-gray-200"></div>
-      <div className="flex-1">
-        <div className="mb-2 h-3 w-3/4 rounded bg-gray-200"></div>
-        <div className="mb-2 h-2 w-1/4 rounded bg-gray-200"></div>
-        <div className="h-2 w-1/2 rounded bg-gray-200"></div>
-      </div>
-      <div className="mx-4">
-        <div className="h-2 w-16 rounded bg-gray-200"></div>
-      </div>
-      <div>
-        <div className="h-2 w-20 rounded bg-gray-200"></div>
-      </div>
-    </div>
-  );
-};
 
 const ShoppingCartPopUp = forwardRef(({  }, ref) => {
-  // console.log(product, "shoppingcartttttt");
+  const {cartItems ,} = useSelector(state=>state?.shoppingCart)
+  console.log("popuppp",cartItems );
+  
   const dispatch = useDispatch()
   const [isOpen, setIsOpen] = useState(false);
-  const [cartItems, setCartItems] = useState([]);
-  const [shoppingPopupLoader, setShoppingPopupLoadeer] = useState(true);
+  // const [cartItems, setCartItems] = useState([]);
+  const [shoppingPopupLoader, setShoppingPopupLoadeer] = useState();
 
   const [cursorEnter, setCursorEnter] = useState(false);
 
@@ -153,21 +137,19 @@ const ShoppingCartPopUp = forwardRef(({  }, ref) => {
                   <div className="scrollbar-hide h-[150px] space-y-4 overflow-y-auto">
                     {shoppingPopupLoader ? (
                       <>
-                        <SkeletonCartItem />
-                        <SkeletonCartItem />
-                        <SkeletonCartItem />
+                      <ShoppingPopUpSkeleton/>
                       </>
                     ) : (
                       cartItems.map((cartItem) => (
                         <div key={cartItem._id} className="flex gap-4">
                           <div className="h-16 w-16 overflow-hidden rounded-md bg-muted">
                             <img
-                              src={
-                                Array.isArray(cartItem.productId?.pImages) &&
-                                cartItem.productId.pImages.length > 0
-                                  ? cartItem.productId.pImages[0].URL
-                                  : "/placeholder.svg"
-                              }
+                            src={cartItem.productId?.pImages[0].URL || "/placeholder.svg"}
+                              // src={
+                              //   Array.isArray(cartItem.productId?.pImages) &&
+                              //   cartItem.productId.pImages.length > 0
+                              //     ? cartItem.productId.pImages[0].URL : "/placeholder.svg"
+                              // }
                               alt={cartItem?.productId?.pName}
                               className="h-full w-full object-cover"
                             />
