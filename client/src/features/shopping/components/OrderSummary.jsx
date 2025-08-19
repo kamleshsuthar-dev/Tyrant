@@ -45,7 +45,7 @@ export function OrderSummary({
         >
           CHECKOUT &gt;&gt;
         </Button>
-        <CouponCode />
+        {/* <CouponCode /> */}
       </CardContent>
     </Card>
   );

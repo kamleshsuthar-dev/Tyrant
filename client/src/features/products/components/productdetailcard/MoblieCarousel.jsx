@@ -27,26 +27,27 @@ export function MobileCarousel({ productImages }) {
   }, [api])
 
   return (
-    <div className="mx-auto max-w-xs flex flex-col  items-center relative">
-      <Carousel setApi={setApi} className="w-full max-w-xs">
-        <CarouselContent>
-          {productImages.map((image, index) => (
-            <CarouselItem key={index}>
-              <Card>
-                <CardContent className="flex flex-col aspect-square items-center justify-center rounded-lg p-2">
+    <div className="mx-auto max-w-xs flex flex-col  items-center relative ">
+     <Carousel setApi={setApi} className="w-full max-w-xs">
+      <CarouselContent>
+        {productImages.map((image, index) => (
+          <CarouselItem key={index}>
+            <Card>
+              <CardContent className="flex items-center justify-center rounded-lg p-2 bg-secondary">
+                <div className="w-full aspect-[1/1] flex items-center justify-center bg-secondary rounded-lg">
                   <img
                     src={image}
                     alt={`Product ${index + 1}`}
-                    className="w-full h-full object-contain rounded-lg"
+                    className="w-full h-full object-cover rounded-lg"
                   />
-                  
-                </CardContent>
-                 
-              </Card>
-            </CarouselItem>
-          ))}
-        </CarouselContent>
-      </Carousel>
+                </div>
+              </CardContent>
+            </Card>
+          </CarouselItem>
+        ))}
+      </CarouselContent>
+    </Carousel>
+
 
      
         <div className=" flex justify-center gap-2 relative bottom-4 w-fit bg-primary px-3 rounded-xl py-[3px]">

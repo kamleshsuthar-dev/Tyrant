@@ -136,10 +136,10 @@ const ResponsiveProductGallery = ({productImages}) => {
  
   return (
     <div className=" w-full max-w-6xl mx-auto ">
-      <div className=" flex flex-col lg:flex-row lg:h-[540px] min-h-[400px] w-full justify-center rounded-3xl border-4 border-secondary bg-primary p-2 gap-4">
+      <div className=" flex flex-col md:flex-row lg:h-[540px] min-h-[400px] w-full justify-center rounded-3xl border-4 border-secondary bg-primary p-2  gap-4">
         
         {/* Desktop: Vertical thumbnails on the left - Hidden on mobile/tablet */}
-        <div className="hidden lg:flex flex-col items-center gap-y-2 rounded-3xl bg-secondary p-2 overflow-y-auto max-h-[550px] scrollbar-hide w-20 flex-shrink-0">
+        <div className="hidden md:flex flex-col items-center gap-y-2 rounded-3xl bg-secondary p-2 overflow-y-auto max-h-[550px] h-fit scrollbar-hide w-20 shrink-0">
           {productImages.map((image, index) => (
             <button
               key={index}
@@ -147,7 +147,7 @@ const ResponsiveProductGallery = ({productImages}) => {
               onMouseLeave={() => setHoveredImageIndex(null)}
               onClick={() => setSelectedImageIndex(index)}
               className={cn(
-                "relative aspect-square w-16 flex-shrink-0 overflow-hidden rounded-2xl border-2 transition-all duration-200 hover:scale-105",
+                "relative aspect-square wshrink-0 overflow-hidden rounded-2xl border-2 transition-all duration-200 hover:scale-105",
                 selectedImageIndex === index
                   ? "border-primary shadow-lg ring-2 ring-primary"
                   : "border-primary-muted hover:border-primary-contrast hover:shadow-md"
@@ -163,7 +163,7 @@ const ResponsiveProductGallery = ({productImages}) => {
         </div>
 
         {/* Desktop: Main Image - Hidden on mobile/tablet */}
-        <div className="hidden lg:flex flex-1 overflow-hidden rounded-3xl border border-gray-200 bg-white">
+        <div className="hidden md:flex flex-1 overflow-hidden rounded-3xl border border-gray-200 bg-white">
           <img
             src={productImages[hoveredImageIndex !== null ? hoveredImageIndex : selectedImageIndex]}
             alt="Product Image"
@@ -171,47 +171,7 @@ const ResponsiveProductGallery = ({productImages}) => {
           />
         </div>
 
-        {/* Tablet: Horizontal layout - Hidden on mobile and desktop */}
-        <div className="hidden md:flex lg:hidden w-full gap-4">
-          {/* Tablet thumbnails */}
-          <div className="flex flex-col gap-2 w-20 flex-shrink-0">
-            {productImages.slice(0, 4).map((image, index) => (
-              <button
-                key={index}
-                onClick={() => setSelectedImageIndex(index)}
-                className={cn(
-                  "aspect-square w-16 overflow-hidden rounded-xl border-2 transition-all duration-200",
-                  selectedImageIndex === index
-                    ? "border-blue-500 shadow-lg"
-                    : "border-gray-300 hover:border-blue-400"
-                )}
-              >
-                <img
-                  src={image}
-                  alt={`Product ${index + 1}`}
-                  className="h-full w-full object-cover"
-                />
-              </button>
-            ))}
-            {productImages.length > 4 && (
-              <div className="aspect-square w-16 rounded-xl bg-gray-200 flex items-center justify-center text-xs text-gray-600 font-medium">
-                +{productImages.length - 4}
-              </div>
-            )}
-          </div>
-          
-          {/* Tablet main image */}
-          <div className="flex-1 overflow-hidden rounded-2xl border border-gray-200 bg-white">
-            <img
-              src={productImages[selectedImageIndex]}
-              alt="Product Image"
-              className="h-full w-full object-contain p-4"
-            />
-          </div>
-        </div>
-
-    
-        <div className="flex md:hidden w-full flex-col">
+        <div className="flex md:hidden w-full flex-col ">
             <MobileCarousel productImages={productImages}/>
         </div>
 

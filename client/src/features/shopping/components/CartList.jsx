@@ -1,3 +1,4 @@
+import { DottedLine } from "@/components/components";
 import { CartItem } from "./CartItem";
 import { SkeletonCartItem } from "./SkeletonCartItem";
 
@@ -36,6 +37,7 @@ export function CartList({
   }
 
   return cartItems.map((cartItem) => (
+    <>
     <CartItem
       key={cartItem._id}
       cartItem={cartItem}
@@ -44,6 +46,8 @@ export function CartList({
       onUpdateQuantity={onUpdateQuantity}
       
       onDelete={onDelete}
-    />
+      />
+      <DottedLine />
+      </>
   ));
 }

@@ -1,5 +1,4 @@
 "use client";
-
 import ProductDetailSkeleton from "@/components/skeleton/ProductDetailSkeleton";
 import { useEffect, useState } from "react";
 import ProductDetailData from "./productdetailcard/ProductDetailData";
@@ -7,8 +6,7 @@ import ProductDetailImage from "./productdetailcard/ProductDetailImage";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchSingleProduct } from "@/store/action/productAction";
 import { clearSingleProduct } from "@/store/reducer/productSlice";
-
-function ProductDetailCard({pId , imgRef ,isSticky}) {
+function ProductDetailCard({pId }) {
   
   const dispatch = useDispatch()
   const {singleProduct:product , fetchSPStatus :{loading ,error} } = useSelector(state=>state?.product)
@@ -43,20 +41,21 @@ function ProductDetailCard({pId , imgRef ,isSticky}) {
   
   return (
     <div key={pId} className="text-secondary" id="top">
-      <div className="mx-auto ">
-        <div className="overflow-hidden rounded-3xl ">
-          <div className="grid gap-8  md:grid-cols-2  ">
+       
+          <div className="mx-auto rounded-3xl grid gap-8  md:grid-cols-2 items-start">
 
     
-            <ProductDetailImage productImages={productImages} />
-
+            {/* <ProductDetailImage productImages={productImages} /> */}
+            <div className="self-start">
+              <div className="sticky top-0">
+                <ProductDetailImage productImages={productImages} />
+              </div>
+            </div>  
 
             <ProductDetailData 
               product={product} 
              
             />
-          </div>
-        </div>
       </div>
     </div>
   );

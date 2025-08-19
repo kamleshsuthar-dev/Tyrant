@@ -91,7 +91,7 @@ export function CartItem({
   }
 
   return (
-    <div className="grid grid-cols-[2fr,1fr,1fr,1fr] gap-4 items-center mb-4 border-b pb-4 relative">
+    <div className="grid grid-cols-[2fr,1fr,1fr,1fr] gap-4 items-center my-2 relative">
       <div className="flex gap-4">
         <div className="relative top-8">
           <Checkbox
