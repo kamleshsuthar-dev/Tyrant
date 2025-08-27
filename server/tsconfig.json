@@ -18,7 +18,7 @@
     // "resolveJsonModule": true,                      
     "sourceMap": false,  
     "declaration": false,                             
-    "strict": true,                                     
+    // "strict": true,                                     
     "skipLibCheck": true,
     "incremental": true,                             
   },
@@ -36,5 +36,6 @@
   ],
   // "exclude": ["node_modules", "dist"]
 }
+
 
 
