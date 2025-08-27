@@ -5,16 +5,18 @@ export interface IMedia {
   public_id: string;
   type: "image" | "video";
 }
+export interface inventoryItem {
+  size: string;
+  stock: number;
+}
 
 export interface IProductVariant extends Document {
-  attributes: Record<string, string>;
+  inventory: inventoryItem[]
   basePrice: number;
   discount?: number;
   media: IMedia[];
-  stock: number;
   isActive: boolean;
   finalPrice?: number;
-  
 }
 
 export interface IProduct extends Document {
@@ -34,10 +36,14 @@ export interface IProduct extends Document {
 
 const variantSchema = new Schema<IProductVariant>(
   {
-    attributes: { type: Map, of: String, default: {} },
+    inventory: [
+      { 
+        size: {type: String},
+        stock: {type:Number, min: 0, default: 0},
+      },
+    ],
     basePrice: { type: Number, required: true },
     discount: { type: Number, default: 0, min: 0, max: 100 },
-    stock: { type: Number, default: 0 },
     isActive: { type: Boolean, default: true },
     media: [
       {
@@ -65,7 +71,7 @@ const productSchema = new Schema<IProduct>({
     reviewCount: { type: Number, default: 0 },
     variants: [variantSchema],
     isActive: { type: Boolean, default: true },
-    tags: [String],
+    tags: [{type: String, trim: true, lowercase: true}],
     isFeatured: { type: Boolean, default: false },
 },{ timestamps: true });
 

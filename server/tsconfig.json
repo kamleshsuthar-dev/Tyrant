@@ -3,6 +3,7 @@
     "target": "ES6",
     "module": "commonjs",
     "outDir": "./dist",
+    "rootDir": "./src",
     "moduleResolution": "node",
     "esModuleInterop": true,
     "forceConsistentCasingInFileNames": true,
@@ -15,12 +16,24 @@
     // // "allowImportingTsExtensions": true,               
     // // // "noEmit": true,                                  
     // "resolveJsonModule": true,                      
-    // "sourceMap": true,                               
-    // "strict": true,                                     
-    // "noImplicitAny": true,                           
-    // "skipLibCheck": true                               
+    "sourceMap": false,  
+    "declaration": false,                             
+    "strict": true,                                     
+    "skipLibCheck": true,
+    "incremental": true,                             
   },
-  // "include": ["."],
+  "include": [
+    "src/**/*"
+  ],
+  "exclude": [
+    "node_modules",
+    "dist",
+    "**/*.test.ts",
+    "**/*.spec.ts",
+    ".git",
+    "coverage",
+    "*.config.js"
+  ],
   // "exclude": ["node_modules", "dist"]
 }
 

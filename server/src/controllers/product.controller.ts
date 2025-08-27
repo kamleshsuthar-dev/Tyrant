@@ -131,7 +131,7 @@ export default class ProductController {
             const productId = req.params.id;
             const sellerId = req.user?._id;
             if(!sellerId){
-                res.status(403).json({success:true, message:"Unauthorized"})
+                res.status(403).json({success:false, message:"Unauthorized"})
                 return
             }
             const deletedProduct = await productServices.deleteProductById(productId, sellerId);
@@ -159,7 +159,7 @@ export default class ProductController {
                 res.status(400).json({ success: false, message: "Invalid product ID." });
                 return 
             }
-            const product = productServices.addVariant(id, variantData, sellerId)
+            const product = await productServices.addVariant(id, variantData, sellerId)
             if(!product){
                 res.status(403).json({success:false, message:"Unauthorised or not found"})
             }
