@@ -1,10 +1,6 @@
 import { z } from "zod";
 import mongoose from "mongoose";
 
-// export const objectId = z.string().refine((val) => mongoose.Types.ObjectId.isValid(val), {
-//   message: "Invalid ObjectId",
-// });
-
 export const objectId = (label: string) =>
   z.string().refine((val) => mongoose.Types.ObjectId.isValid(val), {
     message: `Invalid ${label} id`,

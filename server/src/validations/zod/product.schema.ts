@@ -1,20 +1,19 @@
 import { z } from "zod";
 import { objectId, idOrSlug } from "./index.schema"; // Assuming objectId is defined in index.schema
-import { toNumber, toBoolean } from "../../utils/zodTransformers";
 
 export const getProducts = z.object({
   query: z.object({
-    page: toNumber("page", 1).optional().default("1"),
-    limit: toNumber("limit", 1).optional().default("10"),
+    page: z.coerce.number().min(1, "page must be at least 1").optional().default(1),
+    limit: z.coerce.number().min(1, "limit must be at least 1").optional().default(10),
     category: objectId("category").optional(),
     brand: z.string().optional(),
-    isFeatured: toBoolean("inStock").optional().default("false"),
-    isActive: toBoolean("inStock").optional().default("true"),
+    isFeatured: z.coerce.boolean().optional().default(false),
+    isActive: z.coerce.boolean().optional().default(true),
     seller: objectId("seller").optional(),
     search: z.string().optional(),
-    minPrice: toNumber("minPrice", 0).optional(),
-    maxPrice: toNumber("maxPrice", 0).optional(),
-    inStock: toBoolean("inStock").optional().default("false"),
+    minPrice: z.coerce.number().min(1, "minPrice must be at least 1").optional(),
+    maxPrice: z.coerce.number().min(1, "maxPrice must be at least 1").optional(),
+    inStock: z.coerce.boolean().optional().default(false),
     sortOrder: z.enum(["1", "-1"]).optional().default("-1"),
     sortBy: z.string().optional().default("createdAt"),
   })
@@ -27,7 +26,12 @@ export const getProductByIdOrSlug = z.object({
 });
 
 const variantSchema = z.object({
-  attributes: z.record(z.string(), z.string()), // key-value pairs like { size: "M", color: "Black" }
+  inventory: z.array(
+    z.object({
+      size: z.string().optional(),
+      stock: z.number().min(0).default(0),
+    })
+  ),
   basePrice: z.number({ required_error: "Base Price is required" }).positive("Base Price must be a positive number"),
   discount: z.number().min(0).max(100).optional().default(0),
   stock: z.number().min(0).default(0),
@@ -47,12 +51,7 @@ export const createProductSchema = z.object({
   }),
 });
 
-  
-
-
-
 export const updateProductSchema = createProductSchema.partial();
-
 
 export const productVariantSchema = z.object({
   variantName: z.string({ required_error: "Variant name is required" }).min(1, "Variant name is required"),

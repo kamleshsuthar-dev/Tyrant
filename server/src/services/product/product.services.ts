@@ -24,7 +24,7 @@ export default class productServices{
             totalPages: Math.ceil(total / limit),
             total,
         };
-    }; 
+    };
     static async getProductByIdOrSlug(idOrSlug: string) {
         const isObjectId = Types.ObjectId.isValid(idOrSlug);
         const query: FilterQuery<IProduct> = isObjectId
